@@ -264,8 +264,8 @@ if ($request == 'GET') {
     }
 
     $string = strstr($display_name, "\"");
-    if ((!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/i', $display_name)) || (empty($display_name)) || (empty($email_addy)) || (empty($office_name)) || (empty($group_name)) ||
-        (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) || (($admin_perms != '1') && (!empty($admin_perms))) ||
+    if ((!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) || (empty($display_name)) || (empty($email_addy)) || (empty($office_name)) || (empty($group_name)) ||
+        (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/ui', $email_addy)) || (($admin_perms != '1') && (!empty($admin_perms))) ||
         (($reports_perms != '1') && (!empty($reports_perms))) || (($time_admin_perms != '1') && (!empty($time_admin_perms))) || (($post_disabled != '1') &&
                                                                                                                                  (!empty($post_disabled))) || (!empty($string))
     ) {
