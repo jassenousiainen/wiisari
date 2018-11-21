@@ -1,0 +1,432 @@
+body {
+	font-family: 'Open Sans';
+	background: #f6f6f6;
+  margin: 0;
+}
+
+.ylalaatikko {
+  background: #204b80;
+  line-height: 70px;
+}
+.otsikkolinkki {
+  text-decoration: none;
+}
+.ylaotsikko {
+  color: white;
+  margin: 0;
+  font-weight: 400;
+  font-size: 34px;
+  margin-left: 20px;
+}
+
+.lomake {
+	text-align: center;
+  margin-top: 10%;
+}
+
+.tunnusOtsikko {
+	font-size: 26px;
+}
+
+#left_barcode {
+	width: 400px;
+	height: 40px;
+	border-radius: 22px;
+	border-color: #3898ec;
+	margin-top: 10px;
+  font-size: 24px;
+  padding-left: 10px;
+}
+
+.submit {
+  display: none;
+	margin-top: 40px;
+	border: none;
+	color: white;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 20px;
+	background: #3898ec;
+	border-radius: 14px;
+}
+.submit:hover {
+	background-color: #2e7abd;
+	cursor: pointer;
+}
+
+.kirjausLaatikko {
+    width: 300px;
+    border-radius: 15px;
+    background-color: white;
+    margin: 50px auto;
+    padding: 20px;
+		box-shadow: 2px 2px 7px 0px #d0cece;
+}
+.kirjausNimi {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+.kirjausAika {
+  font-size: 24px;
+}
+.kirjausSisaan {
+    background-color: #00ea00;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    padding: 7px 0;
+    color: white;
+    font-weight: bold;
+}
+
+.kirjausUlos {
+    background-color: #fa3838;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    padding: 7px 0;
+    color: white;
+    font-weight: bold;
+}
+
+.raportitValinta {
+	background-color: white;
+	width: 400px;
+	border-radius: 10px;
+	margin: 30px auto;
+  padding: 15px;
+	box-shadow: 2px 2px 7px 0px #d0cece;
+}
+.raporttiLinkki {
+	text-decoration: none;
+	color: white;
+	font-size: 16px;
+	padding: 5px 10px;
+	background: #0f62dd;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+.raporttiLinkki:hover {
+	font-size: 16px;
+	color: white;
+	background: #1357bb;
+}
+
+
+.kirjauduHallinta {
+	width: 400px;
+  margin: 30px auto;
+	padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 7px 0px #d0cece;
+}
+.kirjauduOtsikko {
+	margin: 0;
+}
+.kirjauduHallinta input {
+	float: right;
+	clear: both;
+}
+.kirjauduHallinta label {
+	margin-bottom: 20px;
+}
+
+
+.install {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+}
+
+.install_bold {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #333333;
+}
+
+.install_bold_center {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding-left: 65px;
+    color: #333333;
+}
+
+.install_little_text {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 9px;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+
+.install_paragraph {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.install_paragraph_center {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+}
+
+.install_table {
+    border: solid #CCCCCC;
+    border-width: 1px 1px 1px 1px;
+}
+
+.admin_headings {
+    text-decoration: none;
+
+    font-size: 11px;
+    color: #27408b;
+}
+
+.column_headings {
+
+    font-size: 10pt;
+    text-decoration: underline;
+    color: 27408 b;
+}
+
+.current_left_rows {
+    background-color: #eeeeee;
+    border: solid #748771;
+    border-width: 0px 0px 1px 0px;
+    padding-left: 10px;
+    color: #27408b;
+    font-weight: bold;
+}
+
+.current_left_rows_indent {
+    text-decoration: none;
+    color: #748771;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    background-color: #eeeeee;
+    border: solid #748771;
+    border-width: 0px 0px 0px 0px;
+    padding-left: 32px;
+    font-weight: bold;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.display_hide {
+    display: none;
+}
+
+.display_row {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding-left: 10px;
+    color: 000;
+    border-width: 1px 1px 1px 1px;
+    border-color: 000;
+}
+
+.footer_links {
+    font-weight: none;
+    text-decoration: none;
+    color: #27408b;
+}
+
+.header {
+    height: 45px;
+    color: #000000;
+    background-color: #748771;
+    border: solid #cdc0b0;
+    border-width: 0px 0px 1px 0px;
+}
+
+.header a {
+    font-family: 'Open Sans',  Tahoma;
+    font-size: 10pt;
+    text-decoration: none;
+}
+
+.left_main {
+    background-color: #FCFCFF;
+    border: solid #cdc0b0;
+    border-width: 0px 1px 1px 1px;
+}
+
+.left_rows {
+    background-color: #FCFCFF;
+    border: solid #808088;
+    border-width: 0px 0px 1px 0px;
+    padding-left: 10px;
+}
+
+.left_rows_border_top {
+    background-color: #FCFCFF;
+    border: solid #808088;
+    border-width: 1px 0px 1px 0px;
+    padding-left: 10px;
+}
+
+.left_rows_headings {
+    font-weight: bold;
+    background-color: #FCFCFF;
+    border: solid #808088;
+    border-width: 0px 0px 1px 0px;
+    padding-left: 10px;
+    color: #000000;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+}
+
+.left_rows_indent {
+    text-decoration: none;
+    color: #748771;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    background-color: #FCFCFF;
+    border: solid #808088;
+    border-width: 0px 0px 0px 0px;
+    padding-left: 32px;
+}
+
+.misc_items {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: 748771;
+		background-color: white;
+}
+
+.notdisplay {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding-left: 10px;
+    display: none;
+}
+
+.notdisplay_rpt {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    display: none;
+}
+
+.notprint {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding-left: 10px;
+}
+
+.right_main {
+    background-color: #FCFCFF;
+    border: solid #cdc0b0;
+    border-width: 0px 1px 1px 1px;
+}
+
+.right_main_text {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    background-color: #FCFCFF;
+    padding-left: 10px;
+}
+
+.rightside_heading {
+    border-color: #bbb;
+    border-style: solid;
+    border-width: 0px 0px 1px 0px;
+    background-color: #eee;
+    text-align: left;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+.table_border {
+    border-color: #bbb;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+}
+
+.table_heading {
+    background-color: #eeeeee;
+    border-color: #bbbbbb;
+    border-style: solid;
+    border-width: 0px 1px 1px 0px;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+.table_heading_no_color {
+    background-color: #FCFCFF;
+    text-align: left;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px;
+}
+
+.table_rows {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    padding: 2px;
+}
+
+.table_rows_green {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    color: #009900;
+    padding: 2px;
+}
+
+.table_rows_red {
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 11px;
+    color: #FF0000;
+    padding: 2px;
+}
+
+.title_underline {
+    text-decoration: underline;
+    color: #27408b;
+    font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;
+    font-size: 10pt;
+    padding-left: 0px;
+}
+
+.topmain_row_color {
+    font-family: 'Open Sans',  'Open Sans';
+    font-size: 11px;
+    background-color: #2e446e;
+    color: white;
+    line-height: 25px;
+}
+.topmain_row_color a {
+	color: white
+}
+
+.office_fav {
+    cursor: pointer;
+    font-size: 175%;
+}
+
+a:active {
+    color: #748771;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    font-size: 11px;
+    color: #853d27;
+}
