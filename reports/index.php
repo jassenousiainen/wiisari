@@ -39,6 +39,7 @@ echo "<title>$title - Reports</title>\n";
 echo "
 <div class='raportitValinta'>
 <h2>Hae tuntiraportit:</h2>
+<br/>
 <a class='raporttiLinkki' href='total_hours.php'>Työtunnit työntekijöittäin</a>
 <br> </br>
 <a class='raporttiLinkki' href='timerpt.php'>Päivittäiset tapahtumat</a>

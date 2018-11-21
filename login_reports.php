@@ -37,13 +37,18 @@ if (isset($_SESSION['valid_reports_user'])) {
 
     // build form
 
-    echo "<div class='kirjauduHallinta'>
+    echo "<div class='loginAdmin'>
       <form name='auth' method='post' action='$self'>
-        <h2 class='kirjauduOtsikko'>Kirjaudu raporttinäkymään</h2>
+        <h2>Kirjaudu raporttinäkymään</h2>
         <br/>
-        <label>Käyttäjätunnus: <input type='text' name='login_userid'></label>
-        <br/>
-        <label>Salasana: <input type='password' name='login_password'></label>
+        <div class='field'>
+          <label>Käyttäjätunnus: </label>
+          <input type='text' name='login_userid'>
+        </div>
+        <div class='field'>
+          <label>Salasana: </label>
+          <input type='password' name='login_password'>
+        </div>
         <br/>
         <button type='submit' onClick='admin.php'>Kirjaudu</button>";
 

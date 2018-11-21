@@ -101,23 +101,27 @@ body {
   padding: 15px;
 	box-shadow: 2px 2px 7px 0px #d0cece;
 }
+.raportitValinta h2 {
+	margin: 0;
+}
 .raporttiLinkki {
 	text-decoration: none;
-	color: white;
-	font-size: 16px;
-	padding: 5px 10px;
-	background: #0f62dd;
-	border-radius: 10px;
-	margin-bottom: 10px;
+	background: #3982dd;
+  border: 2px solid #3982dd;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 17px;
+  font-size: 16px
 }
 .raporttiLinkki:hover {
 	font-size: 16px;
 	color: white;
-	background: #1357bb;
+	cursor: pointer;
+	background: #204b80;
 }
 
 
-.kirjauduHallinta {
+.loginAdmin {
 	width: 400px;
   margin: 30px auto;
 	padding: 15px;
@@ -125,15 +129,38 @@ body {
   border-radius: 10px;
   box-shadow: 2px 2px 7px 0px #d0cece;
 }
-.kirjauduOtsikko {
+.loginAdmin h2 {
 	margin: 0;
 }
-.kirjauduHallinta input {
-	float: right;
-	clear: both;
+.loginAdmin .field {
+	overflow: hidden;
+  margin-bottom: 10px;
 }
-.kirjauduHallinta label {
-	margin-bottom: 20px;
+.loginAdmin input {
+	float: right;
+  clear: both;
+  height: 30px;
+  border-radius: 15px;
+  width: 250px;
+  border: 2px solid #3982dd;
+	padding: 0 10px;
+  font-size: 16px;
+}
+.loginAdmin label {
+	font-size: 18px;
+}
+.loginAdmin button {
+	text-decoration: none;
+	background: #3982dd;
+  border: 2px solid #3982dd;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 17px;
+  font-size: 15px;
+}
+.loginAdmin button:hover {
+	cursor: pointer;
+	background: #204b80;
 }
 
 
