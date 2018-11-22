@@ -53,7 +53,7 @@ if (isset($_SESSION['valid_reports_user'])) {
         <button type='submit' onClick='admin.php'>Kirjaudu</button>";
 
     if (isset($login_userid)) {
-        echo "  <tr class=right_main_text><td align=center colspan=2>Could not log you in. Either your username or password is incorrect.</td></tr>\n";
+        echo "<p style='color:red;'>Käyttäjätunnus ja/tai salasana on väärin</p>";
     }
     echo "</form>\n";
     echo "</div>";
