@@ -1,7 +1,8 @@
 body {
-	font-family: 'Open Sans';
+	font-family: 'Open Sans', sans-serif;
 	background: #f6f6f6;
   margin: 0;
+	overflow: hidden;
 }
 
 .ylalaatikko {
@@ -17,6 +18,44 @@ body {
   font-weight: 400;
   font-size: 34px;
   margin-left: 20px;
+}
+
+header {
+	width: 100%;;
+  font-size: 14px;
+  background-color: #2e446e;
+  color: white;
+  line-height: 28px;
+}
+header a {
+	color: white;
+	text-decoration: none;
+	margin-left: 20px;
+}
+header a:hover {
+	text-decoration: underline;
+	text-decoration-color: orange;
+}
+
+.loggedBar {
+	background: orange;
+	transform: skewX(40deg);
+	padding: 0 30px;
+	float: right;
+	margin-right: -10px;
+	text-align: right;
+	color: white;
+	font-size: 16px;
+}
+.loggedBarUnskew {
+	transform: skewX(-40deg);
+}
+.loggedBar a {
+	text-decoration: underline;
+	color: #204b80;
+}
+.loggedBar a:hover {
+	color: white;
 }
 
 .lomake {
@@ -431,29 +470,7 @@ body {
     padding-left: 0px;
 }
 
-.topmain_row_color {
-    font-family: 'Open Sans',  'Open Sans';
-    font-size: 11px;
-    background-color: #2e446e;
-    color: white;
-    line-height: 25px;
-}
-.topmain_row_color a {
-	color: white
-}
-
 .office_fav {
     cursor: pointer;
     font-size: 175%;
-}
-
-a:active {
-    color: #748771;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: none;
-    font-size: 11px;
-    color: #853d27;
 }

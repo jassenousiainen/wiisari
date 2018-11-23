@@ -164,11 +164,11 @@ if (!empty($count)) {
                       Database </th></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
         echo "              <tr><td colspan=2 class=table_rows align=left valign=bottom style='padding-left:32px;padding-right:32px;'>If you are greeted with a
-                      message in red stating \"Your database is out of date\", upgrade it by clicking on the \"Next\" button below. If 
+                      message in red stating \"Your database is out of date\", upgrade it by clicking on the \"Next\" button below. If
                       you do not see this message, then your database is currently up to date and nothing further needs to be done.</td></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
         echo "              <tr><td colspan=2 class=table_rows align=left valign=bottom style='padding-left:32px;padding-right:32px;'>In the process of
-                      upgrading the database, all necessary modifications and changes of the db will be completed, including any alterations, 
+                      upgrading the database, all necessary modifications and changes of the db will be completed, including any alterations,
                       conversions, or additions that are needed for this release of PHP Timeclock to function properly.</td></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
         echo "              <tr><td colspan=2 class=table_rows align=left valign=bottom style='padding-left:32px;padding-right:32px;'>Please click on the
@@ -380,7 +380,7 @@ if (!empty($count)) {
                       Database </th></tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "              <tr><td colspan=2 class=table_rows align=left valign=bottom style='padding-left:32px;padding-right:32px;'>Your mysql
-                      user, $db_username@$db_hostname, does not have the required SELECT, INSERT, UPDATE, DELETE, CREATE, and ALTER 
+                      user, $db_username@$db_hostname, does not have the required SELECT, INSERT, UPDATE, DELETE, CREATE, and ALTER
                       privileges for the $db_name database.</td></tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "              <tr><td colspan=2 class=table_rows align=left valign=bottom style='padding-left:32px;padding-right:32px;'>Return to this page after

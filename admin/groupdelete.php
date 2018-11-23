@@ -137,13 +137,13 @@ if ($request == 'GET') {
     echo "              </tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group Name:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_groupname' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_groupname'
                       value=\"$groupname\">$get_group</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Parent Office:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows width=66%><input type='hidden' name='post_officename' 
+                      style='padding-left:20px;' class=table_rows width=66%><input type='hidden' name='post_officename'
                       value=\"$officename\">$get_office</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Count:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt'
                       value=\"$user_cnt\">$user_cnt</td></tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "            </table>\n";
@@ -368,13 +368,13 @@ if ($request == 'GET') {
     ) {
 
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group Name:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_groupname' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_groupname'
                       value=\"$post_groupname\">$post_groupname</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Parent Office:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_officename' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='post_officename'
                       value=\"$post_officename\">$post_officename</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Count:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt'
                       value=\"$user_cnt\">$user_cnt</td></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
         echo "            </table>\n";

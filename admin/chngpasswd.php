@@ -237,7 +237,7 @@ if ($request == 'GET') {
 
     $post_username = stripslashes($post_username);
 
-    if (preg_match("/^[\s\\/;'\"-]*$/i", $new_password)) {
+    if (preg_match("/^[\s\\/;'\"-]*$/ui", $new_password)) {
         $evil_password = '1';
         echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
         echo "              <tr><td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>

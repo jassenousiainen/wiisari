@@ -132,8 +132,8 @@ if ($request == 'GET') {
 
     $post_username = $_POST['post_username'];
     $display_name = $_POST['display_name'];
-    $password = ''; //$_POST['password'];
-    $confirm_password = ''; //$_POST['confirm_password'];
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
     $email_addy = ''; //$_POST['email_addy'];
     $user_barcode = value_or_null($_POST['barcode']);// UNIQUE constraint so no empty strings
     $office_name = $_POST['office_name'];
@@ -149,13 +149,23 @@ if ($request == 'GET') {
     $string = strstr($post_username, "\"");
     $string2 = strstr($display_name, "\"");
 
-    if ((@$tmp_username == $post_username) || ($password !== $confirm_password) ||
-        (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $post_username)) || (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) || (empty($post_username)) ||
-        (empty($display_name)) || /*(empty($email_addy)) ||*/ (empty($office_name)) || (empty($group_name)) ||
-        (!preg_match('/' . "^([[:alnum:]]|~|\!|@|#|\$|%|\^|&|\*|\(|\)|-|\+|`|_|\=|[{]|[}]|\[|\]|\||\:|\<|\>|\.|,|\?)+$" . '/i', $password)) ||
-        /*(!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) ||*/ (($admin_perms != '1') && (!empty($admin_perms))) ||
-        (($reports_perms != '1') && (!empty($reports_perms))) || (($time_admin_perms != '1') && (!empty($time_admin_perms))) ||
-        (($post_disabled != '1') && (!empty($post_disabled))) || (!empty($string)) || (!empty($string2))
+    if ((@$tmp_username == $post_username) ||
+        ($password !== $confirm_password) ||
+        (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $post_username)) ||
+        (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) ||
+        (empty($post_username)) ||
+        (empty($display_name)) ||
+        /*(empty($email_addy)) ||*/
+        (empty($office_name)) ||
+        (empty($group_name)) ||
+        (!preg_match('/' . "^([[:alnum:]]|~|\!|@|#|\$|%|\^|&|\*|\(|\)|-|\+|`|_|\=|[{]|[}]|\[|\]|\||\:|\<|\>|\.|,|\?)+$" . '/ui', $password)) ||
+        /*(!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) ||*/
+        (($admin_perms != '1') && (!empty($admin_perms))) ||
+        (($reports_perms != '1') && (!empty($reports_perms))) ||
+        (($time_admin_perms != '1') && (!empty($time_admin_perms))) ||
+        (($post_disabled != '1') && (!empty($post_disabled))) ||
+        (!empty($string)) ||
+        (!empty($string2))
     ) {
         echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
         echo "  <tr valign=top>\n";
