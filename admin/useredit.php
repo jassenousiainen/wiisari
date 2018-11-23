@@ -144,9 +144,9 @@ if ($request == 'GET') {
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Display Name:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='50' name='display_name' value=\"$displayname\">&nbsp;*</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
+    /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='email_addy' value='$user_email'>&nbsp;*</td></tr>\n";
+                      <input type='text' size='25' maxlength='75' name='email_addy' value='$user_email'>&nbsp;*</td></tr>\n";*/
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
@@ -230,7 +230,7 @@ if ($request == 'GET') {
 
     $post_username = $_POST['post_username'];
     $display_name = $_POST['display_name'];
-    $email_addy = $_POST['email_addy'];
+    $email_addy = '';
     $user_barcode = value_or_null($_POST['barcode']);// UNIQUE constraint so no empty strings
     $office_name = $_POST['office_name'];
     @$get_office = $_POST['get_office'];
@@ -264,8 +264,8 @@ if ($request == 'GET') {
     }
 
     $string = strstr($display_name, "\"");
-    if ((!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) || (empty($display_name)) || (empty($email_addy)) || (empty($office_name)) || (empty($group_name)) ||
-        (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/ui', $email_addy)) || (($admin_perms != '1') && (!empty($admin_perms))) ||
+    if ((!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) || (empty($display_name)) /*|| (empty($email_addy))*/ || (empty($office_name)) || (empty($group_name)) ||
+        /*(!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/ui', $email_addy)) ||*/ (($admin_perms != '1') && (!empty($admin_perms))) ||
         (($reports_perms != '1') && (!empty($reports_perms))) || (($time_admin_perms != '1') && (!empty($time_admin_perms))) || (($post_disabled != '1') &&
                                                                                                                                  (!empty($post_disabled))) || (!empty($string))
     ) {
@@ -328,12 +328,12 @@ if ($request == 'GET') {
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     A Display Name is required.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (empty($email_addy)) {
+        /*} elseif (empty($email_addy)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     An Email Address is required.</td></tr>\n";
-            echo "            </table>\n";
+            echo "            </table>\n";*/
         } elseif (empty($office_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
@@ -352,18 +352,18 @@ if ($request == 'GET') {
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Double Quotes are not allowed when creating an Username.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/i', $display_name)) {
+        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Alphanumeric characters, hyphens, apostrophes, commas, and spaces are allowed when creating a Display Name.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) {
+        /*} elseif (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Alphanumeric characters, underscores, periods, and hyphens are allowed when creating an Email Address.</td></tr>\n";
-            echo "            </table>\n";
+            echo "            </table>\n";*/
         } elseif (($admin_perms != '1') && (!empty($admin_perms))) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
