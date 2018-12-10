@@ -38,11 +38,11 @@ header a:hover {
 }
 
 .loggedBar {
-	background: orange;
-	transform: skewX(40deg);
-	padding: 0 30px;
 	float: right;
-	margin-right: -10px;
+	background: orange;
+	padding: 0 30px;
+	margin-right: -12px;
+	transform: skewX(40deg);
 	text-align: right;
 	color: white;
 	font-size: 16px;
