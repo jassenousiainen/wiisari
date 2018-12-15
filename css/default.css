@@ -33,8 +33,7 @@ header a {
 	margin-left: 20px;
 }
 header a:hover {
-	text-decoration: underline;
-	text-decoration-color: orange;
+	border-bottom: solid 2px orange;
 }
 
 .loggedBar {

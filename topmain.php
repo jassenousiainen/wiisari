@@ -15,9 +15,8 @@ echo "
   <a href='/index.php'><i class='fas fa-clock'></i> Etusivu</a>
   <a href='/login.php'><i class='fas fa-toolbox'></i> Hallinta</a>
   <a href='/login_reports.php'><i class='fas fa-calendar-alt'></i> Raportit</a>
+  <a href='/login_ownReports.php'><i class='fas fa-user'></i> Omat tunnit</a>
 ";
-
-echo "</header>";
 
 echo " <div class='loggedBar'>
   <div class='loggedBarUnskew'>";
@@ -36,4 +35,6 @@ if ((isset($_SESSION['valid_user'])) || (isset($_SESSION['valid_reports_user']))
   echo "<a href='/logout.php'>Kirjaudu Ulos</a>";
 }
 echo "</div></div>";
+
+echo "</header>";
 ?>
