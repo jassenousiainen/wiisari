@@ -135,7 +135,7 @@ if ($request == 'GET') {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $email_addy = ''; //$_POST['email_addy'];
-    $user_barcode = value_or_null($_POST['barcode']);// UNIQUE constraint so no empty strings
+    $user_barcode = value_or_null(strtoupper($_POST['barcode']));// UNIQUE constraint so no empty strings
     $office_name = $_POST['office_name'];
     @$group_name = $_POST['group_name'];
     $admin_perms = $_POST['admin_perms'];

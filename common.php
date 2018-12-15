@@ -1,7 +1,7 @@
 <?php
 
 $app_name = "Kellokalle";
-$app_version = "22.11.18";
+$app_version = "15.12.18";
 $dbversion = "2.1";
 
 require_once __DIR__ . '/config.inc.php';

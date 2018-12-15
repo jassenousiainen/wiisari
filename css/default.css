@@ -2,7 +2,6 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	background: #f6f6f6;
   margin: 0;
-	overflow: hidden;
 }
 
 .ylalaatikko {
@@ -199,6 +198,20 @@ header a:hover {
 .loginAdmin button:hover {
 	cursor: pointer;
 	background: #204b80;
+}
+
+
+.ownReportsBox {
+	width: 500px;
+  margin: 30px auto;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 7px 0px #d0cece;
+}
+.ownReportsBox h2 {
+	margin: 0;
+	text-align: center;
 }
 
 

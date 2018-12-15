@@ -297,7 +297,7 @@ $logo = "images/logos/phptimeclock.png";
    Since: v1.4
  */
 
-$refresh = "300";
+$refresh = "none";
 
 
 /* This creates a clickable date in the top right of each page. By Default, it links to

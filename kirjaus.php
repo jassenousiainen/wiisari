@@ -26,7 +26,7 @@ if ($request == 'POST') {
     @$reset_cookie = $_POST['reset_cookie'];
     @$fullname = $_POST['left_fullname'];
     @$displayname = $_POST['left_displayname'];
-    @$barcode = (yes_no_bool($barcode_clockin) ? $_POST['left_barcode'] : "");
+    @$barcode = (yes_no_bool($barcode_clockin) ? strtoupper($_POST['left_barcode']) : "");
     if ((isset($remember_me)) && ($remember_me != '1')) {
         echo "Something is fishy here.\n";
         exit;
@@ -162,7 +162,7 @@ QUERY
 
 
 
-$viivakoodi = $_POST['left_barcode'];
+$viivakoodi = strtoupper($_POST['left_barcode']);
 
 
 $kellovastaus = tc_query(<<<QUERY
