@@ -161,6 +161,17 @@ QUERY
 }
 
 
+function convertToHours($tmstmp) {
+  $hours = floor($tmstmp / 3600);
+  $minutes = floor(($tmstmp / 60) % 60);
+  $seconds = $tmstmp % 60;
+  if ($tmstmp > 0) {
+    return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
+  } else {
+    return " ";
+  }
+}
+
 
 $viivakoodi = strtoupper($_POST['left_barcode']);
 
@@ -209,8 +220,16 @@ while ($row = mysqli_fetch_array($sisaanulosvastaus)) {
     $sisaanulos = $row[0];
 }
 
+$infoQuery = tc_query("SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'out' ORDER BY timestamp DESC");
+$nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC");
+
 if ($sisaanulos == "out") {
-  $sisaanulos = "<p class='kirjausUlos'>Ulos</p>";
+  $tempOut = mysqli_fetch_array($infoQuery);
+  $tempstamp = $tempOut[3];
+  $tempIn = mysqli_fetch_array($nextInfoQuery);
+  $time = (int)$tempOut[3] - (int)$tempIn[3];
+
+  $sisaanulos = "<p>Työaika: <b>".convertToHours($time). "</b></p> <p class='kirjausUlos'>Ulos</p>";
 }
 else if ($sisaanulos == "in") {
   $sisaanulos = "<p class='kirjausSisaan'>Sisään</p>";
