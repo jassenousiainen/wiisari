@@ -8,8 +8,11 @@ include 'topmain.php';
 echo "<title>Omat Tunnit</title>\n";
 
 
-function convertToHours($tmstp) {
-    return gmdate('H:i', $tmstp);
+function convertToHours($seconds) {
+  $hours = floor($seconds / 3600);
+  $minutes = floor(($seconds / 60) % 60);
+  $seconds = $seconds % 60;
+  return $hours > 0 ? "$hours hours, $minutes minutes" : ($minutes > 0 ? "$minutes minutes, $seconds seconds" : "$seconds seconds");
 }
 
 $timeNow = time();
@@ -28,6 +31,7 @@ $infoQuery = tc_query(<<<QUERY
 SELECT *
 FROM info
 WHERE fullname = '$fullname' AND `inout` = 'out'
+ORDER BY newid DESC
 QUERY
 );
 
@@ -36,9 +40,8 @@ while ( $tempOut = mysqli_fetch_array($infoQuery) ) {   // Käydään läpi työ
     $newid = $tempOut[0];
     $month = date('m', $tempOut[3]); // 1-12
     $week = date('W', $tempOut[3]); // 1-52
-    $day = date('d', $tempOut[3]); // 1-31
 
-    $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND newid < '$newid'"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
+    $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND newid < '$newid' ORDER BY newid DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
     $tempIn = mysqli_fetch_row($nextInfoQuery);
 
     $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
