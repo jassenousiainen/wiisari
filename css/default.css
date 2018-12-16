@@ -202,7 +202,7 @@ header a:hover {
 
 
 .ownReportsBox {
-	width: 500px;
+	width: 400px;
   margin: 30px auto;
   padding: 15px;
   background: white;
@@ -210,10 +210,44 @@ header a:hover {
   box-shadow: 2px 2px 7px 0px #d0cece;
 }
 .ownReportsBox h2 {
-	margin: 0;
+	margin: 0 0 20px 0;
 	text-align: center;
 }
-
+.ownReportsBox p {
+	margin: 20px 0 0 0;
+}
+.ownreportsBox .button {
+	display: block;
+	text-decoration: none;
+	background: #3982dd;
+	border: 2px solid #3982dd;
+	color: white;
+	padding: 8px 12px;
+	border-radius: 17px;
+	font-size: 15px;
+}
+.ownreportsBox .button:hover {
+	cursor: pointer;
+	background: #204b80;
+}
+.monthlyHours {
+	width: 400px;
+	float: right;
+}
+.reportsField {
+	margin-top: 10px;
+	overflow: hidden;
+}
+.reportsField input {
+	float: right;
+  clear: both;
+  height: 30px;
+  border-radius: 15px;
+  width: 250px;
+  border: 2px solid #3982dd;
+  padding: 0 10px;
+  font-size: 16px;
+}
 
 .install {
     font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;

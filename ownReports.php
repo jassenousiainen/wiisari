@@ -8,11 +8,15 @@ include 'topmain.php';
 echo "<title>Omat Tunnit</title>\n";
 
 
-function convertToHours($seconds) {
-  $hours = floor($seconds / 3600);
-  $minutes = floor(($seconds / 60) % 60);
-  $seconds = $seconds % 60;
-  return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
+function convertToHours($tmstmp) {
+  $hours = floor($tmstmp / 3600);
+  $minutes = floor(($tmstmp / 60) % 60);
+  $seconds = $tmstmp % 60;
+  if ($tmstmp > 0) {
+    return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
+  } else {
+    return " ";
+  }
 }
 
 $timeNow = time();
@@ -31,22 +35,23 @@ $infoQuery = tc_query(<<<QUERY
 SELECT *
 FROM info
 WHERE fullname = '$fullname' AND `inout` = 'out'
-ORDER BY newid DESC
+ORDER BY timestamp DESC
 QUERY
 );
 
 while ( $tempOut = mysqli_fetch_array($infoQuery) ) {   // Käydään läpi työntekijän kaikki kirjaukset
   if ( date('Y', $tempOut[3]) == date('Y', $timeNow) ) { // Lasketaan vain tämän vuoden kirjaukset
-    $newid = $tempOut[0];
-    $month = date('m', $tempOut[3]); // 1-12
+    $tempstamp = $tempOut[3];
+    $month = date('n', $tempOut[3]); // 1-12
     $week = date('W', $tempOut[3]); // 1-52
 
-    $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND newid < '$newid' ORDER BY newid DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
+    $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
     $tempIn = mysqli_fetch_row($nextInfoQuery);
 
     $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
     $monthtime[$month] += $time;
     $weektime[$week] += $time;
+
   } else {
     break;
   }
@@ -55,22 +60,21 @@ while ( $tempOut = mysqli_fetch_array($infoQuery) ) {   // Käydään läpi työ
 echo '<div class="ownReportsBox">
         <h2> '.$displayname.' työtunnit </h2>
         <center><p style="color: grey; margin: 0;"> Vuosi '. date('Y', $timeNow).'</p></center>
-        <p> Työaikasi tällä viikolla: ' .convertToHours($weektime[date('W', $timeNow)]). ' </p>';
+        <p> Työaikasi tällä viikolla: <b>' .convertToHours($weektime[date('W', $timeNow)]). '</b> </p>';
 
 
-  echo 'Tammikuu:<b> ' .convertToHours((int)$monthtime[1]). '</b><br>';
-  echo 'Helmikuu:<b> ' .convertToHours((int)$monthtime[2]). '</b><br>';
-  echo 'Maaliskuu:<b> ' .convertToHours((int)$monthtime[3]). '</b><br>';
-  echo 'Huhtikuu:<b> ' .convertToHours((int)$monthtime[4]). '</b><br>';
-  echo 'Toukokuu:<b> ' .convertToHours((int)$monthtime[5]). '</b><br>';
-  echo 'Kesäkuu:<b> ' .convertToHours((int)$monthtime[6]). '</b><br>';
-  echo 'Heinäkuu:<b> ' .convertToHours((int)$monthtime[7]). '</b><br>';
-  echo 'Elokuu:<b> ' .convertToHours((int)$monthtime[8]). '</b><br>';
-  echo 'Syyskuu:<b> ' .convertToHours((int)$monthtime[9]). '</b><br>';
-  echo 'Lokakuu:<b> ' .convertToHours((int)$monthtime[10]). '</b><br>';
-  echo 'Marraskuu:<b> ' .convertToHours((int)$monthtime[11]). '</b><br>';
-  echo 'Joulukuu:<b> ' .convertToHours((int)$monthtime[12]). '</b><br>';
-
+if ($monthtime[12] > 0) echo 'Joulukuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[12]). '</div><br>';
+if ($monthtime[11] > 0) echo 'Marraskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[11]). '</div><br>';
+if ($monthtime[10] > 0) echo 'Lokakuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[10]). '</div><br>';
+if ($monthtime[9] > 0) echo 'Syyskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[9]). '</div><br>';
+if ($monthtime[8] > 0) echo 'Elokuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[8]). '</div><br>';
+if ($monthtime[7] > 0) echo 'Heinäkuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[7]). '</div><br>';
+if ($monthtime[6] > 0) echo 'Kesäkuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[6]). '</div><br>';
+if ($monthtime[5] > 0) echo 'Toukokuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[5]). '</div><br>';
+if ($monthtime[4] > 0) echo 'Huhtikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[4]). '</div><br>';
+if ($monthtime[3] > 0) echo 'Maaliskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[3]). '</div><br>';
+if ($monthtime[2] > 0) echo 'Helmikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[2]). '</div><br>';
+if ($monthtime[1] > 0) echo 'Tammikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[1]). '</div><br>';
 
 echo '</div>';
 ?>
