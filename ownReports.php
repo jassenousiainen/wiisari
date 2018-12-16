@@ -12,7 +12,7 @@ function convertToHours($seconds) {
   $hours = floor($seconds / 3600);
   $minutes = floor(($seconds / 60) % 60);
   $seconds = $seconds % 60;
-  return $hours > 0 ? "$hours hours, $minutes minutes" : ($minutes > 0 ? "$minutes minutes, $seconds seconds" : "$seconds seconds");
+  return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
 }
 
 $timeNow = time();
