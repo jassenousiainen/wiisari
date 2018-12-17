@@ -236,12 +236,12 @@ if ($request == 'GET') {
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Double Quotes are not allowed when creating an Display Name.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (empty($email_addy)) {
+        /*} elseif (empty($email_addy)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     An Email Address is required.</td></tr>\n";
-            echo "            </table>\n";
+            echo "            </table>\n";*/
         } elseif (empty($office_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";

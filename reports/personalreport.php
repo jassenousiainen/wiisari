@@ -124,7 +124,7 @@ QUERY
   }
 
   echo '<div class="ownReportsBox" style="width:500px;">
-          <h2> '.$displayname.' työtunnit </h2>
+          <h2> '.$displayname.' - työtunnit </h2>
           <center><p style="color: grey; margin: 0;"> Vuosi '. date('Y', $timeNow).'</p></center>
           <p> Työaikasi tällä viikolla: <b>' .convertToHours($weektime[date('W', $timeNow)]). '</b> </p> <br>';
 
