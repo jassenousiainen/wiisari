@@ -70,60 +70,142 @@ if ($request == 'GET') {
     echo "        <tr class=right_main_text>\n";
     echo "          <td valign=top>\n";
     echo "            <br />\n";
+
+
+
+        // ============== LOMAKE ==============
     echo "            <form name='form' action='$self' method='post'>\n";
     echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
+
     echo "              <tr>\n";
-    echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/user_add.png' />&nbsp;&nbsp;&nbsp;Create User
-                </th></tr>\n";
+    echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/user_add.png' />&nbsp;&nbsp;&nbsp;Create User</th>
+                        </tr>\n";
+
     echo "              <tr><td height=15></td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Username:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='50' name='post_username'>&nbsp;*</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Display Name:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='50' name='display_name'>&nbsp;*</td></tr>\n";
-    echo "            <tr><td></td><td style='padding: 5px 0 0 20px;'><p style='font-size: 10px; color: grey;'>(täytä salasana vain jos käyttäjstä tulee hallitsija)</p></td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Password:</td><td colspan=2 width=80%
-                      style='padding-left:20px;'><input type='password' size='25' maxlength='25' name='password'></td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Confirm Password:</td><td colspan=2 width=80%
-                      style='padding-left:20px;'>
-                      <input type='password' size='25' maxlength='25' name='confirm_password'></td></tr>\n";
+
+                        // Username
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Username:</td>
+                          <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                            <input autocomplete='off' type='text' size='25' maxlength='50' name='post_username'>&nbsp;*
+                          </td>
+                          <td class='createdescription'>Tämä tulee vain ohjelmiston sisäiseen käyttöön. Tätä ei voi vaihtaa jälkeenpäin.</td>
+                        </tr>\n";
+
+                        // Display name
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Display Name:</td>
+                          <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                            <input autocomplete='off' type='text' size='25' maxlength='50' name='display_name'>&nbsp;*
+                          </td>
+                          <td class='createdescription'>Henkilön ulospäin näkyvä nimi.</td>
+                        </tr>\n";
+
+                        // Password
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Password:</td>
+                          <td style='padding-left:20px;'>
+                            <input autocomplete='off' type='password' size='25' maxlength='25' name='password'>
+                          </td>
+                          <td class='createdescription'>Täytä salasana vain jos käyttäjästä tulee hallitsija.</td>
+                        </tr>\n";
+
+                        // Confirm password
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Confirm Password:</td>
+                          <td style='padding-left:20px;'>
+                            <input autocomplete='off' type='password' size='25' maxlength='25' name='confirm_password'>
+                          </td>
+                        </tr>\n";
+
+
     /**echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='75' name='email_addy'>&nbsp;*</td></tr>\n";*/
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='office_name' onchange='group_names();'>\n";
-    echo "                      </select>&nbsp;*</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='group_name'>\n";
-    echo "                      </select>&nbsp;*</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Sys Admin User?</td>\n";
-    echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='admin_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='admin_perms' value='0' checked>&nbsp;No</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Time Admin User?</td>\n";
-    echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='time_admin_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='time_admin_perms' value='0' checked>&nbsp;No</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Reports User?</td>\n";
-    echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='reports_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='reports_perms' value='0' checked>&nbsp;No</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Account Disabled?</td>\n";
-    echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='disabled' value='1'>&nbsp;Yes
-                    <input type='radio' name='disabled' value='0' checked>&nbsp;No</td></tr>\n";
-    /**echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Initial Punch:</td><td colspan=2 width=80%
+
+                        // Barcode
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode:</td>
+                          <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                            <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode'>
+                          </td>
+                          <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla henkilö kirjautuu sisään.</td>
+                        </tr>\n";
+
+                        // Office
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Office:</td>
+                          <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                            <select name='office_name' onchange='group_names();'></select>&nbsp;*
+                          </td>
+                        </tr>\n";
+
+                        // Group
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Group:</td>
+                          <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                            <select name='group_name'></select>&nbsp;*
+                          </td>
+                        </tr>\n";
+
+                        // Admin user
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Sys Admin User?</td>
+                          <td class=table_rows align=left style='padding-left:20px;'>
+                            <input type='radio' name='admin_perms' value='1'>&nbsp;Yes
+                            <input type='radio' name='admin_perms' value='0' checked>&nbsp;No
+                          </td>
+                          <td class='createdescription'>Admin userilla on täysi pääsy hallintapaneeliin ja raportit -näkymään.</td>
+                        </tr>\n";
+
+                        // Time admin user
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Time Admin User?</td>
+                          <td class=table_rows align=left style='padding-left:20px;'>
+                            <input type='radio' name='time_admin_perms' value='1'>&nbsp;Yes
+                            <input type='radio' name='time_admin_perms' value='0' checked>&nbsp;No
+                          </td>
+                          <td class='createdescription'>Time admin userilla on pääsy hallintapaneelin 'Add/Edit/Delete time'-raporttien muokkausosioon ja raportit -näkymään.</td>
+                        </tr>\n";
+
+                        // Reports user
+    echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Reports User?</td>
+                          <td class=table_rows align=left style='padding-left:20px;'>
+                            <input type='radio' name='reports_perms' value='1'>&nbsp;Yes
+                            <input type='radio' name='reports_perms' value='0' checked>&nbsp;No
+                          </td>
+                          <td class='createdescription'>Reports userilla on pääsy ainoastaan raportit -näkymään.</td>
+                        </tr>\n";
+
+                        // User account disabled
+    /*echo "              <tr>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>User Account Disabled?</td>
+                          <td class=table_rows align=left style='padding-left:20px;'>
+                            <input type='radio' name='disabled' value='1'>&nbsp;Yes
+                            <input type='radio' name='disabled' value='0' checked>&nbsp;No
+                          </td>
+                        </tr>\n";*/
+
+    /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Initial Punch:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <select name='inout'><option value=''>...</option>" . html_options(tc_select("punchitems", "punchlist")) . "</select></td></tr>\n";*/
-    echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
+
+    echo "              <tr>
+                          <td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;vaadittu&nbsp;</td>
+                        </tr>\n";
+
     echo "            </table>\n";
     echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
     echo "              <tr><td height=40>&nbsp;</td></tr>\n";
     echo "              <tr><td width=30><input type='image' name='submit' value='Create User' align='middle'
                       src='../images/buttons/next_button.png'></td><td><a href='useradmin.php'><img src='../images/buttons/cancel_button.png'
-                      border='0'></td></tr></table></form></td></tr>\n";
+                      border='0'></td></tr></table>
+                      </form>
+                      </td></tr>\n";
+
+
+
     include '../footer.php';
 } elseif ($request == 'POST') {
 
@@ -141,7 +223,7 @@ if ($request == 'GET') {
     $admin_perms = $_POST['admin_perms'];
     $reports_perms = $_POST['reports_perms'];
     $time_admin_perms = $_POST['time_admin_perms'];
-    $post_disabled = $_POST['disabled'];
+    $post_disabled = '0';
     $inout = '';
 
     $tmp_username = tc_select_value("empfullname", "employees", "empfullname = ? ORDER by empfullname", $post_username);
@@ -149,12 +231,24 @@ if ($request == 'GET') {
     $string = strstr($post_username, "\"");
     $string2 = strstr($display_name, "\"");
 
+
+    $barcodeExists = false;
+    $findBarcodes = mysqli_fetch_array(tc_query(<<<QUERY
+SELECT *
+FROM employees
+WHERE barcode = '$user_barcode'
+QUERY
+));
+    if (sizeOf($findBarcodes) > 0) { $barcodeExists = true; }
+
+
     if ((@$tmp_username == $post_username) ||
         ($password !== $confirm_password) ||
         (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $post_username)) ||
         (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) ||
         (empty($post_username)) ||
         (empty($display_name)) ||
+        ($barcodeExists) ||
         /*(empty($email_addy)) ||*/
         (empty($office_name)) ||
         (empty($group_name)) ||
@@ -218,6 +312,12 @@ if ($request == 'GET') {
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     A Username is required.</td></tr>\n";
             echo "            </table>\n";
+        } elseif ($barcodeExists) {
+          echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
+          echo "              <tr>\n";
+          echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
+                  User with given barcode already exists.</td></tr>\n";
+          echo "            </table>\n";
         } elseif (empty($display_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
@@ -260,19 +360,19 @@ if ($request == 'GET') {
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     User already exists. Create another username.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/i', $post_username)) {
+        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $post_username)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Alphanumeric characters, hyphens, apostrophes, commas, and spaces are allowed when creating a Username.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/i', $display_name)) {
+        } elseif (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     Alphanumeric characters, hyphens, apostrophes, commas, and spaces are allowed when creating a Display Name.</td></tr>\n";
             echo "            </table>\n";
-        } elseif (!preg_match('/' . "^([[:alnum:]]|~|\!|@|#|\$|%|\^|&|\*|\(|\)|-|\+|`|_|\=|[{]|[}]|\[|\]|\||\:|\<|\>|\.|,|\?)+$" . '/i', $password)) {
+        } elseif (!preg_match('/' . "^([[:alnum:]]|~|\!|@|#|\$|%|\^|&|\*|\(|\)|-|\+|`|_|\=|[{]|[}]|\[|\]|\||\:|\<|\>|\.|,|\?)+$" . '/ui', $password)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
@@ -354,9 +454,9 @@ if ($request == 'GET') {
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Confirm Password:</td><td colspan=2 width=80%
                       style='padding-left:20px;'>
                       <input type='password' size='25' maxlength='25' name='confirm_password'></td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
+        /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='email_addy' value=\"$email_addy\">&nbsp;*</td></tr>\n";
+                      <input type='text' size='25' maxlength='75' name='email_addy' value=\"$email_addy\">&nbsp;*</td></tr>\n";*/
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
@@ -525,8 +625,8 @@ if ($request == 'GET') {
                       colspan=2 width=80% style='padding-left:20px;'>$displayname</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Password:</td><td align=left class=table_rows
                       colspan=2 width=80% style='padding-left:20px;'>***hidden***</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td align=left class=table_rows
-                      colspan=2 width=80% style='padding-left:20px;'>$user_email</td></tr>\n";
+    /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td align=left class=table_rows
+                      colspan=2 width=80% style='padding-left:20px;'>$user_email</td></tr>\n";*/
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td align=left class=table_rows
                       colspan=2 width=80% style='padding-left:20px;'>$user_barcode</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td align=left class=table_rows

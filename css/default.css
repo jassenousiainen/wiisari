@@ -200,6 +200,12 @@ header a:hover {
 	background: #204b80;
 }
 
+/* User create page */
+.createdescription {
+	font-size: 12px;
+	color: grey
+}
+
 
 .ownReportsBox {
 	width: 400px;
