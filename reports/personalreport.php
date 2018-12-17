@@ -96,8 +96,8 @@ if ($request == 'GET') {
     echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
   }
 
-  $monthtime = array_fill(1, 12, " ");
-  $weektime = array_fill(1, 52, " ");
+  $monthtime = array_fill(1, 12, 0);
+  $weektime = array_fill(1, 52, 0);
 
   $infoQuery = tc_query(<<<QUERY
 SELECT *
@@ -117,8 +117,10 @@ QUERY
       $tempIn = mysqli_fetch_row($nextInfoQuery);
 
       $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
-      $monthtime[$month] += $time;
-      $weektime[$week] += $time;
+      if (is_numeric($time)) {
+        $monthtime[$month] += $time;
+        $weektime[$week] += $time;
+      }
 
     } else {
       break;
