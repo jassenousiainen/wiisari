@@ -75,13 +75,15 @@ if ($request == 'GET') {
   echo "<title>Omat Tunnit</title>\n";
 
   function convertToHours($tmstmp) {
-    $hours = floor($tmstmp / 3600);
-    $minutes = floor(($tmstmp / 60) % 60);
-    $seconds = $tmstmp % 60;
-    if ($tmstmp > 0) {
-      return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
-    } else {
-      return " ";
+    if (is_numeric($tmstmp)) {
+      $hours = floor($tmstmp / 3600);
+      $minutes = floor(($tmstmp / 60) % 60);
+      $seconds = $tmstmp % 60;
+      if ($tmstmp > 0) {
+        return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
+      } else {
+        return " ";
+      }
     }
   }
 
