@@ -1,9 +1,13 @@
 <?php
 
 echo '
-    <div class="ylalaatikko">
-      <a class="otsikkolinkki" href="/timeclock.php"><h2 class="ylaotsikko">Kellokalle</h2></a>
-    </div>
+<div class="ylalaatikko">
+  <p style="float: right;color: #b5b5b5;margin: 0;font-size: 10px; margin-right: 5px;">jasse.nousiainen@aalto.fi</p>
+  <a class="otsikkolinkki" href="/timeclock.php">
+    <img src="/images/icons/clock_title.png" style="float: left;height: 40px;margin: 15px 10px 0 10px;">
+    <h2 class="ylaotsikko">Kellokalle</h2>
+  </a>
+</div>
     ';
 
 
