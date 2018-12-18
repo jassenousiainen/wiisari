@@ -16,11 +16,13 @@ if (!isset($_GET['printer_friendly'])) {
     <div class="lomake">
     <form name="timeclock" action="kirjaus.php" autocomplete="off" method="post">
       <br/>
-    	<label class="tunnusOtsikko" for="left-barcode">Käyttäjätunnus:</label>
+    	<label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
 			<br/>
-    	<input type="password" id="left_barcode" name="left_barcode" maxlength="250" size="17" value="" autocomplete="off" autofocus>
+      <div class="barcodeBox">
+    	 <input type="password" id="left_barcode" name="left_barcode" maxlength="250" size="17" value="" autocomplete="off" autofocus>
+       </div>
       <p style="color: grey">(Lopuksi paina ENTER)</p>
-		</form>
+    </form>
 	</div>
     ';
 

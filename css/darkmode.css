@@ -3,12 +3,12 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
-	background: #f6f6f6;
-  margin: 0;
+	background: #000000;
+	margin: 0;
 }
 
 .ylalaatikko {
-  background: #204b80;
+  background: #000000;
   height: 70px;
 }
 .otsikkolinkki {
@@ -17,20 +17,23 @@ body {
 }
 .ylaotsikko {
 	display: inline-block;
-  margin: 0;
-  font-size: 36px;
-	/*font-family: 'Courgette';*/
+	margin: 0;
+	font-size: 36px;
 	font-family: 'Major Mono Display';
-	font-weight: normal;
-	color: white;
+	/* font-weight: normal; */
+	background: linear-gradient(to right, #ff008b, #00c3ff);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 header {
-	width: 100%;;
-  font-size: 14px;
-  background-color: #2e446e;
-  color: white;
-  line-height: 28px;
+	width: 100%;
+	font-size: 14px;
+	background-color: #000000;
+	color: white;
+	border-top: solid 1px #005ea0;
+	border-bottom: solid 1px #005ea0;
+	line-height: 28px;
 }
 header a {
 	color: white;
@@ -69,10 +72,10 @@ header a:hover {
 
 .barcodeHeader {
 	font-size: 26px;
-	color: #3c4045;
+	color: #ff008b;
 }
 .barcodeBox {
-	background: linear-gradient(145deg, #008fff 0%,#00f2ff 100%);
+	background: linear-gradient(to right, #00c3ff 0%,#ff008b 100%);
 	display: inline-block;
   padding: 3px;
 	border-radius: 23px;
@@ -82,10 +85,13 @@ header a:hover {
 #left_barcode {
 	width: 400px;
 	height: 40px;
-	border-radius: 22px;
+	font-size: 24px;
+	background-color: black;
 	border: none;
-  font-size: 24px;
-  padding-left: 10px;
+	padding-left: 10px;
+	margin: 0;
+	color: white;
+	border-radius: 22px;
 }
 
 .submit {
