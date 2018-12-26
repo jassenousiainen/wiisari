@@ -3,12 +3,11 @@
 echo '
 <div class="ylalaatikko">
   <a class="otsikkolinkki" href="/timeclock.php">
-    <img src="/images/icons/clock_title.png" style="float: left;height: 40px;margin: 12px 10px 0 10px;">
-    <h2 class="ylaotsikko">Kellokalle</h2>
+    <h2 class="ylaotsikko">TIMECLOCK</h2>
   </a>
 </div>
     ';
-
+//<img src="/images/icons/clock_title.png" style="float: left;height: 40px;margin: 12px 10px 0 10px;">
 
 // display the topbar //
 

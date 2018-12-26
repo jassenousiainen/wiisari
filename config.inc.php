@@ -427,7 +427,7 @@ $user_or_display = "display";
    Since: v1.4
  */
 
-$display_ip = "yes";
+$display_ip = "no";
 
 
 /* Choose whether to log and include in the reports the office name of

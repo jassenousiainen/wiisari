@@ -21,7 +21,6 @@ if (!isset($_GET['printer_friendly'])) {
       <div class="barcodeBox">
     	 <input type="password" id="left_barcode" name="left_barcode" maxlength="250" size="17" value="" autocomplete="off" autofocus>
        </div>
-      <p style="color: grey">(Lopuksi paina ENTER)</p>
     </form>
 	</div>
     ';

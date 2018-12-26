@@ -4,7 +4,7 @@ session_start();
 require 'common.php';
 include 'header.php';
 include 'topmain.php';
-echo "<title>$title - Reports Login</title>\n";
+echo "<title>Reports Login</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 

@@ -1,5 +1,6 @@
 @font-face { font-family: Courgette; src: url('/fonts/Courgette-Regular.ttf'); }
 @font-face { font-family: 'Major Mono Display'; src: url('/fonts/MajorMonoDisplay-Regular.ttf'); }
+@font-face { font-family: 'JosefinSans'; src: url('/fonts/JosefinSans-Regular'); }
 
 body {
 	font-family: 'Open Sans', sans-serif;
@@ -8,19 +9,20 @@ body {
 }
 
 .ylalaatikko {
-  background: #204b80;
+  background: #3f5c80;
   height: 70px;
 }
 .otsikkolinkki {
+	display: inline-block;
   text-decoration: none;
-	line-height: 70px;
+	margin: 22px 0 0 20px;
 }
 .ylaotsikko {
-	display: inline-block;
   margin: 0;
   font-size: 36px;
 	/*font-family: 'Courgette';*/
-	font-family: 'Major Mono Display';
+	/*font-family: 'Major Mono Display';*/
+	font-family: 'JosefinSans';
 	font-weight: normal;
 	color: white;
 }
@@ -28,7 +30,7 @@ body {
 header {
 	width: 100%;;
   font-size: 14px;
-  background-color: #2e446e;
+  background-color: #324b68;
   color: white;
   line-height: 28px;
 }
@@ -72,7 +74,7 @@ header a:hover {
 	color: #3c4045;
 }
 .barcodeBox {
-	background: linear-gradient(145deg, #008fff 0%,#00f2ff 100%);
+	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
 	display: inline-block;
   padding: 3px;
 	border-radius: 23px;
@@ -202,9 +204,9 @@ header a:hover {
 .loginAdmin button {
 	text-decoration: none;
 	background: #3982dd;
-  border: 2px solid #3982dd;
+  border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 10px;
   border-radius: 17px;
   font-size: 15px;
 }
@@ -239,10 +241,10 @@ header a:hover {
 	display: block;
 	text-decoration: none;
 	background: #3982dd;
-	border: 2px solid #3982dd;
+	border: none;
 	color: white;
-	padding: 8px 12px;
-	border-radius: 17px;
+	padding: 10px;
+	border-radius: 19px;
 	font-size: 15px;
 }
 .ownreportsBox .button:hover {
