@@ -223,6 +223,9 @@ while ($row = mysqli_fetch_array($sisaanulosvastaus)) {
 $infoQuery = tc_query("SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'out' ORDER BY timestamp DESC");
 $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC");
 
+
+echo "<div class='flexBox'>";
+
 if ($sisaanulos == "out") {
   $tempOut = mysqli_fetch_array($infoQuery);
   $tempstamp = $tempOut[3];
@@ -230,9 +233,11 @@ if ($sisaanulos == "out") {
   $time = (int)$tempOut[3] - (int)$tempIn[3];
 
   $sisaanulos = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
+  echo "<div class='borderBox borderOut'>";
 }
 else if ($sisaanulos == "in") {
   $sisaanulos = "<p class='kirjausSisaan'>Sisään</p>";
+  echo "<div class='borderBox borderIn'>";
 }
 
 
@@ -251,6 +256,6 @@ echo '</b></p>';
 echo '<br>';
 echo $sisaanulos;
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';
-echo "</div>";
+echo "</div></div></div>";
 
 ?>
