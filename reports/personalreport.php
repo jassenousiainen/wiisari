@@ -111,7 +111,7 @@ QUERY
     if ( date('Y', $tempOut[3]) == date('Y', $timeNow) ) { // Lasketaan vain tämän vuoden kirjaukset
       $tempstamp = $tempOut[3];
       $month = date('n', $tempOut[3]); // 1-12
-      $week = ltrim(date('W', $tempOut[3]), 0); // 1-52
+      $week = ltrim(date('W', $tempOut[3]), 0); // 1-52 (huomaa ltrimin käyttö aloittavien nollien poistamiseksi)
 
       $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
       $tempIn = mysqli_fetch_row($nextInfoQuery);
@@ -127,10 +127,19 @@ QUERY
     }
   }
 
+  $currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$fullname' ORDER BY timestamp DESC"))[0];
+  $timetoday = 0;
+  if ( $currently_inout == "in" ) {
+    $timetoday = $timeNow - mysqli_fetch_row(tc_query( "SELECT timestamp FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
+  }
+
   echo '<div class="ownReportsBox" style="width:500px;">
           <h2> '.$displayname.' - työtunnit </h2>
-          <center><p style="color: grey; margin: 0;"> Vuosi '. date('Y', $timeNow).'</p></center>
-          <p> Työaikasi tällä viikolla: <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> </p> <br>';
+          <center><p style="color: grey; margin: 0;"> Vuosi '. date('Y', $timeNow).'</p></center>';
+          if ( $timetoday > 0 ) {
+            echo'<p>Viimeisestä sisäänkirjauksesta: <b>'.convertToHours($timetoday).'</b></p>';
+          }
+  echo    '<p> Työaikasi tällä viikolla (vko '.ltrim(date('W', $timeNow), 0).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> </p> <br>';
 
   if ($monthtime[12] > 0) echo 'Joulukuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[12]). '</div><br>';
   if ($monthtime[11] > 0) echo 'Marraskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[11]). '</div><br>';

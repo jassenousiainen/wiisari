@@ -229,7 +229,7 @@ if ($sisaanulos == "out") {
   $tempIn = mysqli_fetch_array($nextInfoQuery);
   $time = (int)$tempOut[3] - (int)$tempIn[3];
 
-  $sisaanulos = "<p>Työaika: <b>".convertToHours($time). "</b></p> <p class='kirjausUlos'>Ulos</p>";
+  $sisaanulos = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
 }
 else if ($sisaanulos == "in") {
   $sisaanulos = "<p class='kirjausSisaan'>Sisään</p>";

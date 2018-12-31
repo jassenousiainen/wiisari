@@ -145,6 +145,18 @@ header a:hover {
     padding: 7px 0;
     color: white;
     font-weight: bold;
+		margin: 0;
+}
+.logOutTime {
+	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
+	border-radius: 10px;
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	padding: 7px 0;
+	color: white;
+	font-weight: bold;
+	margin: 10px 0 10px 0;
 }
 
 .raportitValinta {
@@ -233,7 +245,7 @@ header a:hover {
   box-shadow: 2px 2px 7px 0px #d0cece;
 }
 .ownReportsBox h2 {
-	margin: 0 0 20px 0;
+	margin: 0 0 5px 0;
 	text-align: center;
 }
 .ownReportsBox p {
