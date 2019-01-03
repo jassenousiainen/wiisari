@@ -50,7 +50,7 @@ body {
 .otsikkolinkki {
 	display: inline-block;
   text-decoration: none;
-	margin: 22px 0 0 20px;
+	margin: 22px 0 0 27px;
 }
 .ylaotsikko {
   margin: 0;
@@ -58,8 +58,9 @@ body {
 	font-family: 'JosefinSans';
 	font-weight: normal;
 	color: white;
-	/* mdbootstrap.com/tools/logo-generator-text */
+	/* mdbootstrap.com/tools/logo-generator-text
 	text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
+*/
 }
 
 header {
@@ -79,7 +80,6 @@ header a {
 header a:hover {
 	color: #324b68;
 	background: white;
-	/*border-bottom: solid 2px orange;*/
 }
 
 .loggedBar {
@@ -253,6 +253,16 @@ header a:hover {
 	background: #204b80;
 }
 
+.maker {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	font-size: 11px;
+	color: white;
+	margin: 0;
+	font-family: 'Open Sans Light';
+  letter-spacing: 2px;
+}
 
 .loginAdmin {
 	width: 400px;

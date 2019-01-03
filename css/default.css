@@ -26,6 +26,7 @@
 
 
 body {
+	background: #f4f4f4;
 	font-family: 'Open Sans', sans-serif;
   margin: 0;
 }
@@ -37,7 +38,7 @@ body {
 .otsikkolinkki {
 	display: inline-block;
   text-decoration: none;
-	margin: 22px 0 0 20px;
+	margin: 22px 0 0 27px;
 }
 .ylaotsikko {
   margin: 0;
@@ -90,7 +91,6 @@ header a:hover {
 	color: white;
 }
 
-
 .clockBox {
 	display: flex;
   justify-content: center;
@@ -99,8 +99,6 @@ header a:hover {
 #theTime {
 	font-size: 36px;
 	}
-
-
 
 
 .lomake {
@@ -166,13 +164,13 @@ header a:hover {
 	justify-content: center;
 	height: 100%;
 	width: 100%;
+	background: black;
 }
 .borderBox {
 	display: inline-block;
   padding: 4px;
 	background: white;
   border-radius: 18px;
-  box-shadow: 2px 2px 7px 0px #d0cece;
 }
 .borderBox.borderIn {
 	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);

@@ -9,8 +9,8 @@ if (!isset($_GET['printer_friendly'])) {
     if (isset($_SESSION['valid_user'])) {
         $set_logout = "1";
     }
-    
-    echo "<title>Kellokalle</title>\n";
+
+    echo "<title>Timeclock</title>\n";
     include 'topmain.php';
 
     echo '
@@ -31,6 +31,7 @@ if (!isset($_GET['printer_friendly'])) {
       <span id="theTime"></span>
     </div>';
 
+    echo '<p class="maker">jasse.nousiainen@aalto.fi</p>';
 }
 
 
