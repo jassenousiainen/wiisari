@@ -1,6 +1,29 @@
-@font-face { font-family: Courgette; src: url('/fonts/Courgette-Regular.ttf'); }
-@font-face { font-family: 'Major Mono Display'; src: url('/fonts/MajorMonoDisplay-Regular.ttf'); }
-@font-face { font-family: 'JosefinSans'; src: url('/fonts/JosefinSans-Regular'); }
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-Bold.ttf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JosefinSans';
+	src: url('/fonts/JosefinSans-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+ }
+ /*@font-face {
+ 	font-family: 'JosefinSans';
+ 	src: url('/fonts/JosefinSans-Bold.ttf');
+ 	font-weight: bold;
+ 	font-style: normal;
+  }*/
+
 
 body {
 	font-family: 'Open Sans', sans-serif;
@@ -20,8 +43,6 @@ body {
 .ylaotsikko {
   margin: 0;
   font-size: 36px;
-	/*font-family: 'Courgette';*/
-	/*font-family: 'Major Mono Display';*/
 	font-family: 'JosefinSans';
 	font-weight: normal;
 	color: white;
@@ -34,15 +55,19 @@ header {
   font-size: 14px;
   background-color: #324b68;
   color: white;
-  line-height: 28px;
 }
 header a {
+	height: 28px;
+  display: inline-block;
+  line-height: 28px;
 	color: white;
 	text-decoration: none;
-	margin-left: 20px;
+	padding: 0 10px;
 }
 header a:hover {
-	border-bottom: solid 2px orange;
+	color: #324b68;
+	background: white;
+	/*border-bottom: solid 2px orange;*/
 }
 
 .loggedBar {
