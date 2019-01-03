@@ -27,11 +27,24 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+	background-size: 400% 400%;
+	animation: Gradient 20s ease infinite;
   margin: 0;
+}
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
 }
 
 .ylalaatikko {
-  background: #3f5c80;
   height: 70px;
 }
 .otsikkolinkki {
@@ -52,7 +65,6 @@ body {
 header {
 	width: 100%;;
   font-size: 14px;
-  background-color: #324b68;
   color: white;
 }
 header a {
@@ -62,6 +74,7 @@ header a {
 	color: white;
 	text-decoration: none;
 	padding: 0 10px;
+  border-radius: 14px;
 }
 header a:hover {
 	color: #324b68;
@@ -92,47 +105,32 @@ header a:hover {
 
 
 .clockBox {
-	display: flex;
-  justify-content: center;
-  margin-top: 50px;
+  position: absolute;
+  top: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-family: 'Open Sans Light';
+  font-size: 36px;
 }
-#theTime {
-	font-size: 36px;
-	}
-
-
 
 
 .lomake {
 	text-align: center;
 	position: absolute;
-	top: 38%;
+	top: 35%;
 	left: 0;
 	right: 0;
 }
 .barcodeHeader {
-	font-size: 26px;
-	color: #3c4045;
+	font-size: 30px;
+  color: white;
+  font-family: 'Open Sans Light'
 }
 .barcodeBox {
-
-	display: inline-block;
-  padding: 3px;
-	border-radius: 23px;
-	margin-top: 10px;
+  margin-top: 7px;
 }
-@keyframes Gradient {
-	0% {
-		background-position: 0% 50%
-	}
-	50% {
-		background-position: 100% 50%
-	}
-	100% {
-		background-position: 0% 50%
-	}
-}
-
 #left_barcode {
 	width: 400px;
 	height: 40px;
@@ -140,8 +138,8 @@ header a:hover {
 	border: none;
   font-size: 24px;
   padding-left: 10px;
+  text-align: center;
 }
-
 .submit {
   display: none;
 	margin-top: 40px;

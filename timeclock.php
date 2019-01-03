@@ -9,7 +9,8 @@ if (!isset($_GET['printer_friendly'])) {
     if (isset($_SESSION['valid_user'])) {
         $set_logout = "1";
     }
-
+    
+    echo "<title>Kellokalle</title>\n";
     include 'topmain.php';
 
     echo '
@@ -25,8 +26,13 @@ if (!isset($_GET['printer_friendly'])) {
 	</div>
     ';
 
+    echo '
+    <div class="clockBox">
+      <span id="theTime"></span>
+    </div>';
+
 }
 
-echo "<title>Kellokalle</title>\n";
+
 
 ?>
