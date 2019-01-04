@@ -54,4 +54,4 @@ if ($use_client_tz == "yes") {
 <script type="text/javascript" src="../scripts/CalendarPopup.js"></script>
 <script language="javascript">document.write(getCalendarStyles());</script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="shortcut icon" href="../images/icons/clock_title.png" type="image/x-icon"/>
+<link rel="shortcut icon" href="../images/icons/wiisari_title.png" type="image/x-icon"/>
