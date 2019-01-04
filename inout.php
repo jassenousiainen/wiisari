@@ -173,52 +173,45 @@ function convertToHours($tmstmp) {
 }
 
 
-$viivakoodi = strtoupper($_POST['left_barcode']);
+$barcode = strtoupper($_POST['left_barcode']);
 
 
-$kellovastaus = tc_query(<<<QUERY
+$tstampQuery = tc_query(<<<QUERY
 SELECT tstamp
 FROM employees
-WHERE barcode = '$viivakoodi'
+WHERE barcode = '$barcode'
 QUERY
 );
-while ($row = mysqli_fetch_array($kellovastaus)) {
-    $kello = $row[0];
-}
+$tstamp = mysqli_fetch_array($tstampQuery)[0];
 
 
-$nimivastaus = tc_query(<<<QUERY
+$dispNameQuery = tc_query(<<<QUERY
 SELECT displayname
 FROM employees
-WHERE barcode = '$viivakoodi'
+WHERE barcode = '$barcode'
 QUERY
 );
-while ($row = mysqli_fetch_array($nimivastaus)) {
-    $nimi = $row[0];
-}
+$dispName = mysqli_fetch_array($dispNameQuery)[0];
 
 
-$fullnamevastaus = tc_query(<<<QUERY
+$fullnameQuery = tc_query(<<<QUERY
 SELECT empfullname
 FROM employees
-WHERE barcode = '$viivakoodi'
+WHERE barcode = '$barcode'
 QUERY
 );
-while ($row = mysqli_fetch_array($fullnamevastaus)) {
-    $fullname = $row[0];
-}
+$fullname = mysqli_fetch_array($fullnameQuery)[0];
 
 
-$sisaanulosvastaus = tc_query(<<<QUERY
+$inoutQuery = tc_query(<<<QUERY
 SELECT `inout`
 FROM info
 WHERE fullname = '$fullname'
 ORDER BY newid DESC LIMIT 1
 QUERY
 );
-while ($row = mysqli_fetch_array($sisaanulosvastaus)) {
-    $sisaanulos = $row[0];
-}
+$inout = mysqli_fetch_array($inoutQuery)[0];
+
 
 $infoQuery = tc_query("SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'out' ORDER BY timestamp DESC");
 $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC");
@@ -226,35 +219,35 @@ $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND 
 
 echo "<div class='flexBox'>";
 
-if ($sisaanulos == "out") {
+if ($inout == "out") {
   $tempOut = mysqli_fetch_array($infoQuery);
   $tempstamp = $tempOut[3];
   $tempIn = mysqli_fetch_array($nextInfoQuery);
   $time = (int)$tempOut[3] - (int)$tempIn[3];
 
-  $sisaanulos = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
+  $inout = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
   echo "<div class='borderBox borderOut'>";
 }
-else if ($sisaanulos == "in") {
-  $sisaanulos = "<p class='kirjausSisaan'>Sisään</p>";
+else if ($inout == "in") {
+  $inout = "<p class='kirjausSisaan'>Sisään</p>";
   echo "<div class='borderBox borderIn'>";
 }
 
 
-$dt = new DateTime("@$kello");
-$dt->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+$logTime = new DateTime("@$tstamp");
+$logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
 echo "<div class='kirjausLaatikko'>";
-echo "<h2 class='kirjausNimi'>$nimi</h2>";
+echo "<h2 class='kirjausNimi'>$dispName</h2>";
 echo '<br>';
 echo '<p class="kirjausAika">Kello: <b>';
-echo $dt->format("H:i");
+echo $logTime->format("H:i");
 echo '</b></p>';
 echo '<p class="kirjausPaiva">Päivä: <b>';
-echo $dt->format("d.m.Y");
+echo $logTime->format("d.m.Y");
 echo '</b></p>';
 echo '<br>';
-echo $sisaanulos;
+echo $inout;
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';
 echo "</div></div></div>";
 

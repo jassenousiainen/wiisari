@@ -10,12 +10,12 @@ if (!isset($_GET['printer_friendly'])) {
         $set_logout = "1";
     }
 
-    echo "<title>Timeclock</title>\n";
+    echo "<title>WIISARI</title>\n";
     include 'topmain.php';
 
     echo '
     <div class="lomake">
-    <form name="timeclock" action="kirjaus.php" autocomplete="off" method="post">
+    <form name="timeclock" action="inout.php" autocomplete="off" method="post">
       <br/>
     	<label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
 			<br/>

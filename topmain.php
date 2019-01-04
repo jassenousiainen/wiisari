@@ -3,7 +3,7 @@
 echo '
 <div class="ylalaatikko">
   <a class="otsikkolinkki" href="/timeclock.php">
-    <h2 class="ylaotsikko">TIMECLOCK</h2>
+    <h2 class="ylaotsikko">WIISARI</h2>
   </a>
 </div>
     ';
