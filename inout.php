@@ -9,7 +9,6 @@ echo "<head>
         <title>Sisään/Ulos</title>
         <meta http-equiv='refresh' content='3; URL=index.php'>
         <link rel='stylesheet' type='text/css' media='screen' href='css/default.css' />\n
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet'/>\n
       </head>";
 
 $self = $_SERVER['PHP_SELF'];
