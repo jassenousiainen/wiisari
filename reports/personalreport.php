@@ -18,6 +18,19 @@ if (!isset($tzo)) {
      }
 }
 
+function convertToHours($tmstmp) {
+  if (is_numeric($tmstmp)) {
+    $hours = floor($tmstmp / 3600);
+    $minutes = floor(($tmstmp / 60) % 60);
+    $seconds = $tmstmp % 60;
+    if ($tmstmp > 0) {
+      return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
+    } else {
+      return " ";
+    }
+  }
+}
+
 
 echo "<title>Henkilökohtaiset työtunnit</title>\n";
 
@@ -29,17 +42,17 @@ if ($request == 'GET') {
 
 // LOMAKE
   echo "
-  <div class='ownReportsBox'>
+  <div class='loginBox'>
   <h2>Hae oma työtuntiraportti</h2>
-    <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">
-      <input type='hidden' name='date_format' value='$js_datefmt'>
+  <br>
+  <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">
 
         <div class='reportsField'>
           <label><b>Käyttäjätunnus: </b></label>
           <input type='password' name='left_barcode' maxlength='250' size='17' value='' autocomplete='off' autofocus>
         </div>
 
-        <input class='button' type='submit' name='quickreport' value='Nopea raportti'/>
+        <button type='submit' name='quickreport'>Nopea raportti</button>
 
         <p><b>Valitse aikaväli</b></p>
         <div class='reportsField'>
@@ -58,7 +71,7 @@ if ($request == 'GET') {
         </div>
 
         <br>
-        <input class='button' type='submit' name='customreport' value='Kustomoitu raportti'/>
+        <button type='submit' name='customreport'>Kustomoitu raportti</button>
 
       </form>
   </div>";
@@ -73,19 +86,6 @@ if ($request == 'GET') {
   include 'topmain.php';
 
   echo "<title>Omat Tunnit</title>\n";
-
-  function convertToHours($tmstmp) {
-    if (is_numeric($tmstmp)) {
-      $hours = floor($tmstmp / 3600);
-      $minutes = floor(($tmstmp / 60) % 60);
-      $seconds = $tmstmp % 60;
-      if ($tmstmp > 0) {
-        return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
-      } else {
-        return " ";
-      }
-    }
-  }
 
   $timeNow = time();
   $barcode = (yes_no_bool($barcode_clockin) ? strtoupper($_POST['left_barcode']) : "");
@@ -139,7 +139,12 @@ QUERY
           if ( $timetoday > 0 ) {
             echo'<p>Viimeisestä sisäänkirjauksesta: <b>'.convertToHours($timetoday).'</b></p>';
           }
-  echo    '<p> Työaikasi tällä viikolla (vko '.ltrim(date('W', $timeNow), 0).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> </p> <br>';
+
+  echo    '<p> Työaikasi tällä viikolla (vko '.ltrim(date('W', $timeNow), 0).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> <br>';
+
+  if ( ltrim(date('W', $timeNow), 0) > 1 ) {
+    echo    'Työaikasi viime viikolla (vko '.(ltrim(date('W', $timeNow), 0)-1).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow)-1, 0)]). '</b> </p> <br>';
+  }
 
   if ($monthtime[12] > 0) echo 'Joulukuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[12]). '</div><br>';
   if ($monthtime[11] > 0) echo 'Marraskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[11]). '</div><br>';
@@ -499,6 +504,7 @@ QUERY
     $punchlist_in_or_out = array();
     $punchlist_punchitems = array();
     $secs = 0;
+    $total_secs = 0;
     $total_hours = 0;
     $row_count = 0;
     $page_count = 0;
@@ -594,6 +600,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -704,6 +711,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if ((empty($y)) || ($y == $info_cnt - 1)) {
                                     $yy = 0;
@@ -788,6 +796,7 @@ QUERY
                             }
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -875,6 +884,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -969,6 +979,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -1059,6 +1070,7 @@ QUERY
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -1147,6 +1159,7 @@ QUERY
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -1228,6 +1241,7 @@ QUERY
             unset($date_formatted);
             unset($x_info_date);
             $my_total_hours = number_format($total_hours, 2);
+            $my_total_secs = $total_secs;
             if (isset($currently_punched_in)) {
                 echo "  </table>\n";
                 echo "    <table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
@@ -1245,8 +1259,7 @@ QUERY
                     echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
-                echo "              <tr><td height=40 colspan=3 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
-                echo " </table></td></tr><table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
+
             } else {
                 echo "              <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;'><b>Kokonaistuntimäärä</b></td>\n";
@@ -1260,8 +1273,14 @@ QUERY
                     echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                           border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
-                echo "              <tr><td height=40 colspan=2 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
             }
+
+            echo "  <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;'><b>Formatoitu työaika</b></td>\n";
+            echo " <td nowrap style='font-size:11px;color:#000000;padding-left:30px;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
+
+            echo " <tr><td height=40 colspan=3 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
+            echo " </table></td></tr><table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
+
             $row_count++;
 
             $row_count = "0";
@@ -1283,7 +1302,6 @@ QUERY
             }
 
             //// reset everything before running the loop on the next user ////
-
             $tmp_z = 0;
             $row_count = 0;
             $total_hours = 0;

@@ -254,7 +254,7 @@ header a:hover {
 }
 
 
-.loginAdmin {
+.loginBox {
 	width: 400px;
   margin: 30px auto;
 	padding: 15px;
@@ -262,14 +262,14 @@ header a:hover {
   border-radius: 10px;
   box-shadow: 2px 2px 7px 0px #d0cece;
 }
-.loginAdmin h2 {
+.loginBox h2 {
 	margin: 0;
 }
-.loginAdmin .field {
+.loginBox .field {
 	overflow: hidden;
   margin-bottom: 10px;
 }
-.loginAdmin input {
+.loginBox input {
 	float: right;
   clear: both;
   height: 30px;
@@ -279,10 +279,10 @@ header a:hover {
 	padding: 0 10px;
   font-size: 16px;
 }
-.loginAdmin label {
+.loginBox label {
 	font-size: 18px;
 }
-.loginAdmin button {
+.loginBox button {
 	text-decoration: none;
 	background: #3982dd;
   border: none;
@@ -291,15 +291,12 @@ header a:hover {
   border-radius: 17px;
   font-size: 15px;
 }
-.loginAdmin button:hover {
+.loginBox button:hover {
 	cursor: pointer;
 	background: #204b80;
 }
-
-/* User create page */
-.createdescription {
-	font-size: 12px;
-	color: grey
+.loginBox p {
+	margin: 20px 0 0 0;
 }
 
 
@@ -317,20 +314,6 @@ header a:hover {
 }
 .ownReportsBox p {
 	margin: 20px 0 0 0;
-}
-.ownreportsBox .button {
-	display: block;
-	text-decoration: none;
-	background: #3982dd;
-	border: none;
-	color: white;
-	padding: 10px;
-	border-radius: 19px;
-	font-size: 15px;
-}
-.ownreportsBox .button:hover {
-	cursor: pointer;
-	background: #204b80;
 }
 .monthlyHours {
 	width: 400px;
@@ -350,6 +333,14 @@ header a:hover {
   padding: 0 10px;
   font-size: 16px;
 }
+
+
+/* User create page */
+.createdescription {
+	font-size: 12px;
+	color: grey
+}
+
 
 .install {
     font-family: 'Open Sans',  Tahoma, Verdana, Trebuchet MS, sans-serif;

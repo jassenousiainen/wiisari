@@ -37,7 +37,7 @@ if (isset($_SESSION['valid_reports_user'])) {
 
     // build form
 
-    echo "<div class='loginAdmin'>
+    echo "<div class='loginBox'>
       <form name='auth' method='post' action='$self'>
         <h2>Kirjaudu raporttinäkymään</h2>
         <br/>
