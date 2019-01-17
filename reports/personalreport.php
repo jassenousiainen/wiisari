@@ -143,7 +143,7 @@ QUERY
   echo    '<p> Työaikasi tällä viikolla (vko '.ltrim(date('W', $timeNow), 0).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> <br>';
 
   if ( ltrim(date('W', $timeNow), 0) > 1 ) {
-    echo    'Työaikasi viime viikolla (vko '.(ltrim(date('W', $timeNow), 0)-1).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow)-1, 0)]). '</b> </p> <br>';
+    echo    'Työaikasi viime viikolla (vko '.(ltrim(date('W', $timeNow), 0)-1).'): ' .convertToHours($weektime[ltrim(date('W', $timeNow)-1, 0)]). ' </p> <br>';
   }
 
   if ($monthtime[12] > 0) echo 'Joulukuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[12]). '</div><br>';
@@ -545,7 +545,14 @@ QUERY
         if (($employees_empfullname[$x] == $fullname) || ($fullname == "All")) {
 
             if (strtolower($user_or_display) == "display") {
-                echo "<tr><td width=100% colspan=2 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888; border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b></td></tr>\n";
+                echo "<tr><td width=100% colspan=2 style=\"font-size: 11px;
+    border-style: solid;
+    border-color: #888888;
+    border-width: 0px 0px 1px 0px;
+    background: #3f5c80;
+    color: white;
+    border-radius: 11px;
+    text-align: center;\"><b>$employees_displayname[$x]</b></td></tr>\n";
             } else {
                 echo "<tr><td width=100% colspan=2 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888; border-width:0px 0px 1px 0px;\"><b>$employees_empfullname[$x]</b></td></tr>\n";
             }
@@ -1248,7 +1255,7 @@ QUERY
                 echo "              <tr align=\"left\"><td width=12% nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;padding-left:3px;'><b>Kokonaistuntimäärä</b></td>
                               <td width=63% align=left style='padding-left:10px;color:#FF0000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;'><b>$employees_empfullname[$x] is currently punched in.</b></td>\n";
+                              border-width:1px 0px 0px 0px;'><b>Olet kirjautuneena sisään (tämä aika lasketaan mukaan).</b></td>\n";
                 if ($my_total_hours < 10) {
                     echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;padding-left:30px;'><b>$my_total_hours</b></td></tr>\n";
@@ -1259,6 +1266,9 @@ QUERY
                     echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
+                echo "  <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000; padding-left: 3px;'><b>Formatoitu työaika</b></td>\n";
+                echo "<td></td>";
+                echo " <td nowrap style='font-size:11px;color:#000000;padding-left:30px;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
 
             } else {
                 echo "              <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
@@ -1273,10 +1283,9 @@ QUERY
                     echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                           border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
+                echo "  <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;'><b>Formatoitu työaika</b></td>\n";
+                echo " <td nowrap style='font-size:11px;color:#000000;padding-left:30px;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
             }
-
-            echo "  <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;'><b>Formatoitu työaika</b></td>\n";
-            echo " <td nowrap style='font-size:11px;color:#000000;padding-left:30px;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
 
             echo " <tr><td height=40 colspan=3 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
             echo " </table></td></tr><table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";

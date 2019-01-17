@@ -589,7 +589,14 @@ if ($request == 'GET') {
         if (($employees_empfullname[$x] == $fullname) || ($fullname == "All")) {
 
             if (strtolower($user_or_display) == "display") {
-                echo "<tr><td width=100% colspan=2 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888; border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b></td></tr>\n";
+                echo "<tr><td width=100% colspan=2 style=\"font-size: 11px;
+    border-style: solid;
+    border-color: #888888;
+    border-width: 0px 0px 1px 0px;
+    background: #3f5c80;
+    color: white;
+    border-radius: 11px;
+    text-align: center;\"><b>$employees_displayname[$x]</b></td></tr>\n";
             } else {
                 echo "<tr><td width=100% colspan=2 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888; border-width:0px 0px 1px 0px;\"><b>$employees_empfullname[$x]</b></td></tr>\n";
             }

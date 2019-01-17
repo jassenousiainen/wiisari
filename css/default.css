@@ -119,17 +119,7 @@ header a:hover {
 	border-radius: 23px;
 	margin-top: 10px;
 }
-@keyframes Gradient {
-	0% {
-		background-position: 0% 50%
-	}
-	50% {
-		background-position: 100% 50%
-	}
-	100% {
-		background-position: 0% 50%
-	}
-}
+
 
 #left_barcode {
 	width: 400px;
@@ -240,15 +230,13 @@ header a:hover {
 .raporttiLinkki {
 	text-decoration: none;
 	background: #3982dd;
-  border: 2px solid #3982dd;
+  border: none;
   color: white;
-  padding: 4px 12px;
-  border-radius: 17px;
-  font-size: 16px
+  padding: 7px 10px;
+  border-radius: 19px;
+  font-size: 15px;
 }
 .raporttiLinkki:hover {
-	font-size: 16px;
-	color: white;
 	cursor: pointer;
 	background: #204b80;
 }
@@ -287,8 +275,8 @@ header a:hover {
 	background: #3982dd;
   border: none;
   color: white;
-  padding: 10px;
-  border-radius: 17px;
+  padding: 7px 10px;
+  border-radius: 19px;
   font-size: 15px;
 }
 .loginBox button:hover {

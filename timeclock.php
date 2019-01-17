@@ -21,7 +21,11 @@ if (!isset($_GET['printer_friendly'])) {
 			<br/>
       <div class="barcodeBox">
     	 <input type="password" id="left_barcode" name="left_barcode" maxlength="250" size="17" value="" autocomplete="off" autofocus>
-       </div>
+      </div>
+      <div id="notesBox">
+        <textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>
+      </div>
+      <input type="button" id="showNotes" value="lisää viesti">
     </form>
 	</div>
     ';
