@@ -17,10 +17,12 @@ if (!isset($_GET['printer_friendly'])) {
     <div class="lomake">
     <form name="timeclock" action="inout.php" autocomplete="off" method="post">
       <br/>
-    	<label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
-			<br/>
       <div class="barcodeBox">
-    	 <input type="password" id="left_barcode" name="left_barcode" maxlength="250" size="17" value="" autocomplete="off" autofocus>
+        <label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
+        <div class="barcodeInput">
+    	     <input type="password" id="left_barcode" name="left_barcode" maxlength="250" value="" autocomplete="off" autofocus>
+           <button type="submit" id="barcodeSubmit" class="fas fa-arrow-right"></button>
+        </div>
       </div>
       <div id="notesBox">
         <textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>

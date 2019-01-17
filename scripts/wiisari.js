@@ -10,6 +10,9 @@ $('#showNotes').click(function(event){
 $('#notesBox').click(function(event){
     event.stopPropagation();
 });
+$('#left_barcode').click(function(event){
+    event.stopPropagation();
+});
 $('html').click(function() {
   $('#notesBox').slideUp();
   $("#showNotes").show();
