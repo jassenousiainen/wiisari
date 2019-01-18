@@ -24,6 +24,9 @@
 	font-style: normal;
  }
 
+html {
+	background: #fff;
+}
 
 body {
 	font-family: 'Open Sans', sans-serif;
@@ -156,14 +159,22 @@ header a:hover {
 	border-radius: 0 22px 22px 0;
 	background-color: white;
 	margin-left: -5px;
-	color: #6e89a6;
-	font-weight: bold;
+	color: black;
+	mix-blend-mode: screen;
 	vertical-align: middle;
 	outline: none;
+
+}
+#barcodeSubmit:before {
+	display: inline-block;
+	transition: 0.2s ease-in-out;
 }
 #barcodeSubmit:hover {
-	color: #2e5f93;
+	color: #494949;
 	cursor: pointer;
+}
+#barcodeSubmit:hover:before {
+	transform:translateX(3px);
 }
 #notesBox {
 	display: none;
@@ -186,18 +197,19 @@ header a:hover {
 	outline: none;
 }
 #showNotes {
-	background: rgba(0, 0, 0, 0.11);
+	background-color: rgba(0, 0, 0, 0.11);
 	border: none;
   width: 80px;
   height: 24px;
   border-radius: 0 0 12px 12px;
   font-family: 'Open Sans';
   color: rgba(255, 255, 255, 0.86);
-	box-shadow: inset 0px 3px 10px -6px #4a4a4a;
+	/*box-shadow: inset 0px 3px 10px -6px #4a4a4a;*/
 	outline: none;
+	transition: background-color 0.2s ease-in-out;
 }
 #showNotes:hover {
-	background: rgba(0, 0, 0, 0.26);
+	background-color: rgba(0, 0, 0, 0.26);
 	color: white;
 	cursor: pointer;
 }

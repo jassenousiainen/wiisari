@@ -47,21 +47,21 @@ if ($use_client_tz == "yes") {
     }
 }
 
+echo '<script type="text/javascript" src="/scripts/jquery-3.1.1.min.js"></script>';
 // different css for employee login page
 if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
   echo "<link rel='stylesheet' type='text/css' media='screen' href='css/gradient.css' id='theme' />\n";
+  echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
+  echo '<script type="text/javascript" src="/scripts/wiisari.js"></script>';
 } else {
   echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.css' id='theme' />\n";
 };
 //echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 echo '<link rel="shortcut icon" href="images/icons/wiisari_title.png" type="image/x-icon"/>';
 echo '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">';
-echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>';
-echo '<script type="text/javascript" src="/scripts/liveclock.js"></script>';
-echo '<script type="text/javascript" src="/scripts/wiisari.js"></script>';
+
 
 // set refresh rate for each page //
-
 if ($refresh == "none") {
     echo "</head>\n";
 } else {
