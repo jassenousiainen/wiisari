@@ -186,14 +186,15 @@ header a:hover {
 	outline: none;
 }
 #showNotes {
-	background: #00000024;
+	background: #0000001c;
 	border: none;
-  margin-top: 10px;
   width: 80px;
   height: 24px;
-  border-radius: 12px;
+  border-radius: 0 0 12px 12px;
   font-family: 'Open Sans';
-  color: #ffffffc7;
+  color: #ffffffdb;
+	box-shadow: inset 0px 3px 10px -6px #4a4a4a;
+	outline: none;
 }
 #showNotes:hover {
 	background: #0000004f;
