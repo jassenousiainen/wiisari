@@ -134,6 +134,7 @@ header a:hover {
     padding: 7px 0;
     color: white;
     font-weight: bold;
+		margin: 0;
 }
 
 .kirjausUlos {
@@ -157,6 +158,19 @@ header a:hover {
 	color: white;
 	font-weight: bold;
 	margin: 10px 0 10px 0;
+}
+.inout_notes {
+	background: #dfdfdf;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 10px;
+}
+.inout_notes h3 {
+	margin: 0;
+}
+.inout_notes p {
+	margin: 0;
+	word-wrap: break-word;
 }
 
 .raportitValinta {

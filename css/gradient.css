@@ -169,7 +169,7 @@ header a:hover {
 	display: none;
 	width: 300px;
 	height: 80px;
-	background: #ffffffcf;
+	background: rgba(255, 255, 255, 0.81);
 	margin: 0 auto;
 	padding: 10px;
 	box-shadow: inset 0px 4px 9px -6px;
@@ -186,18 +186,18 @@ header a:hover {
 	outline: none;
 }
 #showNotes {
-	background: #0000001c;
+	background: rgba(0, 0, 0, 0.11);
 	border: none;
   width: 80px;
   height: 24px;
   border-radius: 0 0 12px 12px;
   font-family: 'Open Sans';
-  color: #ffffffdb;
+  color: rgba(255, 255, 255, 0.86);
 	box-shadow: inset 0px 3px 10px -6px #4a4a4a;
 	outline: none;
 }
 #showNotes:hover {
-	background: #0000004f;
+	background: rgba(0, 0, 0, 0.26);
 	color: white;
 	cursor: pointer;
 }

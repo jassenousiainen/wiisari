@@ -7,7 +7,7 @@ require 'common.php';
 
 echo "<head>
         <title>Sisään/Ulos</title>
-        <meta http-equiv='refresh' content='3; URL=index.php'>
+        <meta http-equiv='refresh' content='3; URL=timeclock.php'>
         <link rel='stylesheet' type='text/css' media='screen' href='css/default.css' />\n
       </head>";
 
@@ -25,6 +25,7 @@ if ($request == 'POST') {
     @$reset_cookie = $_POST['reset_cookie'];
     @$fullname = $_POST['left_fullname'];
     @$displayname = $_POST['left_displayname'];
+    @$notes = $_POST['notes'];
     @$barcode = (yes_no_bool($barcode_clockin) ? strtoupper($_POST['left_barcode']) : "");
     if ((isset($remember_me)) && ($remember_me != '1')) {
         echo "Something is fishy here.\n";
@@ -247,6 +248,11 @@ echo $logTime->format("d.m.Y");
 echo '</b></p>';
 echo '<br>';
 echo $inout;
+if ( $notes != '' ) {
+  echo '<div class="inout_notes"><h3>Viesti:</h3><p>';
+  echo $notes;
+  echo '</p></div>';
+}
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';
 echo "</div></div></div>";
 
