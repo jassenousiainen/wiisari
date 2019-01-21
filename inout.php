@@ -25,8 +25,6 @@ $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $user
 $displayname = tc_select_value("displayname", "employees", "empfullname = ?", $username);
 
 if (!has_value($fullname)) {
-  echo $username;
-  echo $fullname;
   echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
   exit;
 }
