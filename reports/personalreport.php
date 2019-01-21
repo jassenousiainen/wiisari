@@ -49,7 +49,7 @@ if ($request == 'GET') {
 
         <div class='reportsField'>
           <label><b>Käyttäjätunnus: </b></label>
-          <input type='password' name='left_barcode' maxlength='250' size='17' value='' autocomplete='off' autofocus>
+          <input type='password' name='username' maxlength='250' size='17' value='' autocomplete='off' autofocus>
         </div>
 
         <button type='submit' name='quickreport'>Nopea raportti</button>
@@ -88,12 +88,14 @@ if ($request == 'GET') {
   echo "<title>Omat Tunnit</title>\n";
 
   $timeNow = time();
-  $barcode = (yes_no_bool($barcode_clockin) ? strtoupper($_POST['left_barcode']) : "");
-  $fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
-  $displayname = tc_select_value("displayname", "employees", "barcode = ?", $barcode);
+  @$username = $_POST['username'];
+  $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $username);
+  $displayname = tc_select_value("displayname", "employees", "empfullname = ?", $username);
+
 
   if (!has_value($fullname)) {
     echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
+    exit;
   }
 
   $monthtime = array_fill(1, 12, 0);
@@ -169,11 +171,11 @@ QUERY
     include 'topmain.php';
     include 'header_post_reports.php';
 
-    $barcode = strtoupper($_POST['left_barcode']);
-    $fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
+    @$username = $_POST['username'];
+    $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $username);
 
-    @$office_name = tc_select_value("office", "employees", "barcode = ?", $barcode);
-    @$group_name = tc_select_value("groups", "employees", "barcode = ?", $barcode);
+    @$office_name = tc_select_value("office", "employees", "empfullname = ?", $username);
+    @$group_name = tc_select_value("groups", "employees", "empfullname = ?", $username);
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = '0';

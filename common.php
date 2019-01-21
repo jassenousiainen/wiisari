@@ -1,7 +1,7 @@
 <?php
 
 $app_name = "WIISARI";
-$app_version = "3.1.19";
+$app_version = "v21.1.19";
 $dbversion = "2.1";
 
 require_once __DIR__ . '/config.inc.php';

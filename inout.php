@@ -41,7 +41,7 @@ if (has_value($currently_inout)) {
     exit;
   }
 } else {
-  $inout = 'out';
+  $inout = 'in';
 }
 
 
@@ -65,15 +65,15 @@ function convertToHours($tmstmp) {
 }
 
 
-// Laatikko joka näytetään kirjauksen yhteydessä. Laatikossa työntekijä näkee kirjauksen tiedot.
+// The actual html that is shown to employee.
 echo "<div class='flexBox'>";
 
 if ($inout == "out") {
   // Lookup previous login, so we can count time between login and current logout
   $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
-  $time = $tz_stamp - (int)$lastIn;
+  $currentWorkTime = $tz_stamp - (int)$lastIn;
 
-  $inout = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
+  $inout = "<p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
   echo "<div class='borderBox borderOut'>";
 }
 else if ($inout == "in") {

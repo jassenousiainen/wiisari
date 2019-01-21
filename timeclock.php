@@ -18,7 +18,7 @@ if (!isset($_GET['printer_friendly'])) {
     <form name="timeclock" action="inout.php" autocomplete="off" method="post">
       <br/>
       <div class="usernameBox">
-        <label class="usernameHeader" for="left-barcode">Käyttäjätunnus:</label>
+        <label class="usernameHeader" for="username">Käyttäjätunnus:</label>
         <div class="usernameInput">
     	     <input type="password" id="username" name="username" maxlength="250" value="" autocomplete="off" autofocus>
            <button type="submit" id="usernameSubmit" class="fas fa-arrow-right"></button>

@@ -1,6 +1,6 @@
 <?php
 
-function btn_gen_barcode($input = 'input[name=barcode]', $label = 'New') {
+function btn_gen_barcode($input = 'input[name=post_username]', $label = 'New') {
     global $barcode_length;
     global $barcode_type;
 

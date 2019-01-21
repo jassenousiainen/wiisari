@@ -89,7 +89,7 @@ if ($request == 'GET') {
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                             <input autocomplete='off' type='text' size='25' maxlength='50' name='post_username'>&nbsp;*
                           </td>
-                          <td class='createdescription'>Tämä tulee vain ohjelmiston sisäiseen käyttöön. Tätä ei voi vaihtaa jälkeenpäin.</td>
+                          <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla henkilö kirjautuu sisään. Ei voi muuttaa jälkeenpäin!</td>
                         </tr>\n";
 
                         // Display name
@@ -105,18 +105,18 @@ if ($request == 'GET') {
     echo "              <tr>
                           <td class=table_rows height=25 style='padding-left:32px;' nowrap>Password:</td>
                           <td style='padding-left:20px;'>
-                            <input autocomplete='off' type='password' size='25' maxlength='25' name='password'>
+                            <input autocomplete='off' type='text' size='25' maxlength='25' name='password'>
                           </td>
                           <td class='createdescription'>Täytä salasana vain jos käyttäjästä tulee hallitsija.</td>
                         </tr>\n";
 
                         // Confirm password
-    echo "              <tr>
+    /**echo "              <tr>
                           <td class=table_rows height=25 style='padding-left:32px;' nowrap>Confirm Password:</td>
                           <td style='padding-left:20px;'>
                             <input autocomplete='off' type='password' size='25' maxlength='25' name='confirm_password'>
                           </td>
-                        </tr>\n";
+                        </tr>\n";*/
 
 
     /**echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
@@ -124,13 +124,13 @@ if ($request == 'GET') {
                       <input type='text' size='25' maxlength='75' name='email_addy'>&nbsp;*</td></tr>\n";*/
 
                         // Barcode
-    echo "              <tr>
+    /**echo "              <tr>
                           <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode:</td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                             <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode'>
                           </td>
-                          <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla henkilö kirjautuu sisään.</td>
-                        </tr>\n";
+
+                        </tr>\n";*/
 
                         // Office
     echo "              <tr>
@@ -215,9 +215,7 @@ if ($request == 'GET') {
     $post_username = $_POST['post_username'];
     $display_name = $_POST['display_name'];
     $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
     $email_addy = ''; //$_POST['email_addy'];
-    $user_barcode = value_or_null(strtoupper($_POST['barcode']));// UNIQUE constraint so no empty strings
     $office_name = $_POST['office_name'];
     @$group_name = $_POST['group_name'];
     $admin_perms = $_POST['admin_perms'];
@@ -232,23 +230,22 @@ if ($request == 'GET') {
     $string2 = strstr($display_name, "\"");
 
 
-    $barcodeExists = false;
-    $findBarcodes = mysqli_fetch_array(tc_query(<<<QUERY
+    $usernameExists = false;
+    $findUsernames = mysqli_fetch_array(tc_query(<<<QUERY
 SELECT *
 FROM employees
-WHERE barcode = '$user_barcode'
+WHERE empfullname = '$post_username'
 QUERY
 ));
-    if (sizeOf($findBarcodes) > 0) { $barcodeExists = true; }
+    if (sizeOf($findUsernames) > 0) { $usernameExists = true; }
 
 
     if ((@$tmp_username == $post_username) ||
-        ($password !== $confirm_password) ||
         (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $post_username)) ||
         (!preg_match('/' . "^([[:alnum:]]| |-|'|,)+$" . '/ui', $display_name)) ||
         (empty($post_username)) ||
         (empty($display_name)) ||
-        ($barcodeExists) ||
+        ($usernameExists) ||
         /*(empty($email_addy)) ||*/
         (empty($office_name)) ||
         (empty($group_name)) ||
@@ -312,11 +309,11 @@ QUERY
             echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
                     A Username is required.</td></tr>\n";
             echo "            </table>\n";
-        } elseif ($barcodeExists) {
+        } elseif ($usernameExists) {
           echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
           echo "              <tr>\n";
           echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                  User with given barcode already exists.</td></tr>\n";
+                  User with given username already exists.</td></tr>\n";
           echo "            </table>\n";
         } elseif (empty($display_name)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
@@ -379,12 +376,6 @@ QUERY
                     Single and double quotes, backward and forward slashes, semicolons, and spaces are not allowed when creating a
                     Password.</td></tr>\n";
             echo "            </table>\n";
-        } elseif ($password != $confirm_password) {
-            echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-            echo "              <tr>\n";
-            echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    Passwords do not match.</td></tr>\n";
-            echo "            </table>\n";
         } elseif (!preg_match('/' . "^([[:alnum:]]|_|\.|-)+@([[:alnum:]]|\.|-)+(\.)([a-z]{2,4})$" . '/i', $email_addy)) {
             echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
             echo "              <tr>\n";
@@ -433,7 +424,6 @@ QUERY
 
         // end post validation //
         $password = crypt($password, 'xy');
-        $confirm_password = crypt($confirm_password, 'xy');
 
         echo "            <br />\n";
         echo "            <form name='form' action='$self' method='post'>\n";
@@ -442,24 +432,18 @@ QUERY
         echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/user_add.png' />&nbsp;&nbsp;&nbsp;Create User
                 </th></tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
+
         echo "              <tr><td class=table_rows  height=25 width=20% style='padding-left:32px;' nowrap>Username:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='50' name='post_username' value=\"$post_username\">&nbsp;*</td></tr>\n";
+                      <input type='text' size='25' maxlength='50' name='post_username' value=\"$post_username\">{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}*</td></tr>\n";
+
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Display Name:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='50' name='display_name' value=\"$display_name\">&nbsp;*</td></tr>\n";
 
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Password:</td><td colspan=2 width=80%
                       style='padding-left:20px;'><input type='password' size='25' maxlength='25' name='password'></td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Confirm Password:</td><td colspan=2 width=80%
-                      style='padding-left:20px;'>
-                      <input type='password' size='25' maxlength='25' name='confirm_password'></td></tr>\n";
-        /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='email_addy' value=\"$email_addy\">&nbsp;*</td></tr>\n";*/
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
+
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <select name='office_name' onchange='group_names();'>\n";
@@ -503,9 +487,6 @@ QUERY
             echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='disabled' value='1'>&nbsp;Yes
                     <input type='radio' name='disabled' value='0' checked>&nbsp;No</td></tr>\n";
         }
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Initial Punch:</td><td colspan=2 width=80%
-                          style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                          <select name='inout'><option value=''>...</option>" . html_options(tc_select("punchitems", "punchlist"), $inout) . "</select></td></tr>\n";
         echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
         echo "            </table>\n";
         echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
@@ -518,14 +499,11 @@ QUERY
     }
 
     $password = crypt($password, 'xy');
-    $confirm_password = crypt($confirm_password, 'xy');
 
     tc_insert_strings("employees", array(
         'empfullname'     => $post_username,
         'displayname'     => $display_name,
         'employee_passwd' => $password,
-        'email'           => $email_addy,
-        'barcode'         => $user_barcode,
         'groups'          => $group_name,
         'office'          => $office_name,
         'admin'           => "$admin_perms",
@@ -534,18 +512,6 @@ QUERY
         'disabled'        => "$post_disabled"
     ));
 
-    if (has_value($inout)) {
-        $inout = tc_select_value("punchitems", "punchlist", "punchitems = ?", $inout);
-        if (has_value($inout)) {
-            $tz_stamp = time();
-            $clockin = array("fullname" => $post_username, "inout" => $inout, "timestamp" => $tz_stamp);
-            if (yes_no_bool($ip_logging)) {
-                $clockin["ipaddress"] = $connecting_ip;
-            }
-            tc_insert_strings("info", $clockin);
-            tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $post_username);
-        }
-    }
 
     echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
     echo "  <tr valign=top>\n";
@@ -602,14 +568,12 @@ QUERY
     echo "              <tr><td height=15></td></tr>\n";
 
     $result4 = tc_select(
-        "empfullname, displayname, email, barcode, groups, office, admin, reports, time_admin, disabled",
+        "empfullname, displayname, groups, office, admin, reports, time_admin, disabled",
         "employees", "empfullname = ? ORDER BY empfullname", $post_username
     );
     while ($row = mysqli_fetch_array($result4)) {
         $username = "" . $row['empfullname'] . "";
         $displayname = "" . $row['displayname'] . "";
-        $user_email = "" . $row['email'] . "";
-        $user_barcode = "" . $row['barcode'] . "";
         $office = "" . $row['office'] . "";
         $groups = "" . $row['groups'] . "";
         $admin = "" . $row['admin'] . "";
@@ -625,10 +589,6 @@ QUERY
                       colspan=2 width=80% style='padding-left:20px;'>$displayname</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Password:</td><td align=left class=table_rows
                       colspan=2 width=80% style='padding-left:20px;'>***hidden***</td></tr>\n";
-    /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td align=left class=table_rows
-                      colspan=2 width=80% style='padding-left:20px;'>$user_email</td></tr>\n";*/
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td align=left class=table_rows
-                      colspan=2 width=80% style='padding-left:20px;'>$user_barcode</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td align=left class=table_rows
                       colspan=2 width=80% style='padding-left:20px;'>$office</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group:</td><td align=left class=table_rows
@@ -662,8 +622,6 @@ QUERY
     }
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Account Disabled?</td><td align=left class=table_rows
                       colspan=2 width=80% style='padding-left:20px;'>$disabled</td></tr>\n";
-    echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Initial Punch:</td><td align=left class=table_rows
-                      colspan=2 width=80% style='padding-left:20px;'>$inout</td></tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "            </table>\n";
     echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
