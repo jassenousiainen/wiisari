@@ -65,17 +65,13 @@ function convertToHours($tmstmp) {
 }
 
 
-$infoQuery = tc_query("SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'out' ORDER BY timestamp DESC");
-$nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC");
-
-
+// Laatikko joka näytetään kirjauksen yhteydessä. Laatikossa työntekijä näkee kirjauksen tiedot.
 echo "<div class='flexBox'>";
 
 if ($inout == "out") {
-  $tempOut = mysqli_fetch_array($infoQuery);
-  $tempstamp = $tempOut[3];
-  $tempIn = mysqli_fetch_array($nextInfoQuery);
-  $time = (int)$tempOut[3] - (int)$tempIn[3];
+  // Lookup previous login, so we can count time between login and current logout
+  $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
+  $time = $tz_stamp - (int)$lastIn;
 
   $inout = "<p class='logOutTime'>".convertToHours($time). "</p> <p class='kirjausUlos'>Ulos</p>";
   echo "<div class='borderBox borderOut'>";
