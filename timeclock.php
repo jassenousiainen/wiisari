@@ -17,11 +17,11 @@ if (!isset($_GET['printer_friendly'])) {
     <div class="lomake">
     <form name="timeclock" action="inout.php" autocomplete="off" method="post">
       <br/>
-      <div class="barcodeBox">
-        <label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
-        <div class="barcodeInput">
-    	     <input type="password" id="left_barcode" name="left_barcode" maxlength="250" value="" autocomplete="off" autofocus>
-           <button type="submit" id="barcodeSubmit" class="fas fa-arrow-right"></button>
+      <div class="usernameBox">
+        <label class="usernameHeader" for="left-barcode">Käyttäjätunnus:</label>
+        <div class="usernameInput">
+    	     <input type="password" id="username" name="username" maxlength="250" value="" autocomplete="off" autofocus>
+           <button type="submit" id="usernameSubmit" class="fas fa-arrow-right"></button>
         </div>
       </div>
       <div id="notesBox">

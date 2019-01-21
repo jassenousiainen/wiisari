@@ -40,6 +40,7 @@ if (($use_client_tz == "yes") && ($use_server_tz == "yes")) {
 }
 
 echo "<head>\n";
+echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>';
 if ($use_client_tz == "yes") {
     if (!isset($_COOKIE['tzoffset'])) {
         include 'tzoffset.php';

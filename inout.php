@@ -7,6 +7,7 @@ require 'common.php';
 
 echo "<head>
         <title>Sisään/Ulos</title>
+        <meta http-equiv='Content-Type' content=t'ext/html; charset=UTF-8'/>
         <meta http-equiv='refresh' content='3; URL=timeclock.php'>
         <link rel='stylesheet' type='text/css' media='screen' href='css/default.css' />\n
       </head>";
@@ -14,153 +15,46 @@ echo "<head>
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if ($show_display_name == "yes") {
-    $emp_name_field = "displayname";
+
+
+// signin/signout data passed over from timeclock.php //
+@$username = $_POST['username'];
+@$notes = $_POST['notes'];
+
+$fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $username);
+$displayname = tc_select_value("displayname", "employees", "empfullname = ?", $username);
+
+if (!has_value($fullname)) {
+  echo $username;
+  echo $fullname;
+  echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
+  exit;
+}
+
+
+// Choose whether employee logs in or out based on previous inout log
+$currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$fullname' ORDER BY timestamp DESC"))[0];
+
+if (has_value($currently_inout)) {
+  if ($currently_inout == 'in') { $inout = 'out'; }
+  elseif ($currently_inout == 'out') { $inout = 'in'; }
+  else {
+    echo "<h3 style='color:red;'>Virhe! Jokin meni pieleen :(</h3>";
+    exit;
+  }
 } else {
-    $emp_name_field = "empfullname";
-}
-
-if ($request == 'POST') {
-    @$remember_me = $_POST['remember_me'];
-    @$reset_cookie = $_POST['reset_cookie'];
-    @$fullname = $_POST['left_fullname'];
-    @$displayname = $_POST['left_displayname'];
-    @$notes = $_POST['notes'];
-    @$barcode = (yes_no_bool($barcode_clockin) ? strtoupper($_POST['left_barcode']) : "");
-    if ((isset($remember_me)) && ($remember_me != '1')) {
-        echo "Something is fishy here.\n";
-        exit;
-    }
-    if ((isset($reset_cookie)) && ($reset_cookie != '1')) {
-        echo "Something is fishy here.\n";
-        exit;
-    }
-
-    // begin post validation //
-    $errors = array();
-
-    if (has_value($barcode)) {
-        $tmp_name = tc_select_value($emp_name_field, "employees", "barcode = ?", $barcode);
-        if (!has_value($tmp_name)) {
-            $errors[] = "Invalid barcode '$barcode'";
-        } elseif (isset($emp_name) and $emp_name != $tmp_name) {
-            $errors[] = "Username / Barcode mismatch";
-        } else {
-            $emp_name = $tmp_name;
-        }
-    }
-
-    $tmp_name = '';
-    if (yes_no_bool($show_display_name)) {
-        if (has_value($displayname)) {
-            $tmp_name = tc_select_value($emp_name_field, "employees", "displayname = ?", $displayname);
-            if (!has_value($tmp_name)) {
-                $errors[] = "Invalid username '$displayname'";
-            }
-        }
-    } else {
-        if (has_value($fullname)) {
-            $tmp_name = tc_select_value($emp_name_field, "employees", "empfullname = ?", $fullname);
-            if (!has_value($tmp_name)) {
-                $errors[] = "Invalid username '$fullname'";
-            }
-        }
-    }
-
-    if (has_value($tmp_name)) {
-        if (isset($emp_name) and $emp_name != $tmp_name) {
-            $errors[] = "Username / Barcode mismatch";
-        } else {
-            $emp_name = $tmp_name;
-        }
-    }
-
-    // end post validation //
-
-    if (empty($errors)) {
-        if (isset($remember_me)) {
-            setcookie("remember_me", $emp_name, time() + (60 * 60 * 24 * 365 * 2));
-        } elseif (isset($reset_cookie)) {
-            setcookie("remember_me", "", time() - 3600);
-        }
-    }
-
-    ob_end_flush();
-}
-
-if ($request == 'POST') {
-
-    // signin/signout data passed over from timeclock.php //
-
-    $inout = isset($_POST['left_inout']) ? $_POST['left_inout'] : '';
-    $notes = isset($_POST['notes']) ? preg_replace("[^a-zA-Z0-9 \,\.\?-]", "", strtolower($_POST['notes'])) : '';
-
-    // begin post validation //
-
-    # Trying to toggle, look up the "punchnext" toggle state:
-    if (!has_value($inout) and has_value($emp_name)) {
-        $result = tc_query(<<<QUERY
-   SELECT p.punchnext
-     FROM ${db_prefix}employees AS e
-LEFT JOIN ${db_prefix}info      AS i ON (e.empfullname = i.fullname AND e.tstamp = i.timestamp)
-LEFT JOIN ${db_prefix}punchlist AS p ON (i.inout = p.punchitems)
-    WHERE e.$emp_name_field = ?
-QUERY
-        , $emp_name);
-        while ($row = mysqli_fetch_array($result)) {
-            $inout = $row[0];
-        }
-    }
-    elseif (has_value($inout)) {
-        $inout = tc_select_value("punchitems", "punchlist", "punchitems = ?", $inout);
-        if (!has_value($inout)) {
-            echo "In/Out Status is not in the database.\n";
-            exit;
-        }
-    }
-
-    // end post validation //
-
-    if (!has_value($emp_name) && !has_value($inout)) {
-        $errors[] = "<h1>Hups! En löytänyt sinua. Kokeile uudestaan.</h1><br/><h2>Sivu palautuu automaattisesti etusivulle</h2>";
-    }
-    elseif (!has_value($emp_name)) {
-        $errors[] = "You have not chosen a username. Please try again.";
-    }
-    elseif (!has_value($inout)) {
-        //$errors[] = "You have not chosen a status. Please try again.";
-        $inout = 'in';
-    }
-
-    if (!empty($errors)) {
-        echo "    <td align=left class=right_main scope=col>\n";
-        echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-        echo "        <tr class=right_main_text>\n";
-        echo "          <td valign=top>\n";
-        echo "<br />\n";
-        echo implode("<br>\n", $errors);
-        include 'footer.php';
-        exit;
-    }
-
-    // configure timestamp to insert/update //
-    $tz_stamp = time();
-
-    if (has_value($barcode) or $use_passwd == "no") {
-
-        if (!has_value($fullname)) {
-            $fullname = tc_select_value("empfullname", "employees", "$emp_name_field = ?", $emp_name);
-        }
-
-        $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes", "punchoffice" => "".@$_COOKIE['office_name']);
-
-        tc_insert_strings("info", $clockin);
-        tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $fullname);
-
-    }
+  $inout = 'out';
 }
 
 
+// Insert inout data to info -table (and employees -table)
+$tz_stamp = time();
+$clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes");
+tc_insert_strings("info", $clockin);
+tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $fullname);
+
+
+// Format timestamp to readable form
 function convertToHours($tmstmp) {
   $hours = floor($tmstmp / 3600);
   $minutes = floor(($tmstmp / 60) % 60);
@@ -171,46 +65,6 @@ function convertToHours($tmstmp) {
     return " ";
   }
 }
-
-
-$barcode = strtoupper($_POST['left_barcode']);
-
-
-$tstampQuery = tc_query(<<<QUERY
-SELECT tstamp
-FROM employees
-WHERE barcode = '$barcode'
-QUERY
-);
-$tstamp = mysqli_fetch_array($tstampQuery)[0];
-
-
-$dispNameQuery = tc_query(<<<QUERY
-SELECT displayname
-FROM employees
-WHERE barcode = '$barcode'
-QUERY
-);
-$dispName = mysqli_fetch_array($dispNameQuery)[0];
-
-
-$fullnameQuery = tc_query(<<<QUERY
-SELECT empfullname
-FROM employees
-WHERE barcode = '$barcode'
-QUERY
-);
-$fullname = mysqli_fetch_array($fullnameQuery)[0];
-
-
-$inoutQuery = tc_query(<<<QUERY
-SELECT `inout`
-FROM info
-WHERE fullname = '$fullname'
-ORDER BY newid DESC LIMIT 1
-QUERY
-);
-$inout = mysqli_fetch_array($inoutQuery)[0];
 
 
 $infoQuery = tc_query("SELECT * FROM info WHERE fullname = '$fullname' AND `inout` = 'out' ORDER BY timestamp DESC");
@@ -234,11 +88,11 @@ else if ($inout == "in") {
 }
 
 
-$logTime = new DateTime("@$tstamp");
+$logTime = new DateTime("@$tz_stamp");
 $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
 echo "<div class='kirjausLaatikko'>";
-echo "<h2 class='kirjausNimi'>$dispName</h2>";
+echo "<h2 class='kirjausNimi'>$displayname</h2>";
 echo '<br>';
 echo '<p class="kirjausAika">Kello: <b>';
 echo $logTime->format("H:i");
@@ -250,7 +104,7 @@ echo '<br>';
 echo $inout;
 if ( $notes != '' ) {
   echo '<div class="inout_notes"><h3>Viesti:</h3><p>';
-  echo $notes;
+  echo htmlspecialchars($notes);
   echo '</p></div>';
 }
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';

@@ -1,10 +1,14 @@
 var clockID;
+var tDate = new Date(new Date().getTime());
+var in_hours = tDate.getHours()
+var in_minutes=tDate.getMinutes();
+var in_seconds= tDate.getSeconds();
 
 function UpdateClock() {
-    var tDate = new Date(new Date().getTime());
-    var in_hours = tDate.getHours()
-    var in_minutes=tDate.getMinutes();
-    var in_seconds= tDate.getSeconds();
+    tDate = new Date(new Date().getTime());
+    in_hours = tDate.getHours()
+    in_minutes=tDate.getMinutes();
+    in_seconds= tDate.getSeconds();
 
     if(in_minutes < 10)
         in_minutes = '0'+in_minutes;

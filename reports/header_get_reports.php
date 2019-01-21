@@ -12,23 +12,24 @@ echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquer
 
       <script>
       $( function() {
-    var dateFormat = "mm/dd/yy",
-      from = $( "#from" )
-        .datepicker({
-          defaultDate: "+1w",
+
+    var dateFormat = "mm/dd/yy";
+      $( "#from" ).datepicker({
           changeMonth: true,
-          numberOfMonths: 3
-        })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-        }),
-      to = $( "#to" ).datepicker({
-        defaultDate: "+1w",
+          numberOfMonths: 2,
+          defaultDate: "-1m",
+          minDate: "-2y",
+          maxDate: -1,
+          showAnim: "slide"
+        });
+
+      $( "#to" ).datepicker({
         changeMonth: true,
-        numberOfMonths: 3
-      })
-      .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
+        numberOfMonths: 2,
+        defaultDate: 0,
+        minDate: "-2y",
+        maxDate: 0,
+        showAnim: "slide"
       });
 
     function getDate( element ) {
