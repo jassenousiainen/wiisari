@@ -122,21 +122,21 @@ header a:hover {
 	left: 0;
 	right: 0;
 }
-.usernameHeader {
+.barcodeHeader {
 	font-size: 28px;
   color: white;
   font-family: 'Open Sans Light'
 }
-.usernameBox {
+.barcodeBox {
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
   margin-top: 7px;
 }
-.usernameInput {
+.barcodeInput {
 	margin-top: 10px;
 }
-#username {
+#left_barcode {
 	width: 360px;
 	height: 40px;
 	border-radius: 22px 0 0 22px;
@@ -149,7 +149,7 @@ header a:hover {
 	align-self: center;
 	outline: none;
 }
-#usernameSubmit {
+#barcodeSubmit {
 	height: 40px;
 	border: none;
 	margin: 0;
@@ -165,15 +165,15 @@ header a:hover {
 	outline: none;
 
 }
-#usernameSubmit:before {
+#barcodeSubmit:before {
 	display: inline-block;
 	transition: 0.2s ease-in-out;
 }
-#usernameSubmit:hover {
+#barcodeSubmit:hover {
 	color: #494949;
 	cursor: pointer;
 }
-#usernameSubmit:hover:before {
+#barcodeSubmit:hover:before {
 	transform:translateX(3px);
 }
 #notesBox {
