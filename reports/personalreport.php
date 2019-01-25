@@ -34,6 +34,9 @@ function convertToHours($tmstmp) {
 
 echo "<title>Henkilökohtaiset työtunnit</title>\n";
 
+if (isset($_SESSION['logged_in'])) {
+
+
 if ($request == 'GET') {
 
     include 'header_get_reports.php';
@@ -46,11 +49,6 @@ if ($request == 'GET') {
   <h2>Hae oma työtuntiraportti</h2>
   <br>
   <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">
-
-        <div class='reportsField'>
-          <label><b>Käyttäjätunnus: </b></label>
-          <input type='password' name='left_barcode' maxlength='250' size='17' value='' autocomplete='off' autofocus>
-        </div>
 
         <button type='submit' name='quickreport'>Nopea raportti</button>
 
@@ -88,9 +86,11 @@ if ($request == 'GET') {
   echo "<title>Omat Tunnit</title>\n";
 
   $timeNow = time();
-  $barcode = $_POST['left_barcode'];
-  $fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
-  $displayname = tc_select_value("displayname", "employees", "barcode = ?", $barcode);
+
+  $logged_in_user = $_SESSION['logged_in'];
+  $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $logged_in_user);
+  $displayname = tc_select_value("displayname", "employees", "empfullname = ?", $logged_in_user);
+
 
   if (!has_value($fullname)) {
     echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
@@ -169,11 +169,11 @@ QUERY
     include 'topmain.php';
     include 'header_post_reports.php';
 
-    $barcode = $_POST['left_barcode'];
-    $fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
+    $logged_in_user = $_SESSION['logged_in'];
+    $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $logged_in_user);
 
-    @$office_name = tc_select_value("office", "employees", "barcode = ?", $barcode);
-    @$group_name = tc_select_value("groups", "employees", "barcode = ?", $barcode);
+    @$office_name = tc_select_value("office", "employees", "empfullname = ?", $fullname);
+    @$group_name = tc_select_value("groups", "employees", "empfullname = ?", $fullname);
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = '0';
@@ -1338,5 +1338,9 @@ QUERY
     } // end for $x
 }
 echo "            </table>\n";
+
+} else {
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+}
 exit;
 ?>
