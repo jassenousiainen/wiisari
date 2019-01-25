@@ -18,11 +18,11 @@ $request = $_SERVER['REQUEST_METHOD'];
 
 
 // signin/signout data passed over from timeclock.php //
-@$username = $_POST['username'];
+@$barcode = $_POST['left_barcode'];
 @$notes = $_POST['notes'];
 
-$fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $username);
-$displayname = tc_select_value("displayname", "employees", "empfullname = ?", $username);
+$fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
+$displayname = tc_select_value("displayname", "employees", "barcode = ?", $barcode);
 
 if (!has_value($fullname)) {
   echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
