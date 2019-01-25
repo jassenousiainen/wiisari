@@ -24,9 +24,13 @@
 	font-style: normal;
  }
 
+ :root {
+	 --blue: #007bff;
+	 --darkblue: #1374dc;
+ }
 
 body {
-	background: #f4f4f4;
+	background: #f5f5f5;
 	font-family: 'Open Sans', sans-serif;
   margin: 0;
 }
@@ -72,23 +76,15 @@ header a:hover {
 
 .loggedBar {
 	float: right;
-	background: orange;
-	padding: 0 30px;
-	margin-right: -12px;
-	transform: skewX(40deg);
-	text-align: right;
-	color: white;
-	font-size: 16px;
-}
-.loggedBarUnskew {
-	transform: skewX(-40deg);
+	margin-right: 28px;
 }
 .loggedBar a {
-	text-decoration: underline;
-	color: #204b80;
+	background: var(--blue);
+	color: white
 }
 .loggedBar a:hover {
 	color: white;
+	background: var(--darkblue);
 }
 
 .flexBox {
@@ -198,51 +194,66 @@ header a:hover {
 	background: #204b80;
 }
 
-
+.loginPage {
+	display: flex;
+	align-items: center;
+	background-color: #f5f5f5;
+}
 .loginBox {
-	width: 400px;
-  margin: 30px auto;
-	padding: 15px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 7px 0px #d0cece;
+	width: 100%;
+	max-width: 400px;
+	margin: auto;
+	text-align: center
+}
+.loginBox img {
+	height: 100px;
 }
 .loginBox h2 {
-	margin: 0;
+	font-weight: 400;
+	margin: 10px 0;
 }
-.loginBox .field {
-	overflow: hidden;
-  margin-bottom: 10px;
+.loginBox p {
+	margin: 0 0 20px 0;
+	color: grey;
 }
 .loginBox input {
-	float: right;
-  clear: both;
-  height: 30px;
-  border-radius: 15px;
-  width: 250px;
-  border: 2px solid #3982dd;
-	padding: 0 10px;
-  font-size: 16px;
+	height: 3.125rem;
+  padding: .75rem;
+	width: 100%;
+	border-radius: 5px;
+	border: 1px solid #ced4da;
+	font-size: 16px;
+	margin-bottom: 10px;
 }
 .loginBox label {
 	font-size: 18px;
 }
 .loginBox button {
 	text-decoration: none;
-	background: #3982dd;
-  border: none;
-  color: white;
-  padding: 7px 10px;
-  border-radius: 19px;
-  font-size: 15px;
+	background-color: var(--blue);
+	border: none;
+	color: white;
+	border-radius: 5px;
+	font-size: 16px;
+	height: 45px;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	transition: background-color 0.2s ease;
 }
 .loginBox button:hover {
 	cursor: pointer;
-	background: #204b80;
+	background-color: var(--darkblue);
 }
-.loginBox p {
-	margin: 20px 0 0 0;
+.loginBox a {
+	color: #007bff;
+	text-decoration: none;
 }
+.loginBox a:hover {
+	color: #2864a5;
+	cursor: pointer;
+}
+
 
 
 .ownReportsBox {

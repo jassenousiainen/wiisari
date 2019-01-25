@@ -24,6 +24,11 @@
 	font-style: normal;
  }
 
+ :root {
+	 --blue: #007bff;
+	 --darkblue: #1374dc;
+ }
+
 html {
 	background: #fff;
 }
@@ -86,20 +91,15 @@ header a:hover {
 
 .loggedBar {
 	float: right;
-    background: red;
-    padding: 0 30px;
-    margin-right: 20px;
-    text-align: right;
-    color: white;
-    font-size: 16px;
-    border-radius: 14px;
+	margin-right: 28px;
 }
 .loggedBar a {
-	text-decoration: underline;
-	color: #204b80;
+	background: var(--blue);
+	color: white
 }
 .loggedBar a:hover {
-	color: red;
+	color: white;
+	background: var(--darkblue);
 }
 
 
