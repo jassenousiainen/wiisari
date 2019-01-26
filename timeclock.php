@@ -4,14 +4,13 @@ session_start();
 require 'common.php';
 include 'header.php';
 
-if (!isset($_GET['printer_friendly'])) {
+echo "<title>WIISARI</title>\n";
+include 'topmain.php';
 
-    if (isset($_SESSION['valid_user'])) {
-        $set_logout = "1";
-    }
-
-    echo "<title>WIISARI</title>\n";
-    include 'topmain.php';
+if ( isset($_SESSION['logged_in']) ) {
+  $logged_in_user = $_SESSION['logged_in'];
+  $logged_in_barcode = tc_select_value("barcode", "employees", "empfullname = ?", $logged_in_user);
+} else { $logged_in_barcode=""; }
 
     echo '
     <div class="lomake">
@@ -20,7 +19,7 @@ if (!isset($_GET['printer_friendly'])) {
       <div class="barcodeBox">
         <label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
         <div class="barcodeInput">
-    	     <input type="password" id="left_barcode" name="left_barcode" maxlength="250" value="" autocomplete="off" autofocus>
+    	     <input type="password" id="left_barcode" name="left_barcode" maxlength="250" value="'.$logged_in_barcode.'" autocomplete="off" autofocus>
            <button type="submit" id="barcodeSubmit" class="fas fa-arrow-right"></button>
         </div>
       </div>
@@ -38,7 +37,6 @@ if (!isset($_GET['printer_friendly'])) {
     </div>';
 
     echo '<p class="maker">jasse.nousiainen@aalto.fi</p>';
-}
 
 
 

@@ -30,6 +30,12 @@
 	 --lightgreen: #00d774;
 	 --orange: #fd7e14;
 	 --darkorange: #e07217;
+	 --gray: #6c757d;
+	 --gray-dark: #343a40;
+	 --green: #28a745;
+	 --green-dark: #1c8935;
+	 --red: #dc3545;
+	 --red-dark: #c42e3d;
  }
 
 body {
@@ -38,30 +44,16 @@ body {
   margin: 0;
 }
 
-.ylalaatikko {
-  background: #3f5c80;
-  height: 70px;
-}
-.otsikkolinkki {
-	display: inline-block;
-  text-decoration: none;
-	margin: 21px 0 0 27px;
-}
-.ylaotsikko {
-  margin: 0;
-  font-size: 38px;
-	font-family: 'JosefinSans';
-	font-weight: normal;
-	color: white;
-	letter-spacing: 4px;
-	/* mdbootstrap.com/tools/logo-generator-text */
-	text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
-}
 
 header {
-	width: 100%;;
+	z-index: 10;
+	position: relative;
+	display: flex;
+  justify-content: space-between;
+	width: 100%;
+	height: 55px;
   font-size: 14px;
-  background-color: #324b68;
+  background-color: #252e38;
   color: white;
 }
 header a {
@@ -71,23 +63,45 @@ header a {
 	color: white;
 	text-decoration: none;
 	padding: 0 10px;
+  border-radius: 14px;
+	transition: background-color 0.2s ease;
 }
 header a:hover {
 	color: #324b68;
-	background: white;
+	background-color: white;
+}
+
+.logolink {
+	display: inline-block;
+  text-decoration: none;
+	margin: 18px 0 0 27px;
+	color: white;
+}
+.logotext {
+  margin: 0;
+  font-size: 38px;
+	font-family: 'JosefinSans';
+	font-weight: normal;
+	letter-spacing: 4px;
+	/* mdbootstrap.com/tools/logo-generator-text */
+	/*text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
+*/}
+.logolink:hover {
+	background-color: inherit;
+	color: #0dffff;
 }
 
 .loggedBar {
-	float: right;
 	margin-right: 28px;
+	line-height: 55px;
 }
 .loggedBar a {
 	background: var(--blue);
-	color: white
+	color: white;
 }
 .loggedBar a:hover {
-	color: white;
-	background: var(--darkblue);
+	color: var(--blue);
+	background: white;
 }
 
 .flexBox {
@@ -319,6 +333,112 @@ header a:hover {
 	cursor: pointer;
 }
 
+
+/* --- MYPAGE --- */
+section.mypageHead {
+	transform: skewY(-2deg);
+  margin-top: -30px;
+  padding-top: 30px;
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	width: 100%;
+	height: 320px;
+	font-family: 'Segoe UI', 'Open Sans Light';
+	background-color: white;
+	box-shadow: 0px 1px 11px #d9d9d9;
+}
+.mypageHead div {
+	transform: skewY(2deg);
+}
+.mypageHead h2 {
+	width: 100%;
+	font-weight: 300;
+	font-size: 37px;
+  margin: 0 0 10px 0;
+}
+.mypageHead p {
+	width: 100%;
+	color: grey;
+	font-weight: 300;
+	font-size: 20px;
+	margin: 0 0 30px 0;
+}
+.mypageHead a {
+	padding: 8px 13px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 1rem;
+}
+.mypageHead a#primary {
+	background-color: var(--blue);
+}
+.mypageHead a#secondary {
+	background-color: var(--gray);
+}
+
+section.container {
+	display: flex;
+  text-align: left;
+  overflow: hidden;
+	max-width: 1300px;
+	margin: 50px auto 50px auto;
+	padding: 0;
+}
+.container .leftInfo {
+	order: 1;
+  width: 300px;
+	height: 500px;
+	padding: 10px;
+	background-color: white;
+}
+.container .mainBox {
+	order: 2;
+	flex-grow: 1;
+	height: 500px;
+	margin: 0 20px;
+	padding: 10px;
+	background-color: white;
+}
+.container .rightInfo {
+	order: 3;
+  width: 300px;
+	height: 500px;
+	padding: 10px;
+	background-color: white;
+}
+.container h2 {
+	margin: 0;
+	width: 100%;
+}
+.mypage_inout button {
+	width: 100px;
+	height: 100px;
+	border: none;
+	border-radius: 7px;
+	color: white;
+	font-size: 25px;
+	transition: background-color 0.2s ease;
+	margin-bottom: 20px;
+}
+.mypage_inout button#in {
+	background-color: var(--green);
+}
+.mypage_inout button#in:hover {
+	background-color: var(--green-dark);
+	cursor: pointer;
+}
+.mypage_inout button#out {
+	background-color: var(--red);
+}
+.mypage_inout button#out:hover {
+	background-color: var(--red-dark);
+	cursor: pointer;
+}
 
 
 .ownReportsBox {

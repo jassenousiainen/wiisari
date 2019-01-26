@@ -41,7 +41,7 @@ if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
       }
     }
 }
-// Employee (=Doesn't have any admin rights => can only see personal reports)
+// Employee (=Doesn't have any admin rights)
 else if ( isset($_POST['login_barcode']) ) {
 
   $login_barcode = $_POST['login_barcode'];
@@ -55,8 +55,8 @@ else if ( isset($_POST['login_barcode']) ) {
 
 
 if ( isset($_SESSION['logged_in']) ) {
-    include 'header.php';
-    include 'topmain.php';
+
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/mypage.php';</script>";
 
     echo "<h2>Tervetuloa, " .$_SESSION['logged_in']. "</h2>
     <p>Sinulla on pääsy näille sivuille:</p>";
@@ -75,9 +75,8 @@ if ( isset($_SESSION['logged_in']) ) {
     exit;
 
 
-
 } else {  // This part is run if there is no users logged in in this session
-    //include 'topmain.php';
+
     echo "<html>\n";
 
     echo '

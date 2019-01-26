@@ -1,24 +1,24 @@
 
 window.onload=function() {
   $("#employee").click(function(){
-    $("#chooseLogin").hide("slide", { direction: "left" }, 1000);
-    $("#employeeSlideLogin").show("slide", { direction: "right" }, 1000).animate({ opacity: 1 });
-    $("#employeeSlideBack").fadeIn(1000);
+    $("#chooseLogin").hide("slide", { direction: "left" }, 800);
+    $("#employeeSlideLogin").show("slide", { direction: "right" }, 800).animate({ opacity: 1 });
+    $("#employeeSlideBack").fadeIn(800);
   });
   $("#employeeSlideBack").click(function(){
-    $("#chooseLogin").show("slide", { direction: "left" }, 1000);
-    $("#employeeSlideLogin").hide("slide", { direction: "right" }, 1000);
+    $("#chooseLogin").show("slide", { direction: "left" }, 800);
+    $("#employeeSlideLogin").hide("slide", { direction: "right" }, 800);
     $("#employeeSlideBack").fadeOut(500);
   });
 
   $("#admin").click(function(){
-    $("#chooseLogin").hide("slide", { direction: "right" }, 1000);
-    $("#adminSlideLogin").show("slide", { direction: "left" }, 1000).animate({ opacity: 1 });
-    $("#adminSlideBack").fadeIn(1000);
+    $("#chooseLogin").hide("slide", { direction: "right" }, 800);
+    $("#adminSlideLogin").show("slide", { direction: "left" }, 800).animate({ opacity: 1 });
+    $("#adminSlideBack").fadeIn(800);
   });
   $("#adminSlideBack").click(function(){
-    $("#chooseLogin").show("slide", { direction: "right" }, 1000);
-    $("#adminSlideLogin").hide("slide", { direction: "left" }, 1000);
+    $("#chooseLogin").show("slide", { direction: "right" }, 800);
+    $("#adminSlideLogin").hide("slide", { direction: "left" }, 800);
     $("#adminSlideBack").fadeOut(500);
   });
 }

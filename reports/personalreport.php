@@ -34,6 +34,7 @@ function convertToHours($tmstmp) {
 
 echo "<title>Henkilökohtaiset työtunnit</title>\n";
 
+// User can't access the page unless they are logged in
 if (isset($_SESSION['logged_in'])) {
 
 
@@ -43,7 +44,7 @@ if ($request == 'GET') {
     include 'topmain.php';
 
 
-// LOMAKE
+// build form
   echo "
   <div class='loginBox'>
   <h2>Hae oma työtuntiraportti</h2>
