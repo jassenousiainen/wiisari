@@ -1,8 +1,9 @@
 <?php
-session_start();
 
 require 'common.php';
+session_start();
 include 'header.php';
+
 
 echo "<title>WIISARI - Oma sivu</title>\n";
 include 'topmain.php';
@@ -27,18 +28,12 @@ function employees_total_in_count() {
 
 
 // User can't access the page unless they are logged in
-if (isset($_SESSION['logged_in'])) {
-  $logged_in_user = $_SESSION['logged_in'];
-  $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $logged_in_user);
-  $displayname = tc_select_value("displayname", "employees", "empfullname = ?", $logged_in_user);
-  $logged_in_barcode = tc_select_value("barcode", "employees", "empfullname = ?", $logged_in_user);
-  $inout_status = tc_select_value("inout_status", "employees", "empfullname = ?", $logged_in_user);
-
+if (isset($_SESSION['logged_in_user'])) {
 
   echo '
   <section class="mypageHead">
     <div>
-      <h2>Tervetuloa omalle sivulle '.$displayname.'</h2>
+      <h2>Tervetuloa omalle sivulle '.$_SESSION['logged_in_user']->displayname.'</h2>
       <p>Täällä näet omat tietosi ja tilastosi Wiisarissa.
       <br>Voit myös helposti kellottaa itsesi sisään tai ulos.</p>
       <p>
@@ -56,13 +51,13 @@ if (isset($_SESSION['logged_in'])) {
           <h2>Kellotus</h2>
           <form class="mypage_inout"action="inout.php" method="post">';
           echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
-          if ($inout_status == "in") {
+          if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
             echo '<p>Olet tällä hetkellä kirjautuneena sisään</p>
-            <input type="password" style="display:none;" name="left_barcode"value="'.$logged_in_barcode.'" autocomplete="off">
+            <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
             <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
           } else {
             echo '<p>Olet tällä hetkellä kirjautuneena ulos</p>
-            <input type="password" style="display:none;" name="left_barcode"value="'.$logged_in_barcode.'" autocomplete="off">
+            <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
             <button id="in" class="fas fa-sign-in-alt" type="submit"></button>';
           }
   echo '</form></div>';
@@ -70,10 +65,10 @@ if (isset($_SESSION['logged_in'])) {
 
   echo '<div class="mainBox">';
 
-  if (isset($_SESSION['valid_user']) || isset($_SESSION['valid_reports_user']) || isset($_SESSION['time_admin_valid_user']) ){
+  if ($_SESSION['logged_in_user']->isBasicAdmin()){
     echo '
     <div class="admin">
-      <p>Työntekijä tilastot:</p>
+      <p>Työntekijätilastot:</p>
       <p>Työntekijöitä yhteensä: '.employees_total_count().'</p>
       <p>Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'</p>
     </div>';

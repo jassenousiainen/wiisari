@@ -11,28 +11,25 @@ echo "<header>";
 
   echo "<a href='/index.php' style='margin-left:20px;'><i class='fas fa-clock'></i> Etusivu</a>";
 
-  if (isset($_SESSION['logged_in'])) {
+  if (isset($_SESSION['logged_in_user'])) {
+
     echo "<a href='/mypage.php'><i class='fas fa-user'></i> Oma sivu</a>";
     echo "<a href='/reports/personalreport.php'><i class='fas fa-user'></i> Omat tunnit</a>";
-  }
-  if (isset($_SESSION['valid_user'])) {
-    echo "<a href='/admin/index.php'><i class='fas fa-toolbox'></i> Hallinta</a>";
-  }
-  if (isset($_SESSION['valid_reports_user'])) {
-    echo "<a href='/reports/index.php'><i class='fas fa-calendar-alt'></i> Raportit</a>";
-  }
-echo '</nav>';
+    if ($_SESSION['logged_in_user']->admin == 1) {
+      echo "<a href='/admin/index.php'><i class='fas fa-toolbox'></i> Hallinta</a>";
+    }
+    if ($_SESSION['logged_in_user']->reports == 1) {
+      echo "<a href='/reports/index.php'><i class='fas fa-calendar-alt'></i> Raportit</a>";
+    }
+    echo '</nav>';
 
-if (isset($_SESSION['logged_in'])) {
-  $logged_in_user = $_SESSION['logged_in'];
-  $logged_in_displayname = tc_select_value("displayname", "employees", "empfullname = ?", $logged_in_user);
-
-  echo " <div class='loggedBar'>";
-  echo "<span>$logged_in_displayname: <a href='/logout.php'>Kirjaudu Ulos <i class='fas fa-sign-out-alt'></i></a></span>";
-} else {
-  echo " <div class='loggedBar'>";
-  echo '<span><a href="/loginpage.php"><i class="fas fa-sign-in-alt"></i> Kirjaudu</a></span>';
-}
+    echo " <div class='loggedBar'>";
+    echo $_SESSION['logged_in_user']->displayname.": <a href='/logout.php'>Kirjaudu Ulos <i class='fas fa-sign-out-alt'></i></a>";
+  } else {
+    echo '</nav>';
+    echo " <div class='loggedBar'>";
+    echo '<a href="/loginpage.php"><i class="fas fa-sign-in-alt"></i> Kirjaudu</a>';
+  }
 echo "</div>";
 
 echo "</header>";

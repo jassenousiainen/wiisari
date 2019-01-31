@@ -54,19 +54,6 @@ tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", 
 tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $fullname);
 
 
-// Format timestamp to readable form
-function convertToHours($tmstmp) {
-  $hours = floor($tmstmp / 3600);
-  $minutes = floor(($tmstmp / 60) % 60);
-  $seconds = $tmstmp % 60;
-  if ($tmstmp > 0) {
-    return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
-  } else {
-    return " ";
-  }
-}
-
-
 // The actual html that is shown to employee.
 echo "<div class='flexBox'>";
 

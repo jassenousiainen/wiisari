@@ -1,7 +1,7 @@
 <?php
+require 'common.php';
 session_start();
 
-require 'common.php';
 include 'header.php';
 
 echo "<title>WIISARI</title>\n";

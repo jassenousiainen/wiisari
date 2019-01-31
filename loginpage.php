@@ -1,7 +1,8 @@
 <?php
-session_start();
 
 require 'common.php';
+session_start();
+
 $self = $_SERVER['PHP_SELF'];
 
 
@@ -13,32 +14,11 @@ if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
     $login_userid = $_POST['login_userid'];
     $login_password = crypt($_POST['login_password'], 'xy');
 
-    $query = "select empfullname, employee_passwd, admin, time_admin , reports from " . $db_prefix . "employees
-              where empfullname = '" . $login_userid . "'";
-    $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
+    $admin_username = tc_select_value("empfullname", "employees", "empfullname = ?", $login_userid);
+    $admin_password = tc_select_value("employee_passwd", "employees", "employee_passwd = ?", $login_password);
 
-    while ($row = mysqli_fetch_array($result)) {
-        $admin_username = "" . $row['empfullname'] . "";
-        $admin_password = "" . $row['employee_passwd'] . "";
-        $admin_auth = "" . $row['admin'] . "";
-        $time_admin_auth = "" . $row['time_admin'] . "";
-        $reports_auth = "" . $row['reports'] . "";
-    }
-
-    // Sets the logged-in status(es) to session variable
-    if ( ($login_userid == @$admin_username) && ($login_password == @$admin_password) ) {
-      if ( $admin_auth == "1" ) {
-        $_SESSION['valid_user'] = $login_userid;
-        $_SESSION['logged_in'] = $login_userid;
-      }
-      if ( $time_admin_auth == "1" ) {
-        $_SESSION['time_admin_valid_user'] = $login_userid;
-        $_SESSION['logged_in'] = $login_userid;
-      }
-      if ( $reports_auth == "1" ) {
-        $_SESSION['valid_reports_user'] = $login_userid;
-        $_SESSION['logged_in'] = $login_userid;
-      }
+    if ( ($login_userid == $admin_username) && ($login_password == $admin_password) ) {
+        $_SESSION['logged_in_user'] = new User($login_userid);
     }
 }
 // Employee (=Doesn't have any admin rights)
@@ -48,31 +28,15 @@ else if ( isset($_POST['login_barcode']) ) {
   $login_barcode_userid = tc_select_value("empfullname", "employees", "barcode = ?", $login_barcode);
 
   if ( has_value($login_barcode_userid) ) {
-    $_SESSION['logged_in'] = $login_barcode_userid;
+    $_SESSION['logged_in_user'] = new User($login_barcode_userid);
   }
 }
 
 
 
-if ( isset($_SESSION['logged_in']) ) {
-
+if ( isset($_SESSION['logged_in_user']) ) {
   echo "<script type='text/javascript' language='javascript'> window.location.href = '/mypage.php';</script>";
-
-    echo "<h2>Tervetuloa, " .$_SESSION['logged_in']. "</h2>
-    <p>Sinulla on pääsy näille sivuille:</p>";
-
-    if ( isset($_SESSION['valid_user']) ) {
-      echo '<a href="/admin/index.php">Hallinta</a><br>';
-    }
-    if ( isset($_SESSION['time_admin_valid_user']) ) {
-      echo '<a href="/admin/timeadmin.php">Aikaeditori</a><br>';
-    }
-    if ( isset($_SESSION['valid_reports_user']) ) {
-      echo '<a href="/reports/index.php">Tuntiraportit</a><br>';
-    }
-    echo '<a href="/reports/personalreport.php">Omat tunnit</a><br>';
-
-    exit;
+  exit;
 
 
 } else {  // This part is run if there is no users logged in in this session
@@ -109,7 +73,7 @@ if ( isset($_SESSION['logged_in']) ) {
       <form class='loginBox' name='auth' method='post' action='$self'>
         <img src='/images/icons/wiisari_title.png'>
         <h2>Kirjaudu Wiisariin</h2>
-        <p>Kirjautumalla pääset omaan tuntinäkymään</p>
+        <p>Kirjautumalla pääset omalle sivulle</p>
         <input type='password' name='login_barcode' autocomplete='off' placeholder='Käyttäjätunnus/viivakoodi'>";
         if (isset($login_barcode)) {
             echo "<p style='color:red;'>Käyttäjätunnuksella ei löytynyt ketään</p>";
@@ -125,7 +89,7 @@ if ( isset($_SESSION['logged_in']) ) {
       <form class='loginBox' name='auth' method='post' action='$self'>
         <img src='/images/icons/wiisari_title.png'>
         <h2>Kirjaudu Wiisariin</h2>
-        <p>Kirjautumalla pääset hallintapaneeliin ja raporttinäkymään</p>
+        <p>Kirjautumalla pääset omalle sivulle, hallintapaneeliin ja raporttinäkymään</p>
         <input type='text' name='login_userid' placeholder='Käyttäjätunnus'>
         <input type='password' name='login_password' placeholder='Salasana'>";
         if (isset($login_userid)) {
