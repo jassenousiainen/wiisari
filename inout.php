@@ -1,8 +1,4 @@
 <?php
-
-error_reporting(0);
-ini_set('display_errors', 0);
-
 require 'common.php';
 
 echo "<head>
@@ -19,8 +15,12 @@ $request = $_SERVER['REQUEST_METHOD'];
 
 
 // signin/signout data passed over from timeclock.php //
-@$barcode = $_POST['left_barcode'];
-@$notes = $_POST['notes'];
+$barcode = $_POST['left_barcode'];
+if (isset($_POST['notes'])) {
+  $notes = $_POST['notes'];
+} else {
+  $notes = '';
+}
 
 $fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
 $displayname = tc_select_value("displayname", "employees", "barcode = ?", $barcode);
@@ -52,19 +52,6 @@ $clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_
 tc_insert_strings("info", $clockin);
 tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $fullname);
 tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $fullname);
-
-
-// Format timestamp to readable form
-function convertToHours($tmstmp) {
-  $hours = floor($tmstmp / 3600);
-  $minutes = floor(($tmstmp / 60) % 60);
-  $seconds = $tmstmp % 60;
-  if ($tmstmp > 0) {
-    return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
-  } else {
-    return " ";
-  }
-}
 
 
 // The actual html that is shown to employee.
