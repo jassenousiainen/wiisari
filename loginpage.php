@@ -14,10 +14,9 @@ if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
     $login_userid = $_POST['login_userid'];
     $login_password = crypt($_POST['login_password'], 'xy');
 
-    $admin_username = tc_select_value("empfullname", "employees", "empfullname = ?", $login_userid);
-    $admin_password = tc_select_value("employee_passwd", "employees", "employee_passwd = ?", $login_password);
+    $admin_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$login_userid'"));
 
-    if ( ($login_userid == $admin_username) && ($login_password == $admin_password) ) {
+    if ( ($login_userid == $admin_data[0]) && ($login_password == $admin_data[2]) ) {
         $_SESSION['logged_in_user'] = new User($login_userid);
     }
 }
