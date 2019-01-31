@@ -1,24 +1,16 @@
 <?php
-session_start();
-
 include 'header.php';
+session_start();
 include 'topmain.php';
+
 echo "<title>$title - Edit Office</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-if (!isset($_SESSION['valid_user'])) {
-
-    echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
-    echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>PHP Timeclock Administration</td></tr>\n";
-    echo "  <tr class=right_main_text>\n";
-    echo "    <td align=center valign=top scope=row>\n";
-    echo "      <table width=200 border=0 cellpadding=5 cellspacing=0>\n";
-    echo "        <tr class=right_main_text><td align=center>You are not presently logged in, or do not have permission to view this page.</td></tr>\n";
-    echo "        <tr class=right_main_text><td align=center>Click <a class=admin_headings href='../login.php'><u>here</u></a> to login.</td></tr>\n";
-    echo "      </table><br /></td></tr></table>\n";
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
@@ -121,13 +113,13 @@ if ($request == 'GET') {
     echo "              </tr>\n";
     echo "              <tr><td height=15></td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>New Office Name:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'><input type='text' 
+                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'><input type='text'
                       size='25' maxlength='50' name='post_officename' value=\"$officename\">&nbsp;*</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group Count:</td><td align=left width=80%
-                      class=table_rows style='padding-left:20px;'><input type='hidden' name='group_cnt' 
+                      class=table_rows style='padding-left:20px;'><input type='hidden' name='group_cnt'
                       value=\"$group_cnt\">$group_cnt</td></tr>\n";
     echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Count:</td><td align=left width=80%
-                      class=table_rows style='padding-left:20px;'><input type='hidden' name='user_cnt' 
+                      class=table_rows style='padding-left:20px;'><input type='hidden' name='user_cnt'
                       value=\"$user_cnt\">$user_cnt</td></tr>\n";
     echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
     echo "            </table>\n";
@@ -329,13 +321,13 @@ if ($request == 'GET') {
         echo "              </tr>\n";
         echo "              <tr><td height=15></td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>New Office Name:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px'><input type='text' 
+                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px'><input type='text'
                       size='25' maxlength='50' name='post_officename' value=\"$post_officename\">&nbsp;*</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group Count:</td><td align=left width=80%
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='group_cnt' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='group_cnt'
                       value=\"$group_cnt\">$group_cnt</td></tr>\n";
         echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Count:</td><td align=left
-                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt' 
+                      style='padding-left:20px;' class=table_rows><input type='hidden' name='user_cnt'
                       value=\"$user_cnt\">$user_cnt</td></tr>\n";
         echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
         echo "            </table>\n";

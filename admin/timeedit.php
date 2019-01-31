@@ -1,8 +1,8 @@
 <?php
-session_start();
-
 include 'header_date.php';
+session_start();
 include 'topmain.php';
+
 echo "<title>$title - Edit Time</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
@@ -18,16 +18,8 @@ if (($timefmt == "G:i") || ($timefmt == "H:i")) {
     $timefmt_size = '8';
 }
 
-if ((!isset($_SESSION['valid_user'])) && (!isset($_SESSION['time_admin_valid_user']))) {
-
-    echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
-    echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>PHP Timeclock Administration</td></tr>\n";
-    echo "  <tr class=right_main_text>\n";
-    echo "    <td align=center valign=top scope=row>\n";
-    echo "      <table width=200 border=0 cellpadding=5 cellspacing=0>\n";
-    echo "        <tr class=right_main_text><td align=center>You are not presently logged in, or do not have permission to view this page.</td></tr>\n";
-    echo "        <tr class=right_main_text><td align=center>Click <a class=admin_headings href='../login.php'><u>here</u></a> to login.</td></tr>\n";
-    echo "      </table><br /></td></tr></table>\n";
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
@@ -437,7 +429,7 @@ if ($request == 'GET') {
                     // end post validation //
 
                     if ($timefmt_24hr == '0') {
-                        
+
                         // 12 Hour with or without leading zeros with upper or lower case AM or PM //
                         // Regex was /^([0-9]?[0-9])+:+([0-9]+[0-9])+([a|p]+m)$/i                  //
                         // Now       /^([0-1]?[0-9])+:+([0-5]+[0-9])+([a|p]+m)$/i                  //
@@ -459,14 +451,14 @@ if ($request == 'GET') {
                             }
                         }
                     } elseif ($timefmt_24hr == '1') {
-                        
+
                         // 24 Hour with or without leading zeros with upper or lower case AM or PM //
                         // Regex was /^([0-9]?[0-9])+:+([0-9]+[0-9])+([a|p]+m)$/i                  //
                         // Now       /^([0-2]?[0-9])+:+([0-5]+[0-9])+$/                            //
                         //    First digit of hours in 24 hour format can not be > 2.               //
                         //    First digit of minutes can not be > 5 any time.                      //
                         //    No am/pm in 24 hour format.  No need for case indifferent /i.        //
-                        
+
                         if (!preg_match('/' . "^([0-2]?[0-9])+:+([0-5]+[0-9])+$" . '/', $edit_time_textbox[$x], $time_regs)) {
                             $evil_time = '1';
 
