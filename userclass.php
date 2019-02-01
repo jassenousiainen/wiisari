@@ -7,7 +7,7 @@ tc_connect();
 class User {
 
   private $user_data;
-  private $username;
+  public $username;
   public $last;
 
   public function __construct($username) {
@@ -42,10 +42,10 @@ class User {
 
   // Count time from last login in seconds
   public function getCurrentWorkTime() {
-    if ($inout_status == "out") {
+    if ($this->getInoutStatus() == "in") {
       // Lookup previous login, so we can count time between login and current logout
-      $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$username' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
-      $currentWorkTime = $tz_stamp - (int)$lastIn;
+      $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$this->username' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
+      $currentWorkTime = time() - (int)$lastIn;
     } else {
       $currentWorkTime = 0;
     }

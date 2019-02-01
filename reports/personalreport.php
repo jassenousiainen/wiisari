@@ -1,12 +1,12 @@
 <?php
-
+require '../common.php';
 session_start();
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 $current_page = "total_hours.php";
 
-require '../common.php';
+
 
 if (!isset($tzo)) {
     settype($tzo, "integer");
@@ -18,163 +18,21 @@ if (!isset($tzo)) {
      }
 }
 
-function convertToHours($tmstmp) {
-  if (is_numeric($tmstmp)) {
-    $hours = floor($tmstmp / 3600);
-    $minutes = floor(($tmstmp / 60) % 60);
-    $seconds = $tmstmp % 60;
-    if ($tmstmp > 0) {
-      return $hours > 0 ? "$hours tuntia, $minutes minuuttia" : ($minutes > 0 ? "$minutes minuuttia, $seconds sekuntia" : "$seconds sekuntia");
-    } else {
-      return " ";
-    }
-  }
-}
 
+echo "<title>Henkilökohtainen työtuntiraportti</title>\n";
 
-echo "<title>Henkilökohtaiset työtunnit</title>\n";
-
-// User can't access the page unless they are logged in
-if (isset($_SESSION['logged_in'])) {
-
-
-if ($request == 'GET') {
-
-    include 'header_get_reports.php';
-    include 'topmain.php';
-
-
-// build form
-  echo "
-  <div class='loginBox'>
-  <h2>Hae oma työtuntiraportti</h2>
-  <br>
-  <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">
-
-        <button type='submit' name='quickreport'>Nopea raportti</button>
-
-        <p><b>Valitse aikaväli</b></p>
-        <div class='reportsField'>
-          <label for='from'>Alkaen: </label>
-          <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' style='color:#27408b'>
-        </div>
-
-        <div class='reportsField'>
-          <label for='to'>Päättyen: </label>
-          <input type='text' id='to' autocomplete='off' size='10' maxlength='10' name='to_date' style='color:#27408b'>
-        </div>
-
-        <div class='reportsField'>
-          <label for='tmp_show_details'>Näytä yksittäiset kirjaukset</label>
-          <input type='checkbox' name='tmp_show_details' value='1' ".(yes_no_bool($show_details) ? ' checked' : '')." style='height:15px; width:20px; float:none;'>
-        </div>
-
-        <br>
-        <button type='submit' name='customreport'>Kustomoitu raportti</button>
-
-      </form>
-  </div>";
+if (!isset($_SESSION['logged_in_user'])) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
-
-
-
-
-} else if (isset($_POST['quickreport'])) { //  =========== NOPEA RAPORTTI ===========
-  require '../common.php';
-  include 'header_post_reports.php';
-  include 'topmain.php';
-
-  echo "<title>Omat Tunnit</title>\n";
-
-  $timeNow = time();
-
-  $logged_in_user = $_SESSION['logged_in'];
-  $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $logged_in_user);
-  $displayname = tc_select_value("displayname", "employees", "empfullname = ?", $logged_in_user);
-
-
-  if (!has_value($fullname)) {
-    echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
-  }
-
-  $monthtime = array_fill(1, 12, 0);
-  $weektime = array_fill(1, 52, 0);
-
-  $infoQuery = tc_query(<<<QUERY
-SELECT *
-FROM info
-WHERE fullname = '$fullname' AND `inout` = 'out'
-ORDER BY timestamp DESC
-QUERY
-);
-
-  while ( $tempOut = mysqli_fetch_array($infoQuery) ) {   // Käydään läpi työntekijän kaikki kirjaukset
-    if ( date('Y', $tempOut[3]) == date('Y', $timeNow) ) { // Lasketaan vain tämän vuoden kirjaukset
-      $tempstamp = $tempOut[3];
-      $month = date('n', $tempOut[3]); // 1-12
-      $week = ltrim(date('W', $tempOut[3]), 0); // 1-52 (huomaa ltrimin käyttö aloittavien nollien poistamiseksi)
-
-      $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$fullname' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
-      $tempIn = mysqli_fetch_row($nextInfoQuery);
-
-      $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
-      if (is_numeric($time)) {
-        $monthtime[$month] += $time;
-        $weektime[$week] += $time;
-      }
-
-    } else {
-      break;
-    }
-  }
-
-  $currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$fullname' ORDER BY timestamp DESC"))[0];
-  $timetoday = 0;
-  if ( $currently_inout == "in" ) {
-    $timetoday = $timeNow - mysqli_fetch_row(tc_query( "SELECT timestamp FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
-  }
-
-  echo '<div class="ownReportsBox" style="width:500px;">
-          <h2> '.$displayname.' - työtunnit </h2>
-          <center><p style="color: grey; margin: 0;"> Vuosi '. date('Y', $timeNow).'</p></center>';
-          if ( $timetoday > 0 ) {
-            echo'<p>Viimeisestä sisäänkirjauksesta: <b>'.convertToHours($timetoday).'</b></p>';
-          }
-
-  echo    '<p> Työaikasi tällä viikolla (vko '.ltrim(date('W', $timeNow), 0).'): <b>' .convertToHours($weektime[ltrim(date('W', $timeNow), 0)]). '</b> <br>';
-
-  if ( ltrim(date('W', $timeNow), 0) > 1 ) {
-    echo    'Työaikasi viime viikolla (vko '.(ltrim(date('W', $timeNow), 0)-1).'): ' .convertToHours($weektime[ltrim(date('W', $timeNow)-1, 0)]). ' </p> <br>';
-  }
-
-  if ($monthtime[12] > 0) echo 'Joulukuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[12]). '</div><br>';
-  if ($monthtime[11] > 0) echo 'Marraskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[11]). '</div><br>';
-  if ($monthtime[10] > 0) echo 'Lokakuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[10]). '</div><br>';
-  if ($monthtime[9] > 0) echo 'Syyskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[9]). '</div><br>';
-  if ($monthtime[8] > 0) echo 'Elokuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[8]). '</div><br>';
-  if ($monthtime[7] > 0) echo 'Heinäkuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[7]). '</div><br>';
-  if ($monthtime[6] > 0) echo 'Kesäkuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[6]). '</div><br>';
-  if ($monthtime[5] > 0) echo 'Toukokuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[5]). '</div><br>';
-  if ($monthtime[4] > 0) echo 'Huhtikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[4]). '</div><br>';
-  if ($monthtime[3] > 0) echo 'Maaliskuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[3]). '</div><br>';
-  if ($monthtime[2] > 0) echo 'Helmikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[2]). '</div><br>';
-  if ($monthtime[1] > 0) echo 'Tammikuu: <div class="monthlyHours">' .convertToHours((int)$monthtime[1]). '</div><br>';
-
-  echo '</div>';
-
-
-
-
-} else if (isset($_POST['customreport'])) { // =========== KUSTOMOITU RAPORTTI ===========
+}
 
     include 'topmain.php';
     include 'header_post_reports.php';
 
-    $logged_in_user = $_SESSION['logged_in'];
-    $fullname = tc_select_value("empfullname", "employees", "empfullname = ?", $logged_in_user);
+    $fullname = $_SESSION['logged_in_user']->username;
 
-    @$office_name = tc_select_value("office", "employees", "empfullname = ?", $fullname);
-    @$group_name = tc_select_value("groups", "employees", "empfullname = ?", $fullname);
+    $office_name = $_SESSION['logged_in_user']->office;
+    $group_name = $_SESSION['logged_in_user']->groups;
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = '0';
@@ -1337,11 +1195,7 @@ QUERY
             unset($x_info_date);
         } // end if
     } // end for $x
-}
+
 echo "            </table>\n";
 
-} else {
-  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
-}
-exit;
 ?>

@@ -26,13 +26,15 @@ function UpdateClock() {
 function StartClock() {
    clockID = setInterval(UpdateClock, 1000);
 }
-
 function KillClock() {
   clearTimeout(clockID);
 }
 
+
 window.onload=function() {
+
   StartClock();
+
   $("#showNotes").click(function() {
       $(this).hide();
       $("#notesBox").slideDown(1000, "easeOutElastic");
@@ -51,4 +53,5 @@ window.onload=function() {
     $('#notesBox').slideUp();
     $("#showNotes").show();
   });
+
 }

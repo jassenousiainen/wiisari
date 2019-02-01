@@ -12,7 +12,7 @@ echo "<header>";
   if (isset($_SESSION['logged_in_user'])) {
     echo "<a href='/index.php' style='margin-left:20px;'><i class='fas fa-clock'></i> Etusivu</a>";
     echo "<a href='/mypage.php'><i class='fas fa-user'></i> Oma sivu</a>";
-    echo "<a href='/reports/personalreport.php'><i class='fas fa-user'></i> Omat tunnit</a>";
+    echo "<a href='/reports/quickreport.php'><i class='fas fa-user'></i> Omat tunnit</a>";
     if ($_SESSION['logged_in_user']->admin == 1) {
       echo "<a href='/admin/index.php'><i class='fas fa-toolbox'></i> Hallinta</a>";
     }
