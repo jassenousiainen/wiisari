@@ -74,9 +74,22 @@ if (isset($_SESSION['logged_in_user'])) {
     echo '
     <div class="admin">
       <h2>Hallinnan toiminnot</h2>
-      <p>Työntekijätilastot:</p>
-      <p>Työntekijöitä yhteensä: '.employees_total_count().'</p>
-      <p>Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'</p>
+      <p class="section">
+        Sinulla on pääsy seuraaville sivuille.
+        <br><br>
+        <a class="btn" href="/admin/index.php">Hallintapaneeli</a>
+        <br><br>
+        <a class="btn" href="/reports/index.php">Raportit</a>
+        <br><br>
+        <a class="btn" href="/admin/timeadmin.php">Kellotuseditori</a>
+      </p>
+      <p class="section">
+        <b>Työntekijätilastot</b>
+        <br><br>
+        Työntekijöitä yhteensä: '.employees_total_count().'
+        <br>
+        Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'
+      </p>
     </div>';
   }
 
@@ -105,6 +118,91 @@ if (isset($_SESSION['logged_in_user'])) {
 
     echo '<div class="second">';
       echo '<h2>Omat tilastot</h2>';
+      echo '  <canvas id="weektimechart" width="980" height="490"></canvas>';
+
+      $currentWeek = ltrim(date('W', time()), 0);
+      $WeekWorkTime = $_SESSION['logged_in_user']->getWeekWorkTime();
+
+      $len = count($WeekWorkTime);
+      for ($i = 1; $i < $len; $i++) {
+        $weekTime[$i] = round($WeekWorkTime[$i]/3600.0, 2);
+      }
+
+      $labels = "labels: ['viikko 1', 'viikko 2', 'viikko 3', 'viikko 4', 'viikko 5', 'viikko 6']";
+      $data;
+      if ($currentWeek == 1) {
+        $data = "data: [".$weekTime[$currentWeek].", , , , , ]";
+      } else if ($currentWeek == 2) {
+        $data = "data: [".$weekTime[$currentWeek-1].", ".$weekTime[$currentWeek].", , , , ]";
+      } else if ($currentWeek == 3) {
+        $data = "data: [".$weekTime[$currentWeek-2].", ".$weekTime[$currentWeek-1].", ".$weekTime[$currentWeek].", , , ]";
+      } else if ($currentWeek == 4) {
+        $data = "data: [".$weekTime[$currentWeek-3].", ".$weekTime[$currentWeek-2].", ".$weekTime[$currentWeek-1].", ".$weekTime[$currentWeek].", , ]";
+      } else if ($currentWeek == 5) {
+        $data = "data: [".$weekTime[$currentWeek-4].", ".$weekTime[$currentWeek-3].", ".$weekTime[$currentWeek-2].", ".$weekTime[$currentWeek-1].", ".$weekTime[$currentWeek].", ]";
+      } else {
+        $labels = "labels: ['viikko ".($currentWeek-5)."', 'viikko ".($currentWeek-4)."', 'viikko ".($currentWeek-3)."', 'viikko ".($currentWeek-2)."', 'viikko ".($currentWeek-1)."', 'viikko ".$currentWeek."']";
+        $data = "data: [".$weekTime[$currentWeek-5].", ".$weekTime[$currentWeek-4].", ".$weekTime[$currentWeek-3].", ".$weekTime[$currentWeek-2].", ".$weekTime[$currentWeek-1].", ".$weekTime[$currentWeek]."]";
+      }
+echo "
+<script>
+var ctx = document.getElementById('weektimechart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        ".$labels.",
+        datasets: [{
+            label: 'tuntia',
+            ".$data.",
+            lineTension: 0.2,
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 2,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            pointStyle: 'circle',
+            pointBackgroundColor: '#3e95cd'
+        }]
+    },
+    options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Työtuntisi viikoittain'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Viikko'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Tunnit'
+						},
+            ticks: {
+              beginAtZero:true
+            }
+					}]
+				}
+			}
+});
+var canvas = document.getElementById('weektimechart');
+window.onresize = function () {
+    canvas.style.width = '100%';
+    canvas.height = canvas.width * .5;
+}
+</script>";
     echo '</div>';
   echo '</div>';
 

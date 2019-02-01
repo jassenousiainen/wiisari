@@ -467,6 +467,9 @@ section.container {
 .mainBox .second h2 {
 	background: var(--green);
 }
+.mainBox .admin h2 {
+	background: var(--orange);
+}
 .container .section {
 	color: var(--gray);
 	margin: 0 1em 1.5em 1em;

@@ -57,12 +57,15 @@ function startCounter() {
 
 
 window.onload=function() {
-  secs = parseInt($('#secs').text())
-  startCounter();
+  if ($("#out").length > 0) {
+    secs = parseInt($('#secs').text())
+    startCounter();
+  }
+
 }
 
-$( function() {
 
+$( function() {
 var dateFormat = "mm/dd/yy";
 $( "#from" ).datepicker({
     changeMonth: true,
