@@ -1,4 +1,4 @@
-<?php
+ <?php
 include 'header.php';
 session_start();
 include 'topmain.php';
@@ -9,11 +9,7 @@ $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
 echo "<title>$title - Add/Edit/Delete Time</title>\n";
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0 || $_SESSION['logged_in_user']->time_admin == 0) {
-    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
-    exit;
-}
-
+if (isset($_SESSION['logged_in_user']) && ($_SESSION['logged_in_user']->admin == '1' || $_SESSION['logged_in_user']->time_admin == '1')) {
 echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
 echo "  <tr valign=top>\n";
 echo "    <td class=left_main width=180 align=left scope=col>\n";
@@ -125,4 +121,8 @@ while ($row = mysqli_fetch_array($result)) {
 echo "          </table></td></tr>\n";
 include '../footer.php';
 exit;
+} else {
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+  exit;
+}
 ?>

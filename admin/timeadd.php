@@ -18,10 +18,7 @@ if (($timefmt == "G:i") || ($timefmt == "H:i")) {
     $timefmt_size = '8';
 }
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0) {
-    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
-    exit;
-}
+if (isset($_SESSION['logged_in_user']) && ($_SESSION['logged_in_user']->admin == '1' || $_SESSION['logged_in_user']->time_admin == '1')) {
 
 if ($request == 'GET') {
 
@@ -610,5 +607,9 @@ colspan=2 width=80% style='padding-left:20px;'>$post_notes</td></tr>\n";
         include '../footer.php';
         exit;
     }
+}
+} else {
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+  exit;
 }
 ?>

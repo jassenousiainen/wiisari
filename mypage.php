@@ -75,13 +75,17 @@ if (isset($_SESSION['logged_in_user'])) {
     <div class="admin">
       <h2>Hallinnan toiminnot</h2>
       <p class="section">
-        Sinulla on pääsy seuraaville sivuille.
-        <br><br>
-        <a class="btn" href="/admin/index.php">Hallintapaneeli</a>
-        <br><br>
-        <a class="btn" href="/reports/index.php">Raportit</a>
-        <br><br>
-        <a class="btn" href="/admin/timeadmin.php">Kellotuseditori</a>
+        Sinulla on pääsy seuraaville sivuille:';
+        if ($_SESSION['logged_in_user']->admin == '1') {
+          echo '<br><br><a class="btn" href="/admin/index.php">Hallintapaneeli</a>';
+        }
+        if ($_SESSION['logged_in_user']->reports == '1') {
+          echo '<br><br><a class="btn" href="/reports/index.php">Raportit</a>';
+        }
+        if ($_SESSION['logged_in_user']->admin == '1' || $_SESSION['logged_in_user']->time_admin == '1') {
+          echo '<br><br><a class="btn" href="/admin/timeadmin.php">Kellotuseditori</a>';
+        }
+    echo '
       </p>
       <p class="section">
         <b>Työntekijätilastot</b>
