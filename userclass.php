@@ -53,23 +53,19 @@ class User {
   }
 
   public function getWeekWorkTime() {
-    $monthtime = array_fill(1, 12, 0);
-    $weektime = array_fill(1, 52, 0);
-
+    $weektime = array_fill(1, 53, 0);
     $outStamps = tc_query("SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'out' ORDER BY timestamp DESC");
 
     while ( $tempOut = mysqli_fetch_array($outStamps) ) {   // Käydään läpi työntekijän kaikki kirjaukset
       if ( date('Y', $tempOut[3]) == date('Y', time()) ) { // Lasketaan vain tämän vuoden kirjaukset
         $tempstamp = $tempOut[3];
-        $month = date('n', $tempOut[3]); // 1-12
         $week = ltrim(date('W', $tempOut[3]), 0); // 1-52 (huomaa ltrimin käyttö aloittavien nollien poistamiseksi)
 
-        $nextInfoQuery = tc_query( "SELECT * FROM info WHERE fullname = '$this->username' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"); // Haetaan seuraava kirjaus (eli sisäänkirjaus)
-        $tempIn = mysqli_fetch_row($nextInfoQuery);
+        // Haetaan seuraava kirjaus (eli sisäänkirjaus)
+        $tempIn = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"));
 
         $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
         if (is_numeric($time)) {
-          $monthtime[$month] += $time;
           $weektime[$week] += $time;
         }
       } else {
@@ -77,6 +73,28 @@ class User {
       }
     }
     return $weektime;
+  }
+
+  public function getMonthWorkTime() {
+    $monthtime = array_fill(1, 13, 0);
+    $outStamps = tc_query("SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'out' ORDER BY timestamp DESC");
+
+    while ( $tempOut = mysqli_fetch_array($outStamps) ) {   // Käydään läpi työntekijän kaikki kirjaukset
+      if ( date('Y', $tempOut[3]) == date('Y', time()) ) { // Lasketaan vain tämän vuoden kirjaukset
+        $tempstamp = $tempOut[3];
+        $month = date('n', $tempOut[3]); // 1-12
+
+        $tempIn = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"));
+
+        $time = (int)$tempOut[3] - (int)$tempIn[3];
+        if (is_numeric($time)) {
+          $monthtime[$month] += $time;
+        }
+      } else {
+        break;
+      }
+    }
+    return $monthtime;
   }
 
 }

@@ -62,7 +62,8 @@ if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
   echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
   echo '<script src="/scripts/datepicker-fi.js"></script>';
   echo '<script type="text/javascript" src="/scripts/mypage.js"></script>';
-  echo '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>';
+  echo '<script type="text/javascript" src="/scripts/Chart.bundle.min-v2.7.3.js"></script>';
+  echo '<script type="text/javascript" src="/scripts/chartjs-plugin-deferred.min.js"></script>';
 }
 //echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 echo '<link rel="shortcut icon" href="images/icons/wiisari_title.png" type="image/x-icon"/>';

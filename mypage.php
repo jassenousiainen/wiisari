@@ -122,7 +122,8 @@ if (isset($_SESSION['logged_in_user'])) {
 
     echo '<div class="second">';
       echo '<h2>Omat tilastot</h2>';
-      echo '  <canvas id="weektimechart" width="980" height="490"></canvas>';
+      echo '<div class="section">';
+      echo '  <canvas id="weektimechart" width="900" height="450"></canvas>';
 
       $currentWeek = ltrim(date('W', time()), 0);
       $WeekWorkTime = $_SESSION['logged_in_user']->getWeekWorkTime();
@@ -172,6 +173,13 @@ var myChart = new Chart(ctx, {
 					display: true,
 					text: 'Työtuntisi viikoittain'
 				},
+        plugins: {
+          deferred: {
+            xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+            yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+            delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+          }
+        },
 				tooltips: {
 					mode: 'index',
 					intersect: false,
@@ -201,13 +209,97 @@ var myChart = new Chart(ctx, {
 				}
 			}
 });
-var canvas = document.getElementById('weektimechart');
+</script>";
+
+
+echo '  </div>';
+echo '<div class="section">';
+echo '  <canvas id="monthtimechart" width="900" height="450"></canvas>';
+
+$currentMonth = ltrim(date('W', time()), 0);
+$monthWorkTime = $_SESSION['logged_in_user']->getMonthWorkTime();
+
+for ($i = 1; $i < count($monthWorkTime); $i++) {
+  $monthTime[$i] = round($monthWorkTime[$i]/3600.0, 2);
+}
+
+echo "
+<script>
+var ctx = document.getElementById('monthtimechart').getContext('2d');
+var monthTimeChart = new Chart(ctx, {
+type: 'bar',
+data: {
+  labels: ['Tammikuu', 'Helmikuu', 'Maaliskuu', 'Huhtikuu', 'Toukokuu', 'Kesäkuu', 'Heinäkuu', 'Elokuu', 'Syyskuu', 'Lokakuu', 'Marraskuu', 'Joulukuu'],
+  datasets: [{
+      label: 'tuntia',
+      data: [".$monthTime[1].", ".$monthTime[2].", ".$monthTime[3].", ".$monthTime[4].", ".$monthTime[5].", ".$monthTime[6].",
+       ".$monthTime[7].", ".$monthTime[8].", ".$monthTime[9].", ".$monthTime[10].", ".$monthTime[11].", ".$monthTime[12]."],
+      lineTension: 0.2,
+      borderColor: 'rgb(255, 99, 132)',
+      borderWidth: 2,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      pointStyle: 'circle',
+      pointBackgroundColor: '#3e95cd'
+  }]
+},
+options: {
+  responsive: true,
+  title: {
+    display: true,
+    text: 'Työtuntisi kuukausittain'
+  },
+  plugins: {
+    deferred: {
+      xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+      yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+      delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+    }
+  },
+  tooltips: {
+    mode: 'index',
+    intersect: false,
+  },
+  hover: {
+    mode: 'nearest',
+    intersect: true
+  },
+  scales: {
+    xAxes: [{
+      display: true,
+      scaleLabel: {
+        display: true,
+        labelString: 'Kuukausi'
+      }
+    }],
+    yAxes: [{
+      display: true,
+      scaleLabel: {
+        display: true,
+        labelString: 'Tunnit'
+      },
+      ticks: {
+        beginAtZero:true
+      }
+    }]
+  }
+}
+});
+var weekCanvas = document.getElementById('weektimechart');
+var monthCanvas = document.getElementById('monthtimechart');
+
+monthCanvas.style.width = '100%';
+monthCanvas.height = monthCanvas.width * .5;
+weekCanvas.style.width = '100%';
+weekCanvas.height = weekCanvas.width * .5;
+
 window.onresize = function () {
-    canvas.style.width = '100%';
-    canvas.height = canvas.width * .5;
+  monthCanvas.style.width = '100%';
+  monthCanvas.height = monthCanvas.width * .5;
+  weekCanvas.style.width = '100%';
+  weekCanvas.height = weekCanvas.width * .5;
 }
 </script>";
-    echo '</div>';
+    echo '</div></div>';
   echo '</div>';
 
 
