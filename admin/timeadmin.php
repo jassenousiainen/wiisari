@@ -49,6 +49,7 @@ echo "        <tr><td class=left_rows height=18 align=left valign=middle><img sr
 echo "      </table></td>\n";
 echo "    <td align=left class=right_main scope=col>\n";
 echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
+echo "        <p style='color:red;margin: 20px 0 0 6%;'>Muista että jokaisen kirjauksen pitää aina päättyä uloskirjaukseen, jotta tunnit voidaan laskea.</p>";
 echo "        <tr class=right_main_text>\n";
 echo "          <td valign=top>\n";
 echo "            <table width=90% align=center height=40 border=0 cellpadding=0 cellspacing=0>\n";

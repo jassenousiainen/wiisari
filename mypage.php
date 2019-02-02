@@ -53,7 +53,7 @@ if (isset($_SESSION['logged_in_user'])) {
           <form class="mypage_inout"action="inout.php" method="post">';
           echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
           if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
-            echo '<div class="workTime">Olet ollut töissä nyt: <br> <span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></div>';
+            echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></b></div>';
             echo '<p>Kellota itsesi ulos:</p>
             <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
             <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
