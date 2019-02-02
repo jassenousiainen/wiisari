@@ -471,6 +471,7 @@ section.container {
 	background: var(--orange);
 }
 .container .section {
+	overflow: hidden;
 	color: var(--gray);
 	margin: 0 1em 1.5em 1em;
 	padding-bottom: 1.5em;

@@ -88,6 +88,7 @@ if (isset($_SESSION['logged_in_user'])) {
     echo '
       </p>
       <p class="section">
+        <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
         <b>Työntekijätilastot</b>
         <br><br>
         Työntekijöitä yhteensä: '.employees_total_count().'
@@ -96,6 +97,37 @@ if (isset($_SESSION['logged_in_user'])) {
       </p>
     </div>';
   }
+$employeesIn = employees_total_in_count();
+$employeesOut = employees_total_count() - $employeesIn;
+
+echo "
+<script>
+var ctx1 = document.getElementById('clockedinChart').getContext('2d');
+var clockedinChart = new Chart(ctx1, {
+type: 'pie',
+data: {
+  labels: ['Sisällä', 'Ulkona'],
+  datasets: [{
+      label: 'tuntia',
+      data: [".$employeesIn.", ".$employeesOut."],
+      lineTension: 0.2,
+      backgroundColor: ['rgb(75, 192, 192)','rgb(255, 99, 132)'],
+      borderWidth: 2,
+  }]
+},
+options: {
+  responsive: true,
+  plugins: {
+    deferred: {
+      xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+      yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+      delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+    }
+  }
+}
+});
+</script>";
+
 
     echo '<div class="first">
             <h2>Omat tunnit</h2>
@@ -151,8 +183,8 @@ if (isset($_SESSION['logged_in_user'])) {
       }
 echo "
 <script>
-var ctx = document.getElementById('weektimechart').getContext('2d');
-var myChart = new Chart(ctx, {
+var ctx2 = document.getElementById('weektimechart').getContext('2d');
+var myChart = new Chart(ctx2, {
     type: 'line',
     data: {
         ".$labels.",
@@ -225,8 +257,8 @@ for ($i = 1; $i < count($monthWorkTime); $i++) {
 
 echo "
 <script>
-var ctx = document.getElementById('monthtimechart').getContext('2d');
-var monthTimeChart = new Chart(ctx, {
+var ctx3 = document.getElementById('monthtimechart').getContext('2d');
+var monthTimeChart = new Chart(ctx3, {
 type: 'bar',
 data: {
   labels: ['Tammikuu', 'Helmikuu', 'Maaliskuu', 'Huhtikuu', 'Toukokuu', 'Kesäkuu', 'Heinäkuu', 'Elokuu', 'Syyskuu', 'Lokakuu', 'Marraskuu', 'Joulukuu'],
@@ -284,6 +316,7 @@ options: {
   }
 }
 });
+
 var weekCanvas = document.getElementById('weektimechart');
 var monthCanvas = document.getElementById('monthtimechart');
 
