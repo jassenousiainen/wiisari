@@ -523,7 +523,8 @@ QUERY
         'admin'           => "$admin_perms",
         'reports'         => "$reports_perms",
         'time_admin'      => "$time_admin_perms",
-        'disabled'        => "$post_disabled"
+        'disabled'        => "$post_disabled",
+        'inout_status'    => $inout
     ));
 
     if (has_value($inout)) {
@@ -597,6 +598,7 @@ QUERY
         "empfullname, displayname, email, barcode, groups, office, admin, reports, time_admin, disabled",
         "employees", "empfullname = ? ORDER BY empfullname", $post_username
     );
+
     while ($row = mysqli_fetch_array($result4)) {
         $username = "" . $row['empfullname'] . "";
         $displayname = "" . $row['displayname'] . "";
