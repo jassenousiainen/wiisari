@@ -391,6 +391,7 @@ header a:hover {
 .loginBox input {
 	height: 3.125rem;
   padding: .75rem;
+	margin: 0;
 	width: 100%;
 	border-radius: 5px;
 	border: 1px solid #ced4da;
