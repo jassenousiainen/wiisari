@@ -119,7 +119,7 @@ if ($request == 'GET') {
 
     echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
     echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='index.php'><img src='../images/buttons/cancel_button.png'
+                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
                       border='0'></td></tr></table></form></td></tr>\n";
     include '../footer.php';
     exit;
@@ -462,7 +462,7 @@ if ($request == 'GET') {
 
         echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
         echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='index.php'><img src='../images/buttons/cancel_button.png'
+                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
                       border='0'></td></tr></table></form></td></tr>\n";
         include '../footer.php';
         exit;

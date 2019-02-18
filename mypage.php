@@ -101,11 +101,12 @@ if (isset($_SESSION['logged_in_user'])) {
       </p>
       <div class="section">
         <b>Hae töissä olevat työntekijät</b>
-        <br>
+        <br><br>
         <form name="getReport" action="/reports/in_employees.php" method="post">
           <select id="office" name="office_name" onchange="group_names();"></select>
           <select id="group" name="group_name" onchange="user_names();"></select>
           <select is="user" name="user_name"></select>
+          <br><br>
           <button class="btn" type="submit">Hae työntekijät</button>
         </form>
         <script type="text/javascript">office_names()</script>

@@ -32,7 +32,7 @@ if ($request == 'GET') {
     echo "        <tr class=right_main_text>\n";
     echo "          <td valign=top>\n";
     echo "            <br />\n";
-    echo "            <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
+    echo "            <form name='getReport' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
     echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
     echo "              <tr>\n";
     echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/report.png' />&nbsp;&nbsp;&nbsp;Daily
@@ -92,7 +92,7 @@ if ($request == 'GET') {
 
     echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
     echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='index.php'><img src='../images/buttons/cancel_button.png'
+                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
                       border='0'></td></tr></table></form></td></tr>\n";
     include '../footer.php';
     exit;
@@ -399,7 +399,7 @@ if ($request == 'GET') {
 
         echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
         echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='index.php'><img src='../images/buttons/cancel_button.png'
+                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
                       border='0'></td></tr></table></form></td></tr>\n";
         include '../footer.php';
         exit;

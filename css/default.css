@@ -33,12 +33,66 @@
 	 --gray: #6c757d;
 	 --gray-dark: #343a40;
 	 --gray-light: #dee2e6;
+	 --light: #f4f5f7;
+	 --light-hover: #e2e6ea;
 	 --green: #28a745;
 	 --green-dark: #1c8935;
 	 --red: #dc3545;
 	 --red-dark: #c42e3d;
 	 --purple: #6f42c1;
  }
+
+/* ----- DATEPICKER ----- */
+.ui-datepicker-group-first {
+	border-right: 1px solid var(--gray-light);
+  box-sizing: border-box;
+}
+.ui-widget {
+	font-family: 'Open Sans' !important;
+}
+.ui-widget-header {
+	border: none !important;
+	background: var(--blue) !important;
+  color: white !important;
+}
+.ui-widget.ui-widget-content {
+	border: 1px solid var(--gray-light) !important;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075) !important;
+  border-radius: .25rem !important;
+}
+.ui-widget select {
+	font-family: 'Open Sans' !important;
+	background-color: var(--light) !important;
+	font-size: 1em !important;
+	border: none !important;
+	border-radius: .25rem !important;
+	padding: .1rem .2rem !important;
+}
+.ui-widget th {
+	font-weight: normal !important;
+	color: var(--blue) !important;
+}
+.ui-widget .ui-state-default {
+	border: none !important;
+	border-radius: 18px;
+  background: white !important;
+	text-align: center !important;
+	color: var(--gray-dark) !important;
+	line-height: 30px;
+  width: 30px;
+  vertical-align: middle;
+}
+.ui-widget .ui-state-default:hover {
+	background-color: var(--gray-light) !important;
+}
+.ui-widget .ui-state-active {
+	background: var(--blue) !important;
+	color: white !important;
+}
+.ui-widget .ui-state-active:hover {
+	background: var(--darkblue) !important;
+}
+/*------------------------*/
 
 .btn {
 	display: inline-block;
@@ -448,9 +502,9 @@ section.container {
 	font-weight: 400;
 	line-height: 1.5;
 	color: #495057;
-	background-color: #fff;
+	background-color: var(--light);
 	background-clip: padding-box;
-	border: 1px solid #ced4da;
+	border: none;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 	resize: none;
@@ -480,7 +534,7 @@ section.container {
 .mainBox form {
 	margin: 0;
 }
-.mainBox form input {
+/*.mainBox form input{
 	display: inline-block;
   padding: .375rem .75rem;
 	margin: 10px 0;
@@ -493,8 +547,26 @@ section.container {
   border: 1px solid #ced4da;
   border-radius: .25rem;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}*/
+.mainBox form select, .mainBox form input {
+	display: inline-block;
+	padding: .4rem .9rem;
+	margin: 10px 0;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: var(--light);
+	background-clip: padding-box;
+	border: none;
+	border-radius: .25rem;
+	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
-.mainBox form input:focus {
+.mainBox form select:hover, .mainBox form input:hover{
+	background: var(--light-hover);
+	cursor: pointer;
+}
+.mainBox form input:focus, .mainBox form select:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
 }
