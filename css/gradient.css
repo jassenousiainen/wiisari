@@ -87,7 +87,7 @@ header a:hover {
 }
 .logotext {
   margin: 0;
-  font-size: 40px;
+  font-size: 44px;
 	font-family: 'JosefinSans';
 	font-weight: normal;
 	letter-spacing: 4px;
@@ -96,15 +96,14 @@ header a:hover {
 */}
 
 .loggedBar {
-	margin: 35px 35px 0 0;
-	height: 32px;
+	margin: 30px 37px 0 0;
 }
 .loggedBar a {
 	background: white;
 	color: var(--blue);
-	line-height: 40px;
+	line-height: 36px;
 	font-size: 17px;
-	border-radius: 20px;
+	border-radius: 18px;
 }
 .loggedBar a:hover {
 	color: white;
