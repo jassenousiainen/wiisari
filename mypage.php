@@ -79,12 +79,15 @@ if (isset($_SESSION['logged_in_user'])) {
         if ($_SESSION['logged_in_user']->admin == '1') {
           echo '<br><br><a class="btn" href="/admin/index.php">Hallintapaneeli</a>';
         }
-        if ($_SESSION['logged_in_user']->reports == '1') {
-          echo '<br><br><a class="btn" href="/reports/index.php">Raportit</a>';
-        }
         if ($_SESSION['logged_in_user']->admin == '1' || $_SESSION['logged_in_user']->time_admin == '1') {
           echo '<br><br><a class="btn" href="/admin/timeadmin.php">Kellotuseditori</a>';
         }
+        if ($_SESSION['logged_in_user']->reports == '1') {
+          echo '<br><br><a class="btn" href="/reports/total_hours.php">Työtunnit työntekijöittäin</a>';
+          echo '<br><br><a class="btn" href="/reports/timerpt.php">Päivittäiset tapahtumat</a>';
+          echo '<br><br><a class="btn" href="/reports/audit.php">Muutosloki</a>';
+        }
+
 
     echo '
       </p>

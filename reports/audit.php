@@ -1,32 +1,18 @@
 <?php
-
+require '../common.php';
 session_start();
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 $current_page = "audit.php";
 
-require '../common.php';
 
-if ($use_reports_password == "yes") {
 
-    if (!isset($_SESSION['valid_reports_user'])) {
-
-        echo "<title>$title</title>\n";
-        include '../admin/header.php';
-        include '../admin/topmain.php';
-
-        echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
-        echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>PHP Timeclock Reports</td></tr>\n";
-        echo "  <tr class=right_main_text>\n";
-        echo "    <td align=center valign=top scope=row>\n";
-        echo "      <table width=200 border=0 cellpadding=5 cellspacing=0>\n";
-        echo "        <tr class=right_main_text><td align=center>You are not presently logged in, or do not have permission to view this page.</td></tr>\n";
-        echo "        <tr class=right_main_text><td align=center>Click <a class=admin_headings href='../login_reports.php'><u>here</u></a> to login.</td></tr>\n";
-        echo "      </table><br /></td></tr></table>\n";
-        exit;
-    }
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->reports == 0) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+    exit;
 }
+
 
 echo "<title>$title - Audit Log</title>\n";
 
@@ -50,7 +36,7 @@ if ($request == 'GET') {
     echo "            <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
     echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
     echo "              <tr><td class=table_rows width=20 align=center><img src='../images/icons/information.png' /></td><td class=table_rows
-                      style='color:#3366CC;'>This report will display all information pertaining to punch-in/out times that have been 
+                      style='color:#3366CC;'>This report will display all information pertaining to punch-in/out times that have been
                       added, edited, or deleted from PHP Timeclock.</td></tr>\n";
     echo "            </table>\n";
     echo "            <br />\n";
@@ -382,7 +368,7 @@ if ($request == 'GET') {
     echo "  <tr><td width=80%></td><td nowrap style='font-size:9px;color:#000000;'>Date Range: $from_date - $to_date</td></tr>\n";
     if (!empty($tmp_csv)) {
         echo "  <tr class=notprint><td width=80%></td><td nowrap style='font-size:9px;color:#000000;'><a style='color:#27408b;font-size:9px;
-                  text-decoration:underline;' 
+                  text-decoration:underline;'
                   href=\"get_csv.php?rpt=auditlog&&csv=$tmp_csv&from=$from_timestamp&to=$to_timestamp&tzo=$tzo\">Download CSV File</a></td></tr>\n";
     }
     echo "</table>\n";

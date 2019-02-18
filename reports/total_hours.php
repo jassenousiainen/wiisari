@@ -1,12 +1,12 @@
 <?php
-
+require '../common.php';
 session_start();
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 $current_page = "total_hours.php";
 
-require '../common.php';
+
 
 if (!isset($tzo)) {
     settype($tzo, "integer");
@@ -18,24 +18,9 @@ if (!isset($tzo)) {
      }
 }
 
-if ($use_reports_password == "yes") {
-
-    if (!isset($_SESSION['valid_reports_user'])) {
-
-        include '../admin/header.php';
-        include '../admin/topmain.php';
-        echo "<title>$title</title>\n";
-
-        echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
-        echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>PHP Timeclock Reports</td></tr>\n";
-        echo "  <tr class=right_main_text>\n";
-        echo "    <td align=center valign=top scope=row>\n";
-        echo "      <table width=200 border=0 cellpadding=5 cellspacing=0>\n";
-        echo "        <tr class=right_main_text><td align=center>You are not presently logged in, or do not have permission to view this page.</td></tr>\n";
-        echo "        <tr class=right_main_text><td align=center>Click <a class=admin_headings href='../login_reports.php'><u>here</u></a> to login.</td></tr>\n";
-        echo "      </table><br /></td></tr></table>\n";
-        exit;
-    }
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->reports == 0) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+    exit;
 }
 
 echo "<title>$title - Hours Worked Report</title>\n";
