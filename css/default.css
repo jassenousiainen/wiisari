@@ -112,6 +112,25 @@
 	background-color: var(--darkblue);
 }
 
+/* General form */
+form select, form input{
+	display: inline-block;
+  padding: .375rem .75rem;
+	margin: 10px 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color 0.2s ease;
+}
+form input:focus, form select:focus {
+	border-color: var(--blue);
+	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
+}
 
 body {
 	background: #f8f9fa;
@@ -534,41 +553,13 @@ section.container {
 .mainBox form {
 	margin: 0;
 }
-/*.mainBox form input{
-	display: inline-block;
-  padding: .375rem .75rem;
-	margin: 10px 0;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}*/
 .mainBox form select, .mainBox form input {
-	display: inline-block;
-	padding: .4rem .9rem;
-	margin: 10px 0;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1.5;
-	color: #495057;
-	background-color: var(--light);
-	background-clip: padding-box;
 	border: none;
-	border-radius: .25rem;
-	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	background-color: var(--light);
 }
 .mainBox form select:hover, .mainBox form input:hover{
-	background: var(--light-hover);
+	background-color: var(--light-hover);
 	cursor: pointer;
-}
-.mainBox form input:focus, .mainBox form select:focus {
-	border-color: var(--blue);
-	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
 }
 
 .mypage_inout button {
@@ -633,6 +624,9 @@ section.container {
 
 
 /* User create page */
+.required {
+	color: red;
+}
 .createdescription {
 	font-size: 12px;
 	color: grey

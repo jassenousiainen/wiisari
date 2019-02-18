@@ -77,18 +77,18 @@ if ($request == 'GET') {
 
                         // Username
     echo "              <tr>
-                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Username:</td>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Username: <i class='required'>*</i></td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                            <input autocomplete='off' type='text' size='25' maxlength='50' name='post_username'>&nbsp;*
+                            <input autocomplete='off' type='text' size='25' maxlength='50' name='post_username'>
                           </td>
                           <td class='createdescription'>Tämä tulee vain ohjelmiston sisäiseen käyttöön. Tätä ei voi vaihtaa jälkeenpäin.</td>
                         </tr>\n";
 
                         // Display name
     echo "              <tr>
-                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Display Name:</td>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Display Name: <i class='required'>*</i></td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                            <input autocomplete='off' type='text' size='25' maxlength='50' name='display_name'>&nbsp;*
+                            <input autocomplete='off' type='text' size='25' maxlength='50' name='display_name'>
                           </td>
                           <td class='createdescription'>Henkilön ulospäin näkyvä nimi.</td>
                         </tr>\n";
@@ -117,26 +117,26 @@ if ($request == 'GET') {
 
                         // Barcode
     echo "              <tr>
-                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode:</td>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode: <i class='required'>*</i></td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                             <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode'>
                           </td>
-                          <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla henkilö kirjautuu sisään.</td>
+                          <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla työntekijä kirjautuu sisään.</td>
                         </tr>\n";
 
                         // Office
     echo "              <tr>
-                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Office:</td>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Office: <i class='required'>*</i></td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                            <select name='office_name' onchange='group_names();'></select>&nbsp;*
+                            <select name='office_name' onchange='group_names();'></select>
                           </td>
                         </tr>\n";
 
                         // Group
     echo "              <tr>
-                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Group:</td>
+                          <td class=table_rows height=25 style='padding-left:32px;' nowrap>Group: <i class='required'>*</i></td>
                           <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                            <select name='group_name'></select>&nbsp;*
+                            <select name='group_name'></select>
                           </td>
                         </tr>\n";
 
@@ -427,84 +427,118 @@ QUERY
         $password = crypt($password, 'xy');
         $confirm_password = crypt($confirm_password, 'xy');
 
+
         echo "            <br />\n";
         echo "            <form name='form' action='$self' method='post'>\n";
         echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
+
         echo "              <tr>\n";
-        echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/user_add.png' />&nbsp;&nbsp;&nbsp;Create User
-                </th></tr>\n";
+        echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/user_add.png' />&nbsp;&nbsp;&nbsp;Create User</th>
+                            </tr>\n";
+
         echo "              <tr><td height=15></td></tr>\n";
-        echo "              <tr><td class=table_rows  height=25 width=20% style='padding-left:32px;' nowrap>Username:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='50' name='post_username' value=\"$post_username\">&nbsp;*</td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Display Name:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='50' name='display_name' value=\"$display_name\">&nbsp;*</td></tr>\n";
 
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Password:</td><td colspan=2 width=80%
-                      style='padding-left:20px;'><input type='password' size='25' maxlength='25' name='password'></td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Confirm Password:</td><td colspan=2 width=80%
-                      style='padding-left:20px;'>
-                      <input type='password' size='25' maxlength='25' name='confirm_password'></td></tr>\n";
-        /*echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:11px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='email_addy' value=\"$email_addy\">&nbsp;*</td></tr>\n";*/
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Barcode:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <input type='text' size='25' maxlength='75' name='barcode' value='$user_barcode'> {$eval(btn_gen_barcode())} {$eval(btn_render_barcode())}</td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Office:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='office_name' onchange='group_names();'>\n";
-        echo "                      </select>&nbsp;*</td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Group:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='group_name' onfocus='group_names();'>
-                        <option selected>$group_name</option>\n";
-        echo "                      </select>&nbsp;*</td></tr>\n";
+                            // Username
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Username: <i class='required'>*</i></td>
+                              <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                                <input autocomplete='off' value=\"$post_username\" type='text' size='25' maxlength='50' name='post_username'>
+                              </td>
+                              <td class='createdescription'>Tämä tulee vain ohjelmiston sisäiseen käyttöön. Tätä ei voi vaihtaa jälkeenpäin.</td>
+                            </tr>\n";
 
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Sys Admin User?</td>\n";
-        if ($admin_perms == "1") {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='admin_perms' value='1'
-                    checked>&nbsp;Yes<input type='radio' name='admin_perms' value='0'>&nbsp;No</td></tr>\n";
-        } else {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='admin_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='admin_perms' value='0' checked>&nbsp;No</td></tr>\n";
-        }
+                            // Display name
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Display Name: <i class='required'>*</i></td>
+                              <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                                <input autocomplete='off' value=\"$display_name\" type='text' size='25' maxlength='50' name='display_name'>
+                              </td>
+                              <td class='createdescription'>Henkilön ulospäin näkyvä nimi.</td>
+                            </tr>\n";
 
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Time Admin User?</td>\n";
-        if ($time_admin_perms == "1") {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='time_admin_perms' value='1'
-                    checked>&nbsp;Yes<input type='radio' name='time_admin_perms' value='0'>&nbsp;No</td></tr>\n";
-        } else {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='time_admin_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='time_admin_perms' value='0' checked>&nbsp;No</td></tr>\n";
-        }
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Reports User?</td>\n";
-        if ($reports_perms == "1") {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='reports_perms' value='1'
-                    checked>&nbsp;Yes<input type='radio' name='reports_perms' value='0'>&nbsp;No</td></tr>\n";
-        } else {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='reports_perms' value='1'>&nbsp;Yes
-                    <input type='radio' name='reports_perms' value='0' checked>&nbsp;No</td></tr>\n";
-        }
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>User Account Disabled?</td>\n";
-        if ($post_disabled == "1") {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='disabled' value='1'
-                    checked>&nbsp;Yes<input type='radio' name='disabled' value='0'>&nbsp;No</td></tr>\n";
-        } else {
-            echo "                <td class=table_rows align=left width=80% style='padding-left:20px;'><input type='radio' name='disabled' value='1'>&nbsp;Yes
-                    <input type='radio' name='disabled' value='0' checked>&nbsp;No</td></tr>\n";
-        }
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Initial Punch:</td><td colspan=2 width=80%
-                          style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                          <select name='inout'><option value=''>...</option>" . html_options(tc_select("punchitems", "punchlist"), $inout) . "</select></td></tr>\n";
-        echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
+                            // Password
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Password:</td>
+                              <td style='padding-left:20px;'>
+                                <input autocomplete='off' type='password' size='25' maxlength='25' name='password'>
+                              </td>
+                              <td class='createdescription'>Täytä salasana vain jos käyttäjästä tulee hallitsija.</td>
+                            </tr>\n";
+
+                            // Confirm password
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Confirm Password:</td>
+                              <td style='padding-left:20px;'>
+                                <input autocomplete='off' type='password' size='25' maxlength='25' name='confirm_password'>
+                              </td>
+                            </tr>\n";
+
+                            // Barcode
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode: <i class='required'>*</i></td>
+                              <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                                <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode'>
+                              </td>
+                              <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla työntekijä kirjautuu sisään.</td>
+                            </tr>\n";
+
+                            // Office
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Office: <i class='required'>*</i></td>
+                              <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                                <select name='office_name' onchange='group_names();'></select>
+                              </td>
+                            </tr>\n";
+
+                            // Group
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Group: <i class='required'>*</i></td>
+                              <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
+                                <select name='group_name'></select>
+                              </td>
+                            </tr>\n";
+
+                            // Admin user
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Sys Admin User?</td>
+                              <td class=table_rows align=left style='padding-left:20px;'>
+                                <input type='radio' name='admin_perms' value='1'>&nbsp;Yes
+                                <input type='radio' name='admin_perms' value='0' checked>&nbsp;No
+                              </td>
+                              <td class='createdescription'>Admin userilla on täysi pääsy hallintapaneeliin.</td>
+                            </tr>\n";
+
+                            // Time admin user
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Time Admin User?</td>
+                              <td class=table_rows align=left style='padding-left:20px;'>
+                                <input type='radio' name='time_admin_perms' value='1'>&nbsp;Yes
+                                <input type='radio' name='time_admin_perms' value='0' checked>&nbsp;No
+                              </td>
+                              <td class='createdescription'>Time admin userilla on pääsy vain hallintapaneelin 'Add/Edit/Delete time'-raporttien muokkausosioon.</td>
+                            </tr>\n";
+
+                            // Reports user
+        echo "              <tr>
+                              <td class=table_rows height=25 style='padding-left:32px;' nowrap>Reports User?</td>
+                              <td class=table_rows align=left style='padding-left:20px;'>
+                                <input type='radio' name='reports_perms' value='1'>&nbsp;Yes
+                                <input type='radio' name='reports_perms' value='0' checked>&nbsp;No
+                              </td>
+                              <td class='createdescription'>Reports userilla on pääsy ainoastaan raportit -näkymään.</td>
+                            </tr>\n";
+
+        echo "              <tr>
+                              <td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;vaadittu&nbsp;</td>
+                            </tr>\n";
+
         echo "            </table>\n";
         echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
         echo "              <tr><td height=40>&nbsp;</td></tr>\n";
         echo "              <tr><td width=30><input type='image' name='submit' value='Create User' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='useradmin.php'><img src='../images/buttons/cancel_button.png'
-                      border='0'></td></tr></table></form></td></tr>\n";
+                          src='../images/buttons/next_button.png'></td><td><a href='useradmin.php'><img src='../images/buttons/cancel_button.png'
+                          border='0'></td></tr></table>
+                          </form></td></tr>\n";
         include '../footer.php';
         exit;
     }
