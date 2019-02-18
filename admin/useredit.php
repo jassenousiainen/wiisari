@@ -97,7 +97,7 @@ if ($request == 'GET') {
         $username = "" . $row['empfullname'] . "";
         $displayname = "" . $row['displayname'] . "";
         $user_email = "" . $row['email'] . "";
-        $user_barcode = "" . strtoupper($row['barcode']) . "";
+        $user_barcode = "" . $row['barcode'] . "";
         $groups_tmp = "" . $row['groups'] . "";
         $office = "" . $row['office'] . "";
         $admin = "" . $row['admin'] . "";
@@ -223,7 +223,7 @@ if ($request == 'GET') {
     $post_username = $_POST['post_username'];
     $display_name = $_POST['display_name'];
     $email_addy = '';
-    $user_barcode = value_or_null(strtoupper($_POST['barcode']));// UNIQUE constraint so no empty strings
+    $user_barcode = value_or_null($_POST['barcode']);// UNIQUE constraint so no empty strings
     $office_name = $_POST['office_name'];
     @$get_office = $_POST['get_office'];
     @$group_name = $_POST['group_name'];

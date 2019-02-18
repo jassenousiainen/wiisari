@@ -57,7 +57,7 @@ if ($request == 'GET') {
     echo "        <tr class=right_main_text>\n";
     echo "          <td valign=top>\n";
     echo "            <br />\n";
-    echo "            <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
+    echo "            <form name='getReport' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
     echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
     echo "              <tr>\n";
     echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/report.png' />&nbsp;&nbsp;&nbsp;
@@ -396,7 +396,7 @@ if ($request == 'GET') {
 
     if (isset($evil_post)) {
         echo "            <br />\n";
-        echo "            <form name='form' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
+        echo "            <form name='getReport' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
         echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
         echo "              <tr>\n";
         echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/report.png' />&nbsp;&nbsp;&nbsp;

@@ -1,9 +1,9 @@
 <script language="JavaScript">
 
     function office_names() {
-        var select = document.form.office_name;
-        var groups_select = document.form.group_name;
-        var users_select = document.form.user_name;
+        var select = document.forms['getReport'].office_name;
+        var groups_select = document.forms['getReport'].group_name;
+        var users_select = document.forms['getReport'].user_name;
         select.options[0] = new Option("All");
         select.options[0].value = 'All';
         groups_select.options[0] = new Option("All");
@@ -33,9 +33,9 @@
 
 
     function group_names() {
-        var offices_select = document.form.office_name;
-        var groups_select = document.form.group_name;
-        var users_select = document.form.user_name;
+        var offices_select = document.forms['getReport'].office_name;
+        var groups_select = document.forms['getReport'].group_name;
+        var users_select = document.forms['getReport'].user_name;
         groups_select.options[0] = new Option("All");
         groups_select.options[0].value = 'All';
         users_select.options[0] = new Option("All");
@@ -94,9 +94,9 @@
 
 
     function user_names() {
-        var offices_select = document.form.office_name;
-        var groups_select = document.form.group_name;
-        var users_select = document.form.user_name;
+        var offices_select = document.forms['getReport'].office_name;
+        var groups_select = document.forms['getReport'].group_name;
+        var users_select = document.forms['getReport'].user_name;
         users_select.options[0] = new Option("All");
         users_select.options[0].value = 'All';
 

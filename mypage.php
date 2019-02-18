@@ -85,6 +85,7 @@ if (isset($_SESSION['logged_in_user'])) {
         if ($_SESSION['logged_in_user']->admin == '1' || $_SESSION['logged_in_user']->time_admin == '1') {
           echo '<br><br><a class="btn" href="/admin/timeadmin.php">Kellotuseditori</a>';
         }
+
     echo '
       </p>
       <p class="section" style="overflow:auto;">
@@ -95,6 +96,17 @@ if (isset($_SESSION['logged_in_user'])) {
         <br>
         Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'
       </p>
+      <div class="section">
+        <b>Hae töissä olevat työntekijät</b>
+        <br>
+        <form name="getReport" action="/reports/in_employees.php" method="post">
+          <select id="office" name="office_name" onchange="group_names();"></select>
+          <select id="group" name="group_name" onchange="user_names();"></select>
+          <select is="user" name="user_name"></select>
+          <button class="btn" type="submit">Hae työntekijät</button>
+        </form>
+        <script type="text/javascript">office_names()</script>
+      </div>
     </div>';
   }
 
@@ -111,8 +123,8 @@ if (isset($_SESSION['logged_in_user'])) {
                 Hae täysi tuntiraportti valitsemallasi aikavälillä.
                 <br><br>
                 <form name='form' action='/reports/personalreport.php' method='post' onsubmit=\"return isFromOrToDate();\">
-                  <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'>
-                  <input type='text' id='to' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
+                  <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'> -
+                  <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
                   <br>
                   <label for='tmp_show_details'>Näytä yksittäiset kirjaukset</label>
                   <input type='checkbox' name='tmp_show_details' value='1' ".(yes_no_bool($show_details) ? ' checked' : '')." style='height:15px; width:20px; float:none;'>
