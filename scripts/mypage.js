@@ -63,36 +63,3 @@ window.onload=function() {
   }
 
 }
-
-
-$( function() {
-var dateFormat = "mm/dd/yy";
-$( "#from" ).datepicker({
-    changeMonth: true,
-    numberOfMonths: 2,
-    defaultDate: "-1m",
-    minDate: "-2y",
-    maxDate: -1,
-    showAnim: "slide"
-  });
-
-$( "#to" ).datepicker({
-  changeMonth: true,
-  numberOfMonths: 2,
-  defaultDate: 0,
-  minDate: "-2y",
-  maxDate: 0,
-  showAnim: "slide"
-});
-
-function getDate( element ) {
-var date;
-try {
-  date = $.datepicker.parseDate( dateFormat, element.value );
-} catch( error ) {
-  date = null;
-}
-
-return date;
-}
-} );

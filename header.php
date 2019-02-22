@@ -55,8 +55,9 @@ if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<script type="text/javascript" src="/scripts/wiisari.js"></script>';
 } else {
-  echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.css' id='theme' />\n";
+ echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.css' id='theme' />\n";
 }
+
 if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
@@ -68,6 +69,12 @@ if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
     include 'scripts\dropdown_get_reports.php';
   }
 }
+else if ($_SERVER['REQUEST_URI'] == '/time_editor.php')  {
+  echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
+  echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
+  echo '<script src="/scripts/datepicker-fi.js"></script>';
+}
+
 //echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 echo '<link rel="shortcut icon" href="images/icons/wiisari_title.png" type="image/x-icon"/>';
 echo '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">';

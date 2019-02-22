@@ -112,6 +112,13 @@
 	background-color: var(--darkblue);
 }
 
+.btn.del {
+	background-color: var(--red);
+}
+.btn.del:hover {
+	background-color: var(--red-dark);
+}
+
 /* General form */
 form select, form input{
 	display: inline-block;
@@ -428,6 +435,63 @@ header a:hover {
 }
 
 
+
+/* --- Basic Boxes --- */
+section.container {
+	display: flex;
+	justify-content: center;
+  text-align: left;
+  overflow: hidden;
+	max-width: 1300px;
+	margin: 40px auto 50px auto;
+	padding: 20px;
+}
+.container .mainBox {
+	flex-grow: 1;
+	max-width: 970px;
+}
+.container h2 {
+	width: 100%;
+	margin: 0 0 20px 0;
+	line-height: 50px;
+	padding-left: 20px;
+	box-sizing: border-box;
+	background: var(--blue);
+	color: white;
+	font-weight: 400;
+	font-family: 'Segoe UI', 'Open Sans Light';
+}
+.container .mainBox > div{
+	overflow: hidden;
+	min-height: 200px;
+	margin-bottom: 20px;
+	background-color: white;
+	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+	border-radius: .25rem;
+	padding-bottom: 40px;
+}
+.container .section {
+	color: var(--gray);
+	margin: 0 1em 1.5em 1em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--gray-light);
+}
+.section table {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: separate;
+  border-spacing: 0 1px;
+	overflow: scroll;
+}
+.section table td span {
+	padding: 3px 12px;
+	border-radius: 15px;
+	color: white;
+	display: inline-block;
+	width: 30px;
+}
+
+
 /* --- MYPAGE --- */
 section.mypageHead {
 	transform: skewY(-2deg);
@@ -444,7 +508,6 @@ section.mypageHead {
 	box-shadow: 0px 1px 11px #d9d9d9;
 	background: white; /*#005EB8*/
 }
-
 .mypageHead div {
 	transform: skewY(2deg);
 }
@@ -467,26 +530,12 @@ section.mypageHead {
 .mypageHead a#secondary:hover {
 	background-color: var(--gray-dark);
 }
-
-section.container {
-	display: flex;
-  text-align: left;
-  overflow: hidden;
-	max-width: 1300px;
-	margin: 40px auto 50px auto;
-	padding: 20px;
+.myPage .mainBox {
+	order: 2;
+	flex-grow: 1;
+	margin-left: 20px;
 }
-.container h2 {
-	width: 100%;
-	margin: 0 0 20px 0;
-	line-height: 50px;
-	padding-left: 20px;
-	box-sizing: border-box;
-	color: white;
-	font-weight: 400;
-	font-family: 'Segoe UI', 'Open Sans Light';
-}
-.container .leftInfo {
+.myPage .leftInfo {
 	order: 1;
 	overflow: hidden;
   min-width: 300px;
@@ -495,20 +544,7 @@ section.container {
 	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
 	border-radius: .25rem;
 }
-.container .mainBox {
-	order: 2;
-	flex-grow: 1;
-	margin-left: 20px;
-}
-.container .mainBox > div{
-	overflow: hidden;
-	min-height: 200px;
-	margin-bottom: 20px;
-	background-color: white;
-	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-	border-radius: .25rem;
-	padding-bottom: 40px;
-}
+
 .leftInfo h2 {
 	background: var(--blue);
 }
@@ -545,24 +581,17 @@ section.container {
 .mainBox .admin h2 {
 	background: var(--orange);
 }
-.container .section {
-	color: var(--gray);
-	margin: 0 1em 1.5em 1em;
-	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--gray-light);
-}
 .mainBox form {
 	margin: 0;
 }
-.mainBox form select, .mainBox form input {
+.myPage form select, .myPage form input {
 	border: none;
 	background-color: var(--light);
 }
-.mainBox form select:hover, .mainBox form input:hover{
+.myPage form select:hover, .myPage form input:hover{
 	background-color: var(--light-hover);
 	cursor: pointer;
 }
-
 .mypage_inout button {
 	width: 100px;
 	height: 100px;
