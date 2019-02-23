@@ -108,6 +108,11 @@ echo '</div></div></section>';
 
 // Update inout_status to match last log
 $inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"))[0];
-tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $empfullname);
+if ($inout == 'in' || $inout == 'out') {
+  tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $empfullname);
+} else {
+  tc_update_strings("employees", array("inout_status" => 'out'), "empfullname = ?", $empfullname);
+}
+
 
 ?>
