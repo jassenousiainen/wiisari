@@ -83,7 +83,7 @@ if (isset($_SESSION['logged_in_user'])) {
           echo '<a class="btn tile" href="/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
         }
         if ($_SESSION['logged_in_user']->reports == '1') {
-          echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit työntekijöittäin</span></a>';
+          echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
           echo '<a class="btn tile" href="/reports/audit.php"><i class="fas fa-book-open"></i><span>Muutosloki</span></a>';
         }
