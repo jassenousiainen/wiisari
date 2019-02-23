@@ -13,8 +13,8 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_adm
     exit;
 }
 
-if ($request == 'GET') {
 
+if ($request == 'GET') {
   $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname ASC");
 
 echo '<section class="container">
@@ -38,26 +38,51 @@ echo '<section class="container">
   }
 echo '          </table>
                 <br>
-                <button name="newtime" type="submit" class="btn" value=""><i class="fas fa-plus"></i> Lisää uusia aikoja</button>
-                <button name="edittime" type="submit" class="btn" value=""><i class="fas fa-pencil-alt"></i> Muokkaa tai poista aikoja</button)
+                <button name="edittime" type="submit" class="btn" value=""><i class="fas fa-pencil-alt"></i> Valitse</button)
               </form>
             </div>
           </div>
         </div>
       </section>';
-
 }
+
 
 else if  (isset($_POST['edittime']) ) {
   $empfullname = $_POST['emp'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
-  $inoutdata_query = tc_query("SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC");
 
-  echo '<section class="container">
-          <div class="mainBox">
-            <a class="btn back" href="/time_editor.php"> Takaisin</a>
+  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';
+  echo '<section class="container">';
+  echo '  <div class="leftBox">
+            <h2>Lisää aika</h2>
+            <div class="section">
+              <form action="'.$self.'" method="post">
+                <p>Täytä toinen tai molemmat:</p>
+                <b>Sisään:</b>
+                <br>
+                <input type="text" id="from" autocomplete="off" size="10" maxlength="10" name="in_date" placeholder="pvm">
+                <input name="in_time" type="time">
+                <br><br>
+                <b>Ulos:</b>
+                <br>
+                <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
+                <input name="out_time" type="time">
+                <br><br>
+                <input type="text" name="emp" value="'.$empfullname.'" style="display:none;">
+                <button type="submit" name="edittime" class="btn">Lisää</button>
+              </form>
+            </div>';
+  if (isset($_POST['in_date']) || isset($_POST['out_date'])) {
+    echo '  <div class="section">
+              <p>Nämä lisättiin onnistuneesti:</p>';
+    include 'addtime.php';
+    echo '  </div>';
+  }
+  echo '  </div>';
+
+  echo'    <div class="mainBox">
             <div>
-              <h2>Kellotuseditori - muokkaa aikaa ('.$user_data[3].')</h2>
+              <h2>Kellotuseditori - '.$user_data[3].'</h2>
               <div class="section">
               <form action="/edit_time.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
@@ -73,7 +98,7 @@ else if  (isset($_POST['edittime']) ) {
                   </tr>';
   $max = 0;
   $prev = '';
-
+  $inoutdata_query = tc_query("SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC");
   while ( $inout = mysqli_fetch_row($inoutdata_query) ) {
 
     $logTime = new DateTime("@$inout[3]");
@@ -82,27 +107,26 @@ else if  (isset($_POST['edittime']) ) {
     if ( $prev == '' || ($prev == 'out' && $inout[2] == 'in') || ($prev == 'in' && $inout[2] == 'out')) {
       if ($inout[2] == 'in') {
         echo "<tr style='background-color: white;'>
-              <td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
+                <td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
       } else {
         echo "<tr style='background-color: var(--light);'>
-              <td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
+                <td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
     }
     else {
       echo "<tr style='background-color: var(--orange);'>
-            <td style='text-align:center;'><span>$inout[2]</span></td>"; }
+              <td style='text-align:center;'><span>$inout[2]</span></td>"; }
 
-    echo "
-                    <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
-                    <td style='text-align:center;'>".$logTime->format("H:i")."</td>
-                    <td colspan='3' style='word-wrap: break-word;'>$inout[4]</td>
-                    <td style='text-align:center;'>
-                      <label class='container'>
-                        <input type='checkbox' name='deletelist[]' value='$inout[0]' class='check'>
-                        <span class='checkmark'></span>
-                      </label>
-                    </td>
-                    <td style='text-align:center;'><button type='submit' name='edit' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>
-                  </tr>";
+      echo "  <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
+              <td style='text-align:center;'>".$logTime->format("H:i")."</td>
+              <td colspan='3' style='word-wrap: break-word;'>$inout[4]</td>
+              <td style='text-align:center;'>
+                <label class='container'>
+                  <input type='checkbox' name='deletelist[]' value='$inout[0]' class='check'>
+                  <span class='checkmark'></span>
+                </label>
+              </td>
+              <td style='text-align:center;'><button type='submit' name='edit' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>
+            </tr>";
     $prev = $inout[2];
     $max++;
     if ($max == 200) { break; }
@@ -114,34 +138,6 @@ echo '          </table>
           </div>
         </div>
       </section>';
-}
-
-else if  (isset($_POST['newtime']) ) {
-  $empfullname = $_POST['emp'];
-  $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
-
-  echo '<section class="container">
-          <div class="mainBox">
-            <a class="btn back" href="/time_editor.php"> Takaisin</a>
-            <div>
-              <h2>Kellotuseditori - lisää aika ('.$user_data[3].')</h2>
-              <div class="section">
-                <form action="/edit_time.php" method="post">
-                  <p><b>Täytä toinen tai molemmat: </b></p>
-                  Sisään:
-                  <input type="text" id="from" autocomplete="off" size="10" maxlength="10" name="in_date" placeholder="pvm">
-                  <input name="in_time" type="time">
-                  <br>
-                  Ulos:
-                  <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
-                  <input name="out_time" type="time">
-                  <br><br>
-                  <button type="submit" name="newtime" value="'.$empfullname.'" class="btn">Lähetä</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>';
 }
 
 ?>

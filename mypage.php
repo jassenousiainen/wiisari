@@ -47,7 +47,7 @@ if (isset($_SESSION['logged_in_user'])) {
   echo '<section class="container myPage">';
 
 
-  echo '<div class="leftInfo">
+  echo '<div class="leftBox leftInfo">
           <h2>Kellotus</h2>
           <div class="section">
           <form class="mypage_inout"action="inout.php" method="post">';

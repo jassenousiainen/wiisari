@@ -206,9 +206,10 @@ label.container span.checkmark { /* Create a custom checkbox */
 	color: white;
 	padding: 3px;
 	text-align: center;
-	line-height: 20px;
-  height: 20px;
-  width: 20px;
+	line-height: 18px;
+  height: 18px;
+  width: 18px;
+	border: 1px solid var(--blue);
 	border-radius: 16px;
 	transition: background-color 0.2s ease;
   background-color: #eee;
@@ -507,8 +508,19 @@ section.container {
 	padding: 20px;
 }
 .container .mainBox {
+	order: 2;
 	flex-grow: 1;
 	max-width: 970px;
+}
+.container .leftBox {
+	order: 1;
+	overflow: hidden;
+	margin-right:20px;
+	width: 320px;
+	height: 500px;
+	background-color: white;
+	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+	border-radius: .25rem;
 }
 .container h2 {
 	width: 100%;
@@ -591,21 +603,6 @@ section.mypageHead {
 .mypageHead a#secondary:hover {
 	background-color: var(--gray-dark);
 }
-.myPage .mainBox {
-	order: 2;
-	flex-grow: 1;
-	margin-left: 20px;
-}
-.myPage .leftInfo {
-	order: 1;
-	overflow: hidden;
-  min-width: 300px;
-	height: 500px;
-	background-color: white;
-	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-	border-radius: .25rem;
-}
-
 .leftInfo h2 {
 	background: var(--blue);
 }
