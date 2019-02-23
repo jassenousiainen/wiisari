@@ -89,7 +89,8 @@ if ($refresh == "none") {
     echo "</head>\n";
 }
 
-setTimeZone();
+//date_default_timezone_set('Europe/Helsinki');
+//setTimeZone();
 
 ?>
 <body>

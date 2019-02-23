@@ -138,6 +138,49 @@ form input:focus, form select:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
 }
+form label.container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+label.container input.check { /* Hide the browser's default checkbox */
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+label.container .checkmark { /* Create a custom checkbox */
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	font-size: 15px;
+	color: white;
+	padding: 3px;
+	line-height: 20px;
+  height: 20px;
+  width: 20px;
+	border-radius: 16px;
+	transition: background-color 0.2s ease;
+  background-color: #eee;
+}
+/* On mouse-over, add a grey background color */
+label.container:hover input.check ~ .checkmark {
+  background-color: #ccc;
+}
+/* When the checkbox is checked, add a blue background */
+label.container input.check:checked ~ .checkmark {
+  background-color: var(--blue);
+}
+/* Show the checkmark when checked */
+label.container input.check:checked ~ .checkmark:before{
+  content: "\f00c";
+}
+
 
 body {
 	background: #f8f9fa;
@@ -483,13 +526,14 @@ section.container {
   border-spacing: 0 1px;
 	overflow: scroll;
 }
-.section table td span {
+.section table td span.inout {
 	padding: 3px 12px;
 	border-radius: 15px;
 	color: white;
 	display: inline-block;
 	width: 30px;
 }
+
 
 
 /* --- MYPAGE --- */

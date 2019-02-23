@@ -44,7 +44,7 @@ $( "#from" ).datepicker({
     numberOfMonths: 2,
     defaultDate: "-1m",
     minDate: "-2y",
-    maxDate: -1,
+    maxDate: 0,
     showAnim: "slide"
   });
 

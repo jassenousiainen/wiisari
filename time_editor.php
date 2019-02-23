@@ -53,8 +53,9 @@ else if  (isset($_POST['edittime']) ) {
             <div>
               <h2>Kellotuseditori - muokkaa aikaa ('.$user_data[3].')</h2>
               <div class="section">
-              <p style="color:red;">oransilla merkityt kirjaukset ilmaisevat virheestä</p>
               <form action="/edit_time.php" method="post">
+                Oransilla merkityt kirjaukset ilmaisevat virheestä.
+                <button type="submit" name="deletetime" value="'.$empfullname.'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
                 <table>
                   <tr>
                     <th>Sisään/Ulos</th>
@@ -66,17 +67,19 @@ else if  (isset($_POST['edittime']) ) {
                   </tr>';
   $max = 0;
   $prev = '';
-  while ( $inout = mysqli_fetch_row($inoutdata_query)) {
+
+  while ( $inout = mysqli_fetch_row($inoutdata_query) ) {
+
     $logTime = new DateTime("@$inout[3]");
     $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
     if ( $prev == '' || ($prev == 'out' && $inout[2] == 'in') || ($prev == 'in' && $inout[2] == 'out')) {
       if ($inout[2] == 'in') {
         echo "<tr style='background-color: white;'>
-              <td style='text-align:center;'><span style='background-color:var(--lightgreen);'>$inout[2]</span></td>";
+              <td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
       } else {
         echo "<tr style='background-color: var(--light);'>
-              <td style='text-align:center;'><span style='background-color:var(--red);'>$inout[2]</span></td>"; }
+              <td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
     }
     else {
       echo "<tr style='background-color: var(--orange);'>
@@ -86,7 +89,12 @@ else if  (isset($_POST['edittime']) ) {
                     <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
                     <td style='text-align:center;'>".$logTime->format("H:i")."</td>
                     <td colspan='3' style='word-wrap: break-word;'>$inout[4]</td>
-                    <td style='text-align:center;'><input type='checkbox' name='deletelist[]' value='$inout[0]' class='btn'></td>
+                    <td style='text-align:center;'>
+                      <label class='container'>
+                        <input type='checkbox' name='deletelist[]' value='$inout[0]' class='check'>
+                        <span class='checkmark'></span>
+                      </label>
+                    </td>
                     <td style='text-align:center;'><button type='submit' name='edit' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>
                   </tr>";
     $prev = $inout[2];
@@ -94,8 +102,6 @@ else if  (isset($_POST['edittime']) ) {
     if ($max == 200) { break; }
   }
 echo '          </table>
-                <br>
-                <button type="submit" name="delete" class="btn del" style="float:right;">Poista valitut</button>
               </form>
               (näyttää viimeiset 200 kirjausta, mikäli vanhempia tarvitsee muokata tulee tämä tehdä phpMyAdminissa)
             </div>
@@ -123,7 +129,7 @@ else if  (isset($_POST['newtime']) ) {
                   <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
                   <input name="out_time" type="time">
                   <br><br>
-                  <button type="submit" class="btn">Lähetä</button>
+                  <button type="submit" name="newtime" value="'.$empfullname.'" class="btn">Lähetä</button>
                 </form>
               </div>
             </div>
