@@ -75,17 +75,17 @@ if (isset($_SESSION['logged_in_user'])) {
     <div class="admin">
       <h2>Hallinnan toiminnot</h2>
       <p class="section">
-        Sinulla on pääsy seuraaville sivuille:';
+        Sinulla on pääsy seuraaville sivuille: <br>';
         if ($_SESSION['logged_in_user']->admin == '1') {
-          echo '<br><br><a class="btn" href="/admin/index.php">Hallintapaneeli</a>';
+          echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }
         if ($_SESSION['logged_in_user']->time_admin == '1') {
-          echo '<br><br><a class="btn" href="/time_editor.php">Kellotuseditori</a>';
+          echo '<a class="btn tile" href="/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
         }
         if ($_SESSION['logged_in_user']->reports == '1') {
-          echo '<br><br><a class="btn" href="/reports/total_hours.php">Työtunnit työntekijöittäin</a>';
-          echo '<br><br><a class="btn" href="/reports/timerpt.php">Päivittäiset tapahtumat</a>';
-          echo '<br><br><a class="btn" href="/reports/audit.php">Muutosloki</a>';
+          echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit työntekijöittäin</span></a>';
+          echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
+          echo '<a class="btn tile" href="/reports/audit.php"><i class="fas fa-book-open"></i><span>Muutosloki</span></a>';
         }
 
 

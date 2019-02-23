@@ -59,10 +59,10 @@ if ( isset($_SESSION['logged_in_user']) ) {
       <div id='chooseLogin'>
         <img src='/images/icons/wiisari_title.png'>
         <h2>Valitse kirjautumissivu</h2>
-        <button id='admin'><i class='fas fa-toolbox'></i> Hallinta</button>
-        <button id='employee'><i class='fas fa-user'></i> Työntekijä</button>
+        <a id='admin' class='btn tile'><i class='fas fa-toolbox'></i><span>Hallinta</span></a>
+        <a id='employee' class='btn tile'><i class='fas fa-user'></i><span>Työntekijä</span></a>
         <br>
-        <a href='/index.php'>Takaisin etusivulle</a>
+        <a class='link' href='/index.php'>Takaisin etusivulle</a>
       </div>";
 
 
@@ -78,7 +78,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
             echo "<p style='color:red;'>Käyttäjätunnuksella ei löytynyt ketään</p>";
         }
     echo "<button type='submit'>Kirjaudu</button>
-        <a id='employeeSlideBack'><i class='fas fa-arrow-circle-left'></i></a>
+        <a class='link' id='employeeSlideBack'><i class='fas fa-arrow-circle-left'></i></a>
       </form></div>";
 
 
@@ -95,7 +95,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
             echo "<p style='color:red;'>Käyttäjätunnus ja/tai salasana on väärin</p>";
         }
     echo "<button type='submit'>Kirjaudu</button>
-        <a id='adminSlideBack'><i class='fas fa-arrow-circle-right'></i></a>
+        <a class='link' id='adminSlideBack'><i class='fas fa-arrow-circle-right'></i></a>
       </form></div>";
 }
 

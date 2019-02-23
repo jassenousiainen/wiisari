@@ -130,6 +130,38 @@
 	font-weight: 900;
 	content: "\f104";
 }
+.btn.tile {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+	height: 120px;
+	width: 120px;
+	margin: 10px;
+	padding: 0;
+	text-align: center;
+/* line-height: 100px; */
+}
+.btn.tile i {
+	font-size: 40px;
+	margin: 30px 0 7px 0;
+	width: 100%;
+}
+.btn.tile span {
+	position: absolute;
+	display: block;
+	line-height: 17px;
+	width: 100%;
+	bottom: 10px;
+}
+
+a.link {
+	color: var(--blue);
+	text-decoration: none;
+}
+a.link:hover {
+	color: var(--darkblue);
+	cursor: pointer;
+}
 
 /* General form */
 form select, form input{
@@ -382,36 +414,14 @@ header a:hover {
 	width: 100%;
 	text-align: center
 }
+#admin {
+	background-color: var(--orange);
+}
+#admin:hover {
+	background-color: var(--darkorange);
+}
 #chooseLogin img {
 	height: 100px;
-}
-#chooseLogin button {
-	width: 100px;
-  height: 100px;
-  border: none;
-  border-radius: 7px;
-  color: white;
-	transition: background-color 0.2s ease;
-	margin-bottom: 20px;
-}
-#chooseLogin button i {
-	font-size: 40px;
-	margin-bottom: 5px;
-}
-#chooseLogin button#employee {
-	background-color: var(--blue);
-}
-#chooseLogin button#employee:hover {
-	background-color: var(--darkblue);
-	cursor: pointer;
-}
-#chooseLogin button#admin {
-	background-color: var(--orange);
-	margin-right: 20px;
-}
-#chooseLogin button#admin:hover {
-	background-color: var(--darkorange);
-	cursor: pointer;
 }
 #employeeSlideLogin {
 	width: 100%;
@@ -482,14 +492,7 @@ header a:hover {
 	cursor: pointer;
 	background-color: var(--darkblue);
 }
-.loginPage a {
-	color: #007bff;
-	text-decoration: none;
-}
-.loginPage a:hover {
-	color: #2864a5;
-	cursor: pointer;
-}
+
 
 
 

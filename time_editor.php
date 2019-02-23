@@ -38,8 +38,8 @@ echo '<section class="container">
   }
 echo '          </table>
                 <br>
-                <input name="newtime" type="submit" class="btn" value="Lisää uusi aika">
-                <input name="edittime" type="submit" class="btn" value="Muokkaa tai poista aika">
+                <button name="newtime" type="submit" class="btn" value=""><i class="fas fa-plus"></i> Lisää uusia aikoja</button>
+                <button name="edittime" type="submit" class="btn" value=""><i class="fas fa-pencil-alt"></i> Muokkaa tai poista aikoja</button)
               </form>
             </div>
           </div>

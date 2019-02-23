@@ -77,7 +77,7 @@ else if ($_SERVER['REQUEST_URI'] == '/time_editor.php')  {
 
 //echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 echo '<link rel="shortcut icon" href="images/icons/wiisari_title.png" type="image/x-icon"/>';
-echo '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">';
+echo '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">';
 
 
 // set refresh rate for each page //
