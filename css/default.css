@@ -118,6 +118,18 @@
 .btn.del:hover {
 	background-color: var(--red-dark);
 }
+.btn.back {
+	margin-bottom: 20px;
+	background-color: var(--gray);
+}
+.btn.back:hover {
+	background-color: var(--gray-dark);
+}
+.btn.back:before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f104";
+}
 
 /* General form */
 form select, form input{
@@ -154,13 +166,14 @@ label.container input.check { /* Hide the browser's default checkbox */
   height: 0;
   width: 0;
 }
-label.container .checkmark { /* Create a custom checkbox */
+label.container span.checkmark { /* Create a custom checkbox */
 	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	font-size: 15px;
 	color: white;
 	padding: 3px;
+	text-align: center;
 	line-height: 20px;
   height: 20px;
   width: 20px;
@@ -169,17 +182,18 @@ label.container .checkmark { /* Create a custom checkbox */
   background-color: #eee;
 }
 /* On mouse-over, add a grey background color */
-label.container:hover input.check ~ .checkmark {
+label.container:hover input.check ~ span.checkmark {
   background-color: #ccc;
 }
 /* When the checkbox is checked, add a blue background */
-label.container input.check:checked ~ .checkmark {
+label.container input.check:checked ~ span.checkmark {
   background-color: var(--blue);
 }
 /* Show the checkmark when checked */
-label.container input.check:checked ~ .checkmark:before{
+label.container input.check:checked ~ .checkmark:before {
   content: "\f00c";
 }
+
 
 
 body {

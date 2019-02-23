@@ -22,6 +22,7 @@ $empfullname;
 
 echo '<section class="container">
         <div class="mainBox">
+          <a class="btn back" href="/time_editor.php"> Takaisin</a>
           <div>';
 
 

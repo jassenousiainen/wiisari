@@ -23,12 +23,17 @@ echo '<section class="container">
             <h2>Kellotuseditori - valitse työntekijä</h2>
             <div class="section">
             <form action="'.$self.'" method="post">
-              <table>';
+              <table style="width:60%;">';
 
   while ( $employee = mysqli_fetch_array($employee_query) ) {
     echo        '<tr>
-                  <td style="width:60%;">'.$employee[3].'</td>
-                  <td><input type="radio" value="'.$employee[0].'" name="emp"></td>
+                  <td>'.$employee[3].'</td>
+                  <td>
+                    <label class="container">
+                      <input class="check" type="radio" name="emp" value="'.$employee[0].'">
+                      <span class="checkmark"></span>
+                      </label>
+                    </td>
                 </tr>';
   }
 echo '          </table>
@@ -50,6 +55,7 @@ else if  (isset($_POST['edittime']) ) {
 
   echo '<section class="container">
           <div class="mainBox">
+            <a class="btn back" href="/time_editor.php"> Takaisin</a>
             <div>
               <h2>Kellotuseditori - muokkaa aikaa ('.$user_data[3].')</h2>
               <div class="section">
@@ -116,6 +122,7 @@ else if  (isset($_POST['newtime']) ) {
 
   echo '<section class="container">
           <div class="mainBox">
+            <a class="btn back" href="/time_editor.php"> Takaisin</a>
             <div>
               <h2>Kellotuseditori - lisää aika ('.$user_data[3].')</h2>
               <div class="section">
