@@ -56,6 +56,8 @@ if ( isset($_SESSION['logged_in_user']) ) {
 
     echo "<body class='loginPage'>
 
+      <div class='skew-bg top'></div>
+
       <div id='chooseLogin'>
         <img src='/images/icons/wiisari_title.png'>
         <h2>Valitse kirjautumissivu</h2>
@@ -70,7 +72,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
     echo "
     <div id='employeeSlideLogin'>
       <form class='loginBox' name='auth' method='post' action='$self'>
-        <img src='/images/icons/wiisari_title.png'>
+        <h2 class='wiisari'>WIISARI</h2>
         <h2>Kirjaudu Wiisariin</h2>
         <p>Kirjautumalla pääset omalle sivulle</p>
         <input type='password' name='login_barcode' autocomplete='off' placeholder='Käyttäjätunnus/viivakoodi'>";
@@ -86,7 +88,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
     echo "
     <div id='adminSlideLogin'>
       <form class='loginBox' name='auth' method='post' action='$self'>
-        <img src='/images/icons/wiisari_title.png'>
+        <h2 class='wiisari'>WIISARI</h2>
         <h2>Kirjaudu Wiisariin</h2>
         <p>Kirjautumalla pääset omalle sivulle, hallintapaneeliin ja raporttinäkymään</p>
         <input type='text' name='login_userid' placeholder='Käyttäjätunnus'>
@@ -97,6 +99,8 @@ if ( isset($_SESSION['logged_in_user']) ) {
     echo "<button type='submit'>Kirjaudu</button>
         <a class='link' id='adminSlideBack'><i class='fas fa-arrow-circle-right'></i></a>
       </form></div>";
+
+    echo "<div class='skew-bg bottom'></div>";
 }
 
 echo "</body>\n";

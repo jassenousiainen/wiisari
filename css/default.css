@@ -142,7 +142,7 @@
 /* line-height: 100px; */
 }
 .btn.tile i {
-	font-size: 40px;
+	font-size: 35px;
 	margin: 30px 0 7px 0;
 	width: 100%;
 }
@@ -244,7 +244,7 @@ header {
 	width: 100%;
 	height: 55px;
   font-size: 14px;
-  background-color: #252e38;
+  /*background-color: #252e38;*/
   color: white;
 }
 header a {
@@ -376,37 +376,29 @@ header a:hover {
 	word-wrap: break-word;
 }
 
-.raportitValinta {
-	background-color: white;
-	width: 400px;
-	border-radius: 10px;
-	margin: 30px auto;
-  padding: 15px;
-	box-shadow: 2px 2px 7px 0px #d0cece;
-}
-.raportitValinta h2 {
-	margin: 0;
-}
-.raporttiLinkki {
-	text-decoration: none;
-	background: #3982dd;
-  border: none;
-  color: white;
-  padding: 7px 10px;
-  border-radius: 19px;
-  font-size: 15px;
-}
-.raporttiLinkki:hover {
-	cursor: pointer;
-	background: #204b80;
-}
 
-
-.loginPage {
+body.loginPage {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: #f5f5f5;
+	overflow: hidden;
+	background-color: #172b4d !important;
+}
+.skew-bg {
+	transform: skewY(-2deg);
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 50%;
+	background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
+}
+.skew-bg.top {
+	display: none;
+	top: -5%;
+}
+.skew-bg.bottom {
+	display: none;
+	bottom: -5%;
 }
 #chooseLogin {
 	position: absolute;
@@ -446,11 +438,13 @@ header a:hover {
   font-size: 35px;
 	display: none;
 }
-
 .loginBox {
-	width: 400px;
+	width: 350px;
 	margin: auto;
-	text-align: center
+	text-align: center;
+	background-color: #f7fafc !important;
+	padding: 1.5rem;
+	border-radius: .375rem;
 }
 .loginBox img {
 	height: 100px;
@@ -458,10 +452,20 @@ header a:hover {
 .loginPage h2 {
 	font-weight: 400;
 	margin: 10px 0;
+	color: white;
+}
+.loginBox h2.wiisari {
+	font-family: 'Josefin Sans';
+	font-size: 3rem;
+	color: var(--purple);
+}
+.loginBox h2 {
+	color: var(--gray-dark);
 }
 .loginBox p {
 	margin: 0 0 20px 0;
-	color: grey;
+	color: #8898aa !important;
+	font-family: 'Open Sans Light';
 }
 .loginBox input {
 	height: 3.125rem;
@@ -501,6 +505,7 @@ header a:hover {
 section.container {
 	display: flex;
 	justify-content: center;
+	align-items: flex-start;
   text-align: left;
   overflow: hidden;
 	max-width: 1300px;
@@ -517,11 +522,21 @@ section.container {
 	overflow: hidden;
 	margin-right:20px;
 	width: 320px;
-	height: 500px;
+	min-height: 500px;
 	background-color: white;
 	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
 	border-radius: .25rem;
 }
+.container h2 {
+	margin: 0 1rem 20px 1rem;
+  line-height: 60px;
+  box-sizing: border-box;
+  color: var(--blue);
+  font-weight: 400;
+  border-bottom: 1px solid var(--blue);
+  font-size: 1.6rem;
+  font-family: 'Segoe UI','Open Sans';
+}/*
 .container h2 {
 	width: 100%;
 	margin: 0 0 20px 0;
@@ -532,7 +547,7 @@ section.container {
 	color: white;
 	font-weight: 400;
 	font-family: 'Segoe UI', 'Open Sans Light';
-}
+}*/
 .container .mainBox > div{
 	overflow: hidden;
 	min-height: 200px;
@@ -568,18 +583,13 @@ section.container {
 /* --- MYPAGE --- */
 section.mypageHead {
 	transform: skewY(-2deg);
-  margin-top: -50px;
-  padding-top: 50px;
-	display: flex;
-	text-align: center;
-	justify-content: center;
-	align-items: center;
-	flex-wrap: wrap;
+	margin-top: -90px;
+	position: absolute;
+	z-index: -1;
 	width: 100%;
-	height: 320px;
+	height: 400px;
 	font-family: 'Segoe UI', 'Open Sans Light';
-	box-shadow: 0px 1px 11px #d9d9d9;
-	background: white; /*#005EB8*/
+	background: #005EB8;
 }
 .mypageHead div {
 	transform: skewY(2deg);
@@ -602,9 +612,6 @@ section.mypageHead {
 }
 .mypageHead a#secondary:hover {
 	background-color: var(--gray-dark);
-}
-.leftInfo h2 {
-	background: var(--blue);
 }
 .leftInfo textarea {
 	display: inline-block;
@@ -629,6 +636,9 @@ section.mypageHead {
 .leftInfo textarea:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
+}/*
+.leftInfo h2 {
+	background: var(--blue);
 }
 .mainBox .first h2 {
 	background: var(--purple);
@@ -638,7 +648,7 @@ section.mypageHead {
 }
 .mainBox .admin h2 {
 	background: var(--orange);
-}
+}*/
 .mainBox form {
 	margin: 0;
 }

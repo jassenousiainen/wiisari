@@ -30,18 +30,7 @@ function employees_total_in_count() {
 // User can't access the page unless they are logged in
 if (isset($_SESSION['logged_in_user'])) {
 
-  echo '
-  <section class="mypageHead">
-    <div>
-      <h2>Tervetuloa omalle sivulle '.$_SESSION['logged_in_user']->displayname.'</h2>
-      <p>Täällä näet omat tietosi ja tilastosi Wiisarissa.
-      <br>Voit myös helposti kellottaa itsesi sisään tai ulos.</p>
-      <p>
-        <a id="primary" class="btn" href="/index.php">Etusivulle</a>
-        <a id="secondary" class="btn" href="/logout.php">Kirjaudu ulos</a>
-      </p>
-    </div>
-  </section>';
+
 
 
   echo '<section class="container myPage">';
@@ -75,7 +64,7 @@ if (isset($_SESSION['logged_in_user'])) {
     <div class="admin">
       <h2>Hallinnan toiminnot</h2>
       <p class="section">
-        Sinulla on pääsy seuraaville sivuille: <br>';
+        Sinulla on pääsy seuraaviin toimintoihin: <br>';
         if ($_SESSION['logged_in_user']->admin == '1') {
           echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }

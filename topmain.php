@@ -27,4 +27,5 @@ echo "<header>";
 echo "</div>";
 
 echo "</header>";
+echo '<section class="mypageHead"></section>';
 ?>

@@ -51,7 +51,7 @@ else if  (isset($_POST['edittime']) ) {
   $empfullname = $_POST['emp'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
 
-  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';
+//  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';
   echo '<section class="container">';
   echo '  <div class="leftBox">
             <h2>Lisää aika</h2>
