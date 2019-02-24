@@ -118,9 +118,12 @@ if (isset($_SESSION['logged_in_user'])) {
                 <form name='form' action='/reports/personalreport.php' method='post' onsubmit=\"return isFromOrToDate();\">
                   <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'> -
                   <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
-                  <br>
-                  <label for='tmp_show_details'>Näytä yksittäiset kirjaukset</label>
-                  <input type='checkbox' name='tmp_show_details' value='1' ".(yes_no_bool($show_details) ? ' checked' : '')." style='height:15px; width:20px; float:none;'>
+                  <br><br>
+                  <label class='container'>
+                    Näytä yksittäiset kirjaukset
+                    <input type='checkbox' name='tmp_show_details' value='1' ".(yes_no_bool($show_details) ? ' checked' : '')." class='check'>
+                    <span class='checkmark'></span>
+                  </label>
                   <br><br>
                   <button class='btn' type='submit' name='customreport'>Kustomoitu raportti</button>
                 </form>

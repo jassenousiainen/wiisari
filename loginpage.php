@@ -56,7 +56,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
 
     echo "<body class='loginPage'>
 
-      <div class='skew-bg top'></div>
+      <div class='skew-container top'> <div class='skew-bg'></div> </div>
 
       <div id='chooseLogin'>
         <img src='/images/icons/wiisari_title.png'>
@@ -100,7 +100,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
         <a class='link' id='adminSlideBack'><i class='fas fa-arrow-circle-right'></i></a>
       </form></div>";
 
-    echo "<div class='skew-bg bottom'></div>";
+    echo "<div class='skew-container bottom'> <div class='skew-bg'></div> </div>";
 }
 
 echo "</body>\n";

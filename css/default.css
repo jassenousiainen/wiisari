@@ -384,20 +384,26 @@ body.loginPage {
 	overflow: hidden;
 	background-color: #172b4d !important;
 }
-.skew-bg {
-	transform: skewY(-2deg);
+.skew-container {
 	position: absolute;
 	z-index: -1;
 	width: 100%;
 	height: 50%;
+}
+.skew-bg {
+	transform: skewY(-2deg);
+	width: 100%;
+	height: 100%;
 	background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
 }
-.skew-bg.top {
+.skew-container.top {
 	display: none;
+	padding-bottom: 2%;
 	top: -5%;
 }
-.skew-bg.bottom {
+.skew-container.bottom {
 	display: none;
+	padding-top: 2%;
 	bottom: -5%;
 }
 #chooseLogin {

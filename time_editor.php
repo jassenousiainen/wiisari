@@ -32,8 +32,8 @@ echo '<section class="container">
                     <label class="container">
                       <input class="check" type="radio" name="emp" value="'.$employee[0].'">
                       <span class="checkmark"></span>
-                      </label>
-                    </td>
+                    </label>
+                  </td>
                 </tr>';
   }
 echo '          </table>
