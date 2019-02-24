@@ -64,7 +64,7 @@ if (isset($_SESSION['logged_in_user'])) {
     <div class="admin">
       <h2>Hallinnan toiminnot</h2>
       <p class="section">
-        Sinulla on pääsy seuraaviin toimintoihin: <br>';
+        Sinulla on käytössäsi seuraavat toiminnot: <br>';
         if ($_SESSION['logged_in_user']->admin == '1') {
           echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }

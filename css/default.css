@@ -464,7 +464,7 @@ body.loginPage {
 }
 .loginBox p {
 	margin: 0 0 20px 0;
-	color: #8898aa !important;
+	color: #8898aa;
 	font-family: 'Open Sans Light';
 }
 .loginBox input {
@@ -524,8 +524,8 @@ section.container {
 	width: 320px;
 	min-height: 500px;
 	background-color: white;
-	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-	border-radius: .25rem;
+	box-shadow: 0 0.125rem 0.35rem 0.1rem rgba(0,0,0,.075);
+	border-radius: .375rem;
 }
 .container h2 {
 	margin: 0 1rem 20px 1rem;
@@ -553,8 +553,8 @@ section.container {
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-	border-radius: .25rem;
+	box-shadow: 0 0.125rem 0.35rem 0.1rem rgba(0,0,0,.075);
+	border-radius: .375rem;
 	padding-bottom: 40px;
 }
 .container .section {
@@ -593,6 +593,9 @@ section.mypageHead {
 }
 .mypageHead div {
 	transform: skewY(2deg);
+}
+.mainBox div.first {
+	min-height: 460px;
 }
 .mypageHead h2 {
 	width: 100%;
