@@ -10,8 +10,11 @@ class User {
   public $username;
   public $last;
 
-  public function __construct($username) {
+  public function __construct($username, $admin, $time_admin, $reports) {
       $this->username = $username;
+      $this->admin = $admin;
+      $this->time_admin = $time_admin;
+      $this->reports = $reports;
       $this->user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$username'"));
 
       $this->last_inout   = $this->user_data[1];
@@ -20,9 +23,9 @@ class User {
       $this->barcode      = $this->user_data[5];
       $this->groups       = $this->user_data[6];
       $this->office       = $this->user_data[7];
-      $this->admin        = $this->user_data[8];
+      /*$this->admin        = $this->user_data[8];
       $this->reports      = $this->user_data[9];
-      $this->time_admin   = $this->user_data[10];
+      $this->time_admin   = $this->user_data[10];*/
       $this->disabled     = $this->user_data[11];
       $this->inout_status = $this->user_data[12];
    }
