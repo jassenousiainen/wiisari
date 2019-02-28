@@ -460,6 +460,11 @@ body.loginPage {
 	margin: 10px 0;
 	color: white;
 }
+.loginPage h2.wiisari {
+	font-family: 'Josefin Sans';
+	font-size: 3rem;
+	color: white;
+}
 .loginBox h2.wiisari {
 	font-family: 'Josefin Sans';
 	font-size: 3rem;
@@ -530,9 +535,9 @@ section.container {
 	width: 320px;
 	min-height: 500px;
 	background-color: white;
-	box-shadow: 0 0.125rem 0.35rem 0.1rem rgba(0,0,0,.075);
+	box-shadow: 0 2px 5px 1px rgba(0,0,0,.075);
 	border-radius: .375rem;
-}
+}/*
 .container h2 {
 	margin: 0 1rem 20px 1rem;
   line-height: 60px;
@@ -542,7 +547,7 @@ section.container {
   border-bottom: 1px solid var(--blue);
   font-size: 1.6rem;
   font-family: 'Open Sans';
-}/*
+}*/
 .container h2 {
 	width: 100%;
 	margin: 0 0 20px 0;
@@ -553,13 +558,13 @@ section.container {
 	color: white;
 	font-weight: 400;
 	font-family: 'Segoe UI', 'Open Sans Light';
-}*/
+}
 .container .mainBox > div{
 	overflow: hidden;
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 0.125rem 0.35rem 0.1rem rgba(0,0,0,.075);
+	box-shadow: 0 2px 5px 1px rgba(0,0,0,.075);
 	border-radius: .375rem;
 	padding-bottom: 40px;
 }
@@ -645,7 +650,7 @@ section.mypageHead {
 .leftInfo textarea:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
-}/*
+}
 .leftInfo h2 {
 	background: var(--blue);
 }
@@ -657,7 +662,7 @@ section.mypageHead {
 }
 .mainBox .admin h2 {
 	background: var(--orange);
-}*/
+}
 .mainBox form {
 	margin: 0;
 }
@@ -696,12 +701,11 @@ section.mypageHead {
 
 
 .ownReportsBox {
-	width: 400px;
+	width: 500px;
   margin: 30px auto;
   padding: 15px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 2px 2px 7px 0px #d0cece;
+  border-radius: 0.375rem;
 }
 .ownReportsBox h2 {
 	margin: 0 0 5px 0;

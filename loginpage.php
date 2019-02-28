@@ -58,7 +58,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
       <div class='skew-container top'> <div class='skew-bg'></div> </div>
 
       <div id='chooseLogin'>
-        <img src='/images/icons/wiisari_title.png'>
+        <h2 class='wiisari'>WIISARI</h2>
         <h2>Valitse kirjautumissivu</h2>
         <a id='admin' class='btn tile'><i class='fas fa-toolbox'></i><span>Hallinta</span></a>
         <a id='employee' class='btn tile'><i class='fas fa-user'></i><span>Työntekijä</span></a>
