@@ -288,17 +288,12 @@ header a:hover {
 .loggedBar {
 	margin: 13px 28px 0 0;
 	height: 36px;
-	background-color: white;
-	color: var(--blue);
-	border-radius: 18px;
-	padding-left: 10px;
 }
 .loggedBar a {
-	background: var(--blue);
 	color: white;
-	line-height: 36px;
+	line-height: 32px;
 	border-radius: 18px;
-	margin-right: -2px;
+	border: solid 2px white;
 }
 .loggedBar a:hover {
 	color: var(--blue);
@@ -610,8 +605,7 @@ section.mypageHead {
 	z-index: -1;
 	width: 100%;
 	height: 400px;
-	font-family: 'Segoe UI', 'Open Sans Light';
-	background: #005EB8;
+	background: #004180;
 }
 .mypageHead div {
 	transform: skewY(2deg);
