@@ -26,8 +26,8 @@ echo "<header>";
 
     echo " <div class='loggedBar'>";
     echo $_SESSION['logged_in_user']->displayname .": ";
-    echo "<a href='/mypage.php'><i class='fas fa-user'></i> Oma sivu</a>";
-    echo "<a href='/logout.php'><i class='fas fa-sign-out-alt'></i> Kirjaudu Ulos</a>";
+    echo "<a href='/mypage.php' id='my'><i class='fas fa-user'></i> Oma sivu</a>";
+    echo "<a href='/logout.php' id='out'><i class='fas fa-sign-out-alt'></i> Kirjaudu Ulos</a>";
   } else {
     echo '</nav>';
     echo " <div class='loggedBar'>";

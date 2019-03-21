@@ -314,15 +314,27 @@ header a:hover {
 	height: 36px;
 }
 .loggedBar a {
-	color: white;
+	/*color: white;*/
 	line-height: 32px;
 	border-radius: 18px;
-	border: solid 1.5px white;
+	border: solid 1.5px;
   margin-right: 5px
 }
-.loggedBar a:hover {
-	color: var(--blue);
-	background: white;
+.loggedBar a#my {
+	color: var(--lightgreen);
+}
+.loggedBar a#out {
+	color: var(--orange);
+}
+.loggedBar a#my:hover {
+	background-color: var(--lightgreen);
+	color: white;
+	border-color: var(--lightgreen);
+}
+.loggedBar a#out:hover {
+	background-color: var(--orange);
+	color: white;
+	border-color: var(--orange);
 }
 
 .flexBox {
