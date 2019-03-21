@@ -94,6 +94,8 @@
 }
 /*------------------------*/
 
+
+/* ----- BASIC BUTTONS ----- */
 .btn {
 	display: inline-block;
 	padding: 8px 13px;
@@ -111,7 +113,6 @@
 	cursor: pointer;
 	background-color: var(--darkblue);
 }
-
 .btn.del {
 	background-color: var(--red);
 }
@@ -153,6 +154,8 @@
 	width: 100%;
 	top: 80px;
 }
+/*------------------------*/
+
 
 a.link {
 	color: var(--blue);
@@ -209,18 +212,19 @@ label.container span.checkmark { /* Create a custom checkbox */
 	line-height: 18px;
   height: 18px;
   width: 18px;
-	border: 1px solid var(--blue);
+	border: 1px solid #ced4da;
 	border-radius: 16px;
 	transition: background-color 0.2s ease;
-  background-color: #eee;
+  background-color: white;
 }
 /* On mouse-over, add a grey background color */
 label.container:hover input.check ~ span.checkmark {
-  background-color: #ccc;
+  background-color: #eee;
 }
 /* When the checkbox is checked, add a blue background */
 label.container input.check:checked ~ span.checkmark {
   background-color: var(--blue);
+	border-color: var(--blue);
 }
 /* Show the checkmark when checked */
 label.container input.check:checked ~ .checkmark:before {
@@ -283,11 +287,18 @@ header a:hover {
 
 .loggedBar {
 	margin: 13px 28px 0 0;
-	height: 28px;
+	height: 36px;
+	background-color: white;
+	color: var(--blue);
+	border-radius: 18px;
+	padding-left: 10px;
 }
 .loggedBar a {
 	background: var(--blue);
 	color: white;
+	line-height: 36px;
+	border-radius: 18px;
+	margin-right: -2px;
 }
 .loggedBar a:hover {
 	color: var(--blue);
@@ -521,7 +532,7 @@ section.container {
   overflow: hidden;
 	max-width: 1300px;
 	margin: 40px auto 50px auto;
-	padding: 20px;
+	padding: 40px;
 }
 .container .mainBox {
 	order: 2;
@@ -535,8 +546,8 @@ section.container {
 	width: 320px;
 	min-height: 500px;
 	background-color: white;
-	box-shadow: 0 2px 5px 1px rgba(0,0,0,.075);
-	border-radius: .375rem;
+	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
+	border-radius: 6px;
 }/*
 .container h2 {
 	margin: 0 1rem 20px 1rem;
@@ -564,8 +575,8 @@ section.container {
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 2px 5px 1px rgba(0,0,0,.075);
-	border-radius: .375rem;
+	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
+	border-radius: 6px;
 	padding-bottom: 40px;
 }
 .container .section {
