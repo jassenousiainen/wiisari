@@ -36,5 +36,5 @@ echo "<header>";
 echo "</div>";
 
 echo "</header>";
-echo '<section class="mypageHead"></section>';
+echo '<section class="top-skew-bg blue"></section>';
 ?>

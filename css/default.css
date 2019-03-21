@@ -28,6 +28,7 @@
  :root {
 	 --blue: #007bff;
 	 --darkblue: #1374dc;
+	 --blue-neon: #0dffff;
 	 --lightgreen: #00d774;
 	 --orange: #fd7e14;
 	 --darkorange: #e07217;
@@ -164,7 +165,6 @@
 	margin: 10px;
 	padding: 0;
 	text-align: center;
-/* line-height: 100px; */
 }
 .btn.tile i {
 	font-size: 35px;
@@ -180,7 +180,7 @@
 }
 /*------------------------*/
 
-
+/* BASIC LINK */
 a.link {
 	color: var(--blue);
 	text-decoration: none;
@@ -190,7 +190,7 @@ a.link:hover {
 	cursor: pointer;
 }
 
-/* General form */
+/* BASIC FORM */
 form select, form input{
 	display: inline-block;
   padding: .375rem .75rem;
@@ -254,7 +254,103 @@ label.container input.check:checked ~ span.checkmark {
 label.container input.check:checked ~ .checkmark:before {
   content: "\f00c";
 }
+/* ----------------------- */
 
+
+/* ----- Basic Boxes ----- */
+section.container {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+  text-align: left;
+  overflow: hidden;
+	max-width: 1300px;
+	margin: 40px auto 50px auto;
+	padding: 40px;
+}
+.container .middleContent {
+	order: 2;
+	flex-grow: 1;
+	max-width: 970px;
+}
+.container .leftContent {
+	order: 1;
+	width: 320px;
+	min-height: 500px;
+	margin-right:20px;
+}
+.box {
+	overflow: hidden;
+	min-height: 200px;
+	margin-bottom: 20px;
+	background-color: white;
+	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
+	border-radius: 6px;
+	padding-bottom: 40px;
+}
+/*
+.container h2 {
+	margin: 0 1rem 20px 1rem;
+  line-height: 60px;
+  box-sizing: border-box;
+  color: var(--blue);
+  font-weight: 400;
+  border-bottom: 1px solid var(--blue);
+  font-size: 1.6rem;
+  font-family: 'Open Sans';
+}*/
+.container h2 {
+	width: 100%;
+	margin: 0 0 20px 0;
+	line-height: 50px;
+	padding-left: 20px;
+	box-sizing: border-box;
+	background: var(--blue);
+	color: white;
+	font-weight: 400;
+	font-family: 'Segoe UI', 'Open Sans Light';
+}
+.container h2.purple {
+	background: var(--purple);
+}
+.container h2.green {
+	background: var(--green);
+}
+.container h2.orange {
+	background: var(--orange);
+}
+.container .section {
+	color: var(--gray);
+	margin: 0 1em 1.5em 1em;
+	padding-bottom: 1.5em;
+	border-bottom: 1px solid var(--gray-light);
+}
+.section table {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: separate;
+  border-spacing: 0 1px;
+	overflow: scroll;
+}
+.section table td span.inout {
+	padding: 3px 12px;
+	border-radius: 15px;
+	color: white;
+	display: inline-block;
+	width: 30px;
+}
+.top-skew-bg {
+	transform: skewY(-2deg);
+	margin-top: -90px;
+	position: absolute;
+	z-index: -1;
+	width: 100%;
+	height: 400px;
+}
+.top-skew-bg.blue {
+	background: #004180;
+}
+/* --------------------- */
 
 
 body {
@@ -262,8 +358,6 @@ body {
 	font-family: 'Open Sans', sans-serif;
   margin: 0;
 }
-
-
 header {
 	z-index: 10;
 	position: relative;
@@ -306,7 +400,7 @@ header a:hover {
 */}
 .logolink:hover {
 	background-color: inherit;
-	color: #0dffff;
+	color: var(--blue-neon);
 }
 
 .loggedBar {
@@ -314,22 +408,21 @@ header a:hover {
 	height: 36px;
 }
 .loggedBar a {
-	/*color: white;*/
 	line-height: 32px;
 	border-radius: 18px;
 	border: solid 1.5px;
   margin-right: 5px
 }
 .loggedBar a#my {
-	color: var(--lightgreen);
+	color: var(--blue-neon);
 }
 .loggedBar a#out {
 	color: var(--orange);
 }
 .loggedBar a#my:hover {
-	background-color: var(--lightgreen);
+	background-color: var(--blue-neon);
 	color: white;
-	border-color: var(--lightgreen);
+	border-color: var(--blue-neon);
 }
 .loggedBar a#out:hover {
 	background-color: var(--orange);
@@ -337,89 +430,9 @@ header a:hover {
 	border-color: var(--orange);
 }
 
-.flexBox {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	width: 100%;
-	background: black;
-}
-.borderBox {
-	display: inline-block;
-  padding: 4px;
-	background: white;
-  border-radius: 18px;
-}
-.borderBox.borderIn {
-	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);
-}
-.borderBox.borderOut {
-	background: linear-gradient(145deg, #ff4157 0%,#ff1e9a 100%);
-}
-.kirjausLaatikko {
-    width: 300px;
-    border-radius: 15px;
-    background-color: white;
-    padding: 20px;
-}
-.kirjausNimi {
-  margin: 0;
-  text-align: center;
-  font-size: 28px;
-}
-.kirjausAika {
-  font-size: 24px;
-}
-.kirjausSisaan {
-    background-color: #00ea00;
-    border-radius: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    padding: 7px 0;
-    color: white;
-    font-weight: bold;
-		margin: 0;
-}
-
-.kirjausUlos {
-    background-color: #fa3838;
-    border-radius: 10px;
-    width: 100%;
-    text-align: center;
-    font-size: 24px;
-    padding: 7px 0;
-    color: white;
-    font-weight: bold;
-		margin: 0;
-}
-.logOutTime {
-	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
-	border-radius: 10px;
-	width: 100%;
-	text-align: center;
-	font-size: 16px;
-	padding: 7px 0;
-	color: white;
-	font-weight: bold;
-	margin: 10px 0 10px 0;
-}
-.inout_notes {
-	background: #dfdfdf;
-	border-radius: 10px;
-	padding: 10px;
-	margin-top: 10px;
-}
-.inout_notes h3 {
-	margin: 0;
-}
-.inout_notes p {
-	margin: 0;
-	word-wrap: break-word;
-}
 
 
+/* ----- LOGINPAGE ----- */
 body.loginPage {
 	display: flex;
 	align-items: center;
@@ -551,125 +564,11 @@ body.loginPage {
 	cursor: pointer;
 	background-color: var(--darkblue);
 }
+/* --------------------- */
 
 
-
-
-/* --- Basic Boxes --- */
-section.container {
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
-	max-width: 1300px;
-	margin: 40px auto 50px auto;
-	padding: 40px;
-}
-.container .mainBox {
-	order: 2;
-	flex-grow: 1;
-	max-width: 970px;
-}
-.container .leftBox {
-	order: 1;
-	overflow: hidden;
-	margin-right:20px;
-	width: 320px;
-	min-height: 500px;
-	background-color: white;
-	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
-	border-radius: 6px;
-}/*
-.container h2 {
-	margin: 0 1rem 20px 1rem;
-  line-height: 60px;
-  box-sizing: border-box;
-  color: var(--blue);
-  font-weight: 400;
-  border-bottom: 1px solid var(--blue);
-  font-size: 1.6rem;
-  font-family: 'Open Sans';
-}*/
-.container h2 {
-	width: 100%;
-	margin: 0 0 20px 0;
-	line-height: 50px;
-	padding-left: 20px;
-	box-sizing: border-box;
-	background: var(--blue);
-	color: white;
-	font-weight: 400;
-	font-family: 'Segoe UI', 'Open Sans Light';
-}
-.container .mainBox > div{
-	overflow: hidden;
-	min-height: 200px;
-	margin-bottom: 20px;
-	background-color: white;
-	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
-	border-radius: 6px;
-	padding-bottom: 40px;
-}
-.container .section {
-	color: var(--gray);
-	margin: 0 1em 1.5em 1em;
-	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--gray-light);
-}
-.section table {
-	table-layout: fixed;
-	width: 100%;
-	border-collapse: separate;
-  border-spacing: 0 1px;
-	overflow: scroll;
-}
-.section table td span.inout {
-	padding: 3px 12px;
-	border-radius: 15px;
-	color: white;
-	display: inline-block;
-	width: 30px;
-}
-
-
-
-/* --- MYPAGE --- */
-section.mypageHead {
-	transform: skewY(-2deg);
-	margin-top: -90px;
-	position: absolute;
-	z-index: -1;
-	width: 100%;
-	height: 400px;
-	background: #004180;
-}
-.mypageHead div {
-	transform: skewY(2deg);
-}
-.mainBox div.first {
-	min-height: 460px;
-}
-.mypageHead h2 {
-	width: 100%;
-	font-weight: 300;
-	font-size: 37px;
-  margin: 0 0 10px 0;
-}
-.mypageHead p {
-	width: 100%;
-	font-weight: 300;
-	font-size: 20px;
-	margin: 0 0 30px 0;
-	color: gray;
-}
-.mypageHead a#secondary {
-	background-color: var(--gray);
-}
-.mypageHead a#secondary:hover {
-	background-color: var(--gray-dark);
-}
-.leftInfo textarea {
+/* ----- MYPAGE ----- */
+.leftContent textarea {
 	display: inline-block;
 	width: 100%;
 	height: 100px;
@@ -689,23 +588,11 @@ section.mypageHead {
 	font-size: 14px;
 	outline: none;
 }
-.leftInfo textarea:focus {
+.leftContent textarea:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
 }
-.leftInfo h2 {
-	background: var(--blue);
-}
-.mainBox .first h2 {
-	background: var(--purple);
-}
-.mainBox .second h2 {
-	background: var(--green);
-}
-.mainBox .admin h2 {
-	background: var(--orange);
-}
-.mainBox form {
+.mainContent form {
 	margin: 0;
 }
 .myPage form select, .myPage form input {
@@ -741,7 +628,90 @@ section.mypageHead {
 	cursor: pointer;
 }
 
+/* ----- INOUT PAGE ----- */
+.flexBox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	background: black;
+}
+.borderBox {
+	display: inline-block;
+  padding: 4px;
+	background: white;
+  border-radius: 18px;
+}
+.borderBox.borderIn {
+	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);
+}
+.borderBox.borderOut {
+	background: linear-gradient(145deg, #ff4157 0%,#ff1e9a 100%);
+}
+.kirjausLaatikko {
+    width: 300px;
+    border-radius: 15px;
+    background-color: white;
+    padding: 20px;
+}
+.kirjausNimi {
+  margin: 0;
+  text-align: center;
+  font-size: 28px;
+}
+.kirjausAika {
+  font-size: 24px;
+}
+.kirjausSisaan {
+    background-color: #00ea00;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    padding: 7px 0;
+    color: white;
+    font-weight: bold;
+		margin: 0;
+}
+.kirjausUlos {
+    background-color: #fa3838;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    padding: 7px 0;
+    color: white;
+    font-weight: bold;
+		margin: 0;
+}
+.logOutTime {
+	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
+	border-radius: 10px;
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	padding: 7px 0;
+	color: white;
+	font-weight: bold;
+	margin: 10px 0 10px 0;
+}
+.inout_notes {
+	background: #dfdfdf;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 10px;
+}
+.inout_notes h3 {
+	margin: 0;
+}
+.inout_notes p {
+	margin: 0;
+	word-wrap: break-word;
+}
+/* ----------------------- */
 
+/* QUICK REPORT PAGE */
 .ownReportsBox {
 	width: 500px;
   margin: 30px auto;
@@ -774,7 +744,7 @@ section.mypageHead {
   padding: 0 10px;
   font-size: 16px;
 }
-
+/* ---------------------- */
 
 /* User create page */
 .required {

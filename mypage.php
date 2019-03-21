@@ -36,40 +36,42 @@ if (isset($_SESSION['logged_in_user'])) {
   echo '<section class="container myPage">';
 
 
-  echo '<div class="leftBox leftInfo">
-          <h2>Kellotus</h2>
-          <div class="section">
-          <form class="mypage_inout"action="inout.php" method="post">';
-          echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
-          if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
-            echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></b></div>';
-            echo '<p>Kellota itsesi ulos:</p>
-            <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
-            <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
-          } else {
-            echo '<p>Kellota itsesi sisään:</p>
-            <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
-            <button id="in" class="fas fa-sign-in-alt" type="submit"></button>';
-          }
-  echo '  <textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita halutessasi viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>
-          </form>
+  echo '<div class="leftContent">
+          <div class="box">
+            <h2>Kellotus</h2>
+            <div class="section">
+              <form class="mypage_inout"action="inout.php" method="post">';
+                echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
+                if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
+                  echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></b></div>';
+                  echo '<p>Kellota itsesi ulos:</p>
+                  <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
+                  <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
+                } else {
+                  echo '<p>Kellota itsesi sisään:</p>
+                  <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
+                  <button id="in" class="fas fa-sign-in-alt" type="submit"></button>';
+                }
+                echo '<textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita halutessasi viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>
+              </form>
+            </div>
           </div>
         </div>';
 
 
-  echo '<div class="mainBox">';
+  echo '<div class="middleContent">';
 
-  if ($_SESSION['logged_in_user']->isBasicAdmin()){
+  if ($_SESSION['logged_in_user']->isSuperior()){
     echo '
-    <div class="admin">
-      <h2>Hallinnan toiminnot</h2>
+    <div class="box">
+      <h2 class="orange">Hallinnan toiminnot</h2>
       <p class="section">
         Sinulla on käytössäsi seuraavat toiminnot: <br>';
         if ($_SESSION['logged_in_user']->admin == '1') {
           echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }
         if ($_SESSION['logged_in_user']->time_admin == '1') {
-          echo '<a class="btn tile" href="/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
+          echo '<a class="btn tile" href="/timeeditor/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
         }
         if ($_SESSION['logged_in_user']->reports == '1') {
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
@@ -91,10 +93,11 @@ if (isset($_SESSION['logged_in_user'])) {
       <div class="section">
         <b>Hae töissä olevat työntekijät</b>
         <br><br>
-        <form name="getReport" action="/reports/in_employees.php" method="post">
+        <form name="getReport" action="/reports/employees_in.php" method="post">
           <select id="office" name="office_name" onchange="group_names();"></select>
           <select id="group" name="group_name" onchange="user_names();"></select>
-          <select is="user" name="user_name"></select>
+          <select id="user" name="user_name"></select>
+          <input style="display: none" name="post_time" value="'.time().'">
           <br><br>
           <button class="btn" type="submit">Hae työntekijät</button>
         </form>
@@ -104,8 +107,8 @@ if (isset($_SESSION['logged_in_user'])) {
   }
 
 
-    echo '<div class="first">
-            <h2>Omat tunnit</h2>
+    echo '<div class="box">
+            <h2 class="purple">Omat tunnit</h2>
               <p class="section">
                 Hae nopea tuntiraportti, josta näet kuluvan vuoden tehdyt työtunnit.
                 <br>
@@ -130,8 +133,8 @@ if (isset($_SESSION['logged_in_user'])) {
               </div>";
     echo '</div>';
 
-    echo '<div class="second">';
-      echo '<h2>Omat tilastot</h2>';
+    echo '<div class="box">';
+      echo '<h2 class="green">Omat tilastot</h2>';
       echo '<div class="section">';
       echo '  <canvas id="weektimechart" width="900" height="450"></canvas>';
 
@@ -180,7 +183,7 @@ for ($i = 1; $i < count($monthWorkTime); $i++) {
 
   echo '</section>';
 
-  if ($_SESSION['logged_in_user']->isBasicAdmin()){
+  if ($_SESSION['logged_in_user']->isSuperior()){
     $employeesIn = employees_total_in_count();
     $employeesOut = employees_total_count() - $employeesIn;
     echo "<script>
