@@ -104,6 +104,7 @@ header a:hover {
 	border-radius: 20px;
 	border: solid 2px white;
 	font-size: 16px;
+	margin-right: 5px
 }
 .loggedBar a:hover {
 	color: var(--blue);
