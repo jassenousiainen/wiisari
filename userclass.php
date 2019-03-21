@@ -31,7 +31,7 @@ class User {
    }
 
 
-   public function isBasicAdmin() {
+   public function isSuperior() {
      if ($this->admin == 1 || $this->reports == 1 || $this->time_admin == 1) {
        return true;
      } else {

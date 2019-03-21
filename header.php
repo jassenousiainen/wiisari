@@ -41,21 +41,16 @@ if (($use_client_tz == "yes") && ($use_server_tz == "yes")) {
 
 echo "<head>\n";
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>';
-if ($use_client_tz == "yes") {
-    if (!isset($_COOKIE['tzoffset'])) {
-        include 'tzoffset.php';
-        echo "<meta http-equiv='refresh' content='0;URL=timeclock.php'>\n";
-    }
-}
+
 
 echo '<script type="text/javascript" src="/scripts/jquery-3.1.1.min.js"></script>';
 // different css for employee login page
 if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
-  echo "<link rel='stylesheet' type='text/css' media='screen' href='css/gradient.css' id='theme' />\n";
+  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/gradient.css" id="theme"/>';
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<script type="text/javascript" src="/scripts/wiisari.js"></script>';
 } else {
- echo "<link rel='stylesheet' type='text/css' media='screen' href='css/default.css' id='theme' />\n";
+  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />';
 }
 
 if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
@@ -65,11 +60,11 @@ if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
   echo '<script type="text/javascript" src="/scripts/mypage.js"></script>';
   echo '<script type="text/javascript" src="/scripts/Chart.bundle.min-v2.7.3.js"></script>';
   echo '<script type="text/javascript" src="/scripts/chartjs-plugin-deferred.min.js"></script>';
-  if ($_SESSION['logged_in_user']->isBasicAdmin()){
-    include 'scripts\dropdown_get_reports.php';
+  if ($_SESSION['logged_in_user']->isSuperior()){
+    include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get_reports.php";
   }
 }
-else if ($_SERVER['REQUEST_URI'] == '/time_editor.php')  {
+else if ($_SERVER['REQUEST_URI'] == '/timeeditor/time_editor.php')  {
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
   echo '<script src="/scripts/datepicker-fi.js"></script>';
