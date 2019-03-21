@@ -1,4 +1,4 @@
-<?php
+<?php    /* This is companion for time_editor.php */
 echo '<table>';
 if ($_POST['in_date'] != "") {
   $inDateStr = $_POST['in_date']." ".$_POST['in_time'];
@@ -37,10 +37,12 @@ if ($_POST['out_date'] != "") {
 echo '</table>';
 
 // Update inout_status to match last log
-$inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"))[0];
-if ($inout == 'in' || $inout == 'out') {
-  tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $empfullname);
+$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"));
+if ($inout[2] == 'in' || $inout[2] == 'out') {
+  tc_update_strings("employees", array("inout_status" => $inout[2]), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("tstamp" => $inout[3]), "empfullname = ?", $empfullname);
 } else {
   tc_update_strings("employees", array("inout_status" => 'out'), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("tstamp" => null), "empfullname = ?", $empfullname);
 }
 ?>

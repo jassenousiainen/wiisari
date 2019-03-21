@@ -1,4 +1,4 @@
-1. Sisällä olevien työntekijöiden listaus
+[DONE]1. Sisällä olevien työntekijöiden listaus
 
 2. Muutosloki (toimivaksi vai poistetaanko kokonaan?)
 

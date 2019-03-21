@@ -1,7 +1,7 @@
 <?php
-include 'header.php';
+include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
-include 'topmain.php';
+include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
 echo "<title>Kellotuseditori</title>\n";
 
@@ -18,8 +18,8 @@ if ($request == 'GET') {
   $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname ASC");
 
 echo '<section class="container">
-        <div class="mainBox">
-          <div>
+        <div class="middleContent">
+          <div class="box">
             <h2>Kellotuseditori - valitse työntekijä</h2>
             <div class="section">
             <form action="'.$self.'" method="post">
@@ -53,7 +53,8 @@ else if  (isset($_POST['edittime']) ) {
 
 //  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';
   echo '<section class="container">';
-  echo '  <div class="leftBox">
+  echo '  <div class="leftContent">
+          <div class="box">
             <h2>Lisää aika</h2>
             <div class="section">
               <form action="'.$self.'" method="post">
@@ -78,13 +79,13 @@ else if  (isset($_POST['edittime']) ) {
     include 'addtime.php';
     echo '  </div>';
   }
-  echo '  </div>';
+  echo '  </div></div>';
 
-  echo'    <div class="mainBox">
-            <div>
+  echo'    <div class="middleContent">
+            <div class="box">
               <h2>Kellotuseditori - '.$user_data[3].'</h2>
               <div class="section">
-              <form action="/edit_time.php" method="post">
+              <form action="alter_time.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
                 <button type="submit" name="deletetime" value="'.$empfullname.'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
                 <table>

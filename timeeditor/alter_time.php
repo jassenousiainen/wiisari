@@ -1,7 +1,8 @@
-<?php
-include 'header.php';
+<?php        /* This is companion for time_editor.php */
+
+include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
-include 'topmain.php';
+include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
 echo "<title>Kellotuseditori</title>\n";
 
@@ -21,9 +22,9 @@ if ($request == 'GET') {
 $empfullname;
 
 echo '<section class="container">
-        <div class="mainBox">
-          <a class="btn back" href="/time_editor.php"> Takaisin</a>
-          <div>';
+        <div class="middleContent">
+          <a class="btn back" href="time_editor.php"> Takaisin</a>
+          <div class="box">';
 
 
 if(!empty($_POST['deletelist'])) {
@@ -55,12 +56,14 @@ if(!empty($_POST['deletelist'])) {
 echo '</div></div></section>';
 
 
-// Update inout_status to match last log
-$inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"))[0];
-if ($inout == 'in' || $inout == 'out') {
-  tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $empfullname);
+// Update tstamp and inout_status in relation(table) employees to match last log
+$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"));
+if ($inout[2] == 'in' || $inout[2] == 'out') {
+  tc_update_strings("employees", array("inout_status" => $inout[2]), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("tstamp" => $inout[3]), "empfullname = ?", $empfullname);
 } else {
   tc_update_strings("employees", array("inout_status" => 'out'), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("tstamp" => null), "empfullname = ?", $empfullname);
 }
 
 
