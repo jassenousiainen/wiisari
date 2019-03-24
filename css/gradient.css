@@ -79,6 +79,10 @@ header a:hover {
 	background-color: white;
 }
 
+.top-skew-bg {
+	display: none;
+}
+
 .logolink {
 	display: inline-block;
   text-decoration: none;
@@ -100,10 +104,10 @@ header a:hover {
 }
 .loggedBar a {
 	color: white;
-	line-height: 36px;
+	line-height: 40px;
 	border-radius: 20px;
-	border: solid 1.5px white;
-	background-color: rgba(255, 255, 255, 0.18);
+	/*border: solid 1.5px white;*/
+	background-color: rgba(255, 255, 255, 0.25);
 	font-size: 16px;
 	margin-right: 5px
 }

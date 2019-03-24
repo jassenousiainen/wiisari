@@ -284,21 +284,20 @@ section.container {
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 0 60px 0 rgba(0,0,0,.05);
-	border-radius: 6px;
+	box-shadow: 0 2px 20px rgba(0,0,0,.164); /*0 0 60px 0 rgba(0,0,0,.05);*/
+	border-radius: 30px;
 	padding-bottom: 40px;
 }
-/*
 .container h2 {
-	margin: 0 1rem 20px 1rem;
+	margin: 5px 30px 20px 30px;
   line-height: 60px;
   box-sizing: border-box;
   color: var(--blue);
   font-weight: 400;
-  border-bottom: 1px solid var(--blue);
-  font-size: 1.6rem;
-  font-family: 'Open Sans';
-}*/
+	font-size: 28px;
+  /*border-bottom: 1px solid var(--blue);*/
+  font-family: 'Segoe UI', 'Open Sans';
+}/*
 .container h2 {
 	width: 100%;
 	margin: 0 0 20px 0;
@@ -318,7 +317,7 @@ section.container {
 }
 .container h2.orange {
 	background: var(--orange);
-}
+}*/
 .container .section {
 	color: var(--gray);
 	margin: 0 1em 1.5em 1em;
@@ -340,15 +339,30 @@ section.container {
 	width: 30px;
 }
 .top-skew-bg {
-	transform: skewY(-2deg);
+	display: flex;
+  justify-content: center;
+	/*transform: skewY(-2deg);*/
 	margin-top: -90px;
 	position: absolute;
 	z-index: -1;
 	width: 100%;
 	height: 400px;
+	overflow: hidden;
 }
 .top-skew-bg.blue {
-	background: #004180;
+	background: linear-gradient(0deg, #2b60ff, #00c6ff);/*#004180;*/
+}
+.elipsed-border {
+	overflow: hidden;
+	top: 2px;
+	z-index: 2;
+	position: absolute;
+	height: 100%;
+	width: 150%;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-image: url(/images/RoundedSeparator.svg);
 }
 /* --------------------- */
 
@@ -414,19 +428,21 @@ header a:hover {
   margin-right: 5px
 }
 .loggedBar a#my {
-	color: var(--blue-neon);
-}
-.loggedBar a#out {
-	color: var(--orange);
+	background-color: var(--lightgreen);
+	border-color: var(--lightgreen);
 }
 .loggedBar a#my:hover {
-	background-color: var(--blue-neon);
-	color: white;
-	border-color: var(--blue-neon);
+	background: none;
+	color: var(--green);
+	border-color: var(--green);
 }
-.loggedBar a#out:hover {
+.loggedBar a#logout {
 	background-color: var(--orange);
-	color: white;
+	border-color: var(--orange);
+}
+.loggedBar a#logout:hover {
+	background: none;
+	color: var(--orange);
 	border-color: var(--orange);
 }
 
@@ -614,10 +630,10 @@ body.loginPage {
 	margin-bottom: 20px;
 }
 .mypage_inout button#in {
-	background-color: var(--green);
+	background-color: var(--lightgreen);
 }
 .mypage_inout button#in:hover {
-	background-color: var(--green-dark);
+	background-color: var(--green);
 	cursor: pointer;
 }
 .mypage_inout button#out {

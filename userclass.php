@@ -55,6 +55,7 @@ class User {
     return $currentWorkTime;
   }
 
+  // Returns an array with this years worktime per each week
   public function getWeekWorkTime() {
     $weektime = array_fill(1, 53, 0);
     $outStamps = tc_query("SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'out' ORDER BY timestamp DESC");
@@ -78,6 +79,7 @@ class User {
     return $weektime;
   }
 
+  // Returns an array with this years worktime per each month
   public function getMonthWorkTime() {
     $monthtime = array_fill(1, 13, 0);
     $outStamps = tc_query("SELECT * FROM info WHERE fullname = '$this->username' AND `inout` = 'out' ORDER BY timestamp DESC");

@@ -17,7 +17,7 @@ echo "<header>";
       echo "<a href='/admin/index.php'><i class='fas fa-toolbox'></i> Hallinta</a>";
     }
     if ($_SESSION['logged_in_user']->time_admin == 1) {
-      echo "<a href='/time_editor.php'><i class='fas fa-toolbox'></i> Kellotuseditori</a>";
+      echo "<a href='/timeeditor/time_editor.php'><i class='fas fa-toolbox'></i> Kellotuseditori</a>";
     }
     if ($_SESSION['logged_in_user']->reports == 1) {
       echo "<a href='/reports/total_hours.php'><i class='fas fa-toolbox'></i> Raportit</a>";
@@ -27,7 +27,7 @@ echo "<header>";
     echo " <div class='loggedBar'>";
     echo $_SESSION['logged_in_user']->displayname .": ";
     echo "<a href='/mypage.php' id='my'><i class='fas fa-user'></i> Oma sivu</a>";
-    echo "<a href='/logout.php' id='out'><i class='fas fa-sign-out-alt'></i> Kirjaudu Ulos</a>";
+    echo "<a href='/logout.php' id='logout'><i class='fas fa-sign-out-alt'></i> Kirjaudu Ulos</a>";
   } else {
     echo '</nav>';
     echo " <div class='loggedBar'>";
@@ -36,5 +36,8 @@ echo "<header>";
 echo "</div>";
 
 echo "</header>";
-echo '<section class="top-skew-bg blue"></section>';
+echo '<section class="top-skew-bg blue">
+<div class="elipsed-border">
+</div>
+</section>';
 ?>
