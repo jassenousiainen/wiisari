@@ -11,7 +11,7 @@ echo "<header>";
 
   if (isset($_SESSION['logged_in_user'])) {
     if ($_SERVER['REQUEST_URI'] != '/timeclock.php') {
-      echo "<a href='/index.php' style='margin-left:20px;'><i class='fas fa-clock'></i> Etusivu</a>";
+      echo "<a href='/timeclock.php' style='margin-left:20px;'><i class='fas fa-clock'></i> Etusivu</a>";
     }
     if ($_SESSION['logged_in_user']->admin == 1) {
       echo "<a href='/admin/index.php'><i class='fas fa-toolbox'></i> Hallinta</a>";

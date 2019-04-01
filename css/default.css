@@ -254,6 +254,9 @@ label.container input.check:checked ~ span.checkmark {
 label.container input.check:checked ~ .checkmark:before {
   content: "\f00c";
 }
+form span {
+	margin-right: 20px;
+}
 /* ----------------------- */
 
 

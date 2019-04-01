@@ -94,9 +94,9 @@ if (isset($_SESSION['logged_in_user'])) {
         <b>Hae töissä olevat työntekijät</b>
         <br><br>
         <form name="getReport" action="/reports/employees_in.php" method="post">
-          <select id="office" name="office_name" onchange="group_names();"></select>
-          <select id="group" name="group_name" onchange="user_names();"></select>
-          <select id="user" name="user_name"></select>
+          <span>Toimisto: <select id="office" name="office_name" onchange="group_names();"></select></span>
+          <span>Ryhmä: <select id="group" name="group_name" onchange="user_names();"></select></span>
+          <span>Käyttäjä: <select id="user" name="user_name"></select></span>
           <input style="display: none" name="post_time" value="'.time().'">
           <br><br>
           <button class="btn" type="submit">Hae työntekijät</button>
@@ -128,7 +128,7 @@ if (isset($_SESSION['logged_in_user'])) {
                     <span class='checkmark'></span>
                   </label>
                   <br><br>
-                  <button class='btn' type='submit' name='customreport'>Kustomoitu raportti</button>
+                  <button class='btn' type='submit' name='customreport'>Täysi raportti</button>
                 </form>
               </div>";
     echo '</div>';

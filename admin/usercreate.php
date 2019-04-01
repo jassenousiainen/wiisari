@@ -477,7 +477,7 @@ QUERY
         echo "              <tr>
                               <td class=table_rows height=25 style='padding-left:32px;' nowrap>Barcode: <i class='required'>*</i></td>
                               <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                                <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode'>
+                                <input autocomplete='off' type='text' size='25' maxlength='75' name='barcode' value='".$user_barcode."'>
                               </td>
                               <td class='createdescription'>{$eval(btn_gen_barcode())} {$eval(btn_render_barcode())} Tunnus, jolla työntekijä kirjautuu sisään.</td>
                             </tr>\n";
@@ -486,7 +486,7 @@ QUERY
         echo "              <tr>
                               <td class=table_rows height=25 style='padding-left:32px;' nowrap>Office: <i class='required'>*</i></td>
                               <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                                <select name='office_name' onchange='group_names();'></select>
+                                <select name='office_name' onchange='group_names();'><option value=".$office_name." selected=''>".$office_name."</option></select>
                               </td>
                             </tr>\n";
 
@@ -494,7 +494,7 @@ QUERY
         echo "              <tr>
                               <td class=table_rows height=25 style='padding-left:32px;' nowrap>Group: <i class='required'>*</i></td>
                               <td style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                                <select name='group_name'></select>
+                                <select name='group_name'><option value=".$group_name." selected=''>".$group_name."</option></select>
                               </td>
                             </tr>\n";
 

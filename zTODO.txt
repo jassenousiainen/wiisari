@@ -1,6 +1,6 @@
 ﻿[DONE]1. Sisällä olevien työntekijöiden listaus
 
-2. Muutosloki (toimivaksi vai poistetaanko kokonaan?)
+2. Muutosloki (toimivaksi vai pois kokonaan?)
 
 3. Työntekijän tavoitetunnit päivittäin
   -työntekijä voisi myös nähdä status barin tuntien täyttymisestä (löytyy jo chart.js:stä)
@@ -8,3 +8,5 @@
   -ylityötunnit voisi laskea tämän perusteella
 
 4. Tuntiraportin ulkoasu
+
+3. Kellotuseditorissa kirjauksen muokkaus toimivaksi

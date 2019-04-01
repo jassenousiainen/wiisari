@@ -25,6 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $user = $_POST['user_name'];
   $time = $_POST['post_time'];
 
+  if ($user == '' || $group == '' || $office == '') {
+    echo '<h2>Virhe! Työntekijälista on tyhjä.</h2>';
+    exit;
+  }
+
   if ($user != 'All') {
     $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND empfullname = '$user'");
   }
