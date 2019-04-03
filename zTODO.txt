@@ -9,4 +9,6 @@
 
 4. Tuntiraportin ulkoasu
 
-3. Kellotuseditorissa kirjauksen muokkaus toimivaksi
+5. Kellotuseditorissa kirjauksen muokkaus toimivaksi
+
+6. Config.inc.php 

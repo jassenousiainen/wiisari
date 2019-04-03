@@ -20,24 +20,23 @@ echo "<title>$title - Töissä olevat työntekijät</title>\n";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-  $office = $_POST['office_name'];
-  $group = $_POST['group_name'];
-  $user = $_POST['user_name'];
-  $time = $_POST['post_time'];
-
-  if ($user == '' || $group == '' || $office == '') {
+  if (!isset($_POST['office_name']) || !isset($_POST['group_name']) || !isset($_POST['user_name'])) {
     echo '<h2>Virhe! Työntekijälista on tyhjä.</h2>';
     exit;
   }
 
+  $office = $_POST['office_name'];
+  $group = $_POST['group_name'];
+  /*$user = $_POST['user_name'];
+
   if ($user != 'All') {
     $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND empfullname = '$user'");
   }
-  else if ($group != 'All') {
-    $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND groups = $group ORDER BY tstamp DESC");
+  else*/ if ($group != 'All') {
+    $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND groups = '$group' ORDER BY tstamp DESC");
   }
   else if ($office != 'All') {
-    $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND office = $office ORDER BY tstamp DESC");
+    $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' AND office = '$office' ORDER BY tstamp DESC");
   }
   else {
     $query = tc_query("SELECT * FROM employees WHERE inout_status = 'in' ORDER BY tstamp DESC");

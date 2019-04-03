@@ -76,7 +76,7 @@ if (isset($_SESSION['logged_in_user'])) {
         if ($_SESSION['logged_in_user']->reports == '1') {
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
-          echo '<a class="btn tile" href="/reports/audit.php"><i class="fas fa-book-open"></i><span>Muutosloki</span></a>';
+          /*echo '<a class="btn tile" href="/reports/audit.php"><i class="fas fa-book-open"></i><span>Muutosloki</span></a>';*/
         }
 
 
@@ -96,8 +96,7 @@ if (isset($_SESSION['logged_in_user'])) {
         <form name="getReport" action="/reports/employees_in.php" method="post">
           <span>Toimisto: <select id="office" name="office_name" onchange="group_names();"></select></span>
           <span>Ryhmä: <select id="group" name="group_name" onchange="user_names();"></select></span>
-          <span>Käyttäjä: <select id="user" name="user_name"></select></span>
-          <input style="display: none" name="post_time" value="'.time().'">
+          <span style="display:none;">Käyttäjä: <select id="user" name="user_name"></select></span>
           <br><br>
           <button class="btn" type="submit">Hae työntekijät</button>
         </form>

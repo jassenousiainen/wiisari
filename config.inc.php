@@ -23,6 +23,13 @@ $db_password = "Lg4PVDnXaoWbMBXe";
 $db_name = "timeclock";
 
 
+
+
+/* =========== ÄLÄ KOSKE ALLA OLEVIIN! (tämä tiedosto on vielä keskeneräinen) =========== */
+
+
+
+
 /* --- RECOMMENDED CHANGES --- */
 
 
