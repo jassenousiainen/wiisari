@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
   echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />';
 }
 
-if ($_SERVER['REQUEST_URI'] == '/mypage.php') {
+if (isset($_SESSION['logged_in_user']) && $_SERVER['REQUEST_URI'] == '/mypage.php') {
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
   echo '<script src="/scripts/datepicker-fi.js"></script>';
