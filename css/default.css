@@ -41,7 +41,7 @@
 	 --green-dark: #1c8935;
 	 --red: #dc3545;
 	 --red-dark: #c42e3d;
-	 --red-light: #ff5f5f;
+	 --red-light: #ff6384;
 	 --purple: #6f42c1;
  }
  /*------------------------*/
@@ -426,9 +426,9 @@ header a:hover {
 	height: 36px;
 }
 .loggedBar a {
-	line-height: 32px;
+	line-height: 36px;
 	border-radius: 18px;
-	border: solid 1.5px;
+	/*border: solid 1.5px;*/
   margin-right: 5px
 }
 .loggedBar a#my {
@@ -436,7 +436,7 @@ header a:hover {
 	border-color: var(--lightgreen);
 }
 .loggedBar a#my:hover {
-	background: none;
+	background: var(--green);
 	color: white;
 	border-color: var(--green);
 }
@@ -445,9 +445,9 @@ header a:hover {
 	border-color: var(--red-light);
 }
 .loggedBar a#logout:hover {
-	background: none;
+	background: var(--red);
 	color: white;
-	border-color: var(--red-light);
+	border-color: var(--red);
 }
 
 

@@ -1,4 +1,4 @@
-﻿[DONE]1. Sisällä olevien työntekijöiden listaus
+1. Kellotuseditoriin toimiston ja ryhmän valinta (muuten listasta tulee melko pitkä)
 
 2. Muutosloki (toimivaksi vai pois kokonaan?)
 
@@ -11,4 +11,4 @@
 
 5. Kellotuseditorissa kirjauksen muokkaus toimivaksi
 
-6. Config.inc.php 
+6. Config.inc.php

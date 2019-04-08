@@ -47,7 +47,14 @@ echo '          </table>
 }
 
 
-else if  (isset($_POST['edittime']) ) {
+else if  ( isset($_POST['edittime']) ) {
+
+  if ( !isset($_POST['emp']) ) {
+    echo '<h2 style="color:red;">Virhe! Et valinnut työntekijää</h2>
+          <a href="/timeeditor/time_editor.php">< Takaisin</a>';
+    exit;
+  }
+
   $empfullname = $_POST['emp'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
 
