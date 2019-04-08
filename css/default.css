@@ -41,6 +41,7 @@
 	 --green-dark: #1c8935;
 	 --red: #dc3545;
 	 --red-dark: #c42e3d;
+	 --red-light: #ff5f5f;
 	 --purple: #6f42c1;
  }
  /*------------------------*/
@@ -436,17 +437,17 @@ header a:hover {
 }
 .loggedBar a#my:hover {
 	background: none;
-	color: var(--green);
+	color: white;
 	border-color: var(--green);
 }
 .loggedBar a#logout {
-	background-color: var(--orange);
-	border-color: var(--orange);
+	background-color: var(--red-light);
+	border-color: var(--red-light);
 }
 .loggedBar a#logout:hover {
 	background: none;
-	color: var(--orange);
-	border-color: var(--orange);
+	color: white;
+	border-color: var(--red-light);
 }
 
 
