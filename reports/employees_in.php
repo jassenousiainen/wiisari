@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <th style="text-align:left;">Nimi</th>
                     <th style="text-align:left;">Sisään klo</th>
                     <th style="text-align:left;">Toimisto</th>
-                    <th style="text-align:left;">Ryhmä</th>
+                    <th style="text-align:left;">Osasto</th>
                   </tr>';
 
                   $count = 0;

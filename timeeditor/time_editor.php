@@ -15,7 +15,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_adm
 
 
 if ($request == 'GET') {
-  $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname ASC");
+  $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname DESC");
 
 echo '<section class="container">
         <div class="middleContent">
@@ -23,39 +23,40 @@ echo '<section class="container">
             <h2>Kellotuseditori - valitse työntekijä</h2>
             <div class="section">
             <form action="'.$self.'" method="post">
-              <table style="width:60%;">';
+              <table>
+              <thead>
+                <tr>
+                  <th style="text-align:left;">Nimi</th>
+                  <th style="text-align:left;">Toimisto</th>
+                  <th style="text-align:left;">Osasto</th>
+                  <th style="text-align:center;" class="sorter-false filter-false">Valitse</th>
+                </tr>
+              </thead>
+              <tbody>';
 
   while ( $employee = mysqli_fetch_array($employee_query) ) {
-    echo        '<tr>
+
+echo '          <tr>
                   <td>'.$employee[3].'</td>
-                  <td>
-                    <label class="container">
-                      <input class="check" type="radio" name="emp" value="'.$employee[0].'">
-                      <span class="checkmark"></span>
-                    </label>
-                  </td>
+                  <td>'.$employee[7].'</td>
+                  <td>'.$employee[6].'</td>
+                  <td style="text-align:center;"><button name="edittime" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-pencil-alt"></i> Valitse</button></td>
                 </tr>';
   }
-echo '          </table>
-                <br>
-                <button name="edittime" type="submit" class="btn" value=""><i class="fas fa-pencil-alt"></i> Valitse</button)
+echo '          </tbody>
+                </table>
               </form>
             </div>
           </div>
         </div>
       </section>';
-}
 
+echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
+}
 
 else if  ( isset($_POST['edittime']) ) {
 
-  if ( !isset($_POST['emp']) ) {
-    echo '<h2 style="color:red;">Virhe! Et valinnut työntekijää</h2>
-          <a href="/timeeditor/time_editor.php">< Takaisin</a>';
-    exit;
-  }
-
-  $empfullname = $_POST['emp'];
+  $empfullname = $_POST['edittime'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
 
 //  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';

@@ -94,8 +94,8 @@ if (isset($_SESSION['logged_in_user'])) {
         <b>Hae töissä olevat työntekijät</b>
         <br><br>
         <form name="getReport" action="/reports/employees_in.php" method="post">
-          <span>Toimisto: <select id="office" name="office_name" onchange="group_names();"></select></span>
-          <span>Ryhmä: <select id="group" name="group_name" onchange="user_names();"></select></span>
+          <span>1. Toimisto: <select id="office" name="office_name" onchange="group_names();"></select></span>
+          <span>2. Osasto: <select id="group" name="group_name" onchange="user_names();"></select></span>
           <span style="display:none;">Käyttäjä: <select id="user" name="user_name"></select></span>
           <br><br>
           <button class="btn" type="submit">Hae työntekijät</button>
@@ -135,7 +135,7 @@ if (isset($_SESSION['logged_in_user'])) {
     echo '<div class="box">';
       echo '<h2 class="green">Omat tilastot</h2>';
       echo '<div class="section">';
-      echo '  <canvas id="weektimechart" width="900" height="450"></canvas>';
+      echo '  <canvas id="weektimechart" width="910" height="450"></canvas>';
 
       $currentWeek = ltrim(date('W', time()), 0);
       $WeekWorkTime = $_SESSION['logged_in_user']->getWeekWorkTime();
@@ -166,7 +166,7 @@ if (isset($_SESSION['logged_in_user'])) {
 
 echo '  </div>';
 echo '<div class="section">';
-echo '  <canvas id="monthtimechart" width="900" height="450"></canvas>';
+echo '  <canvas id="monthtimechart" width="910" height="450"></canvas>';
 
 $currentMonth = ltrim(date('W', time()), 0);
 $monthWorkTime = $_SESSION['logged_in_user']->getMonthWorkTime();

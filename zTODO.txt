@@ -1,14 +1,18 @@
-1. Kellotuseditoriin toimiston ja ryhmän valinta (muuten listasta tulee melko pitkä)
+﻿Kellotuseditoriin toimiston ja ryhmän valinta (muuten listasta tulee melko pitkä)
 
-2. Muutosloki (toimivaksi vai pois kokonaan?)
+Tablesorter
 
-3. Työntekijän tavoitetunnit päivittäin
+Muutosloki (toimivaksi vai pois kokonaan?)
+
+Työntekijän tavoitetunnit päivittäin
   -työntekijä voisi myös nähdä status barin tuntien täyttymisestä (löytyy jo chart.js:stä)
   -selain voisi myös lähettää ilmoituksen käyttäjälle, kun tunnit on päivän osalta täynnä
   -ylityötunnit voisi laskea tämän perusteella
 
-4. Tuntiraportin ulkoasu
+Tuntiraportin ulkoasu
 
-5. Kellotuseditorissa kirjauksen muokkaus toimivaksi
+Kellotuseditorissa kirjauksen muokkaus toimivaksi
 
-6. Config.inc.php
+Config.inc.php
+
+Yhdistä kaikki työntekijöihin liittyvät toiminnot (raportit, editori, töissä olevat, yms.)
