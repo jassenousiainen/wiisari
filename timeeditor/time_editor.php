@@ -23,7 +23,7 @@ echo '<section class="container">
             <h2>Kellotuseditori - valitse työntekijä</h2>
             <div class="section">
             <form action="'.$self.'" method="post">
-              <table>
+              <table class="sorted">
               <thead>
                 <tr>
                   <th data-placeholder="Hae nimellä">Nimi</th>
@@ -39,7 +39,6 @@ echo '<section class="container">
                     <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
                     <span class="pagedisplay"></span>
-                    <!-- this can be any element, including an input -->
                     <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
                     <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
                   </th>
@@ -84,7 +83,7 @@ else if  ( isset($_POST['edittime']) ) {
   $empfullname = $_POST['edittime'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
 
-//  echo '<a class="btn back" href="/time_editor.php"> Takaisin</a>';
+  /* ----- Add/delete -punches ----- */
   echo '<section class="container">';
   echo '  <div class="leftContent">
           <div class="box">
@@ -102,8 +101,7 @@ else if  ( isset($_POST['edittime']) ) {
                 <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
                 <input name="out_time" type="time">
                 <br><br>
-                <input type="text" name="emp" value="'.$empfullname.'" style="display:none;">
-                <button type="submit" name="edittime" class="btn">Lisää</button>
+                <button type="submit" name="edittime" class="btn" value="'.$empfullname.'">Lisää</button>
               </form>
             </div>';
   if (isset($_POST['in_date']) || isset($_POST['out_date'])) {
@@ -114,6 +112,8 @@ else if  ( isset($_POST['edittime']) ) {
   }
   echo '  </div></div>';
 
+
+  /* ----- List punches ----- */
   echo'    <div class="middleContent">
             <div class="box">
               <h2>Kellotuseditori - '.$user_data[3].'</h2>
@@ -121,38 +121,68 @@ else if  ( isset($_POST['edittime']) ) {
               <form action="alter_time.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
                 <button type="submit" name="deletetime" value="'.$empfullname.'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
-                <table>
-                  <tr>
-                    <th>Sisään/Ulos</th>
-                    <th>Päivä</th>
-                    <th>Kello</th>
-                    <th colspan="3" >Viesti</th>
-                    <th>Poista</th>
-                    <th>Muokkaa</th>
-                  </tr>';
+                <table class="sort-desc">
+                  <thead>
+                    <tr>
+                      <th>Aikaleima</th>
+                      <th class="sorter-false">Sisään/Ulos</th>
+                      <th class="sorter-false">Päivä</th>
+                      <th class="sorter-false">Kello</th>
+                      <th colspan="2" class="sorter-false" >Viesti</th>
+                      <th class="sorter-false filter-false">Poista</th>
+                      <th class="sorter-false filter-false">Muokkaa</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                  <tr style="height: 20px;"></tr>
+                    <tr class="tablesorter-ignoreRow">
+                      <th colspan="8" class="ts-pager form-horizontal">
+                        <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
+                        <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
+                        <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
+                      </th>
+                    </tr>
+                    <tr class="tablesorter-ignoreRow">
+                      <th colspan="8" class="ts-pager form-horizontal">
+                        max rivit: <select class="pagesize browser-default" title="Select page size">
+                          <option value="50">50</option>
+                          <option selected="selected" value="100">100</option>
+                          <option value="200">200</option>
+                          <option value="300">300</option>
+                        </select>
+                        sivu: <select class="pagenum browser-default" title="Select page number"></select>
+                      </th>
+                    </tr>
+                  </tfoot>
+                  <tbody>';
   $max = 0;
   $prev = '';
   $inoutdata_query = tc_query("SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC");
+
   while ( $inout = mysqli_fetch_row($inoutdata_query) ) {
 
     $logTime = new DateTime("@$inout[3]");
     $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
+    echo "  <tr>
+              <td style='text-align:center; color: grey;'>".$inout[3]."</td>";
+
+    /* this part controls the in/out cells (basically just coloring)*/
     if ( $prev == '' || ($prev == 'out' && $inout[2] == 'in') || ($prev == 'in' && $inout[2] == 'out')) {
       if ($inout[2] == 'in') {
-        echo "<tr style='background-color: white;'>
-                <td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
+        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
       } else {
-        echo "<tr style='background-color: var(--light);'>
-                <td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
+        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
     }
-    else {
-      echo "<tr style='background-color: var(--orange);'>
-              <td style='text-align:center;'><span>$inout[2]</span></td>"; }
+    else {  /* means that there is error (out isn't preceded by in) */
+      echo "<td style='text-align:center;background-color: var(--orange);'><span>$inout[2]</span></td>";
+    }
 
       echo "  <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
               <td style='text-align:center;'>".$logTime->format("H:i")."</td>
-              <td colspan='3' style='word-wrap: break-word;'>$inout[4]</td>
+              <td colspan='2' style='word-wrap: break-word;'>$inout[4]</td>
               <td style='text-align:center;'>
                 <label class='container'>
                   <input type='checkbox' name='deletelist[]' value='$inout[0]' class='check'>
@@ -163,15 +193,17 @@ else if  ( isset($_POST['edittime']) ) {
             </tr>";
     $prev = $inout[2];
     $max++;
-    if ($max == 200) { break; }
+    if ($max == 500) { break; }
   }
-echo '          </table>
+echo '            </tbody>
+                </table>
               </form>
-              (näyttää viimeiset 200 kirjausta, mikäli vanhempia tarvitsee muokata tulee tämä tehdä phpMyAdminissa)
             </div>
           </div>
         </div>
       </section>';
+
+echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
 }
 
 ?>

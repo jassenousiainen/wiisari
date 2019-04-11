@@ -1,11 +1,16 @@
 // Use this file to load tablesorter after the table has loaded
 
 $(function() {
+  var sort;
+
+  if ($("table").hasClass("sort-desc")) { sort = [0,1]}
+  else {sort=[0,0]}
+
 
   $("table").tablesorter({
     theme : "wiisari",
 
-    sortList: [[0,0]],
+    sortList: [sort],
 
     widthFixed: true,
     // widget code contained in the jquery.tablesorter.widgets.js file
@@ -40,7 +45,6 @@ $(function() {
     // output string - default is '{page}/{totalPages}';
     // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
     output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
-
   });
 
 });
