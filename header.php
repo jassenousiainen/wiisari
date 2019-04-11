@@ -68,11 +68,8 @@ else if ($_SERVER['REQUEST_URI'] == '/timeeditor/time_editor.php')  {
   echo '<script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>';
   echo '<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">';
   echo '<script src="/scripts/datepicker-fi.js"></script>';
-  /* materialize stylesheet & icon font */
-  /*echo '<link rel="stylesheet" href="/scripts/tablesorter/materialize.min.css">';*/
-  echo '<link rel="stylesheet" href="/scripts/tablesorter/icon.css">';
-  /* materialize theme */
-  echo '<link rel="stylesheet" href="/scripts/tablesorter/theme.materialize.css">';
+  /* wiisari tablesorter theme */
+  echo '<link rel="stylesheet" href="/css/wiisari.tablesorter.css">';
   /* tablesorter plugin */
   echo '<script type="text/javascript" src="/scripts/tablesorter/jquery.tablesorter.js"></script>';
   /* tablesorter widget file */

@@ -1,7 +1,11 @@
+// Use this file to load tablesorter after the table has loaded
+
 $(function() {
 
   $("table").tablesorter({
-    theme : "materialize",
+    theme : "wiisari",
+
+    sortList: [[0,0]],
 
     widthFixed: true,
     // widget code contained in the jquery.tablesorter.widgets.js file

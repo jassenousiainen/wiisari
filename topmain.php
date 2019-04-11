@@ -5,7 +5,7 @@
 echo "<header>";
 
   echo '<nav>
-  <a class="logolink" href="/timeclock.php">
+  <a class="logolink" href="/index.php">
     <h2 class="logotext">WIISARI</h2>
   </a>';
 

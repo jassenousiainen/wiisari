@@ -26,12 +26,37 @@ echo '<section class="container">
               <table>
               <thead>
                 <tr>
-                  <th style="text-align:left;">Nimi</th>
-                  <th style="text-align:left;">Toimisto</th>
-                  <th style="text-align:left;">Osasto</th>
-                  <th style="text-align:center;" class="sorter-false filter-false">Valitse</th>
+                  <th data-placeholder="Hae nimellä">Nimi</th>
+                  <th class="filter-select filter-exact" data-placeholder="Kaikki toimistot">Toimisto</th>
+                  <th class="filter-select filter-exact" data-placeholder="Kaikki osastot">Osasto</th>
+                  <th class="sorter-false filter-false">Valitse</th>
                 </tr>
               </thead>
+              <tfoot>
+              <tr style="height: 20px;"></tr>
+                <tr class="tablesorter-ignoreRow">
+                  <th colspan="4" class="ts-pager form-horizontal">
+                    <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
+                    <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
+                    <span class="pagedisplay"></span>
+                    <!-- this can be any element, including an input -->
+                    <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
+                    <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
+                  </th>
+                </tr>
+                <tr class="tablesorter-ignoreRow">
+                  <th colspan="4" class="ts-pager form-horizontal">
+                    max rivit: <select class="pagesize browser-default" title="Select page size">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option selected="selected" value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="all">Kaikki rivit</option>
+                    </select>
+                    sivu: <select class="pagenum browser-default" title="Select page number"></select>
+                  </th>
+                </tr>
+              </tfoot>
               <tbody>';
 
   while ( $employee = mysqli_fetch_array($employee_query) ) {
@@ -40,7 +65,7 @@ echo '          <tr>
                   <td>'.$employee[3].'</td>
                   <td>'.$employee[7].'</td>
                   <td>'.$employee[6].'</td>
-                  <td style="text-align:center;"><button name="edittime" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-pencil-alt"></i> Valitse</button></td>
+                  <td style="text-align:center;"><button name="edittime" type="submit" class="btn" value="'.$employee[0].'">Valitse</button></td>
                 </tr>';
   }
 echo '          </tbody>

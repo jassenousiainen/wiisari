@@ -1,0 +1,104 @@
+/* sort icons */
+.tablesorter-wiisari thead .tablesorter-header {
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding: 4px 18px 4px 4px;
+	white-space: normal;
+	cursor: pointer;
+}
+
+/* black unsorted icon */
+.tablesorter-wiisari thead .tablesorter-headerUnSorted {
+	/* <svg xmlns="http://www.w3.org/2000/svg" width="18" height="12" viewBox="0 0 24 16"><path d="M15 8 1 8 8 0zM15 9 1 9 8 16z" fill="#222"/></svg> */
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDI0IDE2Ij48cGF0aCBkPSJNMTUgOCAxIDggOCAwek0xNSA5IDEgOSA4IDE2eiIgZmlsbD0iIzIyMiIvPjwvc3ZnPg==);
+}
+/* black asc icon */
+.tablesorter-wiisari thead .tablesorter-headerAsc {
+	/* <svg xmlns="http://www.w3.org/2000/svg" width="18" height="12" viewBox="0 0 24 16"><path d="M15 11 1 11 8 3z" fill="#222"/></svg> */
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDI0IDE2Ij48cGF0aCBkPSJNMTUgMTEgMSAxMSA4IDN6IiBmaWxsPSIjMjIyIi8+PC9zdmc+);
+}
+/* black desc icon */
+.tablesorter-wiisari thead .tablesorter-headerDesc {
+	/* <svg xmlns="http://www.w3.org/2000/svg" width="18" height="12" viewBox="0 0 24 16"><path d="M15 6 1 6 8 13z" fill="#222"/></svg> */
+	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDI0IDE2Ij48cGF0aCBkPSJNMTUgNiAxIDYgOCAxM3oiIGZpbGw9IiMyMjIiLz48L3N2Zz4=);
+}
+.tablesorter-wiisari thead .sorter-false {
+	background: none;
+	cursor: default;
+}
+
+/* add small padding to tbody cells */
+.tablesorter-wiisari > tbody > tr > td {
+	padding: 0 5px 0 5px;
+}
+
+/* since wiisari (table-striped) uses nth-child(), we just use this to add a zebra stripe color */
+.tablesorter-wiisari > tbody > tr.odd > td,
+.tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.odd:hover ~ tr.tablesorter-hasChildRow.odd ~ .tablesorter-childRow.odd > td {
+	background-color: var(--light);
+}
+.tablesorter-wiisari > tbody > tr.hover > td,
+.tablesorter-wiisari > tbody > tr.odd:hover > td,
+.tablesorter-wiisari > tbody > tr.even:hover > td,
+.tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.odd:hover ~ .tablesorter-childRow.odd > td,
+.tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.even:hover ~ .tablesorter-childRow.even > td {
+	background-color: var(--light-hover);
+}
+.tablesorter-wiisari > tbody > tr.even > td,
+.tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.even:hover ~ tr.tablesorter-hasChildRow.even ~ .tablesorter-childRow.even > td {
+	background-color: #fff;
+}
+
+
+/* filter widget */
+.tablesorter-wiisari .tablesorter-filter-row input.tablesorter-filter,
+.tablesorter-wiisari .tablesorter-filter-row select.tablesorter-filter {
+	width: 98%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.tablesorter-wiisari .tablesorter-filter-row .tablesorter-filter.disabled {
+	background-color: #eee;
+	color: #555;
+	cursor: not-allowed;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+	box-sizing: border-box;
+	transition: height 0.1s ease;
+}
+.tablesorter-wiisari .tablesorter-filter-row {
+	background-color: #fff;
+}
+.tablesorter-wiisari .tablesorter-filter-row td {
+	background-color: #fff;
+	line-height: normal;
+	text-align: center;
+	padding: 4px 6px;
+	vertical-align: middle;
+	-webkit-transition: line-height 0.1s ease;
+	-moz-transition: line-height 0.1s ease;
+	-o-transition: line-height 0.1s ease;
+	transition: line-height 0.1s ease;
+}
+/* hidden filter row */
+.tablesorter-wiisari .tablesorter-filter-row.hideme td {
+	padding: 2px; /* change this to modify the thickness of the closed border row */
+	margin: 0;
+	line-height: 0;
+}
+.tablesorter-wiisari .tablesorter-filter-row.hideme * {
+	height: 1px;
+	min-height: 0;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	/* don't use visibility: hidden because it disables tabbing */
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+/* rows hidden by filtering (needed for child rows) */
+.tablesorter .filtered {
+	display: none;
+}

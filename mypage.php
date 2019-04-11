@@ -31,8 +31,6 @@ function employees_total_in_count() {
 if (isset($_SESSION['logged_in_user'])) {
 
 
-
-
   echo '<section class="container myPage">';
 
 
