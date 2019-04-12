@@ -200,7 +200,6 @@ a.link:hover {
 /* BASIC FORM */
 form select, form input{
 	display: inline-block;
-	max-width: 100%;
 	padding: 0 7px 0 7px;
   height: 38px;
 	margin: 10px 0;

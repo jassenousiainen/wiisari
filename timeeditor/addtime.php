@@ -5,34 +5,44 @@ if ($_POST['in_date'] != "") {
   $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr)->getTimestamp();
   $notes = "";
 
-  $clockin = array("fullname" => $empfullname, "inout" => 'in', "timestamp" => $timestamp, "notes" => "$notes");
-  tc_insert_strings("info", $clockin);
+  if ($timestamp > time()) {
+    echo 'Virhe! Et voi lisätä kellotuksia tulevaisuuteen';
+  } 
+  else {
+    $clockin = array("fullname" => $empfullname, "inout" => 'in', "timestamp" => $timestamp, "notes" => "$notes");
+    tc_insert_strings("info", $clockin);
 
-  $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
-  $logTime = new DateTime("@$success[3]");
-  $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
-  echo "<tr style='background-color: var(--light);'>
-          <td><span class='inout' style='background-color:var(--lightgreen); text-align: center;'>$success[2]</span></td>
-          <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
-          <td style='text-align:center;'>".$logTime->format("H:i")."</td>
-        </tr>";
+    $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
+    $logTime = new DateTime("@$success[3]");
+    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    echo "<tr style='background-color: var(--light);'>
+            <td><span class='inout' style='background-color:var(--lightgreen); text-align: center;'>$success[2]</span></td>
+            <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
+            <td style='text-align:center;'>".$logTime->format("H:i")."</td>
+          </tr>";
+  }
 }
 if ($_POST['out_date'] != "") {
   $outDateStr = $_POST['out_date']." ".$_POST['out_time'];
   $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $outDateStr)->getTimestamp();
   $notes = "";
 
-  $clockin = array("fullname" => $empfullname, "inout" => 'out', "timestamp" => $timestamp, "notes" => "$notes");
-  tc_insert_strings("info", $clockin);
+  if ($timestamp > time()) {
+    echo 'Virhe! Et voi lisätä kellotuksia tulevaisuuteen';
+  }
+  else {
+    $clockin = array("fullname" => $empfullname, "inout" => 'out', "timestamp" => $timestamp, "notes" => "$notes");
+    tc_insert_strings("info", $clockin);
 
-  $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
-  $logTime = new DateTime("@$success[3]");
-  $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
-  echo "<tr style='background-color: var(--light);'>
-          <td><span class='inout' style='background-color:var(--red); text-align: center;'>$success[2]</span></td>
-          <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
-          <td style='text-align:center;'>".$logTime->format("H:i")."</td>
-        </tr>";
+    $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
+    $logTime = new DateTime("@$success[3]");
+    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    echo "<tr style='background-color: var(--light);'>
+            <td><span class='inout' style='background-color:var(--red); text-align: center;'>$success[2]</span></td>
+            <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
+            <td style='text-align:center;'>".$logTime->format("H:i")."</td>
+          </tr>";
+  }
 }
 echo '</table>';
 

@@ -1,8 +1,4 @@
-﻿Kellotuseditoriin toimiston ja ryhmän valinta (muuten listasta tulee melko pitkä)
-
-Tablesorter
-
-Muutosloki (toimivaksi vai pois kokonaan?)
+﻿Muutosloki (toimivaksi vai pois kokonaan?)
 
 Työntekijän tavoitetunnit päivittäin
   -työntekijä voisi myös nähdä status barin tuntien täyttymisestä (löytyy jo chart.js:stä)

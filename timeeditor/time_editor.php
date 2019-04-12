@@ -13,7 +13,6 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_adm
     exit;
 }
 
-
 if ($request == 'GET') {
   $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname DESC");
 
@@ -78,6 +77,7 @@ echo '          </tbody>
 echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
 }
 
+
 else if  ( isset($_POST['edittime']) ) {
 
   $empfullname = $_POST['edittime'];
@@ -125,7 +125,7 @@ else if  ( isset($_POST['edittime']) ) {
                   <thead>
                     <tr>
                       <th>Aikaleima</th>
-                      <th class="sorter-false">Sisään/Ulos</th>
+                      <th class="filter-select filter-exact sorter-false">Sisään/Ulos</th>
                       <th class="sorter-false">Päivä</th>
                       <th class="sorter-false">Kello</th>
                       <th colspan="2" class="sorter-false" >Viesti</th>
@@ -172,12 +172,12 @@ else if  ( isset($_POST['edittime']) ) {
     /* this part controls the in/out cells (basically just coloring)*/
     if ( $prev == '' || ($prev == 'out' && $inout[2] == 'in') || ($prev == 'in' && $inout[2] == 'out')) {
       if ($inout[2] == 'in') {
-        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -6px;'>$inout[2]</span></td>";
+        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--lightgreen); border-radius: 0 0 10px 10px; margin-top: -4px;'>$inout[2]</span></td>";
       } else {
-        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -6px;'>$inout[2]</span></td>"; }
+        echo "<td style='text-align:center;'><span class='inout' style='background-color:var(--red); border-radius: 10px 10px 0 0; margin-bottom: -7px;'>$inout[2]</span></td>"; }
     }
     else {  /* means that there is error (out isn't preceded by in) */
-      echo "<td style='text-align:center;background-color: var(--orange);'><span>$inout[2]</span></td>";
+      echo "<td style='text-align:center;background-color: var(--orange);'><span>$inout[2] (virhe)</span></td>";
     }
 
       echo "  <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
@@ -189,7 +189,7 @@ else if  ( isset($_POST['edittime']) ) {
                   <span class='checkmark'></span>
                 </label>
               </td>
-              <td style='text-align:center;'><button type='submit' name='edit' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>
+              <td style='text-align:center;'><button type='submit' name='altertime' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>
             </tr>";
     $prev = $inout[2];
     $max++;
