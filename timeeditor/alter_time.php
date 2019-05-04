@@ -4,15 +4,18 @@ include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
 include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
+
 echo "<title>Kellotuseditori</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
+
 if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_admin == 0) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
+
 
 if ($request == 'GET') {
   echo "<script type='text/javascript' language='javascript'> window.location.href = '/time_editor.php';</script>";
@@ -25,6 +28,7 @@ $empfullname;
 echo '<section class="container">
         <div class="middleContent">';
 
+/* ----- Punch deletion ----- */
 if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
   $empfullname = $_POST['deletetime'];
 
@@ -57,6 +61,7 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
           </div>';
 }
 
+/* ----- Punch editing ----- */
 else if (isset($_POST['altertime'])) {
 
   $punchid = $_POST['altertime'];
@@ -76,7 +81,7 @@ else if (isset($_POST['altertime'])) {
               <p>KellotusID: '.$punch[0].'</p>
               <form action="alter_time.php" method="post">
               <input name="punchid" value="'.$punch[0].'" style="display:none;">
-                <table>
+                <table style="max-width: 400px;">
                   <tr>
                     <td>'.$punch[2].'</td>
                     <td><i class="fas fa-long-arrow-alt-right"></i></td> 
@@ -90,7 +95,6 @@ else if (isset($_POST['altertime'])) {
                   }
   echo '              </select>
                     </td>
-                    <td colspan="2"></td>
                   </tr>
                   <tr>
                     <td>'.$logTime->format("d.m.Y").'</td>
@@ -115,7 +119,7 @@ else if (isset($_POST['altertime'])) {
           </div>';
 }
 
-/* If user has altered punch */
+/* ----- Punch updating ----- */
 else if (isset($_POST['punchid'])) {
   $punchid = $_POST['punchid'];
   $oldpunch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE newid = '$punchid'"));
@@ -140,7 +144,7 @@ else if (isset($_POST['punchid'])) {
               <p>KellotusID: '.$punchid.'</p>';
 
   if ($timestamp > time()) {
-    echo '<p>Virhe! Et voi sijoittaa kellotusta tulevaisuuteen</p>';
+    echo '    <p>Virhe! Et voi sijoittaa kellotusta tulevaisuuteen</p>';
   } else {
     echo '    <p>Muutokset tehty onnistuneesti: </p>
               <table>
@@ -176,14 +180,10 @@ else if (isset($_POST['punchid'])) {
       ),
       "newid = ?", $punchid
     );
-    
+
   }
   echo '    </div>
           </div>';
-
-  
-
-
 }
 
 echo '  </div>
