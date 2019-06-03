@@ -1,4 +1,6 @@
-﻿Muutosloki (toimivaksi vai pois kokonaan?)
+Valvojat/esimehet linkitetty tiettyihin ryhmiin
+ 
+ Muutosloki (toimivaksi vai pois kokonaan?)
 
 Työntekijän tavoitetunnit päivittäin
   -työntekijä voisi myös nähdä status barin tuntien täyttymisestä (löytyy jo chart.js:stä)
