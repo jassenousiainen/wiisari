@@ -7,8 +7,6 @@ Työntekijän tavoitetunnit päivittäin
 
 Tuntiraportin ulkoasu
 
-Kellotuseditorissa kirjauksen muokkaus toimivaksi
-
 Config.inc.php
 
 Yhdistä kaikki työntekijöihin liittyvät toiminnot (raportit, editori, töissä olevat, yms.)
