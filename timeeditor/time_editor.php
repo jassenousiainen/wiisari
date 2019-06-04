@@ -14,7 +14,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_adm
 }
 
 if ($request == 'GET') {
-  $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname DESC");
+  $employee_query = tc_query("SELECT * FROM employees WHERE disabled = 0 ORDER BY displayname ASC");
 
 echo '<section class="container">
         <div class="middleContent">

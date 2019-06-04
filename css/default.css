@@ -187,6 +187,10 @@ ul { padding-left: 20px; }
 }
 /*------------------------*/
 
+.errortext {
+	color: red;
+}
+
 /* BASIC LINK */
 a.link {
 	color: var(--blue);

@@ -110,7 +110,6 @@ if ($request == 'GET') {
                           </td>
                         </tr>\n";
 
-
     /**echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Email Address:</td><td colspan=2 width=80%
                       style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
                       <input type='text' size='25' maxlength='75' name='email_addy'>&nbsp;*</td></tr>\n";*/
