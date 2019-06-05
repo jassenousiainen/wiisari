@@ -22,95 +22,20 @@ if ($request == 'GET') {
 
     echo '
       <section class="container">
-        <div class="middleContent">
-          <div class="box">
-            <h2>Luo uusi käyttäjä</h2>
-            <div class="section">
-              <form name="form" action="employeecreate.php" method="post">
-                <table>
-                  <tbody>
-                    <tr>
-                        <td>Käyttäjätunnus:</td>
-                        <td><input name="empfullname" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 12px;">Järjestelmän sisäiseen käyttöön</td>
-                    </tr>
-                    <tr>
-                        <td>Nimi:</td>
-                        <td><input name="displayname" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 12px;">Henkilön nimi</td>
-                    </tr>
-                    <tr>
-                        <td>Salasana:</td>
-                        <td><input name="password" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 12px;">Tällä valvoja kirjautuu järjestelmään</td>
-                    </tr>
-                    <tr>
-                        <td>Viivakoodi:</td>
-                        <td><input name="barcode" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 12px;">Tällä valvoja kellottaa itsensä töihin</td>
-                    </tr>
-                    <tr>
-                        <td>Toimisto:</td>
-                        <td><select name="office_name" onchange="group_names();" required="true"></select></td>
-                        <td style="color: grey; font-size: 12px;">Toimisto, johon valvoja kuuluu</td>
-                    </tr>
-                    <tr>
-                        <td>Ryhmä:</td>
-                        <td><select name="group_name" required="true"></select></td>
-                        <td style="color: grey; font-size: 12px;">Ryhmä, johon valvoja kuuluu</td>
-                    </tr>
-                    <tr>
-                      <td>Adminoikeudet:</td>
-                      <td>
-                        <label class="container">
-                          <input type="checkbox" name="admin" value="1" class="check">
-                          <span class="checkmark"></span>
-                        </label>
-                      </td>
-                      <td style="color: grey; font-size: 12px;">Admin pääsee seuraaviin toimintoihin: Hallintapaneeli, Valvojat -sivu</td>
-                    </tr>
-                    <tr>
-                      <td>Raporttioikeudet:</td>
-                      <td>
-                        <label class="container">
-                          <input type="checkbox" name="reports" value="1" class="check">
-                          <span class="checkmark"></span>
-                        </label>
-                      </td>
-                      <td style="color: grey; font-size: 12px;">Raporttioikeuksilla käyttäjä näkee valittujen ryhmien työtunnit</td>
-                    </tr>
-                    <tr>
-                      <td>Editorioikeudet:</td>
-                      <td>
-                        <label class="container">
-                          <input type="checkbox" name="time_admin" value="1" class="check">
-                          <span class="checkmark"></span>
-                        </label>
-                      </td>
-                      <td style="color: grey; font-size: 12px;">Editorioikeuksilla käyttäjä voi muokata valittujen ryhmien työaikoja</td>
-                    </tr>
-                    <tr>
-                      <td><br><button name="create" type="submit" class="btn">Jatka</button></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
-            </div>
-          </div>
-
-          <script type="text/javascript">office_names()</script>
-
+        <div class="middleContent extrawide">
           <div class="box">
             <h2>Kaikki työntekijät</h2>
             <div class="section">
+            <a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>
             <form action="employeeedit" method="post">
               <table class="sorted">
               <thead>
                 <tr>
                   <th data-placeholder="Hae nimellä">Nimi</th>
                   <th data-placeholder="Hae käyttäjätunnuksella">Käyttäjätunnus</th>
-                  <th class="filter-select filter-exact" data-placeholder="Kaikki toimistot">Toimisto</th>
-                  <th class="filter-select filter-exact" data-placeholder="Kaikki ryhmät">Ryhmä</th>
+                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
+                  <th class="filter-select filter-exact" data-placeholder="Kaikki">Toimisto</th>
+                  <th class="filter-select filter-exact" data-placeholder="Kaikki">Ryhmä</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Oikeudet</th>
                   <th class="sorter-false filter-false">Muokkaa</th>
                 </tr>
@@ -118,7 +43,7 @@ if ($request == 'GET') {
               <tfoot>
               <tr style="height: 20px;"></tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="6" class="ts-pager form-horizontal">
+                  <th colspan="7" class="ts-pager form-horizontal">
                     <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
                     <span class="pagedisplay"></span>
@@ -127,7 +52,7 @@ if ($request == 'GET') {
                   </th>
                 </tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="6" class="ts-pager form-horizontal">
+                  <th colspan="7" class="ts-pager form-horizontal">
                     max rivit: <select class="pagesize browser-default" title="Select page size">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -151,6 +76,7 @@ if ($request == 'GET') {
     echo '      <tr>
                   <td>'.$employee[3].'</td>
                   <td>'.$employee[0].'</td>
+                  <td>'.$employee[12].'</td>
                   <td>'.$employee[7].'</td>
                   <td>'.$employee[6].'</td>';
     echo '        <td>';

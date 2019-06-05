@@ -16,7 +16,94 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin ==
 
 $error = false;
 
-if  ( isset($_POST['create']) ) {
+// This shows the form for creating new user
+if ( $request == "GET") {
+    include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
+
+    echo '
+      <section class="container">
+        <div class="middleContent">
+          <a class="btn back" href="employees.php"> Takaisin</a>
+          <div class="box">
+            <h2>Luo uusi työntekijä/valvoja</h2>
+            <div class="section">
+              <form name="form" action="'.$self.'" method="post">
+                <table>
+                  <tbody>
+                    <tr>
+                        <td>Käyttäjätunnus:</td>
+                        <td><input name="empfullname" type="text" required="true"></td>
+                        <td style="color: grey; font-size: 13px;">Järjestelmän sisäiseen käyttöön</td>
+                    </tr>
+                    <tr>
+                        <td>Nimi:</td>
+                        <td><input name="displayname" type="text" required="true"></td>
+                        <td style="color: grey; font-size: 13px;">Henkilön nimi</td>
+                    </tr>
+                    <tr>
+                        <td>Viivakoodi:</td>
+                        <td><input name="barcode" type="text" required="true"></td>
+                        <td style="color: grey; font-size: 13px;">Tällä henkilö kellottaa itsensä töihin</td>
+                    </tr>
+                    <tr>
+                        <td>Toimisto:</td>
+                        <td><select name="office_name" onchange="group_names();" required="true"></select></td>
+                        <td style="color: grey; font-size: 13px;">Toimisto, johon henkilö kuuluu</td>
+                    </tr>
+                    <tr>
+                        <td>Ryhmä:</td>
+                        <td><select name="group_name" required="true"></select></td>
+                        <td style="color: grey; font-size: 13px;">Ryhmä, johon henkilö kuuluu</td>
+                    </tr>
+                    <tr>
+                      <td>Adminoikeudet:</td>
+                      <td>
+                        <label class="container">
+                          <input type="checkbox" name="admin" value="1" class="check" id="admin">
+                          <span class="checkmark"></span>
+                        </label>
+                      </td>
+                      <td style="color: grey; font-size: 13px;">Admin pääsee hallintapaneeliin ja työntekijöiden hallintaan</td>
+                    </tr>
+                    <tr>
+                      <td>Raporttioikeudet:</td>
+                      <td>
+                        <label class="container">
+                          <input type="checkbox" name="reports" value="1" class="check" id="reports">
+                          <span class="checkmark"></span>
+                        </label>
+                      </td>
+                      <td style="color: grey; font-size: 13px;">Raporttioikeuksilla käyttäjä näkee valittujen ryhmien työtunnit</td>
+                    </tr>
+                    <tr>
+                      <td>Editorioikeudet:</td>
+                      <td>
+                        <label class="container">
+                          <input type="checkbox" name="time_admin" value="1" class="check" id="time">
+                          <span class="checkmark"></span>
+                        </label>
+                      </td>
+                      <td style="color: grey; font-size: 13px;">Editorioikeuksilla käyttäjä voi muokata valittujen ryhmien työaikoja</td>
+                    </tr>
+                    <tr id="password">
+                        <td>Salasana:</td>
+                        <td><input name="password" type="text" required="true"></td>
+                        <td style="color: grey; font-size: 13px;">Tällä valvoja kirjautuu järjestelmään</td>
+                    </tr>
+                    <tr>
+                      <td><br><button name="create" type="submit" class="btn">Jatka</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+          </div>
+          </div>
+      </section>';
+}
+
+// This checks the input for errors and shows the form for choosing groups for supervision
+else if  ( isset($_POST['create']) ) {
     
     // Chekcs the input for errors
     if (!isset($_POST['empfullname']) || $_POST['empfullname'] == "" ) {$error = true; $empfullname = "error";}
@@ -143,10 +230,12 @@ if  ( isset($_POST['create']) ) {
     </section>';
     }
     else {  // This part is run only if all inputs have been checked to be of correct form
+ 
+      $empdata = array("empfullname" => $empfullname, "employee_passwd" => $password, "displayname" => $displayname, "barcode" => $barcode, "groups" => $groups, "office" => $office);
+      tc_insert_strings("employee", $empdata);
 
-        
-        //$super = array("empfullname" => $empfullname, "employee_passwd" => $password, "displayname" => $displayname, "barcode" => $barcode, "groups" => $groups, "office" => $office);
-        //tc_insert_strings("employee", $super);
+      // Show the form for choosing groups only with correct rights chosen
+      if ($reportrights == 1 || $timerights == 1) {
 
         $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY officename;" );
 
@@ -213,6 +302,7 @@ if  ( isset($_POST['create']) ) {
         </section>';
 
         echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
+      }
     }
 
 }
@@ -220,7 +310,7 @@ else if ( isset($_POST['send']) ) {
     echo '<section class="container">
             <div class="middleContent">
                 <div class="box">
-                    <h2>Valitse henkilön '.$displayname.' valvottavat ryhmät</h2>
+                    <h2></h2>
                     <div class="section">
                     </div>
                 </div>

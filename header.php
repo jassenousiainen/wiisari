@@ -64,6 +64,9 @@ if (isset($_SESSION['logged_in_user']) && $_SERVER['REQUEST_URI'] == '/mypage.ph
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get_reports.php";
   }
 }
+if ($_SERVER['REQUEST_URI'] == '/employees/employeecreate.php') {
+  echo '<script type="text/javascript" src="/scripts/employeecreate.js"></script>';
+}
   /* wiisari tablesorter theme */
   echo '<link rel="stylesheet" href="/css/wiisari.tablesorter.css">';
   /* tablesorter plugin */
