@@ -6,8 +6,6 @@ include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
 echo "<title>Kellotuseditori</title>\n";
 
-include 'header_get.php';
-
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
@@ -20,7 +18,7 @@ $error = false;
 
 if  ( isset($_POST['create']) ) {
     
-    // Chekcs the input from the form
+    // Chekcs the input for errors
     if (!isset($_POST['empfullname']) || $_POST['empfullname'] == "" ) {$error = true; $empfullname = "error";}
     else {
         $empfullname = $_POST['empfullname'];
@@ -47,13 +45,21 @@ if  ( isset($_POST['create']) ) {
     if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $group = "error";}
     else {$group = $_POST['group_name'];}
 
+    if (!isset($_POST['admin'])) { $adminrights = 0; }
+    else { $adminrights = 1; }
+
+    if (!isset($_POST['reports'])) { $reportrights = 0; }
+    else { $reportrights = 1; }
+
+    if (!isset($_POST['time_admin'])) { $timerights = 0; }
+    else { $timerights = 1; }
 
     // Displays the form again with input fields that contained errors
     if ($error) {
         echo '<section class="container">
             <div class="middleContent">
             <div class="box">
-                <h2>Luo uusi valvoja (luonnissa tapahtui virhe!)'.$_POST['group_name'].'</h2>
+                <h2>Luo uusi valvoja (luonnissa tapahtui virhe!)</h2>
                 <div class="section">
                 <form name="form" action="'.$self.'" method="post">
                 <table>
@@ -125,7 +131,7 @@ if  ( isset($_POST['create']) ) {
             echo '<input name="office_name" value="'.$office.'" type="hidden">';
             echo '<input name="group_name" value="'.$group.'" type="hidden">';
         }
-        echo '
+            echo '
                     <tr>
                         <td><button name="create" type="submit" class="btn">Jatka</button></td>
                     </tr>
@@ -136,10 +142,90 @@ if  ( isset($_POST['create']) ) {
         </div>
     </section>';
     }
+    else {  // This part is run only if all inputs have been checked to be of correct form
+
+        
+        //$super = array("empfullname" => $empfullname, "employee_passwd" => $password, "displayname" => $displayname, "barcode" => $barcode, "groups" => $groups, "office" => $office);
+        //tc_insert_strings("employee", $super);
+
+        $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY officename;" );
+
+        echo '<section class="container">
+            <div class="middleContent">
+                <div class="box">
+                    <h2>Valitse henkilön '.$displayname.' valvottavat ryhmät</h2>
+                    <div class="section">
+                        <form name="form" action="'.$self.'" method="post">
+                            <button type="submit" name="send" value="'.$empfullname.'" class="btn" style="float:right; margin-bottom: 10px;">Vahvista ryhmät</button>
+                            <table class="sorted">
+                                <thead>
+                                    <tr>
+                                        <th data-placeholder="Hae toimistoa">Toimisto</th>
+                                        <th data-placeholder="Hae ryhmää">Ryhmä</th>
+                                        <th class="sorter-false filter-false">Valitse</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr style="height: 20px;"></tr>
+                                    <tr class="tablesorter-ignoreRow">
+                                        <th colspan="3" class="ts-pager form-horizontal">
+                                        <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
+                                        <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
+                                        <span class="pagedisplay"></span>
+                                        <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
+                                        <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
+                                        </th>
+                                    </tr>
+                                    <tr class="tablesorter-ignoreRow">
+                                        <th colspan="3" class="ts-pager form-horizontal">
+                                        max rivit: <select class="pagesize browser-default" title="Select page size">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option selected="selected" value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="all">Kaikki rivit</option>
+                                        </select>
+                                        sivu: <select class="pagenum browser-default" title="Select page number"></select>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>';
+            
+                while ( $group = mysqli_fetch_array($groupquery) ) {
+            
+            echo '                  <tr>
+                                        <td>'.$group[0].'</td>
+                                        <td>'.$group[1].'</td>
+                                        <td style="text-align:center;">
+                                            <label class="container">
+                                            <input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">
+                                            <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                    </tr>';
+                }
+            echo '              </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>';
+
+        echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
+    }
 
 }
 else if ( isset($_POST['send']) ) {
-
+    echo '<section class="container">
+            <div class="middleContent">
+                <div class="box">
+                    <h2>Valitse henkilön '.$displayname.' valvottavat ryhmät</h2>
+                    <div class="section">
+                    </div>
+                </div>
+            </div>
+        </section>';
 }
 
 

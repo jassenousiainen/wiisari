@@ -64,7 +64,6 @@ if (isset($_SESSION['logged_in_user']) && $_SERVER['REQUEST_URI'] == '/mypage.ph
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get_reports.php";
   }
 }
-else if ($_SERVER['REQUEST_URI'] == '/timeeditor/time_editor.php')  {
   /* wiisari tablesorter theme */
   echo '<link rel="stylesheet" href="/css/wiisari.tablesorter.css">';
   /* tablesorter plugin */
@@ -74,7 +73,7 @@ else if ($_SERVER['REQUEST_URI'] == '/timeeditor/time_editor.php')  {
   /* pager plugin */
   echo '<link rel="stylesheet" href="/scripts/tablesorter/jquery.tablesorter.pager.css">';
   echo '<script type="text/javascript" src="/scripts/tablesorter/jquery.tablesorter.pager.js"></script>';
-}
+
 
 //echo "<link rel='stylesheet' type='text/css' media='print' href='css/print.css' />\n";
 echo '<link rel="shortcut icon" href="/images/icons/wiisari_title.png" type="image/x-icon"/>';
