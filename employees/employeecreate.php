@@ -90,16 +90,70 @@ if ( $request == "GET") {
                         <td><input name="password" type="text"></td>
                         <td style="color: grey; font-size: 13px;">Tällä valvoja kirjautuu järjestelmään</td>
                     </tr>
-                    <tr>
-                      <td><br><button name="create" type="submit" class="btn">Jatka</button></td>
-                    </tr>
                   </tbody>
-                </table>
-              </form>
+                </table>';
+
+
+      $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY officename;" );
+
+        echo '<p class="chooseGroups"><b>Valitse valvottavat ryhmät:</b></p>
+                <table class="sorted chooseGroups">
+                                <thead>
+                                    <tr>
+                                        <th data-placeholder="Hae toimistoa">Toimisto</th>
+                                        <th data-placeholder="Hae ryhmää">Ryhmä</th>
+                                        <th class="sorter-false filter-false">Valitse</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr style="height: 20px;"></tr>
+                                    <tr class="tablesorter-ignoreRow">
+                                        <th colspan="3" class="ts-pager form-horizontal">
+                                        <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
+                                        <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
+                                        <span class="pagedisplay"></span>
+                                        <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
+                                        <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
+                                        </th>
+                                    </tr>
+                                    <tr class="tablesorter-ignoreRow">
+                                        <th colspan="3" class="ts-pager form-horizontal">
+                                        max rivit: <select class="pagesize browser-default" title="Select page size">
+                                            <option value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option selected="selected" value="30">30</option>
+                                            <option value="40">40</option>
+                                            <option value="all">Kaikki rivit</option>
+                                        </select>
+                                        sivu: <select class="pagenum browser-default" title="Select page number"></select>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>';
+            
+                while ( $group = mysqli_fetch_array($groupquery) ) {
+            
+            echo '                  <tr>
+                                        <td>'.$group[0].'</td>
+                                        <td>'.$group[1].'</td>
+                                        <td style="text-align:center;">
+                                            <label class="container">
+                                            <input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">
+                                            <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                    </tr>';
+                }
+            echo '              </tbody>
+                            </table>
+                            <br><button name="create" type="submit" class="btn">Luo käyttäjä <i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
-          </div>
-      </section>';
+        </section>';
+
+        echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
 }
 
 // This checks the input for errors and shows the form for choosing groups for supervision
@@ -143,6 +197,7 @@ else if  ( isset($_POST['create']) ) {
 
 
     // Displays the form again with input fields that contained errors
+    // Notice that the fields that did not contain any errors are hidden but sent with post
     if ($error) {
         echo '<section class="container">
             <div class="middleContent">
@@ -219,8 +274,11 @@ else if  ( isset($_POST['create']) ) {
             echo '<input name="office_name" value="'.$office.'" type="hidden">';
             echo '<input name="group_name" value="'.$group.'" type="hidden">';
         }
-            echo '
-                    <tr>
+        echo '<input name="admin" value="'.$adminrights.'" type="hidden">';
+        echo '<input name="reports" value="'.$reportrights.'" type="hidden">';
+        echo '<input name="time_admin" value="'.$timerights.'" type="hidden">';
+        echo '<input name="grouplist[]" value="'.$_POST['grouplist'].'" type="hidden">';
+        echo '      <tr>
                         <td><button name="create" type="submit" class="btn">Jatka</button></td>
                     </tr>
                 </tbody>
@@ -231,92 +289,83 @@ else if  ( isset($_POST['create']) ) {
     </section>';
     }
     else {  // This part is run only if all inputs have been checked to be of correct form
- 
-      $empdata = array("empfullname" => $empfullname, "employee_passwd" => $password, "displayname" => $displayname, "barcode" => $barcode, "groups" => $groups, "office" => $office);
-      tc_insert_strings("employee", $empdata);
 
-      // Show the form for choosing groups only with correct rights chosen
-      if ($reportrights == 1 || $timerights == 1) {
+      tc_insert_strings("employees", array(
+        'empfullname'     => $empfullname,
+        'displayname'     => $displayname,
+        'employee_passwd' => $password,
+        'email'           => "NULL",
+        'barcode'         => $barcode,
+        'groups'          => $group,
+        'office'          => $office,
+        'admin'           => "$adminrights",
+        'reports'         => "$reportrights",
+        'time_admin'      => "$timerights",
+        'disabled'        => "0",
+        'inout_status'    => "out"
+    ));
 
-        $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY officename;" );
-
-        echo '<section class="container">
-            <div class="middleContent">
-                <div class="box">
-                    <h2>Valitse henkilön '.$displayname.' valvottavat ryhmät</h2>
-                    <div class="section">
-                        <form name="form" action="'.$self.'" method="post">
-                            <button type="submit" name="send" value="'.$empfullname.'" class="btn" style="float:right; margin-bottom: 10px;">Vahvista ryhmät</button>
-                            <table class="sorted">
-                                <thead>
-                                    <tr>
-                                        <th data-placeholder="Hae toimistoa">Toimisto</th>
-                                        <th data-placeholder="Hae ryhmää">Ryhmä</th>
-                                        <th class="sorter-false filter-false">Valitse</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr style="height: 20px;"></tr>
-                                    <tr class="tablesorter-ignoreRow">
-                                        <th colspan="3" class="ts-pager form-horizontal">
-                                        <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
-                                        <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
-                                        <span class="pagedisplay"></span>
-                                        <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
-                                        <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
-                                        </th>
-                                    </tr>
-                                    <tr class="tablesorter-ignoreRow">
-                                        <th colspan="3" class="ts-pager form-horizontal">
-                                        max rivit: <select class="pagesize browser-default" title="Select page size">
-                                            <option value="10">10</option>
-                                            <option value="20">20</option>
-                                            <option selected="selected" value="30">30</option>
-                                            <option value="40">40</option>
-                                            <option value="all">Kaikki rivit</option>
-                                        </select>
-                                        sivu: <select class="pagenum browser-default" title="Select page number"></select>
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>';
-            
-                while ( $group = mysqli_fetch_array($groupquery) ) {
-            
-            echo '                  <tr>
-                                        <td>'.$group[0].'</td>
-                                        <td>'.$group[1].'</td>
-                                        <td style="text-align:center;">
-                                            <label class="container">
-                                            <input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">
-                                            <span class="checkmark"></span>
-                                            </label>
-                                        </td>
-                                    </tr>';
-                }
-            echo '              </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>';
-
-        echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
+      if ( ($reportrights == 1 || $timerights == 1) && !empty($_POST['grouplist']) ) {
+        foreach($_POST['grouplist'] as $grp) {
+          $groupdata = array("fullname" => $empfullname, "groupid" => $grp);
+          tc_insert_strings("supervises", $groupdata);
+        }
       }
+
+      echo '
+      <section class="container">
+        <div class="middleContent">
+          <a class="btn back" href="employees.php"> Takaisin</a>
+          <div class="box">
+            <h2>Uusi työntekijä/valvoja luotu</h2>
+            <div class="section">
+              <table>
+                <tr>
+                  <td>Käyttäjänimi:</td>
+                  <td>'.$empfullname.'</td>
+                </tr>
+                <tr>
+                  <td>Nimi:</td>
+                  <td>'.$displayname.'</td>
+                </tr>
+                <tr>
+                  <td>Viivakoodi:</td>
+                  <td>'.$barcode.'</td>
+                </tr>
+                <tr>
+                  <td>Toimisto:</td>
+                  <td>'.$office.'</td>
+                </tr>
+                <tr>
+                  <td>Ryhmä:</td>
+                  <td>'.$group.'</td>
+                </tr>';
+      if ($adminrights == 1 || $reportrights == 1 || $timerights == 1) {
+        echo '  <tr>
+                  <td>Adminoikudet:</td>
+                  <td>'.$adminrights.'</td>
+                </tr>
+                <tr>
+                  <td>Raporttioikeudet:</td>
+                  <td>'.$reportrights.'</td>
+                </tr>
+                <tr>
+                  <td>Editorioikeudet:</td>
+                  <td>'.$timerights.'</td>
+                </tr>
+                <tr>
+                  <td>Salasana:</td>
+                  <td>'.$password.'</td>
+                </tr>';
+      }
+      echo '  </table>
+            </div>
+          </div>
+        </div>
+      </section>';
+
     }
 
-}
-else if ( isset($_POST['send']) ) {
-    echo '<section class="container">
-            <div class="middleContent">
-                <div class="box">
-                    <h2></h2>
-                    <div class="section">
-                    </div>
-                </div>
-            </div>
-        </section>';
 }
 
 

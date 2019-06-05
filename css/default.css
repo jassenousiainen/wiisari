@@ -781,6 +781,9 @@ body.loginPage {
 tr#password {
 	display: none;
 }
+.chooseGroups {
+	display: none;
+}
 .required {
 	color: red;
 }

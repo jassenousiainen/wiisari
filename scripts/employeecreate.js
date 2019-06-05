@@ -11,5 +11,11 @@ $(function () {
             $("#password").hide();
             $("#password td input").val('').removeAttr("required");
         }
+
+        if ($("#reports").is(":checked") || $("#time").is(":checked")) {
+            $(".chooseGroups").show();
+        } else {
+            $(".chooseGroups").hide();
+        }
     });
 });
