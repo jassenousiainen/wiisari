@@ -1,4 +1,8 @@
 <?php
+
+echo "<script type='text/javascript' language='javascript'> window.location.href = '/employees/employees.php';</script>";
+exit;
+
 require '../common.php';
 session_start();
 require 'widgets.php';

@@ -1,4 +1,8 @@
 <?php
+
+echo "<script type='text/javascript' language='javascript'> window.location.href = '/employees/employees.php';</script>";
+exit;
+
 include 'header.php';
 session_start();
 include 'topmain.php';

@@ -68,7 +68,7 @@ if (isset($_SESSION['logged_in_user'])) {
         if ($_SESSION['logged_in_user']->admin == '1') {
           echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }
-        echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card-alt"></i><span>Työntekijät ja valvojat</span></a>';
+        echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card-alt"></i><span>Henkilöstö</span></a>';
         /*if ($_SESSION['logged_in_user']->time_admin == '1') {
           echo '<a class="btn tile" href="/timeeditor/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
         }*/
