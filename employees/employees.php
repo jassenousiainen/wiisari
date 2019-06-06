@@ -4,20 +4,33 @@ include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
 include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
-echo "<title>Kellotuseditori</title>\n";
+echo "<title>Työntekijät ja valvojat</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0) {
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->isSuperior()) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
 if ($request == 'GET') {
   include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
+  
+  $adminusername = $_SESSION['logged_in_user']->username;
 
-  $employee_query = tc_query("SELECT * FROM employees ORDER BY displayname ASC");
+  // Restricts which employees can be seen based on supervises table in the database
+  if ($_SESSION['logged_in_user']->admin == 1) {
+    $employee_query = tc_query("SELECT * FROM employees ORDER BY displayname ASC");
+  } else {
+    $employee_query = tc_query("SELECT * FROM employees 
+                                WHERE groups IN (
+                                  SELECT groupname
+                                  FROM groups NATURAL JOIN supervises
+                                  WHERE fullname = '$adminusername'
+                                )
+                                ORDER BY displayname ASC;");
+  }
 
 
     echo '
@@ -25,19 +38,23 @@ if ($request == 'GET') {
         <div class="middleContent extrawide">
           <div class="box">
             <h2>Kaikki työntekijät</h2>
-            <div class="section">
-            <a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>
-            <form action="employeeedit" method="post">
+            <div class="section">';
+            if ($_SESSION['logged_in_user']->admin == 1) {
+              echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
+            } else {
+              echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä</p><br>';
+            }
+    echo '  <form action="employeeinfo.php" method="post">
               <table class="sorted">
               <thead>
                 <tr>
                   <th data-placeholder="Hae nimellä">Nimi</th>
                   <th data-placeholder="Hae käyttäjätunnuksella">Käyttäjätunnus</th>
-                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Toimisto</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Ryhmä</th>
-                  <th class="filter-select filter-exact" data-placeholder="Kaikki">Oikeudet</th>
-                  <th class="sorter-false filter-false">Muokkaa</th>
+                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Oikeudet</th>
+                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
+                  <th class="sorter-false filter-false">Avaa/Muokkaa</th>
                 </tr>
               </thead>
               <tfoot>
@@ -76,13 +93,13 @@ if ($request == 'GET') {
     echo '      <tr>
                   <td>'.$employee[3].'</td>
                   <td>'.$employee[0].'</td>
-                  <td>'.$employee[12].'</td>
                   <td>'.$employee[7].'</td>
                   <td>'.$employee[6].'</td>';
     echo '        <td>';
     echo implode(", ", $rights);
-    echo '        </td>';
-    echo '        <td style="text-align:center;"><button name="empfullname" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-pencil-alt"></i></button></td>
+    echo '        </td>
+                  <td>'.$employee[12].'</td>';
+    echo '        <td style="text-align:center;"><button name="empfullname" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
                 </tr>';
   }
 echo '          </tbody>

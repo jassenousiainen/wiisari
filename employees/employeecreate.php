@@ -4,7 +4,7 @@ include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
 include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
-echo "<title>Kellotuseditori</title>\n";
+echo "<title>Käyttäjän luonti</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
@@ -157,8 +157,9 @@ if ( $request == "GET") {
 }
 
 // This checks the input for errors and shows the form for choosing groups for supervision
+// This block loops as-long-as input contains any errors
 else if  ( isset($_POST['create']) ) {
-    
+
     if (!isset($_POST['admin'])) { $adminrights = 0; }
     else { $adminrights = 1; }
 
@@ -168,7 +169,7 @@ else if  ( isset($_POST['create']) ) {
     if (!isset($_POST['time_admin'])) { $timerights = 0; }
     else { $timerights = 1; }
 
-    // Chekcs the input for errors
+    // Chekcs if given username already exists in database
     if (!isset($_POST['empfullname']) || $_POST['empfullname'] == "" ) {$error = true; $empfullname = "error";}
     else {
         $empfullname = $_POST['empfullname'];
@@ -194,6 +195,14 @@ else if  ( isset($_POST['create']) ) {
 
     if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $group = "error";}
     else {$group = $_POST['group_name'];}
+
+    if (!empty($_POST['grouplist'])) {
+      $grouplist = $_POST['grouplist'];
+    } else if (!empty($_POST['grouplist2'])) {
+      $grouplist = explode(',', $_POST['grouplist2']);
+    } else {
+      $grouplist = array();
+    }
 
 
     // Displays the form again with input fields that contained errors
@@ -277,7 +286,7 @@ else if  ( isset($_POST['create']) ) {
         echo '<input name="admin" value="'.$adminrights.'" type="hidden">';
         echo '<input name="reports" value="'.$reportrights.'" type="hidden">';
         echo '<input name="time_admin" value="'.$timerights.'" type="hidden">';
-        echo '<input name="grouplist[]" value="'.$_POST['grouplist'].'" type="hidden">';
+        echo '<input name="grouplist2" value="'.implode(',', $grouplist).'" type="hidden">';
         echo '      <tr>
                         <td><button name="create" type="submit" class="btn">Jatka</button></td>
                     </tr>
@@ -305,8 +314,8 @@ else if  ( isset($_POST['create']) ) {
         'inout_status'    => "out"
     ));
 
-      if ( ($reportrights == 1 || $timerights == 1) && !empty($_POST['grouplist']) ) {
-        foreach($_POST['grouplist'] as $grp) {
+      if (($reportrights == 1 || $timerights == 1) && !empty($grouplist)) {
+        foreach($grouplist as $grp) {
           $groupdata = array("fullname" => $empfullname, "groupid" => $grp);
           tc_insert_strings("supervises", $groupdata);
         }
@@ -365,8 +374,8 @@ else if  ( isset($_POST['create']) ) {
       </section>';
 
     }
-
 }
+
 
 
 ?>

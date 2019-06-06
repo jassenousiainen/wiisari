@@ -3,6 +3,7 @@
 require 'common.php';
 tc_connect();
 
+// Note that since this class is used in session variable (which is stored on server) and not cookie the user cant alter or see these values in any way
 
 class User {
 
@@ -23,9 +24,6 @@ class User {
       $this->barcode      = $this->user_data[5];
       $this->groups       = $this->user_data[6];
       $this->office       = $this->user_data[7];
-      /*$this->admin        = $this->user_data[8];
-      $this->reports      = $this->user_data[9];
-      $this->time_admin   = $this->user_data[10];*/
       $this->disabled     = $this->user_data[11];
       $this->inout_status = $this->user_data[12];
    }
