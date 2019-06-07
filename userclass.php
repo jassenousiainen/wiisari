@@ -8,29 +8,28 @@ tc_connect();
 class User {
 
   private $user_data;
-  public $username;
+  public $userID;
   public $last;
 
-  public function __construct($username, $admin, $time_admin, $reports) {
-      $this->username = $username;
-      $this->admin = $admin;
-      $this->time_admin = $time_admin;
-      $this->reports = $reports;
-      $this->user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$username'"));
+  // Note that the db query is ran only on construction of this instance
+  // -> When user edits their own info an instance of this class should be created again
 
-      $this->last_inout   = $this->user_data[1];
-      $this->displayname  = $this->user_data[3];
-      $this->email        = $this->user_data[4];
-      $this->barcode      = $this->user_data[5];
-      $this->groups       = $this->user_data[6];
-      $this->office       = $this->user_data[7];
-      $this->disabled     = $this->user_data[11];
-      $this->inout_status = $this->user_data[12];
+  public function __construct($userID, $level) { 
+      $this->userID = $userID;
+      $this->level = $level;
+      $this->user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empID = '$userID'"));
+      $this->barcode      = $this->user_data[1];
+      $this->displayname  = $this->user_data[2];
+      $this->officeID     = $this->user_data[3];
+      $this->groupID      = $this->user_data[4];
+      $this->level        = $this->user_data[5];
+      $this->adminPassword = $this->user_data[6];
+      $this->inout_status = intval($this->user_data[7]);
    }
 
 
    public function isSuperior() {
-     if ($this->admin == 1 || $this->reports == 1 || $this->time_admin == 1) {
+     if ($this->level > 0) {
        return true;
      } else {
        return false;
