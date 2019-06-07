@@ -37,7 +37,7 @@ if ($request == 'GET') {
       <section class="container">
         <div class="middleContent extrawide">
           <div class="box">
-            <h2>Kaikki työntekijät</h2>
+            <h2>Kaikki henkilöt (joihin sinulla on valvojan oikeudet)</h2>
             <div class="section">';
             if ($_SESSION['logged_in_user']->admin == 1) {
               echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';

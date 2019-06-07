@@ -19,9 +19,11 @@ else { $timerights = 1; }
 if (!isset($_POST['displayname']) || $_POST['displayname'] == "") {$error = true; $displayname = "error";}
 else {$displayname = $_POST['displayname'];}
 /*
-if ( (!isset($_POST['password']) || $_POST['password'] == "") && ($adminrights == 1 || $reportrights == 1 || $timerights == 1) ) {$error = true; $password = "error";}
-else {$password = $_POST['password'];}
+if (($_POST['password'] == "") && ($adminrights == 1 || $reportrights == 1 || $timerights == 1) ) {$error = true; $password = "error";}
+else {$password = crypt($_POST['password'], 'xy');}
 */
+$password = crypt($_POST['password'], 'xy');
+
 if (!isset($_POST['barcode']) || $_POST['barcode'] == "") {$error = true; $barcode = "error";}
 else {
     $barcode = $_POST['barcode'];
@@ -35,6 +37,11 @@ else {$office = $_POST['office_name'];}
 if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $group = "error";}
 else {$group = $_POST['group_name'];}
 
+if (isset($_POST['grouplist'])) {
+    $grouplist = $_POST['grouplist'];
+} else {
+    $grouplist = array();
+}
 
 
 if ($error) {
@@ -58,6 +65,20 @@ else {
             'reports'     => "$reportrights",
             'time_admin'  => "$timerights"
         ), "empfullname = ?", $empfullname);
+
+        if (isset($_POST['password'])) {
+            tc_update_strings("employees", array(
+                'employee_passwd' => "$password"
+            ), "empfullname = ?", $empfullname);
+        }
+
+        if (($reportrights == 1 || $timerights == 1)) {
+            tc_delete("supervises", "fullname = ?", $empfullname);
+            foreach($grouplist as $grp) {
+              $groupdata = array("fullname" => $empfullname, "groupid" => $grp);
+              tc_insert_strings("supervises", $groupdata);
+            }
+          }    
     }
     echo '<p>Muutokset tehtiin onnistuneesti!</p>';  
 }

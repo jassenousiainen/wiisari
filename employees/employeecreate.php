@@ -56,34 +56,34 @@ if ( $request == "GET") {
                         <td style="color: grey; font-size: 13px;">Ryhmä, johon henkilö kuuluu</td>
                     </tr>
                     <tr>
-                      <td>Adminoikeudet:</td>
-                      <td>
-                        <label class="container">
-                          <input type="checkbox" name="admin" value="1" class="check" id="admin">
-                          <span class="checkmark"></span>
-                        </label>
-                      </td>
-                      <td style="color: grey; font-size: 13px;">Admin pääsee hallintapaneeliin ja työntekijöiden hallintaan</td>
-                    </tr>
-                    <tr>
-                      <td>Raporttioikeudet:</td>
+                      <td>(taso1) Normaalin valvojan oikeudet:</td>
                       <td>
                         <label class="container">
                           <input type="checkbox" name="reports" value="1" class="check" id="reports">
                           <span class="checkmark"></span>
                         </label>
                       </td>
-                      <td style="color: grey; font-size: 13px;">Raporttioikeuksilla käyttäjä näkee valittujen ryhmien työtunnit</td>
+                      <td style="color: grey; font-size: 13px;">Normaali valvoja näkee valittujen ryhmien työtunnit</td>
                     </tr>
                     <tr>
-                      <td>Editorioikeudet:</td>
+                      <td>(taso2) Valvoja + editori:</td>
                       <td>
                         <label class="container">
                           <input type="checkbox" name="time_admin" value="1" class="check" id="time">
                           <span class="checkmark"></span>
                         </label>
                       </td>
-                      <td style="color: grey; font-size: 13px;">Editorioikeuksilla käyttäjä voi muokata valittujen ryhmien työaikoja</td>
+                      <td style="color: grey; font-size: 13px;">Valvoja näkee valittujen ryhmien työtunnit. Editorioikeuksilla valvoja voi muokata valittujen ryhmien työntekijöiden tietoja sekä työaikoja</td>
+                    </tr>
+                    <tr>
+                      <td>(taso3) Adminoikeudet:</td>
+                      <td>
+                        <label class="container">
+                          <input type="checkbox" name="admin" value="1" class="check" id="admin">
+                          <span class="checkmark"></span>
+                        </label>
+                      </td>
+                      <td style="color: grey; font-size: 13px;">Admin pääsee hallintapaneeliin ja työntekijöiden hallintaan. Admininilla on valvontaoikeus kaikkiin ryhmiin.</td>
                     </tr>
                     <tr id="password">
                         <td>Salasana:</td>
@@ -94,15 +94,15 @@ if ( $request == "GET") {
                 </table>';
 
 
-      $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY officename;" );
+      $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY groupname;" );
 
         echo '<p class="chooseGroups"><b>Valitse valvottavat ryhmät:</b></p>
                 <table class="sorted chooseGroups">
                                 <thead>
                                     <tr>
-                                        <th data-placeholder="Hae toimistoa">Toimisto</th>
-                                        <th data-placeholder="Hae ryhmää">Ryhmä</th>
-                                        <th class="sorter-false filter-false">Valitse</th>
+                                      <th data-placeholder="Hae ryhmää">Ryhmä</th>
+                                      <th data-placeholder="Hae toimistoa">Toimisto</th>
+                                      <th class="sorter-false filter-false">Valitse</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -181,7 +181,7 @@ else if  ( isset($_POST['create']) ) {
     else {$displayname = $_POST['displayname'];}
 
     if ( (!isset($_POST['password']) || $_POST['password'] == "") && ($adminrights == 1 || $reportrights == 1 || $timerights == 1) ) {$error = true; $password = "error";}
-    else {$password = $_POST['password'];}
+    else {$password = crypt($_POST['password'], 'xy');}
 
     if (!isset($_POST['barcode']) || $_POST['barcode'] == "") {$error = true; $barcode = "error";}
     else {
@@ -375,6 +375,8 @@ else if  ( isset($_POST['create']) ) {
 
     }
 }
+
+echo "<script type='text/javascript' language='javascript'>office_names();</script>";
 
 
 

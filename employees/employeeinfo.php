@@ -106,10 +106,10 @@ if (isset($_POST['empfullname'])) {
                             <tr>
                                 <td>Raporttioikeudet:</td>
                                 <td>';
-    if ($_SESSION['logged_in_user']->admin == 1) {
+    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust permissions
         echo '                      <label class="container">';
-        if ($empdata[9] == "1") {echo '<input type="checkbox" name="reports" value="1" class="check" id="admin" checked>';} 
-        else {echo '<input type="checkbox" name="reports" value="1" class="check" id="admin">';}
+        if ($empdata[9] == "1") {echo '<input type="checkbox" name="reports" value="1" class="check" id="reports" checked>';} 
+        else {echo '<input type="checkbox" name="reports" value="1" class="check" id="reports">';}
         echo '                          <span class="checkmark"></span>
                                     </label>';
     } else {
@@ -120,18 +120,86 @@ if (isset($_POST['empfullname'])) {
                             <tr>
                                 <td>Editorioikeudet:</td>
                                 <td>';
-    if ($_SESSION['logged_in_user']->admin == 1) {
+    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust permissions
         echo '                      <label class="container">';
-        if ($empdata[10] == "1") {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="admin" checked>';} 
-        else {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="admin">';}
+        if ($empdata[10] == "1") {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="time" checked>';} 
+        else {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="time">';}
         echo '                          <span class="checkmark"></span>
                                     </label>';
     } else {
         if ($empdata[10] == "1") {echo 'kyllä';} else {echo 'ei';}
     }
     echo '                      </td>
-                            </tr>
-                        </table>
+                            </tr>';
+    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust password
+        echo '              <tr id="password">
+                                <td>Salasana:</td>
+                                <td><input name="password" type="text" placeholder="kirjoita uusi salasana"></td>
+                            </tr>';
+    }  
+    echo '              </table>';
+
+    if ($_SESSION['logged_in_user']->admin == 1 && $empdata[8] != 1) { // Only admin user can alter supervised groups
+
+        $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY groupname;" );
+
+        echo '          <p class="chooseGroups"><b>Valitse valvottavat ryhmät:</b></p>
+                        <table class="sorted chooseGroups">
+                            <thead>
+                                <tr>
+                                    <th data-placeholder="Hae ryhmää">Ryhmä</th>
+                                    <th data-placeholder="Hae toimistoa">Toimisto</th>
+                                    <th class="sorter-false filter-false">Valitse</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr style="height: 20px;"></tr>
+                                <tr class="tablesorter-ignoreRow">
+                                    <th colspan="3" class="ts-pager form-horizontal">
+                                    <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
+                                    <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
+                                    <span class="pagedisplay"></span>
+                                    <button type="button" class="btn next"><i class="fas fa-angle-right"></i></button>
+                                    <button type="button" class="btn last"><i class="fas fa-angle-double-right"></i></button>
+                                    </th>
+                                </tr>
+                                <tr class="tablesorter-ignoreRow">
+                                    <th colspan="3" class="ts-pager form-horizontal">
+                                    max rivit: <select class="pagesize browser-default" title="Select page size">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option selected="selected" value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="all">Kaikki rivit</option>
+                                    </select>
+                                    sivu: <select class="pagenum browser-default" title="Select page number"></select>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                            <tbody>';
+            
+                while ( $group = mysqli_fetch_array($groupquery) ) {
+            
+                    $issupervised = mysqli_fetch_row(tc_query("SELECT groupid FROM supervises WHERE fullname = '$empdata[0]' AND groupid = '$group[2]'"));
+
+                    echo '      <tr>
+                                    <td>'.$group[0].'</td>
+                                    <td>'.$group[1].'</td>
+                                    <td style="text-align:center;">
+                                        <label class="container">';
+                    if (!empty($issupervised)) {echo '<input type="checkbox" name="grouplist[]" value='.$group[2].' class="check" checked>';}
+                    else {echo '<input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">';}                        
+                    echo '                      <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>';
+                }
+            echo '          </tbody>
+                        </table>';
+
+        echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
+    }
+    echo '
                         <br>
                         <br><button name="editinfo" type="submit" class="btn">Muuta tietoja <i class="fas fa-paper-plane"></i></button>
                      </form>
@@ -140,7 +208,6 @@ if (isset($_POST['empfullname'])) {
         </div>
     </section>';
 
-    //echo '<script type="text/javascript">office_names();</script>';
 
 }
 
