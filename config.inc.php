@@ -22,6 +22,7 @@ $db_username = "wiisariuser";
 $db_password = "clocktime";
 $db_name = "wiisari";
 
+$salt = "s4iHfrxWJBsB7IiGdENR";
 
 
 

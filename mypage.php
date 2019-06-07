@@ -44,11 +44,11 @@ echo '<div class="leftContent">
                 if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
                   echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></b></div>';
                   echo '<p>Kellota itsesi ulos:</p>
-                  <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
+                  <input type="password" style="display:none;" name="userID" value="'.$_SESSION['logged_in_user']->userID.'" autocomplete="off">
                   <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
                 } else {
                   echo '<p>Kellota itsesi sisään:</p>
-                  <input type="password" style="display:none;" name="left_barcode"value="'.$_SESSION['logged_in_user']->barcode.'" autocomplete="off">
+                  <input type="password" style="display:none;" name="userID" value="'.$_SESSION['logged_in_user']->userID.'" autocomplete="off">
                   <button id="in" class="fas fa-sign-in-alt" type="submit"></button>';
                 }
                 echo '<textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita halutessasi viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>

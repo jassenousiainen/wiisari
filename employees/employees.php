@@ -9,7 +9,7 @@ echo "<title>Työntekijät ja valvojat</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->isSuperior()) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -17,10 +17,10 @@ if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->isSuper
 if ($request == 'GET') {
   include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
   
-  $adminusername = $_SESSION['logged_in_user']->username;
+  $adminuserid = $_SESSION['logged_in_user']->userID;
 
   // Restricts which employees can be seen based on supervises table in the database
-  if ($_SESSION['logged_in_user']->admin == 1) {
+  if ($_SESSION['logged_in_user']->level >= 3) {
     $employee_query = tc_query("SELECT * FROM employees ORDER BY displayname ASC");
   } else {
     $employee_query = tc_query("SELECT * FROM employees 
@@ -39,7 +39,7 @@ if ($request == 'GET') {
           <div class="box">
             <h2>Kaikki henkilöt (joihin sinulla on valvojan oikeudet)</h2>
             <div class="section">';
-            if ($_SESSION['logged_in_user']->admin == 1) {
+            if ($_SESSION['logged_in_user']->level >= 3) {
               echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
             } else {
               echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä</p><br>';
@@ -52,7 +52,7 @@ if ($request == 'GET') {
                   <th data-placeholder="Hae käyttäjätunnuksella">Käyttäjätunnus</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Toimisto</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Ryhmä</th>
-                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Oikeudet</th>
+                  <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Käyttäjätaso</th>
                   <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
                   <th class="sorter-false filter-false">Avaa/Muokkaa</th>
                 </tr>
@@ -85,21 +85,24 @@ if ($request == 'GET') {
 
   while ( $employee = mysqli_fetch_array($employee_query) ) {
 
-    $rights = [];
-    if ($employee[8] == 1) {array_push($rights, "admin");}
-    if ($employee[9] == 1) {array_push($rights, "reports");}
-    if ($employee[10] == 1) {array_push($rights, "editor");}
+    $employee_group = tc_select_value("groupName", "groups", "groupID = ?", $employee[2]);
+    $employee_officeid = tc_select_value("officeID", "groups", "groupID = ?", $employee[2]);
+    $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
+
+    $rights = "";
+    if ($employee[3] == 0) {$rights = "Työntekijä (taso 0)";}
+    if ($employee[3] == 1) {$rights = "Normaali valvoja (taso 1)";}
+    if ($employee[3] == 2) {$rights = "Valvoja + editointi (taso 2)";}
+    if ($employee[3] == 3) {$rights = "Admin (taso 3)";}
 
     echo '      <tr>
-                  <td>'.$employee[3].'</td>
+                  <td>'.$employee[1].'</td>
                   <td>'.$employee[0].'</td>
-                  <td>'.$employee[7].'</td>
-                  <td>'.$employee[6].'</td>';
-    echo '        <td>';
-    echo implode(", ", $rights);
-    echo '        </td>
-                  <td>'.$employee[12].'</td>';
-    echo '        <td style="text-align:center;"><button name="empfullname" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
+                  <td>'.$employee_office.'</td>
+                  <td>'.$employee_group.'</td>
+                  <td>'.$rights.'</td>
+                  <td>'.$employee[5].'</td>
+                  <td style="text-align:center;"><button name="empfullname" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
                 </tr>';
   }
 echo '          </tbody>

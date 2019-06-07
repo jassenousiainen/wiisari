@@ -13,26 +13,24 @@ $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
 
-
-// signin/signout data passed over from timeclock.php //
-$barcode = $_POST['left_barcode'];
 if (isset($_POST['notes'])) {
-  $notes = $_POST['notes'];
+  $notes = htmlspecialchars($_POST['notes']);
 } else {
   $notes = '';
 }
 
-$fullname = tc_select_value("empfullname", "employees", "barcode = ?", $barcode);
-$displayname = tc_select_value("displayname", "employees", "barcode = ?", $barcode);
+$userID = tc_select_value("userID", "employees", "userID = ?", htmlspecialchars($_POST['userID']));
 
-if (!has_value($fullname)) {
+if (!has_value($userID)) {
   echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
   exit;
 }
 
+$displayName = tc_select_value("displayName", "employees", "userID = ?", $userID);
+
 
 // Choose whether employee logs in or out based on previous inout log
-$currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE fullname = '$fullname' ORDER BY timestamp DESC"))[0];
+$currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"))[0];
 
 if (has_value($currently_inout)) {
   if ($currently_inout == 'in') { $inout = 'out'; }
@@ -48,10 +46,9 @@ if (has_value($currently_inout)) {
 
 // Insert inout data to info -table (and employees -table)
 $tz_stamp = time();
-$clockin = array("fullname" => $fullname, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes");
+$clockin = array("userID" => $userID, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes");
 tc_insert_strings("info", $clockin);
-tc_update_strings("employees", array("tstamp" => $tz_stamp), "empfullname = ?", $fullname);
-tc_update_strings("employees", array("inout_status" => $inout), "empfullname = ?", $fullname);
+tc_update_strings("employees", array("inoutStatus" => $inout), "userID = ?", $userID);
 
 
 // The actual html that is shown to employee.
@@ -59,7 +56,7 @@ echo "<div class='flexBox'>";
 
 if ($inout == "out") {
   // Lookup previous login, so we can count time between login and current logout
-  $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$fullname' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
+  $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$userID' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
   $currentWorkTime = $tz_stamp - (int)$lastIn;
 
   $inout = "<p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
@@ -75,7 +72,7 @@ $logTime = new DateTime("@$tz_stamp");
 $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
 echo "<div class='kirjausLaatikko'>";
-echo "<h2 class='kirjausNimi'>$displayname</h2>";
+echo "<h2 class='kirjausNimi'>$displayName</h2>";
 echo '<br>';
 echo '<p class="kirjausAika">Kello: <b>';
 echo $logTime->format("H:i");
@@ -87,7 +84,7 @@ echo '<br>';
 echo $inout;
 if ( $notes != '' ) {
   echo '<div class="inout_notes"><h3>Viesti:</h3><p>';
-  echo htmlspecialchars($notes);
+  echo $notes;
   echo '</p></div>';
 }
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';

@@ -60,9 +60,6 @@ if (isset($_SESSION['logged_in_user']) && $_SERVER['REQUEST_URI'] == '/mypage.ph
   echo '<script type="text/javascript" src="/scripts/mypage.js"></script>';
   echo '<script type="text/javascript" src="/scripts/Chart.bundle.min-v2.7.3.js"></script>';
   echo '<script type="text/javascript" src="/scripts/chartjs-plugin-deferred.min.js"></script>';
-  if ($_SESSION['logged_in_user']->isSuperior()){
-    include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get_reports.php";
-  }
 }
 if ($_SERVER['REQUEST_URI'] == '/employees/employeecreate.php') {
   echo '<script type="text/javascript" src="/scripts/employeecreate.js"></script>';

@@ -18,6 +18,7 @@ function convertToHours($tmstmp) {
   }
 }
 
+
 # Work around lack of function calls (or code evaluation) in string
 # interpolation. Usage:
 #

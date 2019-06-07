@@ -3,26 +3,26 @@
 require 'common.php';
 
 session_start();
+tc_connect();
 
 $self = $_SERVER['PHP_SELF'];
 
-// Password login
+// Login with adminrights (level > 0)
 if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
-    tc_connect();
     $login_userid = $_POST['login_userid'];
     $admin_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE userID = '$login_userid'"));
-    if ( ($login_userid == $admin_data[0]) && password_verify($_POST['login_password'].$salt , $admin_data[6]) && $admin_data[5] >= 1) {
-        $_SESSION['logged_in_user'] = new User($login_userid, $admin_data[5]);
+    if ( ($login_userid == $admin_data[0]) && password_verify($_POST['login_password'].$salt , $admin_data[4]) && $admin_data[3] >= 1) {
+        $_SESSION['logged_in_user'] = new User($login_userid, $admin_data[3]);
     }
-}
-// Barcode login; disable all admin rights
-else if ( isset($_POST['login_barcode']) ) {
-  $login_barcode = $_POST['login_barcode'];
-  $login_barcode_userid = tc_select_value("userID", "employees", "barcode = ?", $login_barcode);
-  if ( has_value($login_barcode_userid) ) {
-    $_SESSION['logged_in_user'] = new User($login_barcode_userid, 0);
+} // Login as employee (level == 0)
+else if (isset($_POST['login_userid'])) {
+  $login_userid = tc_select_value("userID", "employees", "userID = ?", $_POST['login_userid']);
+  if ( has_value($login_userid) ) {
+    $_SESSION['logged_in_user'] = new User($login_userid, 0);
   }
 }
+
+// If user is already logged in, redirect to mypage
 if ( isset($_SESSION['logged_in_user']) ) {
   echo "<script type='text/javascript' language='javascript'> window.location.href = '/mypage.php';</script>";
   exit;
@@ -56,8 +56,8 @@ if ( isset($_SESSION['logged_in_user']) ) {
         <h2 class='wiisari'>WIISARI</h2>
         <h2>Kirjaudu Wiisariin</h2>
         <p>Kirjautumalla pääset omalle sivulle</p>
-        <input type='password' name='login_barcode' autocomplete='off' placeholder='Käyttäjätunnus/viivakoodi'>";
-        if (isset($login_barcode)) {
+        <input type='password' name='login_userid' autocomplete='off' placeholder='Käyttäjätunnus/viivakoodi'>";
+        if (isset($_POST['login_userid']) && !isset($_POST['login_password'])) {
             echo "<p style='color:red;'>Käyttäjätunnuksella ei löytynyt ketään</p>";
         }
     echo "<button type='submit'>Kirjaudu</button>
@@ -72,7 +72,7 @@ if ( isset($_SESSION['logged_in_user']) ) {
         <p>Kirjautumalla pääset omalle sivulle, hallintapaneeliin ja raporttinäkymään</p>
         <input type='text' name='login_userid' placeholder='Käyttäjätunnus'>
         <input type='password' name='login_password' placeholder='Salasana'>";
-        if (isset($login_userid)) {
+        if (isset($_POST['login_password'])) {
             echo "<p style='color:red;'>Käyttäjätunnus ja/tai salasana on väärin</p>";
         }
     echo "<button type='submit'>Kirjaudu</button>
