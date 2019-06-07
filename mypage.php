@@ -4,6 +4,11 @@ require 'common.php';
 session_start();
 include 'header.php';
 
+// User can't access the page unless they are logged in
+if (!isset($_SESSION['logged_in_user'])) {
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+  exit;
+}
 
 echo "<title>WIISARI - Oma sivu</title>\n";
 include 'topmain.php';
@@ -11,7 +16,7 @@ include 'topmain.php';
 
 function employees_total_count() {
   $employees_total = 0;
-  $query_total = tc_query("SELECT * FROM employees WHERE disabled = '0'");
+  $query_total = tc_query("SELECT * FROM employees");
   while (mysqli_fetch_array($query_total)) {
     $employees_total += 1;
   }
@@ -19,7 +24,7 @@ function employees_total_count() {
 }
 function employees_total_in_count() {
   $employees_total_in = 0;
-  $query_total_in = tc_query("SELECT * FROM employees WHERE disabled = '0' AND inout_status = 'in'");
+  $query_total_in = tc_query("SELECT * FROM employees WHERE  inoutStatus = 'in'");
   while (mysqli_fetch_array($query_total_in)) {
     $employees_total_in += 1;
   }
@@ -27,14 +32,10 @@ function employees_total_in_count() {
 }
 
 
-// User can't access the page unless they are logged in
-if (isset($_SESSION['logged_in_user'])) {
+echo '<section class="container myPage">';
 
 
-  echo '<section class="container myPage">';
-
-
-  echo '<div class="leftContent">
+echo '<div class="leftContent">
           <div class="box">
             <h2>Kellotus</h2>
             <div class="section">
@@ -59,23 +60,19 @@ if (isset($_SESSION['logged_in_user'])) {
 
   echo '<div class="middleContent">';
 
-  if ($_SESSION['logged_in_user']->isSuperior()){
-    echo '
+if ($_SESSION['logged_in_user']->level > 0) {
+  echo '
     <div class="box">
       <h2 class="orange">Hallinnan toiminnot</h2>
       <p class="section">
         Sinulla on käytössäsi seuraavat toiminnot: <br>';
-        if ($_SESSION['logged_in_user']->admin == '1') {
+        if ($_SESSION['logged_in_user']->level >= 3) {
           echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
         }
-        echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card-alt"></i><span>Henkilöstö</span></a>';
-        /*if ($_SESSION['logged_in_user']->time_admin == '1') {
-          echo '<a class="btn tile" href="/timeeditor/time_editor.php"><i class="fas fa-pencil-alt"></i><span>Kellotuseditori</span></a>';
-        }*/
-        if ($_SESSION['logged_in_user']->reports == '1') {
+        if ($_SESSION['logged_in_user']->level >= 1) {
+          echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card-alt"></i><span>Henkilöstö</span></a>';
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
-          /*echo '<a class="btn tile" href="/reports/audit.php"><i class="fas fa-book-open"></i><span>Muutosloki</span></a>';*/
         }
 
 
@@ -89,20 +86,8 @@ if (isset($_SESSION['logged_in_user'])) {
         <br>
         Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'
       </p>
-      <div class="section">
-        <b>Hae töissä olevat työntekijät</b>
-        <br><br>
-        <form name="getReport" action="/reports/employees_in.php" method="post">
-          <span>1. Toimisto: <select id="office" name="office_name" onchange="group_names();"></select></span>
-          <span>2. Osasto: <select id="group" name="group_name" onchange="user_names();"></select></span>
-          <span style="display:none;">Käyttäjä: <select id="user" name="user_name"></select></span>
-          <br><br>
-          <button class="btn" type="submit">Hae työntekijät</button>
-        </form>
-        <script type="text/javascript">office_names()</script>
-      </div>
     </div>';
-  }
+}
 
 
     echo '<div class="box">
@@ -181,7 +166,7 @@ for ($i = 1; $i < count($monthWorkTime); $i++) {
 
   echo '</section>';
 
-  if ($_SESSION['logged_in_user']->isSuperior()){
+  if ($_SESSION['logged_in_user']->level > 0){
     $employeesIn = employees_total_in_count();
     $employeesOut = employees_total_count() - $employeesIn;
     echo "<script>
@@ -350,7 +335,4 @@ for ($i = 1; $i < count($monthWorkTime); $i++) {
   }
         </script>";
 
-} else {
-    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
-}
 ?>
