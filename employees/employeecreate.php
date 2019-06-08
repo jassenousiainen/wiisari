@@ -9,7 +9,7 @@ echo "<title>Käyttäjän luonti</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->admin == 0) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 3) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -32,18 +32,13 @@ if ( $request == "GET") {
                   <tbody>
                     <tr>
                         <td>Käyttäjätunnus:</td>
-                        <td><input name="empfullname" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 13px;">Järjestelmän sisäiseen käyttöön</td>
+                        <td><input name="userID" type="text" required="true"></td>
+                        <td style="color: grey; font-size: 13px;">Uniikki tunniste, jolla henkilö kirjautuu sisään tai kellottaa itsensä</td>
                     </tr>
                     <tr>
                         <td>Nimi:</td>
-                        <td><input name="displayname" type="text" required="true"></td>
+                        <td><input name="displayName" type="text" required="true"></td>
                         <td style="color: grey; font-size: 13px;">Henkilön nimi</td>
-                    </tr>
-                    <tr>
-                        <td>Viivakoodi:</td>
-                        <td><input name="barcode" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 13px;">Tällä henkilö kellottaa itsensä töihin</td>
                     </tr>
                     <tr>
                         <td>Toimisto:</td>
@@ -56,34 +51,44 @@ if ( $request == "GET") {
                         <td style="color: grey; font-size: 13px;">Ryhmä, johon henkilö kuuluu</td>
                     </tr>
                     <tr>
-                      <td>(taso1) Normaalin valvojan oikeudet:</td>
+                      <td>(taso 0) Normaali työntekijä:</td>
                       <td>
                         <label class="container">
-                          <input type="checkbox" name="reports" value="1" class="check" id="reports">
+                          <input type="radio" name="level" value="0" class="check" checked>
+                          <span class="checkmark"></span>
+                        </label>
+                      </td>
+                      <td style="color: grey; font-size: 13px;">Voi kellottaa itsensä ja nähdä omat työtuntinsa</td>
+                    </tr>
+                    <tr>
+                      <td>(taso 1) Normaali valvoja:</td>
+                      <td>
+                        <label class="container">
+                          <input type="radio" name="level" value="1" class="check" id="reports">
                           <span class="checkmark"></span>
                         </label>
                       </td>
                       <td style="color: grey; font-size: 13px;">Normaali valvoja näkee valittujen ryhmien työtunnit</td>
                     </tr>
                     <tr>
-                      <td>(taso2) Valvoja + editori:</td>
+                      <td>(taso 2) Valvoja + editori:</td>
                       <td>
                         <label class="container">
-                          <input type="checkbox" name="time_admin" value="1" class="check" id="time">
+                          <input type="radio" name="level" value="2" class="check" id="editor">
                           <span class="checkmark"></span>
                         </label>
                       </td>
-                      <td style="color: grey; font-size: 13px;">Valvoja näkee valittujen ryhmien työtunnit. Editorioikeuksilla valvoja voi muokata valittujen ryhmien työntekijöiden tietoja sekä työaikoja</td>
+                      <td style="color: grey; font-size: 13px;">Editorioikeuksilla valvoja voi muokata valittujen ryhmien työntekijöiden tietoja sekä työaikoja</td>
                     </tr>
                     <tr>
-                      <td>(taso3) Adminoikeudet:</td>
+                      <td>(taso 3) Admin:</td>
                       <td>
                         <label class="container">
-                          <input type="checkbox" name="admin" value="1" class="check" id="admin">
+                          <input type="radio" name="level" value="3" class="check" id="admin">
                           <span class="checkmark"></span>
                         </label>
                       </td>
-                      <td style="color: grey; font-size: 13px;">Admin pääsee hallintapaneeliin ja työntekijöiden hallintaan. Admininilla on valvontaoikeus kaikkiin ryhmiin.</td>
+                      <td style="color: grey; font-size: 13px;">Admininilla on valvontaoikeus kaikkiin ryhmiin. Admin voi myös luoda uusia työntekijöitä ja muokata kaikkien tietoja täysin.</td>
                     </tr>
                     <tr id="password">
                         <td>Salasana:</td>
@@ -94,7 +99,7 @@ if ( $request == "GET") {
                 </table>';
 
 
-      $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY groupname;" );
+      $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
 
         echo '<p class="chooseGroups"><b>Valitse valvottavat ryhmät:</b></p>
                 <table class="sorted chooseGroups">
@@ -137,10 +142,10 @@ if ( $request == "GET") {
                                         <td>'.$group[0].'</td>
                                         <td>'.$group[1].'</td>
                                         <td style="text-align:center;">
-                                            <label class="container">
+                                          <label class="container">
                                             <input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">
                                             <span class="checkmark"></span>
-                                            </label>
+                                          </label>
                                         </td>
                                     </tr>';
                 }
@@ -160,41 +165,26 @@ if ( $request == "GET") {
 // This block loops as-long-as input contains any errors
 else if  ( isset($_POST['create']) ) {
 
-    if (!isset($_POST['admin'])) { $adminrights = 0; }
-    else { $adminrights = 1; }
-
-    if (!isset($_POST['reports'])) { $reportrights = 0; }
-    else { $reportrights = 1; }
-
-    if (!isset($_POST['time_admin'])) { $timerights = 0; }
-    else { $timerights = 1; }
+    if (!isset($_POST['level'])) { $level = 0; }
+    else { $level = $_POST['level']; }
 
     // Chekcs if given username already exists in database
-    if (!isset($_POST['empfullname']) || $_POST['empfullname'] == "" ) {$error = true; $empfullname = "error";}
+    if (!isset($_POST['userID']) || $_POST['userID'] == "" ) {$error = true; $userID = "error";}
     else {
-        $empfullname = $_POST['empfullname'];
-        $empfullnamecheck = mysqli_fetch_row(tc_query( "SELECT empfullname FROM employees WHERE empfullname = '$empfullname'"));
-        if (!empty($empfullnamecheck)) {$error = true; $empfullname = "error";}
+        $userID = $_POST['userID'];
+        $userIDcheck = mysqli_fetch_row(tc_query( "SELECT userID FROM employees WHERE userID = '$userID'"));
+        if (!empty($userIDcheck)) {$error = true; $userID = "error";}
     }
 
-    if (!isset($_POST['displayname']) || $_POST['displayname'] == "") {$error = true; $displayname = "error";}
-    else {$displayname = $_POST['displayname'];}
+    if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
+    else {$displayName = $_POST['displayName'];}
 
-    if ( (!isset($_POST['password']) || $_POST['password'] == "") && ($adminrights == 1 || $reportrights == 1 || $timerights == 1) ) {$error = true; $password = "error";}
-    else {$password = crypt($_POST['password'], 'xy');}
+    if ( (!isset($_POST['password']) || $_POST['password'] == "") && ($level > 0) ) {$error = true; $password = "error";}
+    else if ($level > 0) {$password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);}
+    else {$password = "";}
 
-    if (!isset($_POST['barcode']) || $_POST['barcode'] == "") {$error = true; $barcode = "error";}
-    else {
-        $barcode = $_POST['barcode'];
-        $barcodecheck = mysqli_fetch_row(tc_query( "SELECT barcode FROM employees WHERE barcode = '$barcode'"));
-        if (!empty($barcodecheck)) {$error = true; $barcode = "error";}
-    }
-
-    if (!isset($_POST['office_name']) || $_POST['office_name'] == "") {$error = true; $office = "error";}
-    else {$office = $_POST['office_name'];}
-
-    if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $group = "error";}
-    else {$group = $_POST['group_name'];}
+    if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $groupID = "error";}
+    else {$groupID = $_POST['group_name'];}
 
     if (!empty($_POST['grouplist'])) {
       $grouplist = $_POST['grouplist'];
@@ -216,29 +206,29 @@ else if  ( isset($_POST['create']) ) {
                 <form name="form" action="'.$self.'" method="post">
                 <table>
                 <tbody>';
-        if ($empfullname == "error") {
+        if ($userID == "error") {
             echo '  <tr>
                         <td class="errortext" colspan="3">Käyttäjätunnus oli varattu tai tyhjä, täytäthän sen uudelleen:</td>
                     </tr>
                     <tr>
                         <td>Käyttäjätunnus:</td>
-                        <td><input name="empfullname" type="text" required="true"></td>
+                        <td><input name="userID" type="text" required="true"></td>
                         <td style="color: grey; font-size: 12px;">Järjestelmän sisäiseen käyttöön</td>
                     </tr>';
         } else {
-            echo '<input name="empfullname" value="'.$empfullname.'" type="hidden">';
+            echo '<input name="userID" value="'.$userID.'" type="hidden">';
         }
-        if ($displayname == "error") {
+        if ($displayName == "error") {
             echo '  <tr>
                         <td class="errortext" colspan="3">Nimi oli tyhjä, täytäthän sen uudelleen:</td>
                     </tr>
                     <tr>
                         <td>Nimi:</td>
-                        <td><input name="displayname" type="text" required="true"></td>
+                        <td><input name="displayName" type="text" required="true"></td>
                         <td style="color: grey; font-size: 12px;">Henkilön nimi</td>
                     </tr>';
         } else {
-            echo '<input name="displayname" value="'.$displayname.'" type="hidden">';
+            echo '<input name="displayName" value="'.$displayName.'" type="hidden">';
         }
         if ($password == "error") {
             echo '  <tr>
@@ -250,21 +240,9 @@ else if  ( isset($_POST['create']) ) {
                         <td style="color: grey; font-size: 12px;">Tällä valvoja kirjautuu järjestelmään</td>
                     </tr>';
         } else {
-            echo '<input name="password" value="'.$password.'" type="hidden">';
+            echo '<input name="password" value="'.$_POST['password'].'" type="hidden">';
         }
-        if ($barcode == "error") {
-            echo '  <tr>
-                        <td class="errortext" colspan="3">Viivakoodi oli varattu tai tyhjä, täytäthän sen uudelleen:</td>
-                    </tr>
-                    <tr>
-                        <td>Viivakoodi:</td>
-                        <td><input name="barcode" type="text" required="true"></td>
-                        <td style="color: grey; font-size: 12px;">Tällä valvoja kellottaa itsensä töihin</td>
-                    </tr>';
-        } else {
-            echo '<input name="barcode" value="'.$barcode.'" type="hidden">';
-        }
-        if ($office == "error" || $group == "error") {
+        if ($groupID == "error") {
             echo '  <tr>
                         <td class="errortext" colspan="3">Et valinnut toimistoa tai ryhmää, valitsethan uudelleen:</td>
                     </tr>
@@ -280,12 +258,9 @@ else if  ( isset($_POST['create']) ) {
                         <td style="color: grey; font-size: 12px;">Ryhmä, johon valvoja kuuluu</td>
                     </tr>';
         } else {
-            echo '<input name="office_name" value="'.$office.'" type="hidden">';
-            echo '<input name="group_name" value="'.$group.'" type="hidden">';
+            echo '<input name="group_name" value="'.$groupID.'" type="hidden">';
         }
-        echo '<input name="admin" value="'.$adminrights.'" type="hidden">';
-        echo '<input name="reports" value="'.$reportrights.'" type="hidden">';
-        echo '<input name="time_admin" value="'.$timerights.'" type="hidden">';
+        echo '<input name="level" value="'.$level.'" type="hidden">';
         echo '<input name="grouplist2" value="'.implode(',', $grouplist).'" type="hidden">';
         echo '      <tr>
                         <td><button name="create" type="submit" class="btn">Jatka</button></td>
@@ -300,26 +275,22 @@ else if  ( isset($_POST['create']) ) {
     else {  // This part is run only if all inputs have been checked to be of correct form
 
       tc_insert_strings("employees", array(
-        'empfullname'     => $empfullname,
-        'displayname'     => $displayname,
-        'employee_passwd' => $password,
-        'email'           => "NULL",
-        'barcode'         => $barcode,
-        'groups'          => $group,
-        'office'          => $office,
-        'admin'           => "$adminrights",
-        'reports'         => "$reportrights",
-        'time_admin'      => "$timerights",
-        'disabled'        => "0",
-        'inout_status'    => "out"
+        'userID'        => $userID,
+        'displayName'   => $displayName,
+        'groupID'       => $groupID,
+        'level'         => $level,
+        'adminPassword' => $password,
+        'inoutStatus'   => "out"
     ));
 
-      if (($reportrights == 1 || $timerights == 1) && !empty($grouplist)) {
+      if (($level == 1 || $level == 2) && !empty($grouplist)) {
         foreach($grouplist as $grp) {
-          $groupdata = array("fullname" => $empfullname, "groupid" => $grp);
+          $groupdata = array("userID" => $userID, "groupID" => $grp);
           tc_insert_strings("supervises", $groupdata);
         }
       }
+
+      $newUserData = mysqli_fetch_array(tc_query("SELECT * FROM employees NATURAL JOIN groups NATURAL JOIN offices WHERE userID = '$userID'"));
 
       echo '
       <section class="container">
@@ -331,40 +302,27 @@ else if  ( isset($_POST['create']) ) {
               <table>
                 <tr>
                   <td>Käyttäjänimi:</td>
-                  <td>'.$empfullname.'</td>
+                  <td>'.$newUserData['userID'].'</td>
                 </tr>
                 <tr>
                   <td>Nimi:</td>
-                  <td>'.$displayname.'</td>
-                </tr>
-                <tr>
-                  <td>Viivakoodi:</td>
-                  <td>'.$barcode.'</td>
+                  <td>'.$newUserData['displayName'].'</td>
                 </tr>
                 <tr>
                   <td>Toimisto:</td>
-                  <td>'.$office.'</td>
+                  <td>'.$newUserData['officeName'].'</td>
                 </tr>
                 <tr>
                   <td>Ryhmä:</td>
-                  <td>'.$group.'</td>
-                </tr>';
-      if ($adminrights == 1 || $reportrights == 1 || $timerights == 1) {
+                  <td>'.$newUserData['groupName'].'</td>
+                </tr>
+                <tr>
+                  <td>Taso:</td>
+                  <td>'.$newUserData['level'].'</td>';
+      if ($level > 0) {
         echo '  <tr>
-                  <td>Adminoikudet:</td>
-                  <td>'.$adminrights.'</td>
-                </tr>
-                <tr>
-                  <td>Raporttioikeudet:</td>
-                  <td>'.$reportrights.'</td>
-                </tr>
-                <tr>
-                  <td>Editorioikeudet:</td>
-                  <td>'.$timerights.'</td>
-                </tr>
-                <tr>
                   <td>Salasana:</td>
-                  <td>'.$password.'</td>
+                  <td>'.$_POST['password'].'</td>
                 </tr>';
       }
       echo '  </table>

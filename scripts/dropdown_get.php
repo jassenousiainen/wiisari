@@ -1,39 +1,35 @@
-<script language="JavaScript">
+<script type="text/javascript">
 
     function office_names() {
 
         var select = document.form.office_name;
-        select.options[0] = new Option("Choose One");
+        select.options[0] = new Option("Valitse toimisto");
         select.options[0].value = '';
 
         <?php
-
         @$office_name = $_GET['officename'];
-
-        $query = "select * from ".$db_prefix."offices";
-        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-
+        $query = tc_query("SELECT * FROM offices");
         $cnt=1;
-        while ($row=mysqli_fetch_array($result)) {
+
+        while ($row = mysqli_fetch_array($query)) {
           if (isset($abc)) {
-          echo "select.options[$cnt] = new Option(\"".$row['officename']."\");\n";
-          echo "select.options[$cnt].value = \"".$row['officename']."\";\n";
-          } elseif ("".$row['officename']."" == stripslashes($office_name)) {
-          echo "select.options[$cnt] = new Option(\"".$row['officename']."\",\"".$row['officename']."\", true, true);\n";
+          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
+          echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
+          } elseif ("".$row['officeName']."" == stripslashes($office_name)) {
+          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\",\"".$row['officeName']."\", true, true);\n";
           } else {
-          echo "select.options[$cnt] = new Option(\"".$row['officename']."\");\n";
-          echo "select.options[$cnt].value = \"".$row['officename']."\";\n";
+          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
+          echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
           }
           $cnt++;
         }
-        ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
         ?>
     }
 
     function group_names() {
         var offices_select = document.form.office_name;
         var groups_select = document.form.group_name;
-        groups_select.options[0] = new Option("Choose One");
+        groups_select.options[0] = new Option("Valitse ryhmä");
         groups_select.options[0].value = '';
 
         if (offices_select.options[offices_select.selectedIndex].value != '') {
@@ -41,38 +37,34 @@
         }
 
         <?php
+        $query = tc_query("SELECT * FROM offices");
 
-        $query = "select * from ".$db_prefix."offices";
-        $result = mysqli_query($GLOBALS["___mysqli_ston"], $query);
+        while ($row = mysqli_fetch_array($query)) {
+            $office_row = addslashes("".$row['officeName']."");
+            ?>
 
-        while ($row=mysqli_fetch_array($result)) {
-        $office_row = addslashes("".$row['officename']."");
-        ?>
+            if (offices_select.options[offices_select.selectedIndex].text == "<?php echo $office_row; ?>") {
+                <?php
 
-        if (offices_select.options[offices_select.selectedIndex].text == "<?php echo $office_row; ?>") {
-            <?php
-            $query2 = "select * from ".$db_prefix."offices, ".$db_prefix."groups where ".$db_prefix."groups.officeid = ".$db_prefix."offices.officeid
-                       and ".$db_prefix."offices.officename = '".$office_row."'";
-            $result2 = mysqli_query($GLOBALS["___mysqli_ston"], $query2);
-            echo "groups_select.options[0] = new Option(\"...\");\n";
-            echo "groups_select.options[0].value = '';\n";
-            $cnt = 1;
+                $query2 = tc_query("SELECT * FROM groups NATURAL JOIN offices WHERE officeName = '$office_row'");
 
-            while ($row2=mysqli_fetch_array($result2)) {
-              $groups = "".$row2['groupname']."";
-              echo "groups_select.options[$cnt] = new Option(\"$groups\");\n";
-              echo "groups_select.options[$cnt].value = \"$groups\";\n";
-              $cnt++;
+                echo "groups_select.options[0] = new Option(\"...\");\n";
+                echo "groups_select.options[0].value = '';\n";
+                $cnt = 1;
+
+                while ($row2 = mysqli_fetch_array($query2)) {
+                    echo "groups_select.options[$cnt] = new Option(\"".$row2['groupName']."\");\n";
+                    echo "groups_select.options[$cnt].value = \"".$row2['groupID']."\";\n";
+                    $cnt++;
+                }
+                ?>
             }
 
-            ?>
-        }
         <?php
         }
-        ((mysqli_free_result($result) || (is_object($result) && (get_class($result) == "mysqli_result"))) ? true : false);
-        ((mysqli_free_result($result2) || (is_object($result2) && (get_class($result2) == "mysqli_result"))) ? true : false);
         ?>
-
+        
+        
         if (groups_select.options[groups_select.selectedIndex].value != '') {
             groups_select.length = 0;
         }

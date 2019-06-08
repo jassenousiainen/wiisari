@@ -1,6 +1,6 @@
 $(function () {
     $(".check").click(function () {
-        if ($("#admin").is(":checked") || $("#reports").is(":checked") || $("#time").is(":checked")) {
+        if ($("#admin").is(":checked") || $("#reports").is(":checked") || $("#editor").is(":checked")) {
             $("#password").show();
             $("#password td input").attr("required", "true");
         } else {
@@ -8,7 +8,7 @@ $(function () {
             $("#password td input").val('').removeAttr("required");
         }
 
-        if ($("#reports").is(":checked") || $("#time").is(":checked")) {
+        if ($("#reports").is(":checked") || $("#editor").is(":checked")) {
             $(".chooseGroups").show();
         } else {
             $(".chooseGroups").hide();

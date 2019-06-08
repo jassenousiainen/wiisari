@@ -89,20 +89,20 @@ if ($request == 'GET') {
     $employee_officeid = tc_select_value("officeID", "groups", "groupID = ?", $employee[2]);
     $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
 
-    $rights = "";
-    if ($employee[3] == 0) {$rights = "Työntekijä (taso 0)";}
-    if ($employee[3] == 1) {$rights = "Normaali valvoja (taso 1)";}
-    if ($employee[3] == 2) {$rights = "Valvoja + editointi (taso 2)";}
-    if ($employee[3] == 3) {$rights = "Admin (taso 3)";}
+    $employee_level = "";
+    if ($employee[3] == 0) {$employee_level = "Työntekijä (taso 0)";}
+    if ($employee[3] == 1) {$employee_level = "Normaali valvoja (taso 1)";}
+    if ($employee[3] == 2) {$employee_level = "Valvoja + editointi (taso 2)";}
+    if ($employee[3] == 3) {$employee_level = "Admin (taso 3)";}
 
     echo '      <tr>
                   <td>'.$employee[1].'</td>
                   <td>'.$employee[0].'</td>
                   <td>'.$employee_office.'</td>
                   <td>'.$employee_group.'</td>
-                  <td>'.$rights.'</td>
+                  <td>'.$employee_level.'</td>
                   <td>'.$employee[5].'</td>
-                  <td style="text-align:center;"><button name="empfullname" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
+                  <td style="text-align:center;"><button name="userID" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
                 </tr>';
   }
 echo '          </tbody>
