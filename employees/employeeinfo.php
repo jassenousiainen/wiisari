@@ -34,7 +34,7 @@ if (isset($_POST['userID'])) {
     }
 
     $empdata = mysqli_fetch_row(tc_query("SELECT * FROM employees WHERE userID = '$userID'"));
-    $grpdata = mysqli_fetch_row(tc_query("SELECT groupName, officeName 
+    $grpdata = mysqli_fetch_row(tc_query("SELECT groupName, officeName , groupID
                                         FROM employees NATURAL JOIN groups NATURAL JOIN offices
                                         WHERE userID = '$empdata[0]';
                                         "));
@@ -70,7 +70,7 @@ if (isset($_POST['userID'])) {
                             </tr>
                             <tr>
                                 <td>Nimi:</td>
-                                <td><input type="text" name="displayname" value="'.$empdata[1].'"></input></td>
+                                <td><input type="text" name="displayName" value="'.$empdata[1].'"></input></td>
                             </tr>
                             <tr>
                                 <td>Toimisto:</td>
@@ -84,12 +84,12 @@ if (isset($_POST['userID'])) {
                                 <td>Ryhmä:</td>
                                 <td>
                                     <select name="group_name" required="true" onfocus="group_names();">
-                                        <option selected>'.$grpdata[0].'</opiton>
+                                        <option value="'.$grpdata[2].'" selected>'.$grpdata[0].'</opiton>
                                     </select>
                                 </td>
                             </tr>';
 
-    if ($_SESSION['logged_in_user']->level >= 3) {  // Only admin can adjust users permission level
+    if ($_SESSION['logged_in_user']->level >= 3) {  // Only admin can adjust users permission level and password
         $lvl0 = ""; $lvl1 = ""; $lvl2 = ""; $lvl3 = "";
         if ($empdata[3] == 0) {$lvl0 = "checked";}
         else if ($empdata[3] == 1) {$lvl1 = "checked";}
@@ -131,6 +131,10 @@ if (isset($_POST['userID'])) {
                                         <span class="checkmark"></span>
                                     </label>
                                 </td>
+                            </tr>
+                            <tr id="password">
+                                <td>Salasana:</td>
+                                <td><input name="password" type="text" placeholder="kirjoita uusi salasana"></td>
                             </tr>';
     } else {
         $lvl = "";

@@ -179,7 +179,7 @@ else if  ( isset($_POST['create']) ) {
     if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
     else {$displayName = $_POST['displayName'];}
 
-    if ( (!isset($_POST['password']) || $_POST['password'] == "") && ($level > 0) ) {$error = true; $password = "error";}
+    if ( !isset($_POST['password']) && $_POST['password'] == "" && ($level > 0) ) {$error = true; $password = "error";}
     else if ($level > 0) {$password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);}
     else {$password = "";}
 

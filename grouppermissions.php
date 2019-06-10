@@ -1,21 +1,22 @@
 <?php
+// Use this code snippet to check if currently logged in supervisor has permissions for selected user (by group)
+// Remember to declare variable userID before including this
 
-// Remember to declare variable empfullname before including this code snippet
-
-$adminusername = $_SESSION['logged_in_user']->username;
+$supervisorID = $_SESSION['logged_in_user']->userID;
 
 $accesstogroup = false;
-$checkgroup = mysqli_fetch_row(tc_query("SELECT * FROM employees 
-                                    WHERE empfullname = '$empfullname' AND groups IN (
-                                      SELECT groupname
-                                      FROM groups NATURAL JOIN supervises
-                                      WHERE fullname = '$adminusername'
-                                    )
-                                    ORDER BY displayname ASC;"));
+$checkgroup = mysqli_fetch_row(tc_query("SELECT userID
+                                        FROM employees 
+                                        WHERE userID = '$userID' AND groupID IN (
+                                            SELECT groupID
+                                            FROM groups NATURAL JOIN supervises
+                                            WHERE userID = '$supervisorID'
+                                            )
+                                        ORDER BY displayName ASC;"));
 if (!empty($checkgroup)) {$accesstogroup = true;}
-if ($_SESSION['logged_in_user']->admin == 1) {$accesstogroup = true;} // admin has permissions to every group
+if ($_SESSION['logged_in_user']->level >= 3) {$accesstogroup = true;} // admin has permissions to every group
 
-// Checks that current supervisor has permissions for this employee's group
+// Block access to rest of the page in case superivsor doesn't have access to this group
 if (!$accesstogroup) {
     echo '<h2>Virhe! Sinulla ei ole pääsyä tämän henkilön tietoihin</h2>';
     exit;
