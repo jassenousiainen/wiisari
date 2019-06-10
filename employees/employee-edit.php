@@ -36,7 +36,6 @@ if ($error) {
 }
 else {
     echo '<div class="box" style="background-color: var(--lightgreen); min-height: 50px; text-align: center; color: white; padding: 0;">';
-    echo $groupID;
     tc_update_strings("employees", array(
         'displayName' => $displayName,
         'groupID'      => $groupID,
