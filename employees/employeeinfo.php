@@ -19,7 +19,7 @@ if (isset($_POST['userID'])) {
 
     $userID = $_POST['userID'];
     
-    require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
+    require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
 
@@ -37,13 +37,12 @@ if (isset($_POST['userID'])) {
     $grpdata = mysqli_fetch_row(tc_query("SELECT groupName, officeName 
                                         FROM employees NATURAL JOIN groups NATURAL JOIN offices
                                         WHERE userID = '$empdata[0]';
-                                        "))
+                                        "));
 
     echo '
             <div class="box">
                 <h2>Henkilön '.$empdata[1].' tiedot</h2>
-                <div class="section">
-                    <p>Henkilön työtiedot:</p>';
+                <div class="section">';
     if ($empdata[5] == 'in') {
         $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$empdata[0]' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
         $currentWorkTime = time() - (int)$lastIn;
@@ -88,60 +87,68 @@ if (isset($_POST['userID'])) {
                                         <option selected>'.$grpdata[0].'</opiton>
                                     </select>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Adminoikeudet:</td>
-                                <td>';
-    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust permissions
-        echo '                      <label class="container">';
-        if ($empdata[8] == "1") {echo '<input type="checkbox" name="admin" value="1" class="check" id="admin" checked>';} 
-        else {echo '<input type="checkbox" name="admin" value="1" class="check" id="admin">';}
-        echo '                          <span class="checkmark"></span>
-                                    </label>';
-    } else {
-        if ($empdata[8] == "1") {echo 'kyllä';} else {echo 'ei';}
-    }
-    echo '                      </td>
-                            </tr>
-                            <tr>
-                                <td>Raporttioikeudet:</td>
-                                <td>';
-    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust permissions
-        echo '                      <label class="container">';
-        if ($empdata[9] == "1") {echo '<input type="checkbox" name="reports" value="1" class="check" id="reports" checked>';} 
-        else {echo '<input type="checkbox" name="reports" value="1" class="check" id="reports">';}
-        echo '                          <span class="checkmark"></span>
-                                    </label>';
-    } else {
-        if ($empdata[9] == "1") {echo 'kyllä';} else {echo 'ei';}
-    }
-    echo '                      </td>
-                            </tr>
-                            <tr>
-                                <td>Editorioikeudet:</td>
-                                <td>';
-    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust permissions
-        echo '                      <label class="container">';
-        if ($empdata[10] == "1") {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="time" checked>';} 
-        else {echo '<input type="checkbox" name="time_admin" value="1" class="check" id="time">';}
-        echo '                          <span class="checkmark"></span>
-                                    </label>';
-    } else {
-        if ($empdata[10] == "1") {echo 'kyllä';} else {echo 'ei';}
-    }
-    echo '                      </td>
                             </tr>';
-    if ($_SESSION['logged_in_user']->admin == 1) {  // Only admin user can adjust password
-        echo '              <tr id="password">
-                                <td>Salasana:</td>
-                                <td><input name="password" type="text" placeholder="kirjoita uusi salasana"></td>
+
+    if ($_SESSION['logged_in_user']->level >= 3) {  // Only admin can adjust users permission level
+        $lvl0 = ""; $lvl1 = ""; $lvl2 = ""; $lvl3 = "";
+        if ($empdata[3] == 0) {$lvl0 = "checked";}
+        else if ($empdata[3] == 1) {$lvl1 = "checked";}
+        else if ($empdata[3] == 2) {$lvl2 = "checked";}
+        else if ($empdata[3] == 3) {$lvl3 = "checked";}
+
+        echo '              <tr>
+                                <td>(taso 0) Työntekijä:</td>
+                                <td>
+                                    <label class="container">
+                                        <input type="radio" name="level" value="0" class="check" '.$lvl0.'>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>(taso 1) Normaali valvoja:</td>
+                                <td>
+                                    <label class="container">
+                                        <input type="radio" name="level" value="1" class="check" id="reports" '.$lvl1.'>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>(taso 2) Valvoja + editointi:</td>
+                                <td>
+                                    <label class="container">
+                                        <input type="radio" name="level" value="2" class="check" id="editor" '.$lvl2.'>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>(taso 3) Admin:</td>
+                                <td>
+                                    <label class="container">
+                                        <input type="radio" name="level" value="3" class="check" id="admin" '.$lvl3.'>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
                             </tr>';
-    }  
-    echo '              </table>';
+    } else {
+        $lvl = "";
+        if ($empdata[3] == 0) {$lvl = "Työntekijä (taso 0)";}
+        else if ($empdata[3] == 1) {$lvl = "Normaali valvoja (taso 1)";}
+        else if ($empdata[3] == 2) {$lvl = "Valvoja + editointi (taso 2)";}
+        else if ($empdata[3] == 3) {$lvl = "Admin (taso 3)";}
 
-    if ($_SESSION['logged_in_user']->admin == 1 && $empdata[8] != 1) { // Only admin user can alter supervised groups
+        echo '              <tr>
+                                <td>Oikeustaso:</td>
+                                <td>'.$lvl.'</td>
+                            </tr>';
+    }
+    echo '                      </table>';
 
-        $groupquery = tc_query( "SELECT groupname, officename, groupid FROM groups NATURAL JOIN offices ORDER BY groupname;" );
+    if ($_SESSION['logged_in_user']->level >= 3) { // Only admin user can alter supervised groups
+
+        $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
 
         echo '          <p class="chooseGroups"><b>Valitse valvottavat ryhmät:</b></p>
                         <table class="sorted chooseGroups">
@@ -180,7 +187,7 @@ if (isset($_POST['userID'])) {
             
                 while ( $group = mysqli_fetch_array($groupquery) ) {
             
-                    $issupervised = mysqli_fetch_row(tc_query("SELECT groupid FROM supervises WHERE fullname = '$empdata[0]' AND groupid = '$group[2]'"));
+                    $issupervised = mysqli_fetch_row(tc_query("SELECT groupID FROM supervises WHERE userID = '$empdata[0]' AND groupID = '$group[2]'"));
 
                     echo '      <tr>
                                     <td>'.$group[0].'</td>

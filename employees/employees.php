@@ -27,7 +27,7 @@ if ($request == 'GET') {
                                 WHERE groupID IN (
                                   SELECT groupID
                                   FROM groups NATURAL JOIN supervises
-                                  WHERE userID = 'valve' AND level = 0
+                                  WHERE userID = '$adminuserid' AND level = 0
                                   )
                                 ORDER BY displayName ASC;");
   }
@@ -54,7 +54,7 @@ if ($request == 'GET') {
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Ryhmä</th>
                   <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Käyttäjätaso</th>
                   <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
-                  <th class="sorter-false filter-false">Avaa/Muokkaa</th>
+                  <th class="sorter-false filter-false">Avaa</th>
                 </tr>
               </thead>
               <tfoot>
@@ -102,7 +102,7 @@ if ($request == 'GET') {
                   <td>'.$employee_group.'</td>
                   <td>'.$employee_level.'</td>
                   <td>'.$employee[5].'</td>
-                  <td style="text-align:center;"><button name="userID" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-edit"></i></button></td>
+                  <td style="text-align:center;"><button name="userID" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-cog"></i></button></td>
                 </tr>';
   }
 echo '          </tbody>
