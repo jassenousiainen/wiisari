@@ -19,6 +19,7 @@ $error = false;
 // This shows the form for creating new user
 if ( $request == "GET") {
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
+    include "$_SERVER[DOCUMENT_ROOT]/scripts/barcode.php";
 
     echo '
       <section class="container">
@@ -32,7 +33,8 @@ if ( $request == "GET") {
                   <tbody>
                     <tr>
                         <td>Käyttäjätunnus:</td>
-                        <td><input name="userID" type="text" required="true"></td>
+                        <td><input name="userID" id="userID" type="text" required="true">
+                        <button type="button" class="btn" onclick="gen_barcode(userID);">New</button></td>
                         <td style="color: grey; font-size: 13px;">Uniikki tunniste, jolla henkilö kirjautuu sisään tai kellottaa itsensä</td>
                     </tr>
                     <tr>
