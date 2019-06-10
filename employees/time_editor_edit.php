@@ -11,7 +11,7 @@ $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_admin == 0) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 2) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -23,17 +23,17 @@ if ($request == 'GET') {
 }
 
 
-$empfullname;
+$userID;
 
 echo '<section class="container">
         <div class="middleContent">';
 
 /* ----- Punch deletion ----- */
 if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
-  $empfullname = $_POST['deletetime'];
+  $userID = $_POST['deletetime'];
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="edittime" value="'.$empfullname.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
           </form>
           <div class="box">
             <h2>Kellotuseditori - poista kirjauksia</h2>
@@ -42,11 +42,11 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
 
   foreach($_POST['deletelist'] as $del) {
 
-    $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE newid = '$del'"));
+    $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$del'"));
     $logTime = new DateTime("@$success[3]");
     $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
-    tc_delete('info', 'newid = ?', $del);
+    tc_delete('info', 'punchID = ?', $del);
 
     echo "      <tr style='background-color: var(--light);'>
                   <td><span class='inout' style='background-color:var(--blue); text-align: center;'>$success[2]</span></td>
@@ -64,22 +64,22 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
 /* ----- Punch editing ----- */
 else if (isset($_POST['altertime'])) {
 
-  $punchid = $_POST['altertime'];
-  $punch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE newid = '$punchid'"));
-  $empfullname = $punch[1];
+  $punchID = $_POST['altertime'];
+  $punch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$punchID'"));
+  $userID = $punch[1];
   $logTime = new DateTime("@$punch[3]");
   $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="edittime" value="'.$empfullname.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
           </form>';
 
   echo '  <div class="box">
             <h2>Kellotuseditori - muokkaa kirjausta</h2>
             <div class="section">
-              <p>Käyttäjä: '.$empfullname.'</p>
+              <p>Käyttäjä: '.$userID.'</p>
               <p>KellotusID: '.$punch[0].'</p>
-              <form action="alter_time.php" method="post">
+              <form action="'.$self.'" method="post">
               <input name="punchid" value="'.$punch[0].'" style="display:none;">
                 <table style="max-width: 400px;">
                   <tr>
@@ -121,9 +121,9 @@ else if (isset($_POST['altertime'])) {
 
 /* ----- Punch updating ----- */
 else if (isset($_POST['punchid'])) {
-  $punchid = $_POST['punchid'];
-  $oldpunch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE newid = '$punchid'"));
-  $empfullname = $oldpunch[1];
+  $punchID = $_POST['punchid'];
+  $oldpunch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$punchID'"));
+  $userID = $oldpunch[1];
   $oldlogTime = new DateTime("@$oldpunch[3]");
   $oldlogTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
@@ -133,15 +133,15 @@ else if (isset($_POST['punchid'])) {
   $notes = $_POST['notes'];
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="edittime" value="'.$empfullname.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
           </form>';
 
 
   echo '  <div class="box">
             <h2>Kellotuseditori - muutoksia tehty</h2>
             <div class="section">
-              <p>Käyttäjä: '.$empfullname.'</p>
-              <p>KellotusID: '.$punchid.'</p>';
+              <p>Käyttäjä: '.$userID.'</p>
+              <p>KellotusID: '.$punchID.'</p>';
 
   if ($timestamp > time()) {
     echo '    <p>Virhe! Et voi sijoittaa kellotusta tulevaisuuteen</p>';
@@ -178,7 +178,7 @@ else if (isset($_POST['punchid'])) {
         "timestamp" => $timestamp,
         "notes"     => $notes
       ),
-      "newid = ?", $punchid
+      "punchID = ?", $punchID
     );
 
   }
@@ -191,13 +191,11 @@ echo '  </div>
 
 
 // Update tstamp and inout_status in table employees to match last punch
-$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"));
+$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
 if ($inout[2] == 'in' || $inout[2] == 'out') {
-  tc_update_strings("employees", array("inout_status" => $inout[2]), "empfullname = ?", $empfullname);
-  tc_update_strings("employees", array("tstamp" => $inout[3]), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("inoutStatus" => $inout[2]), "userID = ?", $userID);
 } else {
-  tc_update_strings("employees", array("inout_status" => 'out'), "empfullname = ?", $empfullname);
-  tc_update_strings("employees", array("tstamp" => null), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("inoutStatus" => 'out'), "userID = ?", $userID);
 }
 
 

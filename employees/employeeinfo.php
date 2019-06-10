@@ -56,7 +56,7 @@ if (isset($_POST['userID'])) {
                 <div class="section">
                     <p>Muokkaa tämän henkilön työaikoja:</p>
                     <form action="time_editor" method="post">
-                        <button class="btn" type="submit" name="timeeditor" value="'.$empdata[0].'">Kellotuseditoriin</button>
+                        <button class="btn" type="submit" name="timeeditor" value="'.$empdata[0].'"><i class="fas fa-user-clock"></i> Kellotuseditoriin</button>
                     </form>
                 </div>
                 <div class="section">
