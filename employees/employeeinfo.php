@@ -9,15 +9,15 @@ echo "<title>Käyttäjän tiedot</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->isSuperior()) {
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->level >= 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
 
-if (isset($_POST['empfullname'])) {
+if (isset($_POST['userID'])) {
 
-    $empfullname = $_POST['empfullname'];
+    $userID = $_POST['userID'];
     
     require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
 
@@ -28,20 +28,24 @@ if (isset($_POST['empfullname'])) {
         <div class="middleContent">
             <a class="btn back" href="employees.php"> Takaisin</a>';
 
-    // Updates the edited info to database and shows that the edit was successful
+    // Updates the edited info to database and shows that the edit was successful or it contained errors
     if (isset($_POST['editinfo'])) {
         require "$_SERVER[DOCUMENT_ROOT]/employees/employee-edit.php";
     }
 
-    $empdata = mysqli_fetch_row(tc_query("SELECT * FROM employees WHERE empfullname = '$empfullname'"));
+    $empdata = mysqli_fetch_row(tc_query("SELECT * FROM employees WHERE userID = '$userID'"));
+    $grpdata = mysqli_fetch_row(tc_query("SELECT groupName, officeName 
+                                        FROM employees NATURAL JOIN groups NATURAL JOIN offices
+                                        WHERE userID = '$empdata[0]';
+                                        "))
 
     echo '
             <div class="box">
-                <h2>Henkilön '.$empdata[3].' tiedot</h2>
+                <h2>Henkilön '.$empdata[1].' tiedot</h2>
                 <div class="section">
                     <p>Henkilön työtiedot:</p>';
-    if ($empdata[12] == 'in') {
-        $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE fullname = '$empdata[0]' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
+    if ($empdata[5] == 'in') {
+        $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$empdata[0]' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
         $currentWorkTime = time() - (int)$lastIn;
         echo '      <div class="tile" style="background-color: var(--green); color: white;"><i class="fas fa-user-check"></i><span>Töissä</span></div>
                     <p>Tuli töihin: klo '.date('H:i j.n.Y', $lastIn).'';
@@ -63,21 +67,17 @@ if (isset($_POST['empfullname'])) {
                         <table style="max-width: 600px;">
                             <tr>
                                 <td>Käyttäjätunnus:</td>
-                                <td>'.$empdata[0].'<input name="empfullname" value="'.$empdata[0].'" type="hidden"></td>
+                                <td>'.$empdata[0].'<input name="userID" value="'.$empdata[0].'" type="hidden"></td>
                             </tr>
                             <tr>
                                 <td>Nimi:</td>
-                                <td><input type="text" name="displayname" value="'.$empdata[3].'"></input></td>
-                            </tr>
-                            <tr>
-                                <td>Viivakoodi:</td> 
-                                <td><input type="text" name="barcode" value="'.$empdata[5].'"></input></td>
+                                <td><input type="text" name="displayname" value="'.$empdata[1].'"></input></td>
                             </tr>
                             <tr>
                                 <td>Toimisto:</td>
                                 <td>
                                     <select name="office_name" onfocus="office_names();" onchange="group_names();" required="true">
-                                        <option selected>'.$empdata[7].'</option>
+                                        <option selected>'.$grpdata[1].'</option>
                                     </select>
                                 </td>
                             </tr>
@@ -85,7 +85,7 @@ if (isset($_POST['empfullname'])) {
                                 <td>Ryhmä:</td>
                                 <td>
                                     <select name="group_name" required="true" onfocus="group_names();">
-                                        <option selected>'.$empdata[6].'</opiton>
+                                        <option selected>'.$grpdata[0].'</opiton>
                                     </select>
                                 </td>
                             </tr>

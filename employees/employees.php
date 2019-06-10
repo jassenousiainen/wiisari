@@ -4,7 +4,7 @@ include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
 include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
-echo "<title>Työntekijät ja valvojat</title>\n";
+echo "<title>Henkilöstöportaali</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
@@ -21,15 +21,15 @@ if ($request == 'GET') {
 
   // Restricts which employees can be seen based on supervises table in the database
   if ($_SESSION['logged_in_user']->level >= 3) {
-    $employee_query = tc_query("SELECT * FROM employees ORDER BY displayname ASC");
+    $employee_query = tc_query("SELECT * FROM employees ORDER BY displayName ASC");
   } else {
     $employee_query = tc_query("SELECT * FROM employees 
-                                WHERE groups IN (
-                                  SELECT groupname
+                                WHERE groupID IN (
+                                  SELECT groupID
                                   FROM groups NATURAL JOIN supervises
-                                  WHERE fullname = '$adminusername'
-                                )
-                                ORDER BY displayname ASC;");
+                                  WHERE userID = 'valve' AND level = 0
+                                  )
+                                ORDER BY displayName ASC;");
   }
 
 
@@ -37,12 +37,12 @@ if ($request == 'GET') {
       <section class="container">
         <div class="middleContent extrawide">
           <div class="box">
-            <h2>Kaikki henkilöt (joihin sinulla on valvojan oikeudet)</h2>
+            <h2>Henkilöstö</h2>
             <div class="section">';
             if ($_SESSION['logged_in_user']->level >= 3) {
               echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
             } else {
-              echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä</p><br>';
+              echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä.<br> Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
             }
     echo '  <form action="employeeinfo.php" method="post">
               <table class="sorted">

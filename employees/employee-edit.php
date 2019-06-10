@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->isSuperior()) {
+if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->level >= 2) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
