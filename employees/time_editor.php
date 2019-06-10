@@ -8,16 +8,16 @@ echo "<title>Kellotuseditori</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->time_admin == 0) {
-    echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 2) {
+    echo "<script type='text/javascript' language='javascript'> window.location.href = '/employees/employees.php';</script>";
     exit;
 }
 
 
 if  ( isset($_POST['timeeditor']) ) {
 
-  $empfullname = $_POST['timeeditor'];
-  $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE empfullname = '$empfullname'"));
+  $userID = $_POST['timeeditor'];
+  $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE userID = '$userID'"));
 
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
 
@@ -25,7 +25,7 @@ if  ( isset($_POST['timeeditor']) ) {
   echo '<section class="container">';
   echo '  <div class="leftContent">
             <form action="employeeinfo.php" method="post">
-              <button class="btn back" name="empfullname" value="'.$user_data[0].'"> Takaisin</button>
+              <button class="btn back" name="userID" value="'.$user_data[0].'"> Takaisin</button>
             </form>
           <div class="box">
             <h2>Lisää aika</h2>
@@ -42,7 +42,7 @@ if  ( isset($_POST['timeeditor']) ) {
                 <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
                 <input name="out_time" type="time">
                 <br><br>
-                <button type="submit" name="timeeditor" class="btn" value="'.$empfullname.'">Lisää</button>
+                <button type="submit" name="timeeditor" class="btn" value="'.$user_data[0].'">Lisää</button>
               </form>
             </div>';
   if (isset($_POST['in_date']) || isset($_POST['out_date'])) {
@@ -57,11 +57,11 @@ if  ( isset($_POST['timeeditor']) ) {
   /* ----- List punches ----- */
   echo'    <div class="middleContent">
             <div class="box">
-              <h2>Kellotuseditori - '.$user_data[3].'</h2>
+              <h2>Kellotuseditori - '.$user_data[1].'</h2>
               <div class="section">
               <form action="time_editor_edit.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
-                <button type="submit" name="deletetime" value="'.$empfullname.'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
+                <button type="submit" name="deletetime" value="'.$user_data[0].'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
                 <table class="sort-desc">
                   <thead>
                     <tr>
@@ -100,7 +100,7 @@ if  ( isset($_POST['timeeditor']) ) {
                   <tbody>';
   $max = 0;
   $prev = '';
-  $inoutdata_query = tc_query("SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC");
+  $inoutdata_query = tc_query("SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC");
 
   while ( $inout = mysqli_fetch_row($inoutdata_query) ) {
 

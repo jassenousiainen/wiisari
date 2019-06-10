@@ -9,7 +9,7 @@ if ($_POST['in_date'] != "") {
     echo 'Virhe! Et voi lisätä kellotuksia tulevaisuuteen';
   } 
   else {
-    $clockin = array("fullname" => $empfullname, "inout" => 'in', "timestamp" => $timestamp, "notes" => "$notes");
+    $clockin = array("userID" => $userID, "inout" => 'in', "timestamp" => $timestamp, "notes" => "$notes");
     tc_insert_strings("info", $clockin);
 
     $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
@@ -31,7 +31,7 @@ if ($_POST['out_date'] != "") {
     echo 'Virhe! Et voi lisätä kellotuksia tulevaisuuteen';
   }
   else {
-    $clockin = array("fullname" => $empfullname, "inout" => 'out', "timestamp" => $timestamp, "notes" => "$notes");
+    $clockin = array("userID" => $userID, "inout" => 'out', "timestamp" => $timestamp, "notes" => "$notes");
     tc_insert_strings("info", $clockin);
 
     $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
@@ -47,12 +47,10 @@ if ($_POST['out_date'] != "") {
 echo '</table>';
 
 // Update inout_status to match last log
-$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE fullname = '$empfullname' ORDER BY timestamp DESC"));
+$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
 if ($inout[2] == 'in' || $inout[2] == 'out') {
-  tc_update_strings("employees", array("inout_status" => $inout[2]), "empfullname = ?", $empfullname);
-  tc_update_strings("employees", array("tstamp" => $inout[3]), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("inoutStatus" => $inout[2]), "userID = ?", $userID);
 } else {
-  tc_update_strings("employees", array("inout_status" => 'out'), "empfullname = ?", $empfullname);
-  tc_update_strings("employees", array("tstamp" => null), "empfullname = ?", $empfullname);
+  tc_update_strings("employees", array("inoutStatus" => 'out'), "userID = ?", $userID);
 }
 ?>
