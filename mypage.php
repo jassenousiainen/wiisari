@@ -66,14 +66,9 @@ if ($_SESSION['logged_in_user']->level > 0) {
       <h2 class="orange">Hallinnan toiminnot</h2>
       <p class="section">
         Sinulla on käytössäsi seuraavat toiminnot: <br>';
-        if ($_SESSION['logged_in_user']->level >= 3) {
-          echo '<a class="btn tile" href="/admin/index.php"><i class="fas fa-toolbox"></i><span>Hallintapaneeli</span></a>';
-        }
-        if ($_SESSION['logged_in_user']->level >= 1) {
-          echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card-alt"></i><span>Henkilöstö</span></a>';
+          echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card"></i><span>Henkilöstö</span></a>';
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
-        }
 
 
     echo '
