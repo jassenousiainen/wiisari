@@ -18,7 +18,7 @@ if (!isset($tzo)) {
      }
 }
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->reports == 0) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -29,99 +29,140 @@ if ($request == 'GET') {
 
     include 'header_get_reports.php';
 
+    $supervisorID = $_SESSION['logged_in_user']->userID;
+
+    if ($_SESSION['logged_in_user']->level >= 3) {
+        $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
+    } else {
+        $groupquery = tc_query( "SELECT groupName, officeName, groupID
+                            FROM supervises NATURAL JOIN groups NATURAL JOIN offices 
+                            WHERE userID = '$supervisorID'
+                            ORDER BY groupName;" );
+    }
+
     if ($use_reports_password == "yes") {
         include '../admin/topmain.php';
     } else {
         include 'topmain.php';
     }
 
-    echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-    echo "  <tr valign=top>\n";
-    echo "    <td>\n";
-    echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-    echo "        <tr class=right_main_text>\n";
-    echo "          <td valign=top>\n";
-    echo "            <br />\n";
-    echo "            <form name='getReport' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
-    echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
-    echo "              <tr>\n";
-    echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/report.png' />&nbsp;&nbsp;&nbsp;
-                    Hours Worked Report</th></tr>\n";
-    echo "              <tr><td height=15></td></tr>\n";
-    echo "              <input type='hidden' name='date_format' value='$js_datefmt'>\n";
 
-    if ($username_dropdown_only == "yes") {
-
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Username:</td><td colspan=2 align=left width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                  <select name='user_name'>\n";
-        echo "                    <option value ='All'>All</option>\n";
-        echo html_options(tc_select("empfullname", "employees", "1=1 ORDER BY empfullname ASC"));
-
-        echo "                  </select>&nbsp;*</td></tr>\n";
-    } else {
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Office:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='office_name' onchange='group_names();'>\n";
-        echo "                      </select></td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Group:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='group_name' onchange='user_names();'>\n";
-        echo "                      </select></td></tr>\n";
-        echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Username:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='user_name'>\n";
-        echo "                      </select></td></tr>\n";
-    }
-    echo "              <tr><td class=table_rows style='padding-left:32px;' width=20% nowrap>From Date: ($tmp_datefmt)</td><td
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;' width=80% >
-                      <input id='from' autocomplete='off' type='text' size='10' maxlength='10' name='from_date' style='color:#27408b'>&nbsp;*&nbsp;&nbsp;
-                      </td><tr>\n";
-    echo "              <tr><td class=table_rows style='padding-left:32px;' width=20% nowrap>To Date: ($tmp_datefmt)</td><td
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;' width=80% >
-                      <input id='to' autocomplete='off' type='text' size='10' maxlength='10' name='to_date' style='color:#27408b'>&nbsp;*&nbsp;&nbsp;
-                      </td><tr>\n";
-    echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
-    echo "            </table>\n";
-    echo "            <div style=\"position:absolute;visibility:hidden;background-color:#ffffff;layer-background-color:#ffffff;\" id=\"mydiv\"
-                 height=200>&nbsp;</div>\n";
-
-    echo '<div style="width: 60%; margin-left: auto; margin-right: auto;">';
-
-    echo '<p><input type="checkbox" name="csv" value="1"' . (yes_no_bool($export_csv) ? " checked" : "") . '>&nbsp;';
-    echo "Export to CSV? (link to CSV file will be in the top right of the next page)</p>\n";
-
-    echo '<p><input type="checkbox" name="tmp_paginate" value="1"' . (yes_no_bool($paginate) ? " checked" : "") . '>&nbsp;';
-    echo "Paginate this report so each user's time is printed on a separate page?\n";
-
+    echo '
+    <section class="container">
+        <div class="middleContent">
+            <a class="btn back" href="employees.php"> Takaisin</a>
+            <div class="box">
+                <h2>Hae työtuntiraportti</h2>
+                <div class="section">
+                    <form name="form" action="'.$self.'" method="post">';
+    echo '              <div class="chooseGroups">    
+                            <p><b>Valitse raporttiin tulevat ryhmät:</b></p>';
+    include "$_SERVER[DOCUMENT_ROOT]/group_picker.php";
+    echo '              </div>
+                        <br><br>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Alku pvm:</td>
+                                    <td><input id="from" autocomplete="off" type="text" size="10" maxlength="10" name="from_date"></td>
+                                </tr>
+                                <tr>
+                                    <td>Loppu pvm:</td>
+                                    <td><input id="to" autocomplete="off" type="text" size="10" maxlength="10" name="to_date"></td>
+                                </tr>
+                                <tr>
+                                    <td>Hae raportit CSV -tiedostoon:</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="checkbox" name="csv" value="1" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jaa henkilöiden raportit omille sivuilleen:</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="checkbox" name="tmp_paginate" value="1" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                </tr>
+                                <tr>
+                                    <td>Pyöristä työajat:</td>
+                                </tr>
+                                <tr>
+                                    <td>Lähimpään 5 minuuttiin</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="1" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lähimpään 10 minuuttiin</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="2" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lähimpään 15 minuuttiin</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="3" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lähimpään 20 minuuttiin</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="4" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Lähimpään 30 minuuttiin</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="5" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Älä pyöristä</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="radio" name="tmp_round_time" value="0" class="check" checked>
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <button class="btn" type="submit" name="submit" value="Edit Time">Hae raportti <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>';
+    
+/*
     echo '<p><input type="checkbox" name="tmp_show_details" value="1" onchange="javascript:form.tmp_display_office.disabled=!this.checked;form.tmp_display_ip.disabled=!this.checked"' . (yes_no_bool($show_details) ? " checked" : "") . '>&nbsp;';
     echo "Show punch-in/out details?\n</p>";
+*/
 
-    if (yes_no_bool($ip_logging)) {
-        echo '<p>&nbsp; &nbsp; &nbsp;<input type="checkbox" name="tmp_display_ip" value="1"' . (yes_no_bool($display_ip) ? " checked" : "") . '>&nbsp;';
-        echo "Display connecting ip address information?\n</p>";
-    }
-
-    echo '<p>&nbsp; &nbsp; &nbsp;<input type="checkbox" name="tmp_display_office" value="1"' . (yes_no_bool($audit_office) ? " checked" : "") . '>&nbsp;';
-    echo "Display office information?\n</p>";
-
-    echo "<p>Round each user's time?</br>\n";
-    echo "<input type='radio' name='tmp_round_time' value='1'" . (($round_time == '1') ? " checked" : "") . ">&nbsp;To the nearest 5 minutes (1/12th of an hour)<br>\n";
-
-    echo "<input type='radio' name='tmp_round_time' value='2'" . (($round_time == '2') ? " checked" : "") . ">&nbsp;To the nearest 10 minutes (1/6th of an hour)<br>\n";
-    echo "<input type='radio' name='tmp_round_time' value='3'" . (($round_time == '3') ? " checked" : "") . ">&nbsp;To the nearest 15 minutes (1/4th of an hour)<br>\n";
-    echo "<input type='radio' name='tmp_round_time' value='4'" . (($round_time == '4') ? " checked" : "") . ">&nbsp;To the nearest 20 minutes (1/3rd of an hour)<br>\n";
-    echo "<input type='radio' name='tmp_round_time' value='5'" . (($round_time == '5') ? " checked" : "") . ">&nbsp;To the nearest 30 minutes (1/2 of an hour)<br>\n";
-    echo "<input type='radio' name='tmp_round_time' value='0'" . (empty($round_time)   ? " checked" : "") . ">&nbsp;Do not round<br>\n";
-    echo "</p>\n";
-
-    echo '</div>';
-
-    echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
-    echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
-                      border='0'></td></tr></table></form></td></tr>\n";
-    include '../footer.php';
     exit;
 
 } else {
