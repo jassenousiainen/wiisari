@@ -15,20 +15,10 @@ include 'topmain.php';
 
 
 function employees_total_count() {
-  $employees_total = 0;
-  $query_total = tc_query("SELECT * FROM employees");
-  while (mysqli_fetch_array($query_total)) {
-    $employees_total += 1;
-  }
-  return $employees_total;
+  return mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees"))[0];
 }
 function employees_total_in_count() {
-  $employees_total_in = 0;
-  $query_total_in = tc_query("SELECT * FROM employees WHERE  inoutStatus = 'in'");
-  while (mysqli_fetch_array($query_total_in)) {
-    $employees_total_in += 1;
-  }
-  return $employees_total_in;
+  return mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE inoutStatus = 'in'"))[0];
 }
 
 

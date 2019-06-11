@@ -6,13 +6,13 @@ $supervisorID = $_SESSION['logged_in_user']->userID;
 
 $accesstogroup = false;
 $checkgroup = mysqli_fetch_row(tc_query("SELECT userID
-                                        FROM employees 
+                                        FROM employees
                                         WHERE userID = '$userID' AND groupID IN (
                                             SELECT groupID
-                                            FROM groups NATURAL JOIN supervises
+                                            FROM supervises
                                             WHERE userID = '$supervisorID'
                                             )
-                                        ORDER BY displayName ASC;"));
+                                        AND level = 0;"));
 if (!empty($checkgroup)) {$accesstogroup = true;}
 if ($_SESSION['logged_in_user']->level >= 3) {$accesstogroup = true;} // admin has permissions to every group
 
