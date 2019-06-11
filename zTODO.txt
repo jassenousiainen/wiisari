@@ -4,6 +4,8 @@ Työtuntiraportit
   -CSV:n haku toimivaksi
   -Ryhmien valintaan mahdollisuus valita kaikki omat ryhmät
   -Virhesyötteiden tarkistus toimivaksi
+  -Ulkoasu
+  -Suomennokset
 
 Muutosloki
 
