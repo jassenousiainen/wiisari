@@ -1,14 +1,7 @@
-Valvojat/esimehet linkitetty tiettyihin ryhmiin
- 
- Muutosloki (toimivaksi vai pois kokonaan?)
+Yhdistä kaikki työntekijöihin liittyvät toiminnot (kaikki henkilöt, editori, töissä olevat, yms.)
 
-Työntekijän tavoitetunnit päivittäin
-  -työntekijä voisi myös nähdä status barin tuntien täyttymisestä (löytyy jo chart.js:stä)
-  -selain voisi myös lähettää ilmoituksen käyttäjälle, kun tunnit on päivän osalta täynnä
-  -ylityötunnit voisi laskea tämän perusteella
+Työtuntiraportit
 
-Tuntiraportin ulkoasu
+Muutosloki
 
 Config.inc.php
-
-Yhdistä kaikki työntekijöihin liittyvät toiminnot (raportit, editori, töissä olevat, yms.)
