@@ -29,10 +29,10 @@ if (!isset($_SESSION['logged_in_user'])) {
     include 'topmain.php';
     include 'header_post_reports.php';
 
-    $fullname = $_SESSION['logged_in_user']->username;
+    $fullname = $_SESSION['logged_in_user']->userID;
 
-    $office_name = $_SESSION['logged_in_user']->office;
-    $group_name = $_SESSION['logged_in_user']->groups;
+    $office_name = $_SESSION['logged_in_user']->officeName();
+    $group_name = $_SESSION['logged_in_user']->groupName();
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = '0';
@@ -55,11 +55,11 @@ if (!isset($_SESSION['logged_in_user'])) {
     }
 
     if ($fullname != "All") {
-        $result = tc_select("empfullname, displayname", "employees",  "empfullname = ?", $fullname);
+        $result = tc_select("userID, displayName", "employees",  "userID = ?", $fullname);
 
         while ($row = mysqli_fetch_array($result)) {
-            $empfullname = "" . $row['empfullname'] . "";
-            $displayname = "" . $row['displayname'] . "";
+            $empfullname = "" . $row['userID'] . "";
+            $displayname = "" . $row['displayName'] . "";
         }
         if (!isset($empfullname)) {
             echo "Something is fishy here.\n";
@@ -342,9 +342,9 @@ if (!isset($_SESSION['logged_in_user'])) {
     echo "<table width=80% align=center class=misc_items border=0 cellpadding=3 cellspacing=0>\n";
     echo "<tr><td width=80% style='color:#000000;'>Raportti haettu: $rpt_time, $rpt_date</td><td nowrap style='color:#000000;'>$rpt_name</td></tr>\n";
     echo "<tr><td width=80%></td><td nowrap style='color:#000000;'>Aikavälillä: $from_date &ndash; $to_date</td></tr>\n";
-    if (!empty($tmp_csv)) {
+    /*if (!empty($tmp_csv)) {
         echo "<tr class=notprint><td width=80%></td><td nowrap style='color:#000000;'><a style='color:#27408b; text-decoration:underline;' href=\"get_csv.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=$office_name&group=$group_name&fullname=$fullname&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
-    }
+    }*/
     echo "</table>\n";
     echo "<table width=80% align=center class=misc_items border=0 cellpadding=3 cellspacing=0>\n";
 
@@ -372,30 +372,11 @@ if (!isset($_SESSION['logged_in_user'])) {
 
     // retrieve a list of users //
 
-    $where = array("tstamp IS NOT NULL");
-    $qparm = array();
-
-    if ($fullname != "All") {
-        $where[] = "empfullname = ?";
-        $qparm[] = $fullname;
-    }
-
-    if ($office_name != "All") {
-        $where[] = "office = ?";
-        $qparm[] = $office_name;
-
-        if ($group_name != "All") {
-            $where[] = "groups = ?";
-            $qparm[] = $group_name;
-        }
-    }
-
-    $where = implode(" AND ", $where) . " ORDER BY $emp_field_name ASC";
-    $result = tc_select("empfullname, displayname", "employees", $where, $qparm);
+    $result = tc_query("SELECT userID, displayName FROM employees WHERE userID = '$fullname'");
 
     while ($row = mysqli_fetch_array($result)) {
-        $employees_empfullname[] = "" . $row['empfullname'] . "";
-        $employees_displayname[] = "" . $row['displayname'] . "";
+        $employees_empfullname[] = "" . $row['userID'] . "";
+        $employees_displayname[] = "" . $row['displayName'] . "";
         $employees_cnt++;
     }
 
@@ -420,24 +401,22 @@ if (!isset($_SESSION['logged_in_user'])) {
             $row_color = $color2; // Initial row color
 
             $result = tc_query(<<<QUERY
-   SELECT i.fullname, i.inout, i.timestamp, i.notes, i.ipaddress, i.punchoffice, p.in_or_out, p.punchitems, p.color
+   SELECT i.userID, i.inout, i.timestamp, i.notes, p.in_or_out, p.punchitems, p.color
      FROM {$db_prefix}info      AS i
-     JOIN {$db_prefix}employees AS e ON e.empfullname = i.fullname
+     JOIN {$db_prefix}employees AS e ON e.userID = i.userID
      JOIN {$db_prefix}punchlist AS p ON i.inout = p.punchitems
-    WHERE e.empfullname  = ?
+    WHERE e.userID  = ?
       AND i.timestamp   >= ?
       AND i.timestamp   <  ?
-      AND e.empfullname <> 'admin'
  ORDER BY i.timestamp ASC
 QUERY
             , array($employees_empfullname[$x], $from_timestamp, $to_timestamp));
 
             while ($row = mysqli_fetch_array($result)) {
-                $info_fullname[] = "" . $row['fullname'] . "";
+                $info_fullname[] = "" . $row['userID'] . "";
                 $info_inout[] = "" . $row['inout'] . "";
                 $info_timestamp[] = "" . $row['timestamp'] . "" + $tzo;
                 $info_notes[] = "" . $row['notes'] . "";
-                $info_ipaddress[] = "" . $row['ipaddress'] . " " . $row['punchoffice'] . "";
                 $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";
                 $punchlist_punchitems[] = "" . $row['punchitems'] . "";
                 $punchlist_color[] = "" . $row['color'] . "";

@@ -15,8 +15,8 @@ if (!isset($_SESSION['logged_in_user'])) {
   echo "<title>Omat Tunnit</title>\n";
 
 
-  $fullname = $_SESSION['logged_in_user']->username;
-  $displayname = $_SESSION['logged_in_user']->displayname;
+  $fullname = $_SESSION['logged_in_user']->userID;
+  $displayname = $_SESSION['logged_in_user']->displayName;
   $timetoday = $_SESSION['logged_in_user']->getCurrentWorkTime();
   $weektime = $_SESSION['logged_in_user']->getWeekWorkTime();
   $monthtime = $_SESSION['logged_in_user']->getMonthWorkTime();

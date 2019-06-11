@@ -640,7 +640,6 @@ if ($request == 'GET') {
     WHERE e.userID  = ?
       AND i.timestamp   >= ?
       AND i.timestamp   <  ?
-      AND e.userID <> 'admin'
  ORDER BY i.timestamp ASC
 QUERY
             , array($employees_empfullname[$x], $from_timestamp, $to_timestamp));

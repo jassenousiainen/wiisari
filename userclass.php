@@ -24,6 +24,13 @@ class User {
       $this->inout_status = $this->user_data[5];
    }
 
+  public function officeName() {
+    return mysqli_fetch_row(tc_query("SELECT officeName FROM groups NATURAL JOIN offices WHERE groupID = '$this->groupID'"));
+  }
+
+  public function groupName() {
+    return mysqli_fetch_row(tc_query("SELECT groupName FROM groups WHERE groupID = '$this->groupID'"));
+  }
 
    public function getInoutStatus() {
      return tc_select_value("inoutStatus", "employees", "userID = ?", $this->userID);
