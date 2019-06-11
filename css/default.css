@@ -299,7 +299,8 @@ section.container {
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 2px 20px rgba(0,0,0,.164); /*0 0 60px 0 rgba(0,0,0,.05);*/
+	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+	/*box-shadow: 0 2px 20px rgba(0,0,0,.164);*/
 	border-radius: 30px;
 	padding-bottom: 40px;
 }
