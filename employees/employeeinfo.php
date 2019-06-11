@@ -9,7 +9,7 @@ echo "<title>Käyttäjän tiedot</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || !$_SESSION['logged_in_user']->level >= 1) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -49,17 +49,20 @@ if (isset($_POST['userID'])) {
         echo '      <div class="tile" style="background-color: var(--green); color: white;"><i class="fas fa-user-check"></i><span>Töissä</span></div>
                     <p>Tuli töihin: klo '.date('H:i j.n.Y', $lastIn).'';
     } else {
-        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-times"></i><span>Poissa töistä</span></div>';
+        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-user-times"></i><span>Poissa töistä</span></div>';
     }
-    echo '
-                </div>
-                <div class="section">
+    echo '      </div>';
+
+    if ($_SESSION['logged_in_user']->level >= 2) {
+        echo '  <div class="section">
                     <p>Muokkaa tämän henkilön työaikoja:</p>
                     <form action="time_editor" method="post">
                         <button class="btn" type="submit" name="timeeditor" value="'.$empdata[0].'"><i class="fas fa-user-clock"></i> Kellotuseditoriin</button>
                     </form>
-                </div>
-                <div class="section">
+                </div>';
+    }
+    
+    echo '      <div class="section">
                     <p>Henkilötiedot:</p>
                     <form name="form" action="'.$self.'" method="post">
                         <input type="hidden" name="editinfo" value="edit"></input>
@@ -214,8 +217,19 @@ if (isset($_POST['userID'])) {
                         <br>
                         <br><button name="editinfo" type="submit" class="btn">Muuta tietoja <i class="fas fa-paper-plane"></i></button>
                      </form>
-                </div>
-            </div>
+                </div>';
+
+    if ($_SESSION['logged_in_user']->level >= 2) {
+        echo '  <div class="section">
+                    <p><b>Poista käyttäjä:</b></p>
+                    <p>Henkilötietojen poiston lisäksi kaikki muu tieto, kuten kellotukset poistetaan.</p>
+                    <form action="'."/employees/employeedelete.php".'" method="post">
+                        <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del"><i class="fas fa-trash-alt"></i> Poista</button>
+                    </form>
+                </div>';
+    }
+
+    echo '  </div>
         </div>
     </section>';
 
