@@ -32,6 +32,8 @@ echo '<section class="container">
 if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
   $userID = $_POST['deletetime'];
 
+  require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
+  
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
             <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
           </form>
@@ -69,6 +71,8 @@ else if (isset($_POST['altertime'])) {
   $userID = $punch[1];
   $logTime = new DateTime("@$punch[3]");
   $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+
+  require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
             <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
