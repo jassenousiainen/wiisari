@@ -31,8 +31,4 @@ include 'topmain.php';
       <span id="theTime"></span>
     </div>';
 
-    echo '<p class="maker">jasse.nousiainen@aalto.fi</p>';
-
-
-
 ?>
