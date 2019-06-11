@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
-function gen_barcode(target, style) {
-    //style = "code39";
+function gen_barcode(target) {
+    style = "code39";
     length = 10;
     var code = "";
 
