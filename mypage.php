@@ -57,7 +57,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
       <p class="section">
         Sinulla on käytössäsi seuraavat toiminnot: <br>';
           echo '<a class="btn tile" href="/employees/employees.php"><i class="fas fa-id-card"></i><span>Henkilöstö</span></a>';
-          echo '<a class="btn tile" href="/admin/office_group.php"><i class="fas fa-building"></i><span>Toimistot / Ryhmät</span></a>';
+          echo '<a class="btn tile" href="/offices/offices.php"><i class="fas fa-building"></i><span>Toimistot</span></a>';
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
 
