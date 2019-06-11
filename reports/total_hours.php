@@ -50,18 +50,22 @@ if ($request == 'GET') {
     echo '
     <section class="container">
         <div class="middleContent">
-            <a class="btn back" href="employees.php"> Takaisin</a>
             <div class="box">
                 <h2>Hae työtuntiraportti</h2>
                 <div class="section">
-                    <form name="form" action="'.$self.'" method="post">';
-    echo '              <div class="chooseGroups">    
-                            <p><b>Valitse raporttiin tulevat ryhmät:</b></p>';
-    include "$_SERVER[DOCUMENT_ROOT]/group_picker.php";
-    echo '              </div>
-                        <br><br>
+                    <form name="form" action="'.$self.'" method="post">
                         <table>
                             <tbody>
+                                <tr>
+                                    <td>Valitse ryhmä</td>
+                                    <td>
+                                        <select name="group_name">';
+    while ($grp = mysqli_fetch_array($groupquery)) {
+        echo '                              <option value="'.$grp['groupName'].'">'.$grp['groupName'].'</option>';
+    }
+    echo '                              </select>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>Alku pvm:</td>
                                     <td><input id="from" autocomplete="off" type="text" size="10" maxlength="10" name="from_date"></td>
@@ -84,6 +88,15 @@ if ($request == 'GET') {
                                     <td>
                                         <label class="container">
                                             <input type="checkbox" name="tmp_paginate" value="1" class="check">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Näytä yksittäiset kirjaukset</td>
+                                    <td>
+                                        <label class="container">
+                                            <input type="checkbox" name="tmp_show_details" value="1" class="check">
                                             <span class="checkmark"></span>
                                         </label>
                                     </td>
@@ -169,9 +182,8 @@ if ($request == 'GET') {
 
     include 'header_post_reports.php';
 
-    @$office_name = $_POST['office_name'];
-    @$group_name = $_POST['group_name'];
-    $fullname = $_POST['user_name'];
+    $group_name = $_POST['group_name'];
+    $fullname = "All";
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = $_POST['tmp_round_time'];
@@ -182,7 +194,7 @@ if ($request == 'GET') {
     $tmp_csv = one_or_empty(@$_POST['csv']);
 
     // begin post validation //
-
+/*
     if ($fullname != "All") {
         $result = tc_select("empfullname, displayname", "employees",  "empfullname = ?", $fullname);
 
@@ -203,7 +215,7 @@ if ($request == 'GET') {
             exit;
         }
     }
-
+*/
     if (($group_name != "All") && (!empty($group_name))) {
         $getgroup = tc_select_value("groupname", "groups", "groupname = ?", $group_name);
         if (!isset($getgroup)) {
@@ -529,7 +541,7 @@ if ($request == 'GET') {
 
     $emp_name = $fullname;
     if (strtolower($user_or_display) == "display") {
-        $emp_field_name = "displayname";
+        $emp_field_name = "displayName";
     } else {
         $emp_field_name = "empfullname";
     }
@@ -586,27 +598,17 @@ if ($request == 'GET') {
     $where = array("tstamp IS NOT NULL");
     $qparm = array();
 
-    if ($fullname != "All") {
-        $where[] = "empfullname = ?";
-        $qparm[] = $fullname;
+ 
+    if ($group_name != "All") {
+        $groupID = mysqli_fetch_row(tc_query("SELECT groupID FROM groups WHERE groupName = '$group_name'"))[0];
     }
+    
 
-    if ($office_name != "All") {
-        $where[] = "office = ?";
-        $qparm[] = $office_name;
-
-        if ($group_name != "All") {
-            $where[] = "groups = ?";
-            $qparm[] = $group_name;
-        }
-    }
-
-    $where = implode(" AND ", $where) . " ORDER BY $emp_field_name ASC";
-    $result = tc_select("empfullname, displayname", "employees", $where, $qparm);
+    $result = tc_query("SELECT userID, displayName FROM employees WHERE groupID = '$groupID'");
 
     while ($row = mysqli_fetch_array($result)) {
-        $employees_empfullname[] = "" . $row['empfullname'] . "";
-        $employees_displayname[] = "" . $row['displayname'] . "";
+        $employees_empfullname[] = "" . $row['userID'] . "";
+        $employees_displayname[] = "" . $row['displayName'] . "";
         $employees_cnt++;
     }
 
@@ -631,24 +633,23 @@ if ($request == 'GET') {
             $row_color = $color2; // Initial row color
 
             $result = tc_query(<<<QUERY
-   SELECT i.fullname, i.inout, i.timestamp, i.notes, i.ipaddress, i.punchoffice, p.in_or_out, p.punchitems, p.color
+   SELECT i.userID, i.inout, i.timestamp, i.notes, p.in_or_out, p.punchitems, p.color
      FROM {$db_prefix}info      AS i
-     JOIN {$db_prefix}employees AS e ON e.empfullname = i.fullname
+     JOIN {$db_prefix}employees AS e ON e.userID = i.userID
      JOIN {$db_prefix}punchlist AS p ON i.inout = p.punchitems
-    WHERE e.empfullname  = ?
+    WHERE e.userID  = ?
       AND i.timestamp   >= ?
       AND i.timestamp   <  ?
-      AND e.empfullname <> 'admin'
+      AND e.userID <> 'admin'
  ORDER BY i.timestamp ASC
 QUERY
             , array($employees_empfullname[$x], $from_timestamp, $to_timestamp));
 
             while ($row = mysqli_fetch_array($result)) {
-                $info_fullname[] = "" . $row['fullname'] . "";
+                $info_fullname[] = "" . $row['userID'] . "";
                 $info_inout[] = "" . $row['inout'] . "";
                 $info_timestamp[] = "" . $row['timestamp'] . "" + $tzo;
                 $info_notes[] = "" . $row['notes'] . "";
-                $info_ipaddress[] = "" . $row['ipaddress'] . " " . $row['punchoffice'] . "";
                 $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";
                 $punchlist_punchitems[] = "" . $row['punchitems'] . "";
                 $punchlist_color[] = "" . $row['color'] . "";
