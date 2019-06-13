@@ -9,7 +9,7 @@ echo "<title>Käyttäjän luonti</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 3) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 2) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -51,7 +51,9 @@ if ( $request == "GET") {
                         <td>Ryhmä:</td>
                         <td><select name="group_name" required="true"></select></td>
                         <td style="color: grey; font-size: 13px;">Ryhmä, johon henkilö kuuluu</td>
-                    </tr>
+                    </tr>';
+    if ($_SESSION['logged_in_user']->level >= 3) {
+      echo '
                     <tr>
                       <td>(taso 0) Normaali työntekijä:</td>
                       <td>
@@ -96,7 +98,9 @@ if ( $request == "GET") {
                         <td>Salasana:</td>
                         <td><input name="password" type="text"></td>
                         <td style="color: grey; font-size: 13px;">Tällä valvoja kirjautuu järjestelmään</td>
-                    </tr>
+                    </tr>';
+    }
+    echo '
                   </tbody>
                 </table>';
 
@@ -123,8 +127,12 @@ if ( $request == "GET") {
 // This block loops as-long-as input contains any errors
 else if  ( isset($_POST['create']) ) {
 
+  if ($_SESSION['logged_in_user']->level >= 3) {
     if (!isset($_POST['level'])) { $level = 0; }
     else { $level = $_POST['level']; }
+  } else {
+    $level = 0;
+  }
 
     // Chekcs if given username already exists in database
     if (!isset($_POST['userID']) || $_POST['userID'] == "" ) {$error = true; $userID = "error";}
@@ -137,7 +145,8 @@ else if  ( isset($_POST['create']) ) {
     if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
     else {$displayName = $_POST['displayName'];}
 
-    if ( !isset($_POST['password']) && $_POST['password'] == "" && ($level > 0) ) {$error = true; $password = "error";}
+    if (!isset($_POST['password']) && $level > 0) {$error = true; $password = "error";}
+    else if (empty($_POST['password']) && $level > 0) {$error = true; $password = "error";}
     else if ($level > 0) {$password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);}
     else {$password = "";}
 

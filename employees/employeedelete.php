@@ -19,13 +19,11 @@ if (isset($_POST['deleteuser'])) {
 
     $userID = $_POST['deleteuser'];
 
-    require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
+    require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php"; // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
     tc_delete("employees", "userID = ?", $userID);
     tc_delete("info", "userID = ?", $userID);
-    tc_delete("supervises", "userID = ?", $userID);
-    
-    require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
+    tc_delete("supervises", "userID = ?", $userID);   
 
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
 
