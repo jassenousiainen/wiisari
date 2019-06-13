@@ -14,9 +14,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
     exit;
 }
 
-if ($request == 'GET') {
-  include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
-  
+if ($request == 'GET') {  
   $adminuserid = $_SESSION['logged_in_user']->userID;
 
   // Restricts which employees can be seen based on supervises table in the database
