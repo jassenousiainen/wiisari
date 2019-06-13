@@ -52,7 +52,13 @@ tc_update_strings("employees", array("inoutStatus" => $inout), "userID = ?", $us
 
 
 // The actual html that is shown to employee.
-echo "<div class='flexBox'>";
+echo '<section class="top-skew-bg blue">
+<div class="elipsed-border">
+</div>
+</section>';
+
+echo "
+<section class='container'>";
 
 if ($inout == "out") {
   // Lookup previous login, so we can count time between login and current logout
@@ -88,6 +94,6 @@ if ( $notes != '' ) {
   echo '</p></div>';
 }
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';
-echo "</div></div></div>";
+echo "</div></div></section>";
 
 ?>

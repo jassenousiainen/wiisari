@@ -670,30 +670,30 @@ body.loginPage {
 	justify-content: center;
 	height: 100%;
 	width: 100%;
-	background: black;
 }
 .borderBox {
 	display: inline-block;
+	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
   padding: 4px;
 	background: white;
   border-radius: 18px;
-}
+}/*
 .borderBox.borderIn {
 	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);
 }
 .borderBox.borderOut {
 	background: linear-gradient(145deg, #ff4157 0%,#ff1e9a 100%);
-}
+}*/
 .kirjausLaatikko {
     width: 300px;
     border-radius: 15px;
     background-color: white;
     padding: 20px;
 }
-.kirjausNimi {
+h2.kirjausNimi {
   margin: 0;
   text-align: center;
-  font-size: 28px;
+  line-height: unset;
 }
 .kirjausAika {
   font-size: 24px;
