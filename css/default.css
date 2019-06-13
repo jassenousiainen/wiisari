@@ -152,11 +152,16 @@ ul { padding-left: 20px; }
 	background-color: var(--red-dark);
 }
 .btn.back {
+	position: absolute;
+    top: -50px;
 	margin-bottom: 20px;
-	background-color: var(--gray);
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.25);
+    font-size: 18px;
 }
 .btn.back:hover {
-	background-color: var(--gray-dark);
+	color: var(--blue);
+	background: white;
 }
 .btn.back:before {
 	font-family: "Font Awesome 5 Free";
@@ -274,16 +279,17 @@ section.container {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
+	text-align: left;
+	overflow: hidden;
 	max-width: 1300px;
-	margin: 40px auto 50px auto;
-	padding: 40px;
+	margin: 30px auto 50px auto;
+    padding: 50px 40px 40px 40px;
 }
 .container .middleContent {
 	order: 2;
 	flex-grow: 1;
 	max-width: 970px;
+	position: relative;
 }
 .container .middleContent.extrawide {
  max-width: 1200px;

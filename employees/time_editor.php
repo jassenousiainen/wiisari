@@ -23,8 +23,8 @@ if  ( isset($_POST['timeeditor']) ) {
 
   /* ----- Add/delete -punches ----- */
   echo '<section class="container">';
-  echo '  <div class="leftContent">
-            <form action="employeeinfo.php" method="post">
+  echo '  <div class="leftContent" style="position: relative;">
+            <form action="employeeinfo.php" method="post" style="margin: 0;">
               <button class="btn back" name="userID" value="'.$user_data[0].'"> Takaisin</button>
             </form>
           <div class="box">
