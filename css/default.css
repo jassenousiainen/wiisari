@@ -347,6 +347,9 @@ section.container {
   border-spacing: 0 1px;
 	overflow: scroll;
 }
+table.reports {
+	font-size: 14px;
+}
 .section table td span.inout {
 	padding: 3px 12px;
 	border-radius: 15px;

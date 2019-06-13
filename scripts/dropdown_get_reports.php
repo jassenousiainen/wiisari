@@ -4,11 +4,11 @@
         var select = document.forms['getReport'].office_name;
         var groups_select = document.forms['getReport'].group_name;
         var users_select = document.forms['getReport'].user_name;
-        select.options[0] = new Option("All");
+        select.options[0] = new Option("Kaikki");
         select.options[0].value = 'All';
-        groups_select.options[0] = new Option("All");
+        groups_select.options[0] = new Option("Kaikki");
         groups_select.options[0].value = 'All';
-        users_select.options[0] = new Option("All");
+        users_select.options[0] = new Option("Kaikki");
         users_select.options[0].value = 'All';
 
         <?php
