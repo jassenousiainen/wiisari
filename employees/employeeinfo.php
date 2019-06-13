@@ -215,7 +215,7 @@ if (isset($_POST['userID'])) {
     }
     echo '
                         <br>
-                        <br><button name="editinfo" type="submit" class="btn">Muuta tietoja <i class="fas fa-paper-plane"></i></button>
+                        <br><button name="editinfo" type="submit" class="btn send">Muuta tietoja </button>
                      </form>
                 </div>';
 

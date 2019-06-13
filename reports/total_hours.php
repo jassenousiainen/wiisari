@@ -151,7 +151,7 @@ if ($request == 'GET') {
                             </tbody>
                         </table>
                         <br>
-                        <button class="btn" type="submit" name="submit" value="Edit Time">Hae raportti <i class="fas fa-paper-plane"></i></button>
+                        <button class="btn send" type="submit" name="submit" value="Edit Time">Hae raportti </button>
                     </form>
                 </div>
             </div>

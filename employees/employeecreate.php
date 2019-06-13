@@ -113,7 +113,7 @@ if ( $request == "GET") {
       include "$_SERVER[DOCUMENT_ROOT]/group_picker.php";
 
       echo '  </div>
-                          <br><button name="create" type="submit" class="btn">Luo käyttäjä <i class="fas fa-paper-plane"></i></button>
+                          <br><button name="create" type="submit" class="btn send">Luo käyttäjä </button>
                         </form>
                     </div>
                 </div>
@@ -230,7 +230,7 @@ else if  ( isset($_POST['create']) ) {
         echo '<input name="level" value="'.$level.'" type="hidden">';
         echo '<input name="grouplist2" value="'.implode(',', $grouplist).'" type="hidden">';
         echo '      <tr>
-                        <td><button name="create" type="submit" class="btn">Jatka</button></td>
+                        <td><button name="create" type="submit" class="btn send">Jatka</button></td>
                     </tr>
                 </tbody>
                 </table>
