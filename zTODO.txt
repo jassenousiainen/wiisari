@@ -1,11 +1,13 @@
+Syötteiden tarkistus sekä siivous XSS ja SQL-injection -hyökkäysten estämiseksi
+
 Yhdistä kaikki työntekijöihin liittyvät toiminnot (kaikki henkilöt, editori, töissä olevat, yms.)
 
 Työtuntiraportit
-  -CSV:n haku toimivaksi
+  -CSV -tiedostoon haku toimivaksi
   -Ryhmien valintaan mahdollisuus valita kaikki omat ryhmät
-  -Virhesyötteiden tarkistus toimivaksi
-  -Ulkoasu
   -Suomennokset
+
+Toimistojen ja Ryhmien hallinta
 
 Muutosloki
 
