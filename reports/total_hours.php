@@ -23,7 +23,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
     exit;
 }
 
-include 'header_get_reports.php';
+include '../header.php';
 
 echo "<title>Työtunnit</title>\n";
 
@@ -41,12 +41,20 @@ if ($_SESSION['logged_in_user']->level >= 3) {
                         ORDER BY groupName;" );
 }
 
-if ($request == 'GET') {
+if ($request == 'GET' || isset($_POST['errors'])) {
 
     echo '
     <section class="container">
-        <div class="middleContent">
-            <div class="box">
+        <div class="middleContent">';
+
+    if (isset($_POST['errors'])) {
+        foreach (explode(',', $_POST['errors']) as &$error) {
+            echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
+            echo "<p>$error</p>";
+            echo '</div>';
+        }
+    }
+    echo '  <div class="box">
                 <h2>Hae työtuntiraportti</h2>
                 <div class="section">
                     <form name="form" action="'.$self.'" method="post">
@@ -151,7 +159,7 @@ if ($request == 'GET') {
                             </tbody>
                         </table>
                         <br>
-                        <button class="btn send" type="submit" name="submit" value="Edit Time">Hae raportti </button>
+                        <button class="btn send" type="submit" name="submit" value="Edit Time">Hae raportti</button>
                     </form>
                 </div>
             </div>
@@ -165,7 +173,7 @@ if ($request == 'GET') {
     echo '
     <section class="container">
         <div class="middleContent extraWide">
-        <a href="/reports/total_hours.php" class="btn back"> Takaisin</a>';
+        <a href="/reports/total_hours.php" class="btn back">Takaisin</a>';
 
 
     // ===== POST VALIDATION ===== //
@@ -203,9 +211,6 @@ if ($request == 'GET') {
     if ( $groupID != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
         array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
     } 
-    else if ( $groupID != "all" && $_SESSION['logged_in_user']->level >= 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM groups WHERE groupID ='$groupID'"))) ) {
-        array_push($errors, "Valittua ryhmää ei löytynyt");
-    }
 
     // Checks rounding for errors
     if (!empty($tmp_round_time) && 
@@ -271,12 +276,13 @@ if ($request == 'GET') {
 
 
     // This part is run only if the input contained any errors
+    // Returns to input -page
     if (sizeof($errors) > 0) {
-        foreach ($errors as &$error) {
-            echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
-            echo "<p>$error</p>";
-            echo '</div>';
-        }
+        $posterrors = implode(',',$errors);
+        echo '<form id="autoform" action="'.$self.'" method="POST">
+                <input type="hidden" name="errors" value="'.$posterrors.'"></input>
+            </form>
+            <script type="text/javascript">$("#autoform").submit();</script>';
         exit;
     }
 
