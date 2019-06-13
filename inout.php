@@ -66,11 +66,9 @@ if ($inout == "out") {
   $currentWorkTime = $tz_stamp - (int)$lastIn;
 
   $inout = "<p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
-  echo "<div class='borderBox borderOut'>";
 }
 else if ($inout == "in") {
   $inout = "<p class='kirjausSisaan'>Sisään</p>";
-  echo "<div class='borderBox borderIn'>";
 }
 
 
@@ -94,6 +92,7 @@ if ( $notes != '' ) {
   echo '</p></div>';
 }
 echo '<p>Sivu siirtyy automaattisesti etusivulle</p>';
-echo "</div></div></section>";
+echo "</div>
+</section>";
 
 ?>

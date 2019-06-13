@@ -664,31 +664,12 @@ body.loginPage {
 }
 
 /* ----- INOUT PAGE ----- */
-.flexBox {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	width: 100%;
-}
-.borderBox {
-	display: inline-block;
-	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
-  padding: 4px;
-	background: white;
-  border-radius: 18px;
-}/*
-.borderBox.borderIn {
-	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);
-}
-.borderBox.borderOut {
-	background: linear-gradient(145deg, #ff4157 0%,#ff1e9a 100%);
-}*/
 .kirjausLaatikko {
     width: 300px;
-    border-radius: 15px;
-    background-color: white;
-    padding: 20px;
+    border-radius: 30px;
+	background-color: white;
+	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+    padding: 20px 30px 30px 30px;
 }
 h2.kirjausNimi {
   margin: 0;
@@ -699,8 +680,8 @@ h2.kirjausNimi {
   font-size: 24px;
 }
 .kirjausSisaan {
-    background-color: #00ea00;
-    border-radius: 10px;
+    background-color: var(--lightgreen);
+    border-radius: 27px;
     width: 100%;
     text-align: center;
     font-size: 24px;
@@ -710,8 +691,8 @@ h2.kirjausNimi {
 		margin: 0;
 }
 .kirjausUlos {
-    background-color: #fa3838;
-    border-radius: 10px;
+    background-color: var(--red);
+    border-radius: 27px;
     width: 100%;
     text-align: center;
     font-size: 24px;
@@ -722,7 +703,7 @@ h2.kirjausNimi {
 }
 .logOutTime {
 	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
-	border-radius: 10px;
+	border-radius: 18px;
 	width: 100%;
 	text-align: center;
 	font-size: 16px;
