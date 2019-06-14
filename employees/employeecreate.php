@@ -143,7 +143,7 @@ else if  ( isset($_POST['create']) ) {
     }
 
     if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
-    else {$displayName = $_POST['displayName'];}
+    else {$displayName = htmlentities($_POST['displayName']);}
 
     if (!isset($_POST['password']) && $level > 0) {$error = true; $password = "error";}
     else if (empty($_POST['password']) && $level > 0) {$error = true; $password = "error";}
@@ -240,6 +240,8 @@ else if  ( isset($_POST['create']) ) {
     </section>';
     }
     else {  // This part is run only if all inputs have been checked to be of correct form
+      pdo_connect();
+      
       $emp_stmt = $pdo->prepare("INSERT INTO employees VALUES (?,?,?,?,?,?)");
       $emp_stmt->execute(array($userID, $displayName, $groupID, $level, $password, "out"));
 

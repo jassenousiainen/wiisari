@@ -3,7 +3,7 @@
 require 'common.php';
 
 session_start();
-tc_connect();
+pdo_connect();
 
 $self = $_SERVER['PHP_SELF'];
 

@@ -1,5 +1,6 @@
 <?php
 require 'common.php';
+pdo_connect();  //Connect to database using PDO
 
 echo "<head>
         <title>Sisään/Ulos</title>
