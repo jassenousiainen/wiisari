@@ -25,7 +25,7 @@ if  ( isset($_POST['timeeditor']) ) {
   echo '<section class="container">';
   echo '  <div class="leftContent" style="position: relative;">
             <form action="employeeinfo.php" method="post" style="margin: 0;">
-              <button class="btn back" name="userID" value="'.$user_data[0].'"> Takaisin</button>
+              <button class="btn back" name="userID" value="'.$user_data[0].'">Takaisin</button>
             </form>
           <div class="box">
             <h2>Lisää aika</h2>
@@ -42,7 +42,7 @@ if  ( isset($_POST['timeeditor']) ) {
                 <input type="text" id="to" autocomplete="off" size="10" maxlength="10" name="out_date" placeholder="pvm">
                 <input name="out_time" type="time">
                 <br><br>
-                <button type="submit" name="timeeditor" class="btn" value="'.$user_data[0].'">Lisää</button>
+                <button type="submit" name="timeeditor" class="btn plus" value="'.$user_data[0].'">Lisää</button>
               </form>
             </div>';
   if (isset($_POST['in_date']) || isset($_POST['out_date'])) {
@@ -61,7 +61,7 @@ if  ( isset($_POST['timeeditor']) ) {
               <div class="section">
               <form action="time_editor_edit.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
-                <button type="submit" name="deletetime" value="'.$user_data[0].'" class="btn del" style="float:right; margin-bottom: 10px;">Poista valitut</button>
+                <button type="submit" name="deletetime" value="'.$user_data[0].'" class="btn del trash" style="float:right; margin-bottom: 10px;">Poista valitut</button>
                 <table class="sort-desc">
                   <thead>
                     <tr>
