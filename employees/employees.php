@@ -40,7 +40,7 @@ if ($request == 'GET') {
             <h2>Henkilöstö</h2>
             <div class="section">';
             if ($_SESSION['logged_in_user']->level >= 2) {
-              echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
+              echo '<a class="btn plus" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi</a>';
             } 
             if ($_SESSION['logged_in_user']->level < 3) {
               echo '<p>Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';

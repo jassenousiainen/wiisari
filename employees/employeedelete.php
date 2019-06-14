@@ -30,7 +30,7 @@ if (isset($_POST['deleteuser'])) {
     echo '
     <section class="container">
         <div class="middleContent">
-            <a class="btn back" href="employees.php"> Takaisin</a>
+            <a class="btn back" href="employees.php">Takaisin</a>
             <div class="box">
                 <h2>Käyttäjä poistettu</h2>
                 <div class="section">

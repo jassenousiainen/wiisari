@@ -35,7 +35,7 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
   
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'">Takaisin</button>
           </form>
           <div class="box">
             <h2>Kellotuseditori - poista kirjauksia</h2>
@@ -75,7 +75,7 @@ else if (isset($_POST['altertime'])) {
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'">Takaisin</button>
           </form>';
 
   echo '  <div class="box">
@@ -137,7 +137,7 @@ else if (isset($_POST['punchid'])) {
   $notes = $_POST['notes'];
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">
-            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'"> Takaisin</button>
+            <button class="btn back" type="submit" name="timeeditor" value="'.$userID.'">Takaisin</button>
           </form>';
 
 

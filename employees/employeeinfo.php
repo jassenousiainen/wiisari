@@ -26,7 +26,7 @@ if (isset($_POST['userID'])) {
     echo '
     <section class="container">
         <div class="middleContent">
-            <a class="btn back" href="employees.php"> Takaisin</a>';
+            <a class="btn back" href="employees.php">Takaisin</a>';
 
     // Updates the edited info to database and shows that the edit was successful or it contained errors
     if (isset($_POST['editinfo'])) {
@@ -215,7 +215,7 @@ if (isset($_POST['userID'])) {
     }
     echo '
                         <br>
-                        <br><button name="editinfo" type="submit" class="btn send">Muuta tietoja </button>
+                        <br><button name="editinfo" type="submit" class="btn send">Muuta tietoja</button>
                      </form>
                 </div>';
 
@@ -224,7 +224,7 @@ if (isset($_POST['userID'])) {
                     <p><b>Poista käyttäjä:</b></p>
                     <p>Henkilötietojen poiston lisäksi kaikki muu tieto, kuten kellotukset poistetaan.</p>
                     <form action="'."/employees/employeedelete.php".'" method="post">
-                        <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del"><i class="fas fa-trash-alt"></i> Poista</button>
+                        <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del trash">Poista</button>
                     </form>
                 </div>';
     }

@@ -24,7 +24,7 @@ if ( $request == "GET") {
     echo '
       <section class="container">
         <div class="middleContent">
-          <a class="btn back" href="employees.php"> Takaisin</a>
+          <a class="btn back" href="employees.php">Takaisin</a>
           <div class="box">
             <h2>Luo uusi työntekijä/valvoja</h2>
             <div class="section">
@@ -113,7 +113,7 @@ if ( $request == "GET") {
       include "$_SERVER[DOCUMENT_ROOT]/group_picker.php";
 
       echo '  </div>
-                          <br><button name="create" type="submit" class="btn send">Luo käyttäjä </button>
+                          <br><button name="create" type="submit" class="btn send">Luo käyttäjä</button>
                         </form>
                     </div>
                 </div>

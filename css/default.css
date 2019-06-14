@@ -47,6 +47,7 @@ ul { padding-left: 20px; }
 	 --green-dark: #1c8935;
 	 --red: #dc3545;
 	 --red-dark: #c42e3d;
+	 --red-bright: #ff3355;
 	 --red-light: #ff6384;
 	 --purple: #6f42c1;
  }
@@ -146,7 +147,7 @@ ul { padding-left: 20px; }
 	background-color: var(--darkblue);
 }
 .btn.del {
-	background-color: var(--red);
+	background-color: var(--red-bright);
 }
 .btn.del:hover {
 	background-color: var(--red-dark);
@@ -167,7 +168,7 @@ ul { padding-left: 20px; }
 	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content: "\f104";
+	content: "\f104 \00a0";
 	transition: transform 0.2s ease-in-out;
 }
 .btn.back:hover:before {
@@ -177,11 +178,31 @@ ul { padding-left: 20px; }
 	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
-	content: "\f1d8";
+	content: "\00a0 \f1d8";
 	transition: transform 0.2s ease-in-out;
 }
-.btn.send:hover:after{
-	transform: translate(3px, -3px);
+.btn.send:hover:after {
+	transform: translate(4px, -4px);
+}
+.btn.plus:before {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f067 \00a0";
+	transition: transform 0.2s ease-in-out;
+}
+.btn.plus:hover:before {
+	transform: scale(1.2);
+}
+.btn.trash:before {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f2ed \00a0";
+	transition: transform 0.2s ease-in-out;
+}
+.btn.trash:hover:before{
+	transform: rotate(10deg);
 }
 .tile {
 	display: inline-block;
@@ -713,7 +734,7 @@ h2.kirjausNimi {
 		margin: 0;
 }
 .kirjausUlos {
-    background-color: var(--red);
+    background-color: var(--red-bright);
     border-radius: 27px;
     width: 100%;
     text-align: center;
