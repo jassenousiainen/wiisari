@@ -1,14 +1,17 @@
-Syötteiden tarkistus sekä siivous XSS ja SQL-injection -hyökkäysten estämiseksi
+TYÖN ALLA
+  Syötteiden tarkistus sekä siivous XSS ja SQL-injection -hyökkäysten estämiseksi
 
-Yhdistä kaikki työntekijöihin liittyvät toiminnot (kaikki henkilöt, editori, töissä olevat, yms.)
+  Toimistojen ja Ryhmien hallinta
 
-Työtuntiraportit
-  -CSV -tiedostoon haku toimivaksi
-  -Ryhmien valintaan mahdollisuus valita kaikki omat ryhmät
-  -Suomennokset
 
-Toimistojen ja Ryhmien hallinta
+TEHTÄVÄÄ
+  Daily reports (timerpt.php) toimintaan vai pois kokonaan?
 
-Muutosloki
+  Työtuntiraportit
+    -CSV -tiedostoon haku toimivaksi
+    -Ryhmien valintaan mahdollisuus valita kaikki omat ryhmät
+    -Suomennokset
 
-Config.inc.php
+  Muutosloki
+
+  Config.inc.php
