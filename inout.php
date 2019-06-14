@@ -6,7 +6,7 @@ echo "<head>
         <title>Sisään/Ulos</title>
         <meta http-equiv='Content-Type' content=t'ext/html; charset=UTF-8'/>";
         if (isset($_POST['mypage'])) { echo "<meta http-equiv='refresh' content='3; URL=mypage.php'>"; }
-        else { echo "<meta http-equiv='refresh' content='3; URL=timeclock.php'>"; }
+        else { echo "<meta http-equiv='refresh' content='2; URL=timeclock.php'>"; }
 echo "  <link rel='stylesheet' type='text/css' media='screen' href='css/default.css' />\n
       </head>";
 
