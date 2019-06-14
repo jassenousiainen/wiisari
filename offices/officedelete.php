@@ -9,7 +9,7 @@ echo "<title>Toimiston tiedot</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 2) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 3) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -18,6 +18,8 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 if (isset($_POST['officeID'])) {
 
     $officeID = $_POST['officeID'];
+    $officeData = mysqli_fetch_row(tc_query("SELECT * FROM offices WHERE officeID = ?",$officeID));
+    $groupData = tc_query("SELECT * FROM groups WHERE officeID = ?",$officeID);
 
     tc_delete("offices", "officeID = ?", $officeID);
     tc_delete("groups", "officeID = ?", $officeID);
@@ -28,7 +30,11 @@ if (isset($_POST['officeID'])) {
             <div class="box">
                 <h2>Toimisto poistettu</h2>
                 <div class="section">
-                    <p>Toimiston kaikki ryhmät poistettu onnistuneesti.</p>
+                    <p>Toimisto '.$officeData[1].' poistettu onnistuneesti.</p>';
+                    while ( $group = mysqli_fetch_array($groupData) ) {
+                        echo '<p>Ryhmä '.$group[1].' poistettu onnistuneesti.</p>';
+                    }
+                    echo'
                 </div>
             </div>
         </div>

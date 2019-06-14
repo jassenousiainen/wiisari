@@ -9,7 +9,7 @@ echo "<title>Toimiston tiedot</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 3) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
@@ -43,6 +43,7 @@ if (isset($_POST['officeID'])) {
                         </form>
                         </div>';
                   echo '<div class="section">
+                          <form>
                           <table class="sorted">
                             <thead>
                               <tr>
@@ -76,7 +77,7 @@ if (isset($_POST['officeID'])) {
                                 </th>
                               </tr>
                             </tfoot>
-                            <tbody>';
+                            <tbody></form>';
       $group_query = tc_query("SELECT * FROM groups WHERE officeID = ?",$officeData[0]);
       while ( $group = mysqli_fetch_array($group_query) ) {
         $user_cnt  = mysqli_num_rows(tc_query("SELECT 1 FROM employees WHERE groupID = ?", $group[0]));

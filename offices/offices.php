@@ -9,7 +9,7 @@ echo "<title>Toimistot</title>\n";
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
 
-if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 3) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
