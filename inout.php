@@ -1,5 +1,6 @@
 <?php
 require 'common.php';
+pdo_connect();  //Connect to database using PDO
 
 echo "<head>
         <title>Sisään/Ulos</title>
@@ -19,15 +20,18 @@ if (isset($_POST['notes'])) {
   $notes = '';
 }
 
-$userID = tc_select_value("userID", "employees", "userID = ?", htmlspecialchars($_POST['userID']));
-
-if (!has_value($userID)) {
+// SQL-injection-proof query
+$getuser_stmt = $pdo->prepare("SELECT userID, displayName FROM employees WHERE userID = ?");
+$getuser_stmt->execute(array($_POST['userID']));
+$row = $getuser_stmt->fetch(PDO::FETCH_ASSOC);
+if ($row) {
+   $userID = $row['userID'];
+   $displayName = $row['displayName'];
+}
+else {
   echo "<h3 style='color:red;'>Antamallasi käyttäjätunnuksella ei löytynyt ketään.</h3>";
   exit;
 }
-
-$displayName = tc_select_value("displayName", "employees", "userID = ?", $userID);
-
 
 // Choose whether employee logs in or out based on previous inout log
 $currently_inout = mysqli_fetch_row(tc_query( "SELECT `inout` FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"))[0];
@@ -46,9 +50,12 @@ if (has_value($currently_inout)) {
 
 // Insert inout data to info -table (and employees -table)
 $tz_stamp = time();
-$clockin = array("userID" => $userID, "inout" => $inout, "timestamp" => $tz_stamp, "notes" => "$notes");
-tc_insert_strings("info", $clockin);
+
+$clockin_stmt = $pdo->prepare("INSERT INTO `info` (`userID`, `inout`, `timestamp`, `notes`) VALUES (?,?,?,?)");
+$clockin_stmt->execute(array($userID, $inout, $tz_stamp, $notes));
+
 tc_update_strings("employees", array("inoutStatus" => $inout), "userID = ?", $userID);
+
 
 
 // The actual html that is shown to employee.

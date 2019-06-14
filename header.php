@@ -29,7 +29,6 @@ if ($restrict_ips == "yes") {
 }
 
 // connect to db //
-
 tc_connect();
 
 // include css and timezone offset//
