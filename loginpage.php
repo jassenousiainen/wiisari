@@ -9,16 +9,23 @@ $self = $_SERVER['PHP_SELF'];
 
 // Login with adminrights (level > 0)
 if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
-    $login_userid = $_POST['login_userid'];
-    $admin_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE userID = '$login_userid'"));
-    if ( ($login_userid == $admin_data[0]) && password_verify($_POST['login_password'].$salt , $admin_data[4]) && $admin_data[3] >= 1) {
-        $_SESSION['logged_in_user'] = new User($login_userid, $admin_data[3]);
+  $getuser_stmt = $pdo->prepare("SELECT userID, level, adminPassword FROM employees WHERE userID = ?");
+  $getuser_stmt->execute(array($_POST['login_userid']));
+  $row = $getuser_stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($row) {
+    if (password_verify($_POST['login_password'].$salt, $row['adminPassword'])) {
+      $_SESSION['logged_in_user'] = new User($row['userID'], $row['level']);
     }
+  }
 } // Login as employee (level == 0)
 else if (isset($_POST['login_userid'])) {
-  $login_userid = tc_select_value("userID", "employees", "userID = ?", $_POST['login_userid']);
-  if ( has_value($login_userid) ) {
-    $_SESSION['logged_in_user'] = new User($login_userid, 0);
+  $getuser_stmt = $pdo->prepare("SELECT userID FROM employees WHERE userID = ?");
+  $getuser_stmt->execute(array($_POST['login_userid']));
+  $row = $getuser_stmt->fetch(PDO::FETCH_ASSOC);
+
+  if ($row) {
+    $_SESSION['logged_in_user'] = new User($row['userID'], 0);
   }
 }
 
