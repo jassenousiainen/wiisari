@@ -152,16 +152,36 @@ ul { padding-left: 20px; }
 	background-color: var(--red-dark);
 }
 .btn.back {
+	position: absolute;
+    top: -50px;
 	margin-bottom: 20px;
-	background-color: var(--gray);
+	border-radius: 20px;
+	background-color: rgba(255, 255, 255, 0.25);
+    font-size: 18px;
 }
 .btn.back:hover {
-	background-color: var(--gray-dark);
+	color: var(--blue);
+	background: white;
 }
 .btn.back:before {
+	display: inline-block;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	content: "\f104";
+	transition: transform 0.2s ease-in-out;
+}
+.btn.back:hover:before {
+	transform: translateX(-2px);
+}
+.btn.send:after {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f1d8";
+	transition: transform 0.2s ease-in-out;
+}
+.btn.send:hover:after{
+	transform: translate(3px, -3px);
 }
 .tile {
 	display: inline-block;
@@ -205,17 +225,18 @@ a.link:hover {
 form select, form input{
 	display: inline-block;
 	padding: 0 7px 0 7px;
-  height: 38px;
+	height: 38px;
 	margin: 10px 0;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color 0.2s ease;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	outline: none;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, background-color 0.2s ease;
 }
 form input:focus, form select:focus {
 	border-color: var(--blue);
@@ -274,16 +295,17 @@ section.container {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
+	text-align: left;
+	overflow: hidden;
 	max-width: 1300px;
-	margin: 40px auto 50px auto;
-	padding: 40px;
+	margin: 30px auto 50px auto;
+    padding: 50px 40px 40px 40px;
 }
 .container .middleContent {
 	order: 2;
 	flex-grow: 1;
 	max-width: 970px;
+	position: relative;
 }
 .container .middleContent.extrawide {
  max-width: 1200px;
@@ -299,7 +321,8 @@ section.container {
 	min-height: 200px;
 	margin-bottom: 20px;
 	background-color: white;
-	box-shadow: 0 2px 20px rgba(0,0,0,.164); /*0 0 60px 0 rgba(0,0,0,.05);*/
+	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+	/*box-shadow: 0 2px 20px rgba(0,0,0,.164);*/
 	border-radius: 30px;
 	padding-bottom: 40px;
 }
@@ -345,6 +368,9 @@ section.container {
 	border-collapse: separate;
   border-spacing: 0 1px;
 	overflow: scroll;
+}
+table.reports {
+	font-size: 14px;
 }
 .section table td span.inout {
 	padding: 3px 12px;
@@ -660,43 +686,24 @@ body.loginPage {
 }
 
 /* ----- INOUT PAGE ----- */
-.flexBox {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	width: 100%;
-	background: black;
-}
-.borderBox {
-	display: inline-block;
-  padding: 4px;
-	background: white;
-  border-radius: 18px;
-}
-.borderBox.borderIn {
-	background: linear-gradient(145deg, #00ffbe 0%,#00ff43 100%);
-}
-.borderBox.borderOut {
-	background: linear-gradient(145deg, #ff4157 0%,#ff1e9a 100%);
-}
 .kirjausLaatikko {
     width: 300px;
-    border-radius: 15px;
-    background-color: white;
-    padding: 20px;
+    border-radius: 30px;
+	background-color: white;
+	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+    padding: 20px 30px 30px 30px;
 }
-.kirjausNimi {
+h2.kirjausNimi {
   margin: 0;
   text-align: center;
-  font-size: 28px;
+  line-height: unset;
 }
 .kirjausAika {
   font-size: 24px;
 }
 .kirjausSisaan {
-    background-color: #00ea00;
-    border-radius: 10px;
+    background-color: var(--lightgreen);
+    border-radius: 27px;
     width: 100%;
     text-align: center;
     font-size: 24px;
@@ -706,8 +713,8 @@ body.loginPage {
 		margin: 0;
 }
 .kirjausUlos {
-    background-color: #fa3838;
-    border-radius: 10px;
+    background-color: var(--red);
+    border-radius: 27px;
     width: 100%;
     text-align: center;
     font-size: 24px;
@@ -718,7 +725,7 @@ body.loginPage {
 }
 .logOutTime {
 	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);
-	border-radius: 10px;
+	border-radius: 18px;
 	width: 100%;
 	text-align: center;
 	font-size: 16px;

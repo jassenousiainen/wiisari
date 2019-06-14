@@ -39,10 +39,11 @@ if ($request == 'GET') {
           <div class="box">
             <h2>Henkilöstö</h2>
             <div class="section">';
-            if ($_SESSION['logged_in_user']->level >= 3) {
+            if ($_SESSION['logged_in_user']->level >= 2) {
               echo '<a class="btn" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
-            } else {
-              echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä.<br> Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
+            } 
+            if ($_SESSION['logged_in_user']->level < 3) {
+              echo '<p>Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
             }
     echo '  <form action="employeeinfo.php" method="post">
               <table class="sorted">

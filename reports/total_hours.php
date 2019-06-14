@@ -23,34 +23,38 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
     exit;
 }
 
-echo "<title>$title - Hours Worked Report</title>\n";
+include '../header.php';
 
-if ($request == 'GET') {
+echo "<title>Työtunnit</title>\n";
 
-    include 'header_get_reports.php';
+include 'topmain.php';
 
-    $supervisorID = $_SESSION['logged_in_user']->userID;
 
-    if ($_SESSION['logged_in_user']->level >= 3) {
-        $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
-    } else {
-        $groupquery = tc_query( "SELECT groupName, officeName, groupID
-                            FROM supervises NATURAL JOIN groups NATURAL JOIN offices 
-                            WHERE userID = '$supervisorID'
-                            ORDER BY groupName;" );
-    }
+$supervisorID = $_SESSION['logged_in_user']->userID;
 
-    if ($use_reports_password == "yes") {
-        include '../admin/topmain.php';
-    } else {
-        include 'topmain.php';
-    }
+if ($_SESSION['logged_in_user']->level >= 3) {
+    $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
+} else {
+    $groupquery = tc_query( "SELECT groupName, officeName, groupID
+                        FROM supervises NATURAL JOIN groups NATURAL JOIN offices 
+                        WHERE userID = '$supervisorID'
+                        ORDER BY groupName;" );
+}
 
+if ($request == 'GET' || isset($_POST['errors'])) {
 
     echo '
     <section class="container">
-        <div class="middleContent">
-            <div class="box">
+        <div class="middleContent">';
+
+    if (isset($_POST['errors'])) {
+        foreach (explode(',', $_POST['errors']) as &$error) {
+            echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
+            echo "<p>$error</p>";
+            echo '</div>';
+        }
+    }
+    echo '  <div class="box">
                 <h2>Hae työtuntiraportti</h2>
                 <div class="section">
                     <form name="form" action="'.$self.'" method="post">
@@ -59,9 +63,9 @@ if ($request == 'GET') {
                                 <tr>
                                     <td>Valitse ryhmä</td>
                                     <td>
-                                        <select name="group_name">';
+                                        <select name="groupID">';
     while ($grp = mysqli_fetch_array($groupquery)) {
-        echo '                              <option value="'.$grp['groupName'].'">'.$grp['groupName'].'</option>';
+        echo '                              <option value="'.$grp['groupID'].'">'.$grp['groupName'].'</option>';
     }
     echo '                              </select>
                                     </td>
@@ -75,19 +79,10 @@ if ($request == 'GET') {
                                     <td><input id="to" autocomplete="off" type="text" size="10" maxlength="10" name="to_date"></td>
                                 </tr>
                                 <tr>
-                                    <td>Hae raportit CSV -tiedostoon:</td>
+                                    <td>Hae raportit CSV -tiedostoon: </td>
                                     <td>
                                         <label class="container">
                                             <input type="checkbox" name="csv" value="1" class="check">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Jaa henkilöiden raportit omille sivuilleen:</td>
-                                    <td>
-                                        <label class="container">
-                                            <input type="checkbox" name="tmp_paginate" value="1" class="check">
                                             <span class="checkmark"></span>
                                         </label>
                                     </td>
@@ -164,413 +159,157 @@ if ($request == 'GET') {
                             </tbody>
                         </table>
                         <br>
-                        <button class="btn" type="submit" name="submit" value="Edit Time">Hae raportti <i class="fas fa-paper-plane"></i></button>
+                        <button class="btn send" type="submit" name="submit" value="Edit Time">Hae raportti</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>';
-    
-/*
-    echo '<p><input type="checkbox" name="tmp_show_details" value="1" onchange="javascript:form.tmp_display_office.disabled=!this.checked;form.tmp_display_ip.disabled=!this.checked"' . (yes_no_bool($show_details) ? " checked" : "") . '>&nbsp;';
-    echo "Show punch-in/out details?\n</p>";
-*/
 
     exit;
 
 } else {
 
-    include 'header_post_reports.php';
+    echo '
+    <section class="container">
+        <div class="middleContent extraWide">
+        <a href="/reports/total_hours.php" class="btn back">Takaisin</a>';
 
-    $group_name = $_POST['group_name'];
-    $fullname = "All";
+
+    // ===== POST VALIDATION ===== //
+    
+    $errors = array();
+
+    $groupID = $_POST['groupID'];
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
-    $tmp_round_time = $_POST['tmp_round_time'];
+
+    if (isset($_POST['tmp_round_time'])) {
+        $tmp_round_time = $_POST['tmp_round_time'];
+    } else {
+        $tmp_round_time = "error";
+    }
+    
     $tmp_paginate = one_or_empty(@$_POST['tmp_paginate']);
     $tmp_show_details = one_or_empty(@$_POST['tmp_show_details']);
     $tmp_display_ip = one_or_empty(@$_POST['tmp_display_ip']);
     $tmp_display_office = one_or_empty(@$_POST['tmp_display_office']);
     $tmp_csv = one_or_empty(@$_POST['csv']);
 
-    // begin post validation //
-/*
-    if ($fullname != "All") {
-        $result = tc_select("empfullname, displayname", "employees",  "empfullname = ?", $fullname);
-
-        while ($row = mysqli_fetch_array($result)) {
-            $empfullname = "" . $row['empfullname'] . "";
-            $displayname = "" . $row['displayname'] . "";
+    
+    // Displays error incase user selected group that doesn't exist
+    if (($groupID != "all") && (!empty($groupID))) {
+        $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
+        if (!isset($group_name)) {
+            array_push($errors, "Valittua ryhmää ei löytynyt");
         }
-        if (!isset($empfullname)) {
-            echo "Something is fishy here.\n";
-            exit;
+    } else if (empty($groupID)) {
+        array_push($errors, "Et valinnut ryhmää");
+    }
+
+    // Checks if selected group belongs to this supervisors groups
+    if ( $groupID != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
+        array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
+    } 
+
+    // Checks rounding for errors
+    if (!empty($tmp_round_time) && 
+        $tmp_round_time != '1' && 
+        $tmp_round_time != '2' &&
+        $tmp_round_time != '3' && 
+        $tmp_round_time != '4' && 
+        $tmp_round_time != '5') 
+    {
+        array_push($errors, "Pyöristys valittu virheellisesti");    
+    }
+
+    // Checks the from-date for errors
+    if (empty($from_date)) {
+        array_push($errors, "Alku päivämäärä oli tyhjä");
+    } elseif (preg_match('#^[0-9]{1,2}.[0-9]{1,2}.[0-9]{4}$#', $from_date) === 0) {
+        array_push($errors, "Alku päivämäärä oli annettu virheellisessä muodossa");
+    } else {
+        $split_from = explode('.', $from_date);
+        $from_month = $split_from[1];
+        $from_day = $split_from[0];
+        $from_year = $split_from[2];
+
+        if ($from_month > 12 || $from_day > 31) {
+            array_push($errors, "Alku päivämäärä oli annettu virheellisessä muodossa");
         }
     }
 
-    if (($office_name != "All") && (!empty($office_name))) {
-        $getoffice = tc_select_value("officename", "offices", "officename = ?", $office_name);
-        if (!isset($getoffice)) {
-            echo "Something smells fishy here.\n";
-            exit;
-        }
-    }
-*/
-    if (($group_name != "All") && (!empty($group_name))) {
-        $getgroup = tc_select_value("groupname", "groups", "groupname = ?", $group_name);
-        if (!isset($getgroup)) {
-            echo "Something smells fishy here.\n";
-            exit;
-        }
-    }
 
-    if ((!empty($tmp_round_time)) && ($tmp_round_time != '1') && ($tmp_round_time != '2') && ($tmp_round_time != '3') && ($tmp_round_time != '4') && ($tmp_round_time != '5')) {
-        $evil_post = '1';
-        if ($use_reports_password == "yes") {
-            include '../admin/topmain.php';
-        } else {
-            include 'topmain.php';
-        }
-        echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-        echo "  <tr valign=top>\n";
-        echo "    <td>\n";
-        echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-        echo "        <tr class=right_main_text>\n";
-        echo "          <td valign=top>\n";
-        echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-        echo "              <tr>\n";
-        echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    Choose a rounding method.</td></tr>\n";
-        echo "            </table>\n";
-    }
+    // Checks the to-date for errors
+    if (empty($to_date)) {
+        array_push($errors, "Lopetus päivämäärä oli tyhjä");
+    } elseif (preg_match('#^[0-9]{1,2}.[0-9]{1,2}.[0-9]{4}$#', $to_date) === 0) {
+        array_push($errors, "Lopetus päivämäärä oli annettu virheellisessä muodossa");
+    } else {
+        $split_to = explode('.', $to_date);
+        $to_month = $split_to[1];
+        $to_day = $split_to[0];
+        $to_year = $split_to[2];
 
-    if (!isset($evil_post)) {
-        if (empty($from_date)) {
-            $evil_post = '1';
-            if ($use_reports_password == "yes") {
-                include '../admin/topmain.php';
-            } else {
-                include 'topmain.php';
-            }
-            echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-            echo "  <tr valign=top>\n";
-            echo "    <td>\n";
-            echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-            echo "        <tr class=right_main_text>\n";
-            echo "          <td valign=top>\n";
-            echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-            echo "              <tr>\n";
-            echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid From Date is required.</td></tr>\n";
-            echo "            </table>\n";
-        } elseif (!preg_match('< ^ ([0-9]?[0-9])+ [-/.]+ ([0-9]?[0-9])+ [-/.]+ (([0-9]{2})|([0-9]{4})) $ >x', $from_date, $date_regs)) {
-            $evil_post = '1';
-            if ($use_reports_password == "yes") {
-                include '../admin/topmain.php';
-            } else {
-                include 'topmain.php';
-            }
-            echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-            echo "  <tr valign=top>\n";
-            echo "    <td>\n";
-            echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-            echo "        <tr class=right_main_text>\n";
-            echo "          <td valign=top>\n";
-            echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-            echo "              <tr>\n";
-            echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid From Date is required.</td></tr>\n";
-            echo "            </table>\n";
-
-        } else {
-
-            if ($calendar_style == "amer") {
-                if (isset($date_regs)) {
-                    $from_month = $date_regs[1];
-                    $from_day = $date_regs[2];
-                    $from_year = $date_regs[3];
-                }
-                if ($from_month > 12 || $from_day > 31) {
-                    $evil_post = '1';
-                    if ($use_reports_password == "yes") {
-                        include '../admin/topmain.php';
-                    } else {
-                        include 'topmain.php';
-                    }
-                    echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-                    echo "  <tr valign=top>\n";
-                    echo "    <td>\n";
-                    echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-                    echo "        <tr class=right_main_text>\n";
-                    echo "          <td valign=top>\n";
-                    echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-                    echo "              <tr>\n";
-                    echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid From Date is required.</td></tr>\n";
-                    echo "            </table>\n";
-                }
-            } elseif ($calendar_style == "euro") {
-                if (isset($date_regs)) {
-                    $from_month = $date_regs[2];
-                    $from_day = $date_regs[1];
-                    $from_year = $date_regs[3];
-                }
-                if ($from_month > 12 || $from_day > 31) {
-                    $evil_post = '1';
-                    if ($use_reports_password == "yes") {
-                        include '../admin/topmain.php';
-                    } else {
-                        include 'topmain.php';
-                    }
-                    echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-                    echo "  <tr valign=top>\n";
-                    echo "    <td>\n";
-                    echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-                    echo "        <tr class=right_main_text>\n";
-                    echo "          <td valign=top>\n";
-                    echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-                    echo "              <tr>\n";
-                    echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid From Date is required.</td></tr>\n";
-                    echo "            </table>\n";
-                }
-            }
+        if ($to_month > 12 || $to_day > 31) {
+            array_push($errors, "Lopetus päivämäärä oli annettu virheellisessä muodossa");
         }
     }
 
-    if (!isset($evil_post)) {
-        if (empty($to_date)) {
-            $evil_post = '1';
-            if ($use_reports_password == "yes") {
-                include '../admin/topmain.php';
-            } else {
-                include 'topmain.php';
-            }
-            echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-            echo "  <tr valign=top>\n";
-            echo "    <td>\n";
-            echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-            echo "        <tr class=right_main_text>\n";
-            echo "          <td valign=top>\n";
-            echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-            echo "              <tr>\n";
-            echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid To Date is required.</td></tr>\n";
-            echo "            </table>\n";
-        } elseif (!preg_match('< ^ ([0-9]?[0-9])+ [-/.]+ ([0-9]?[0-9])+ [-/.]+ (([0-9]{2})|([0-9]{4})) $ >x', $to_date, $date_regs)) {
-            $evil_post = '1';
-            if ($use_reports_password == "yes") {
-                include '../admin/topmain.php';
-            } else {
-                include 'topmain.php';
-            }
-            echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-            echo "  <tr valign=top>\n";
-            echo "    <td>\n";
-            echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-            echo "        <tr class=right_main_text>\n";
-            echo "          <td valign=top>\n";
-            echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-            echo "              <tr>\n";
-            echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid To Date is required.</td></tr>\n";
-            echo "            </table>\n";
 
-        } else {
-
-            if ($calendar_style == "amer") {
-                if (isset($date_regs)) {
-                    $to_month = $date_regs[1];
-                    $to_day = $date_regs[2];
-                    $to_year = $date_regs[3];
-                }
-                if ($to_month > 12 || $to_day > 31) {
-                    $evil_post = '1';
-                    if ($use_reports_password == "yes") {
-                        include '../admin/topmain.php';
-                    } else {
-                        include 'topmain.php';
-                    }
-                    echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-                    echo "  <tr valign=top>\n";
-                    echo "    <td>\n";
-                    echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-                    echo "        <tr class=right_main_text>\n";
-                    echo "          <td valign=top>\n";
-                    echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-                    echo "              <tr>\n";
-                    echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid To Date is required.</td></tr>\n";
-                    echo "            </table>\n";
-                }
-            } elseif ($calendar_style == "euro") {
-                if (isset($date_regs)) {
-                    $to_month = $date_regs[2];
-                    $to_day = $date_regs[1];
-                    $to_year = $date_regs[3];
-                }
-                if ($to_month > 12 || $to_day > 31) {
-                    $evil_post = '1';
-                    if ($use_reports_password == "yes") {
-                        include '../admin/topmain.php';
-                    } else {
-                        include 'topmain.php';
-                    }
-                    echo "<table width=100% height=89% border=0 cellpadding=0 cellspacing=1>\n";
-                    echo "  <tr valign=top>\n";
-                    echo "    <td>\n";
-                    echo "      <table width=100% height=100% border=0 cellpadding=10 cellspacing=1>\n";
-                    echo "        <tr class=right_main_text>\n";
-                    echo "          <td valign=top>\n";
-                    echo "            <table align=center class=table_border width=60% border=0 cellpadding=0 cellspacing=3>\n";
-                    echo "              <tr>\n";
-                    echo "                <td class=table_rows width=20 align=center><img src='../images/icons/cancel.png' /></td><td class=table_rows_red>
-                    A valid To Date is required.</td></tr>\n";
-                    echo "            </table>\n";
-                }
-            }
-        }
-    }
-
-    if (isset($evil_post)) {
-        echo "            <br />\n";
-        echo "            <form name='getReport' action='$self' method='post' onsubmit=\"return isFromOrToDate();\">\n";
-        echo "            <table align=center class=table_border width=60% border=0 cellpadding=3 cellspacing=0>\n";
-        echo "              <tr>\n";
-        echo "                <th class=rightside_heading nowrap halign=left colspan=3><img src='../images/icons/report.png' />&nbsp;&nbsp;&nbsp;
-                    Hours Worked Report</th></tr>\n";
-        echo "              <tr><td height=15></td></tr>\n";
-        echo "              <input type='hidden' name='date_format' value='$js_datefmt'>\n";
-        if ($username_dropdown_only == "yes") {
-
-            echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Username:</td><td colspan=2 align=left width=80%
-                          style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='user_name'>\n";
-            echo "                    <option value ='All'>All</option>\n";
-            echo html_options(tc_select("empfullname", "employees", "1=1 ORDER BY empfullname ASC"));
-
-            echo "                  </select>&nbsp;*</td></tr>\n";
-        } else {
-
-            echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Office:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='office_name' onchange='group_names();'>\n";
-            echo "                      </select></td></tr>\n";
-            echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Group:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='group_name' onfocus='group_names();'>
-                          <option selected>$group_name</option>\n";
-            echo "                      </select></td></tr>\n";
-            echo "              <tr><td class=table_rows height=25 width=20% style='padding-left:32px;' nowrap>Choose Username:</td><td colspan=2 width=80%
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;'>
-                      <select name='user_name' onfocus='user_names();'>
-                          <option selected>$fullname</option>\n";
-            echo "                      </select></td></tr>\n";
-        }
-        echo "              <tr><td class=table_rows style='padding-left:32px;' width=20% nowrap>From Date: ($tmp_datefmt)</td><td
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;' width=80% >
-                      <input type='text' size='10' maxlength='10' name='from_date' value='$from_date' style='color:#27408b'>&nbsp;*&nbsp;&nbsp;
-                      <a href=\"#\" onclick=\"form.from_date.value='';cal.select(document.forms['form'].from_date,'from_date_anchor','$js_datefmt');
-                      return false;\" name=\"from_date_anchor\" id=\"from_date_anchor\" style='font-size:11px;color:#27408b;'>Pick Date</a></td><tr>\n";
-        echo "              <tr><td class=table_rows style='padding-left:32px;' width=20% nowrap>To Date: ($tmp_datefmt)</td><td
-                      style='color:red;font-family:Tahoma;font-size:10px;padding-left:20px;' width=80% >
-                      <input type='text' size='10' maxlength='10' name='to_date' value='$to_date' style='color:#27408b'>&nbsp;*&nbsp;&nbsp;
-                      <a href=\"#\" onclick=\"form.to_date.value='';cal.select(document.forms['form'].to_date,'to_date_anchor','$js_datefmt');
-                      return false;\" name=\"to_date_anchor\" id=\"to_date_anchor\" style='font-size:11px;color:#27408b;'>Pick Date</a></td><tr>\n";
-        echo "              <tr><td class=table_rows align=right colspan=3 style='color:red;font-family:Tahoma;font-size:10px;'>*&nbsp;required&nbsp;</td></tr>\n";
-        echo "            </table>\n";
-        echo "            <div style=\"position:absolute;visibility:hidden;background-color:#ffffff;layer-background-color:#ffffff;\" id=\"mydiv\"
-                 height=200>&nbsp;</div>\n";
-
-        echo '<div style="width: 60%; margin-left: auto; margin-right: auto;">';
-
-        echo '<p><input type="checkbox" name="csv" value="1"' . ($tmp_csv == "1" ? " checked" : "") . '>&nbsp;';
-        echo "Export to CSV? (link to CSV file will be in the top right of the next page)</p>\n";
-
-        echo '<p><input type="checkbox" name="tmp_paginate" value="1"' . ($tmp_paginate == "1" ? " checked" : "") . '>&nbsp;';
-        echo "Paginate this report so each user's time is printed on a separate page?\n";
-
-        echo '<p><input type="checkbox" name="tmp_show_details" value="1" onchange="javascript:form.tmp_display_office.disabled=!this.checked;form.tmp_display_ip.disabled=!this.checked"' . (($tmp_show_details == "1") ? " checked" : "") . '>&nbsp;';
-        echo "Show punch-in/out details?\n</p>";
-
-        if (yes_no_bool($ip_logging)) {
-            echo '<p>&nbsp; &nbsp; &nbsp;<input type="checkbox" name="tmp_display_ip" value="1"' . ($tmp_display_ip == "1" ? " checked" : "") . '>&nbsp;';
-            echo "Display connecting ip address information?\n</p>";
-        }
-
-        echo '<p>&nbsp; &nbsp; &nbsp;<input type="checkbox" name="tmp_display_office" value="1"' . ($tmp_display_office == "1" ? " checked" : "") . '>&nbsp;';
-        echo "Display office information?\n</p>";
-
-        echo "<p>Round each user's time?</br>\n";
-        echo "<input type='radio' name='tmp_round_time' value='1'" . (($round_time == '1') ? " checked" : "") . ">&nbsp;To the nearest 5 minutes (1/12th of an hour)<br>\n";
-
-        echo "<input type='radio' name='tmp_round_time' value='2'" . (($round_time == '2') ? " checked" : "") . ">&nbsp;To the nearest 10 minutes (1/6th of an hour)<br>\n";
-        echo "<input type='radio' name='tmp_round_time' value='3'" . (($round_time == '3') ? " checked" : "") . ">&nbsp;To the nearest 15 minutes (1/4th of an hour)<br>\n";
-        echo "<input type='radio' name='tmp_round_time' value='4'" . (($round_time == '4') ? " checked" : "") . ">&nbsp;To the nearest 20 minutes (1/3rd of an hour)<br>\n";
-        echo "<input type='radio' name='tmp_round_time' value='5'" . (($round_time == '5') ? " checked" : "") . ">&nbsp;To the nearest 30 minutes (1/2 of an hour)<br>\n";
-        echo "<input type='radio' name='tmp_round_time' value='0'" . (empty($round_time)   ? " checked" : "") . ">&nbsp;Do not round<br>\n";
-        echo "</p>\n";
-
-        echo '</div>';
-
-        echo "            <table align=center width=60% border=0 cellpadding=0 cellspacing=3>\n";
-        echo "              <tr><td width=30><input type='image' name='submit' value='Edit Time' align='middle'
-                      src='../images/buttons/next_button.png'></td><td><a href='../mypage.php'><img src='../images/buttons/cancel_button.png'
-                      border='0'></td></tr></table></form></td></tr>\n";
-        include '../footer.php';
-        exit;
-    }
-
-    // end post validation //
-
+    // Convert the datestrings to timestamps
     if (!empty($from_date)) {
         $from_date = "$from_month/$from_day/$from_year";
-        $from_timestamp = strtotime($from_date . " " . $report_start_time) - $tzo;
+        $from_timestamp = strtotime($from_date);
         $from_date = $_POST['from_date'];
     }
 
     if (!empty($to_date)) {
         $to_date = "$to_month/$to_day/$to_year";
-        $to_timestamp = strtotime($to_date . " " . $report_end_time) - $tzo + 60;
+        $to_timestamp = strtotime($to_date . " 23:59") + 60;
         $to_date = $_POST['to_date'];
     }
 
-    $rpt_stamp = time() + @$tzo;
+    if ( !empty($from_timestamp) && !empty($to_timestamp) && $from_timestamp >= $to_timestamp) {
+        array_push($errors, "Päivämäärät annettu väärässä järjestyksessä");
+    }
+
+
+    // This part is run only if the input contained any errors
+    // Returns to input -page
+    if (sizeof($errors) > 0) {
+        $posterrors = implode(',',$errors);
+        echo '<form id="autoform" action="'.$self.'" method="POST">
+                <input type="hidden" name="errors" value="'.$posterrors.'"></input>
+            </form>
+            <script type="text/javascript">$("#autoform").submit();</script>';
+        exit;
+    }
+
+    // ===== POST VALIDATION FINISHED ===== //
+
+
+
+    echo '<div class="box">
+            <div class="section">';
+
+    
+    $rpt_stamp = time();
     $rpt_time = date($timefmt, $rpt_stamp);
     $rpt_date = date($datefmt, $rpt_stamp);
 
-    $emp_name = $fullname;
-    if (strtolower($user_or_display) == "display") {
-        $emp_field_name = "displayName";
-    } else {
-        $emp_field_name = "empfullname";
-    }
+    echo "<p>Raportti haettu: $rpt_date klo $rpt_time</p>";
+    echo "<p>Raporttiin valittu: $group_name</p>";
+    echo "<p>Alkaen: $from_date (00:00)</p>";
+    echo "<p>Päättyen: $to_date (24:00)</p>";
 
-    $tmp_fullname = $fullname;
-    if ((strtolower($user_or_display) == "display") && ($tmp_fullname != "All")) {
-        $tmp_fullname = $displayname;
-    }
-    if (($office_name == "All") && ($group_name == "All") && ($tmp_fullname == 'All')) {
-        $tmp_fullname = "Offices: All &rarr; Groups: All &rarr; Users: All";
-    } elseif ((empty($office_name)) && (empty($group_name)) && ($tmp_fullname == 'All')) {
-        $tmp_fullname = "All Users";
-    } elseif ((empty($office_name)) && (empty($group_name)) && ($tmp_fullname != 'All')) {
-        $tmp_fullname = $tmp_fullname;
-    } elseif (($office_name != "All") && ($group_name == "All") && ($tmp_fullname == 'All')) {
-        $tmp_fullname = "Office: $office_name &rarr; Groups: All &rarr; Users: All";
-    } elseif (($office_name != "All") && ($group_name != "All") && ($tmp_fullname == 'All')) {
-        $tmp_fullname = "Office: $office_name &rarr; Group: $group_name &rarr; Users: All";
-    }
-    $rpt_name = "$tmp_fullname";
-
-    echo "<table width=80% align=center class=misc_items border=0 cellpadding=3 cellspacing=0>\n";
-    echo "<tr><td width=80% style='font-size:9px;color:#000000;'>Run on: $rpt_time, $rpt_date</td><td nowrap style='font-size:9px;color:#000000;'>$rpt_name</td></tr>\n";
-    echo "<tr><td width=80%></td><td nowrap style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
     if (!empty($tmp_csv)) {
-        echo "<tr class=notprint><td width=80%></td><td nowrap style='font-size:9px;color:#000000;'><a style='color:#27408b;font-size:9px; text-decoration:underline;' href=\"get_csv.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=$office_name&group=$group_name&fullname=$fullname&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Download CSV File</a></td></tr>\n";
+        echo "<a class=\"link\" href=\"get_csv.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&group=$group_name&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
     }
-    echo "</table>\n";
-    echo "<table width=80% align=center class=misc_items border=0 cellpadding=3 cellspacing=0>\n";
+
+    echo '</div>
+        <div class="section">
+            <table class="reports">';
 
     $employees_cnt = 0;
     $employees_empfullname = array();
@@ -598,12 +337,7 @@ if ($request == 'GET') {
     $where = array("tstamp IS NOT NULL");
     $qparm = array();
 
- 
-    if ($group_name != "All") {
-        $groupID = mysqli_fetch_row(tc_query("SELECT groupID FROM groups WHERE groupName = '$group_name'"))[0];
-    }
     
-
     $result = tc_query("SELECT userID, displayName FROM employees WHERE groupID = '$groupID'");
 
     while ($row = mysqli_fetch_array($result)) {
@@ -614,23 +348,14 @@ if ($request == 'GET') {
 
     for ($x = 0; $x < $employees_cnt; $x++) {
 
-        if (($employees_empfullname[$x] == $fullname) || ($fullname == "All")) {
-
-            if (strtolower($user_or_display) == "display") {
-                echo "<tr><td width=100% colspan=2 style=\"font-size: 11px;
-    border-style: solid;
-    border-color: #888888;
-    border-width: 0px 0px 1px 0px;
-    background: #3f5c80;
-    color: white;
-    border-radius: 11px;
-    text-align: center;\"><b>$employees_displayname[$x]</b></td></tr>\n";
-            } else {
-                echo "<tr><td width=100% colspan=2 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888; border-width:0px 0px 1px 0px;\"><b>$employees_empfullname[$x]</b></td></tr>\n";
-            }
-            echo "  <tr><td width=75% nowrap align=left style='color:#27408b;'><b><u>Date</u></b></td>\n";
-            echo "      <td width=25% nowrap align=left style='color:#27408b;'><b><u>Hours Worked</u></b></td></tr>\n";
-            $row_color = $color2; // Initial row color
+        echo "<tr>
+                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x]</td>
+            </tr>";
+            
+        echo "<tr>
+                <td>Päivämäärä</td>
+                <td>Tunnit</td>
+            </tr>";
 
             $result = tc_query(<<<QUERY
    SELECT i.userID, i.inout, i.timestamp, i.notes, p.in_or_out, p.punchitems, p.color
@@ -688,10 +413,10 @@ QUERY
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                                 if ($hours < 10) {
-                                    echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 } else {
-                                    echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 }
                                 $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -798,10 +523,10 @@ QUERY
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                                 if ($hours < 10) {
-                                    echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 } else {
-                                    echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 }
                                 $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -882,10 +607,10 @@ QUERY
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$yy]</td>\n";
                             if ($hours < 10) {
-                                echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:31px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             } else {
-                                echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:25px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             }
                             $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -969,10 +694,10 @@ QUERY
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                                 if ($hours < 10) {
-                                    echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;:31px;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 } else {
-                                    echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;:25px;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 }
                                 $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -1063,10 +788,10 @@ QUERY
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                                 if ($hours < 10) {
-                                    echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;:31px;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 } else {
-                                    echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                    echo "      <td nowrap style='color:#000000;:25px;border-style:solid;border-color:#888888;
                                     border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                                 }
                                 $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -1153,10 +878,10 @@ QUERY
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                             if ($hours < 10) {
-                                echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:31px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             } else {
-                                echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:25px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             }
                             $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -1241,10 +966,10 @@ QUERY
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
                             if ($hours < 10) {
-                                echo "      <td nowrap style='color:#000000;padding-left:31px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:31px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             } else {
-                                echo "      <td nowrap style='color:#000000;padding-left:25px;border-style:solid;border-color:#888888;
+                                echo "      <td nowrap style='color:#000000;:25px;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;'>$hours</td></tr>\n";
                             }
                             $row_color = ($row_color == $color1) ? $color2 : $color1;
@@ -1311,41 +1036,22 @@ QUERY
             unset($date_formatted);
             unset($x_info_date);
             $my_total_hours = number_format($total_hours, 2);
-            if (isset($currently_punched_in)) {
-                echo "  </table>\n";
-                echo "    <table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
-                echo "              <tr align=\"left\"><td width=12% nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;padding-left:3px;'><b>Total Hours</b></td>
-                              <td width=63% align=left style='padding-left:10px;color:#FF0000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;'><b>$employees_empfullname[$x] is currently punched in.</b></td>\n";
+
+            echo "<tr align=\"left\"><td nowrap style='color:#000000;border-style:solid;border-color:#888888;
+                              border-width:1px 0px 0px 0px;'><b>Kokonaistunnit</b></td>\n";
                 if ($my_total_hours < 10) {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;padding-left:30px;'><b>$my_total_hours</b></td></tr>\n";
+                    echo "                <td nowrap style='fcolor:#000000;border-style:solid;border-color:#888888;
+                          border-width:1px 0px 0px 0px;:30px;'><b>$my_total_hours</b></td></tr>\n";
                 } elseif ($my_total_hours < 100) {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;padding-left:23px;'><b>$my_total_hours</b></td></tr>\n";
+                    echo "                <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
+                          border-width:1px 0px 0px 0px;:23px;'><b>$my_total_hours</b></td></tr>\n";
                 } else {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
-                }
-                echo "              <tr><td height=40 colspan=3 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
-                echo " </table></td></tr><table width=80% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
-            } else {
-                echo "              <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                              border-width:1px 0px 0px 0px;'><b>Total Hours</b></td>\n";
-                if ($my_total_hours < 10) {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                          border-width:1px 0px 0px 0px;padding-left:30px;'><b>$my_total_hours</b></td></tr>\n";
-                } elseif ($my_total_hours < 100) {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                          border-width:1px 0px 0px 0px;padding-left:23px;'><b>$my_total_hours</b></td></tr>\n";
-                } else {
-                    echo "                <td nowrap style='font-size:11px;color:#000000;border-style:solid;border-color:#888888;
-                          border-width:1px 0px 0px 0px;padding-left:15px;'><b>$my_total_hours</b></td></tr>\n";
+                    echo "                <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
+                          border-width:1px 0px 0px 0px;:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
                 echo "              <tr><td height=40 colspan=2 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
-            }
-            $row_count++;
+            
+                $row_count++;
 
             $row_count = "0";
             $page_count++;
@@ -1390,8 +1096,11 @@ QUERY
             unset($date_formatted);
             unset($currently_punched_in);
             unset($x_info_date);
-        } // end if
     } // end for $x
+
+
+echo '</div></section>';
+
 }
 echo "            </table>\n";
 exit;

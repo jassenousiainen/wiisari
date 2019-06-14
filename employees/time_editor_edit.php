@@ -63,7 +63,7 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
           </div>';
 }
 
-/* ----- Punch editing ----- */
+/* ----- Punch edit form ----- */
 else if (isset($_POST['altertime'])) {
 
   $punchID = $_POST['altertime'];
