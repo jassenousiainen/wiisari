@@ -85,7 +85,7 @@ if (isset($_POST['officeID'])) {
                                 <td>'.$group[1].'</td>
                                 <td>'.$user_cnt.'</td>
                                 <td style="text-align:center;">
-                                  <form id="edit" action="../groups/groupedit.php" method="post">
+                                  <form id="edit" action="../groups/groupinfo.php" method="post">
                                     <button name="groupID" type="submit" class="btn" value="'.$group[0].'" form="edit"><i class="fas fa-user-cog"></i></button>
                                   </form>
                                 </td>
