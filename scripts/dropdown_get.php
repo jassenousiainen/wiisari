@@ -27,7 +27,6 @@
     }
 
     function group_names() {
-        alert("x");
         var offices_select = document.form.office_name;
         var groups_select = document.form.group_name;
         groups_select.options[0] = new Option("Valitse ryhmä");
