@@ -4,7 +4,7 @@ include "$_SERVER[DOCUMENT_ROOT]/header.php";
 session_start();
 include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
 
-echo "<title>Toimistot</title>\n";
+echo "<title>Ryhmät</title>\n";
 
 $self = $_SERVER['PHP_SELF'];
 $request = $_SERVER['REQUEST_METHOD'];
@@ -19,7 +19,7 @@ if ($request == 'GET') {
 
   // Restricts which employees can be seen based on supervises table in the database
   if ($_SESSION['logged_in_user']->level >= 3) {
-    $office_query = tc_query("SELECT * FROM offices ORDER BY officeName ASC");
+    $group_query = tc_query("SELECT * FROM groups NATURAL JOIN offices ORDER BY groupName ASC");
   } else {
     
   }
@@ -28,19 +28,19 @@ if ($request == 'GET') {
   <section class="container">
     <div class="middleContent extrawide">
       <div class="box">
-        <h2>Toimistot</h2>
+        <h2>Ryhmät</h2>
         <div class="section">';
         if ($_SESSION['logged_in_user']->level >= 3) {
-          echo '<a class="btn" href="officecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
+          echo '<a class="btn" href="groupcreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
         } else {
           echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä.<br> Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
         }
-    echo '  <form action="officeinfo.php" method="post">
+    echo '  <form action="groupinfo.php" method="post">
               <table class="sorted">
               <thead>
                 <tr>
                   <th data-placeholder="Hae nimellä">Nimi</th>
-                  <th class="filter-false">Ryhmän määrä</th>
+                  <th data-placeholder="Hae nimellä">Toimisto</th>
                   <th class="filter-false">Käyttäjän määrä</th>
                   <th class="sorter-false filter-false">Avaa</th>
                 </tr>
@@ -71,17 +71,16 @@ if ($request == 'GET') {
               </tfoot>
               <tbody>';
 
-  while ( $office = mysqli_fetch_array($office_query) ) {
-    $group_cnt = mysqli_num_rows(tc_query("SELECT * FROM groups WHERE officeId = ?", $office[0]));
-    $user_cnt  = mysqli_num_rows(tc_query("SELECT employees.userID FROM employees,groups,offices WHERE employees.groupID = groups.groupID AND groups.officeID = offices.officeID AND offices.officeID = ?", $office[0]));
+  while ( $group = mysqli_fetch_array($group_query) ) {
+    $user_cnt  = mysqli_num_rows(tc_query("SELECT 1 FROM employees WHERE groupID = ?",$group[1]));
     
 
     echo '      <tr>
-                  <td>'.$office[1].'</td>
-                  <td>'.$group_cnt.'</td>
+                  <td>'.$group[2].'</td>
+                  <td>'.$group[3].'</td>
                   <td>'.$user_cnt.'</td>
 
-                  <td style="text-align:center;"><button name="officeID" type="submit" class="btn" value="'.$office[0].'"><i class="fas fa-user-cog"></i></button></td>
+                  <td style="text-align:center;"><button name="groupID" type="submit" class="btn" value="'.$group[1].'"><i class="fas fa-user-cog"></i></button></td>
                 </tr>';
   }
 
