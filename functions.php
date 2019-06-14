@@ -1,5 +1,19 @@
 <?php
 
+
+$pdo_options = [
+    // common default options
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, // fetch will return associative array
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // errors will throw exceptions
+];
+try {
+    $pdo = new PDO("mysql:host=$db_hostname;dbname=$db_name;charset=utf8mb4", "$db_username", "$db_password", $pdo_options);
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    die("Tietokantayhteys epäonnistui!");
+}
+
+
 function croak($code, $msg) {
     http_response_code($code);
     echo $msg;
