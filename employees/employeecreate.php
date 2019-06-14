@@ -240,15 +240,8 @@ else if  ( isset($_POST['create']) ) {
     </section>';
     }
     else {  // This part is run only if all inputs have been checked to be of correct form
-
-      tc_insert_strings("employees", array(
-        'userID'        => $userID,
-        'displayName'   => $displayName,
-        'groupID'       => $groupID,
-        'level'         => $level,
-        'adminPassword' => $password,
-        'inoutStatus'   => "out"
-    ));
+      $emp_stmt = $pdo->prepare("INSERT INTO employees VALUES (?,?,?,?,?,?)");
+      $emp_stmt->execute(array($userID, $displayName, $groupID, $level, $password, "out"));
 
       if (($level == 1 || $level == 2) && !empty($grouplist)) {
         foreach($grouplist as $grp) {

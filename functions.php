@@ -73,6 +73,7 @@ function tc_connect() {
 
     if (!isset($GLOBALS["___mysqli_ston"])) {
         @ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
+        mysqli_set_charset($db,'utf8mb4');
         if (!$db) {
             croak("Error: Could not connect to the database. Please try again later.");
         }
