@@ -63,7 +63,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                 <tr>
                                     <td>Valitse ryhmä</td>
                                     <td>
-                                        <select name="groupID">';
+                                        <select name="groupID">
+                                            <option value="all" selected>Kaikki ryhmäsi</option>';
     while ($grp = mysqli_fetch_array($groupquery)) {
         echo '                              <option value="'.$grp['groupID'].'">'.$grp['groupName'].'</option>';
     }
@@ -79,7 +80,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                     <td><input id="to" autocomplete="off" type="text" size="10" maxlength="10" name="to_date"></td>
                                 </tr>
                                 <tr>
-                                    <td>Hae raportit CSV -tiedostoon: </td>
+                                    <td>Hae raportit CSV -tiedostoon (EI TOIMI): </td>
                                     <td>
                                         <label class="container">
                                             <input type="checkbox" name="csv" value="1" class="check">
@@ -198,17 +199,32 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     
     // Displays error incase user selected group that doesn't exist
-    if (($groupID != "all") && (!empty($groupID))) {
+    if (($_POST['groupID'] != "all") && (!empty($_POST['groupID']))) {
+        $groupID = array($groupID);
         $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
         if (!isset($group_name)) {
             array_push($errors, "Valittua ryhmää ei löytynyt");
+        }
+    } else if ( $_SESSION['logged_in_user']->level < 3 && $_POST['groupID'] == "all" && !empty($_POST['groupID'])) {
+        $group_name = "Kaikki ryhmäsi";
+        $groupID = array();
+        $fetchquery = tc_query("SELECT groupID FROM supervises WHERE userID = '$supervisorID'");
+        while ($row = mysqli_fetch_array($fetchquery)) {
+            array_push($groupID, $row[0]);
+        }
+    } else if ($_SESSION['logged_in_user']->level >= 3 && $_POST['groupID'] == "all" && !empty($_POST['groupID'])) { 
+        $group_name = "Kaikki ryhmäsi";
+        $groupID = array();
+        $fetchquery = tc_query("SELECT groupID FROM groups");
+        while ($row = mysqli_fetch_array($fetchquery)) {
+            array_push($groupID, $row[0]);
         }
     } else if (empty($groupID)) {
         array_push($errors, "Et valinnut ryhmää");
     }
 
     // Checks if selected group belongs to this supervisors groups
-    if ( $groupID != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
+    if ( $_POST['groupID'] != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
         array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
     } 
 
@@ -332,13 +348,10 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     $punch_cnt = 0;
     $tmp_z = 0;
 
+
     // retrieve a list of users //
 
-    $where = array("tstamp IS NOT NULL");
-    $qparm = array();
-
-    
-    $result = tc_query("SELECT userID, displayName FROM employees WHERE groupID = '$groupID'");
+    $result = tc_query("SELECT userID, displayName FROM employees WHERE groupID IN (".implode(',',$groupID).") ORDER BY displayName");
 
     while ($row = mysqli_fetch_array($result)) {
         $employees_empfullname[] = "" . $row['userID'] . "";
