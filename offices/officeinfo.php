@@ -103,9 +103,28 @@ if (isset($_POST['officeID'])) {
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
                     <p><b>Poista Toimisto:</b></p>
-                    <p>Toimisto poiston lisäksi kaikki muu tieto, kuten ryhmät poistetaan.</p>
                     <form action="'."officedelete.php".'" method="post">
-                      <button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
+                    <table>
+                    <tbody>
+                      <tr>
+                        <td>Poistetaanko myös kaikki ryhmät?</td>
+                        <td>
+                          <input type="radio" name="groupDel" value="yes" required> Kyllä
+                          <input type="radio" name="groupDel" value="no"> Ei<br>
+                        </td>
+                      </tr>
+                      <tr>
+                      <td>Poistetaanko myös kaikki käyttäjät?</td>
+                      <td>
+                        <input type="radio" name="userDel" value="yes" required> Kyllä
+                        <input type="radio" name="userDel" value="no"> Ei<br>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>';
+
+                      echo '<button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
+
                     </form>
               </div>
               ';

@@ -88,7 +88,12 @@ if ($request == 'GET') {
 
     $employee_group = tc_select_value("groupName", "groups", "groupID = ?", $employee[2]);
     $employee_officeid = tc_select_value("officeID", "groups", "groupID = ?", $employee[2]);
-    $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
+    if(isset($employee_officeid)){
+      $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
+    }else{
+      $employee_office = "";
+    }
+    
 
     $employee_level = "";
     if ($employee[3] == 0) {$employee_level = "Työntekijä (taso 0)";}

@@ -61,6 +61,13 @@ if (isset($_POST['groupID'])) {
         echo '<div class="section">
                     <p><b>Poista Ryhmä:</b></p>
                     <form action="'."groupdel.php".'" method="post">
+                      <tr>
+                        <td>Poistetaanko myös kaikki käyttäjät?</td>
+                        <td>
+                          <input type="radio" name="userDel" value="yes" required> Kyllä
+                          <input type="radio" name="userDel" value="no"> Ei<br>
+                        </td>
+                      </tr>
                       <button name="groupID" type="submit" class="btn del trash" value="'.$groupID.'">Poista</button>
                     </form>
               </div>
