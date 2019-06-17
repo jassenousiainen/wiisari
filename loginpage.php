@@ -8,7 +8,7 @@ pdo_connect();
 $self = $_SERVER['PHP_SELF'];
 
 // Login with adminrights (level > 0)
-if (isset($_POST['login_userid']) && (isset($_POST['login_password']))) {
+if (isset($_POST['login_userid']) && (!empty($_POST['login_password']))) {
   $getuser_stmt = $pdo->prepare("SELECT userID, level, adminPassword FROM employees WHERE userID = ?");
   $getuser_stmt->execute(array($_POST['login_userid']));
   $row = $getuser_stmt->fetch(PDO::FETCH_ASSOC);
@@ -39,7 +39,8 @@ if ( isset($_SESSION['logged_in_user']) ) {
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <title>Wiisari - Login</title>
-      <link rel="stylesheet" type="text/css" media="screen" href="css/default.css" id="theme"/>
+      <link rel="stylesheet" type="text/css" media="screen" href="css/loginpage.css"/>
+      <link rel="stylesheet" type="text/css" media="screen" href="css/loginpage.normalize.css"/>
       <script type="text/javascript" src="/scripts/jquery-3.1.1.min.js"></script>
       <script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>
       <script type="text/javascript" src="/scripts/loginpage.js"></script>
@@ -47,43 +48,31 @@ if ( isset($_SESSION['logged_in_user']) ) {
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     </head>';
     echo "<body class='loginPage'>
-      <div class='skew-container top'> <div class='skew-bg'></div> </div>
-      <div id='chooseLogin'>
-        <h2 class='wiisari'>WIISARI</h2>
-        <h2>Valitse kirjautumissivu</h2>
-        <a id='admin' class='btn tile'><i class='fas fa-toolbox'></i><span>Hallinta</span></a>
-        <a id='employee' class='btn tile'><i class='fas fa-user'></i><span>Työntekijä</span></a>
-        <br>
-        <a class='link' href='/index.php'>Takaisin etusivulle</a>
-      </div>";
-    // employee form
-    echo "
-    <div id='employeeSlideLogin'>
-      <form class='loginBox' name='auth' method='post' action='$self'>
-        <h2 class='wiisari'>WIISARI</h2>
-        <h2>Kirjaudu Wiisariin</h2>
-        <p>Kirjautumalla pääset omalle sivulle</p>
-        <input type='password' name='login_userid' autocomplete='off' placeholder='Käyttäjätunnus/viivakoodi'>";
-        if (isset($_POST['login_userid']) && !isset($_POST['login_password'])) {
-            echo "<p style='color:red;'>Käyttäjätunnuksella ei löytynyt ketään</p>";
-        }
-    echo "<button type='submit'>Kirjaudu</button>
-        <a class='link' id='employeeSlideBack'><i class='fas fa-arrow-circle-left'></i></a>
-      </form></div>";
-    // admin form
+      <div class='skew-container top'> <div class='skew-bg'></div> </div>";
     echo "
     <div id='adminSlideLogin'>
       <form class='loginBox' name='auth' method='post' action='$self'>
         <h2 class='wiisari'>WIISARI</h2>
         <h2>Kirjaudu Wiisariin</h2>
-        <p>Kirjautumalla pääset omalle sivulle, hallintapaneeliin ja raporttinäkymään</p>
-        <input type='text' name='login_userid' placeholder='Käyttäjätunnus'>
-        <input type='password' name='login_password' placeholder='Salasana'>";
+        <p>Kirjautumalla pääset omalle sivulle. Jos olet valvoja täytä myös salasana.</p>
+        <span class='input input--hoshi'>
+					<input name='login_userid' class='input__field input__field--hoshi' type='text' id='input-4' autocomplete='off' />
+					<label class='input__label input__label--hoshi input__label--hoshi-color-1' for='input-4'>
+						<span class='input__label-content input__label-content--hoshi'>Käyttäjätunnus</span>
+					</label>
+        </span>";
+    echo '
+        <span class="input input--hoshi">
+					<input name="login_password" class="input__field input__field--hoshi" type="password" id="input-5" />
+					<label class="input__label input__label--hoshi input__label--hoshi-color-3" for="input-5">
+						<span class="input__label-content input__label-content--hoshi">Salasana (valvoja)</span>
+					</label>
+				</span>';
         if (isset($_POST['login_password'])) {
             echo "<p style='color:red;'>Käyttäjätunnus ja/tai salasana on väärin</p>";
         }
     echo "<button type='submit'>Kirjaudu</button>
-        <a class='link' id='adminSlideBack'><i class='fas fa-arrow-circle-right'></i></a>
+          <a class='link' href='/timeclock.php'>Takaisin etusivulle</a>
       </form></div>";
     echo "<div class='skew-container bottom'> <div class='skew-bg'></div> </div>";
 }
