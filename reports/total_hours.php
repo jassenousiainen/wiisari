@@ -351,18 +351,22 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     // retrieve a list of users //
 
-    $result = tc_query("SELECT userID, displayName FROM employees WHERE groupID IN (".implode(',',$groupID).") ORDER BY displayName");
+    $result = tc_query("SELECT userID, displayName, groupName
+                        FROM employees NATURAL JOIN groups
+                        WHERE groupID IN (".implode(',',$groupID).") 
+                        ORDER BY displayName");
 
     while ($row = mysqli_fetch_array($result)) {
         $employees_empfullname[] = "" . $row['userID'] . "";
         $employees_displayname[] = "" . $row['displayName'] . "";
+        $employees_groupname[] = "" . $row['groupName'] . "";
         $employees_cnt++;
     }
 
     for ($x = 0; $x < $employees_cnt; $x++) {
 
         echo "<tr>
-                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x]</td>
+                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x] <i style='color: grey; font-weight: normal; font-style: normal;'> ($employees_groupname[$x])</i></td>
             </tr>";
             
         echo "<tr>
