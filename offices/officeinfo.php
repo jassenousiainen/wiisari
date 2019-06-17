@@ -39,7 +39,7 @@ if (isset($_POST['officeID'])) {
                             </tbody>
                           </table>';
                           echo'
-                          <br><button name="officeID" type="submit" class="btn" value="'.$officeID.'">Muuta tietoja <i class="fas fa-paper-plane"></i></button>
+                          <br><button name="officeID" type="submit" class="btn send" value="'.$officeID.'">Muuta tietoja</button>
                         </form>
                         </div>';
                   echo '<div class="section">
@@ -92,7 +92,7 @@ if (isset($_POST['officeID'])) {
                                 </td>
                                 <td style="text-align:center;">
                                   <form id="delete" action="../groups/groupdel.php" method="post">
-                                    <button name="groupID" type="submit" class="btn del" value="'.$group[0].'" form="delete"><i class="fas fa-trash-alt"></i></button>
+                                    <button name="groupID" type="submit" class="btn del trash" value="'.$group[0].'" form="delete"></button>
                                   </form>
                                 </td>                             
                               </tr>';
@@ -105,7 +105,7 @@ if (isset($_POST['officeID'])) {
                     <p><b>Poista Toimisto:</b></p>
                     <p>Toimisto poiston lisäksi kaikki muu tieto, kuten ryhmät poistetaan.</p>
                     <form action="'."officedelete.php".'" method="post">
-                      <button name="officeID" type="submit" class="btn del" value="'.$officeID.'"><i class="fas fa-trash-alt"></i> Poista</button>
+                      <button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
                     </form>
               </div>
               ';

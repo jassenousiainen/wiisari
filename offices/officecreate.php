@@ -52,7 +52,7 @@ if ( $request == "GET") {
             </table>';
 
             echo'
-            <br><button name="create" type="submit" class="btn">Luo Toimisto <i class="fas fa-paper-plane"></i></button>
+            <br><button name="create" type="submit" class="btn send">Luo Toimisto</button>
           </form>
         </div>
       </div>

@@ -31,7 +31,7 @@ if ($request == 'GET') {
         <h2>Toimistot</h2>
         <div class="section">';
         if ($_SESSION['logged_in_user']->level >= 3) {
-          echo '<a class="btn" href="officecreate.php" style="margin-bottom: 20px;">Luo uusi <i class="fas fa-plus"></i></a>';
+          echo '<a class="btn plus" href="officecreate.php" style="margin-bottom: 20px;">Luo uusi</a>';
         } else {
           echo '<p>Huomaa, että ainoastaan admin voi luoda uusia käyttäjiä.<br> Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
         }
