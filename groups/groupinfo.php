@@ -53,7 +53,7 @@ if (isset($_POST['groupID'])) {
                             </tbody>
                           </table>';
                           echo'
-                          <br><button name="groupID" type="submit" class="btn" value="'.$groupID.'">Muuta tietoja <i class="fas fa-paper-plane"></i></button>
+                          <br><button name="groupID" type="submit" class="btn send" value="'.$groupID.'">Muuta tietoja</button>
                         </form>
                         </div>';
       }
@@ -61,7 +61,7 @@ if (isset($_POST['groupID'])) {
         echo '<div class="section">
                     <p><b>Poista Ryhmä:</b></p>
                     <form action="'."groupdel.php".'" method="post">
-                      <button name="groupID" type="submit" class="btn del" value="'.$groupID.'"><i class="fas fa-trash-alt"></i> Poista</button>
+                      <button name="groupID" type="submit" class="btn del trash" value="'.$groupID.'">Poista</button>
                     </form>
               </div>
               ';
