@@ -82,7 +82,9 @@ if ($_SESSION['logged_in_user']->level > 0) {
         Työntekijöitä yhteensä: '.$employees_total.'
         <br>
         Työntekijöitä nyt kirjautuneena: '.$employees_total_in.'
-      </p>
+      </p>';
+    if ($_SESSION['logged_in_user']->level < 3) {
+      echo '
       <p class="section" style="overflow:auto;">
         <canvas id="myClockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
         <b>Omat ryhmät</b>
@@ -90,8 +92,9 @@ if ($_SESSION['logged_in_user']->level > 0) {
         Työntekijöitä yhteensä: '.$my_employees_total.'
         <br>
         Työntekijöitä nyt kirjautuneena: '.$my_employees_total_in.'
-      </p>
-    </div>';
+      </p>';
+    }
+    echo '</div>';
 }
 
 
