@@ -38,20 +38,27 @@ html {
 
 body {
 	font-family: 'Open Sans', sans-serif;
+  	margin: 0;
+}
+.gradientbg {
+	position: fixed;
+	top: 0;
+	left: 0;
 	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
-	background-size: 400% 400%;
+	width: 400vw;
+	height: 400vh;
 	animation: Gradient 25s ease infinite;
-  margin: 0;
+  	margin: 0;
 }
 @keyframes Gradient {
 	0% {
-		background-position: 0% 50%
+		transform: translate3d(0, 0, 0);
 	}
 	50% {
-		background-position: 100% 50%
+		transform: translate3d(-300vw, -300vh, 0);
 	}
 	100% {
-		background-position: 0% 50%
+		transform: translate3d(0, 0, 0);
 	}
 }
 

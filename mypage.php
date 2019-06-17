@@ -14,14 +14,6 @@ echo "<title>WIISARI - Oma sivu</title>\n";
 include 'topmain.php';
 
 
-function employees_total_count() {
-  return mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees"))[0];
-}
-function employees_total_in_count() {
-  return mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE inoutStatus = 'in'"))[0];
-}
-
-
 echo '<section class="container myPage">';
 
 
@@ -51,6 +43,22 @@ echo '<div class="leftContent">
   echo '<div class="middleContent">';
 
 if ($_SESSION['logged_in_user']->level > 0) {
+  $supervisorID = $_SESSION['logged_in_user']->userID;
+
+  $employees_total = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees"))[0];
+  $employees_total_in = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE inoutStatus = 'in'"))[0];
+
+  if ($_SESSION['logged_in_user']->level < 3) {
+    $my_employees_total = mysqli_fetch_row(tc_query("SELECT COUNT(employees.userID) 
+                                                     FROM employees 
+                                                     JOIN supervises ON (employees.groupID = supervises.groupID) 
+                                                     WHERE supervises.userID = '$supervisorID'"))[0];
+    $my_employees_total_in = mysqli_fetch_row(tc_query("SELECT COUNT(employees.userID) 
+                                                        FROM employees 
+                                                        JOIN supervises ON (employees.groupID = supervises.groupID) 
+                                                        WHERE supervises.userID = '$supervisorID' AND inoutStatus = 'in'"))[0];
+  }
+
   echo '
     <div class="box">
       <h2 class="orange">Hallinnan toiminnot</h2>
@@ -62,18 +70,26 @@ if ($_SESSION['logged_in_user']->level > 0) {
             echo '<a class="btn tile" href="/groups/groups.php"><i class="fas fa-users"></i><span>Ryhmät</span></a>';          
           }
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
-          echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';
+          /*echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';*/
 
 
     echo '
       </p>
       <p class="section" style="overflow:auto;">
         <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
-        <b>Työntekijätilastot</b>
+        <b>Kaikki työntekijät</b>
         <br><br>
-        Työntekijöitä yhteensä: '.employees_total_count().'
+        Työntekijöitä yhteensä: '.$employees_total.'
         <br>
-        Työntekijöitä nyt kirjautuneena: '.employees_total_in_count().'
+        Työntekijöitä nyt kirjautuneena: '.$employees_total_in.'
+      </p>
+      <p class="section" style="overflow:auto;">
+        <canvas id="myClockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
+        <b>Omat ryhmät</b>
+        <br><br>
+        Työntekijöitä yhteensä: '.$my_employees_total.'
+        <br>
+        Työntekijöitä nyt kirjautuneena: '.$my_employees_total_in.'
       </p>
     </div>';
 }
@@ -156,17 +172,46 @@ for ($i = 1; $i < count($monthWorkTime); $i++) {
   echo '</section>';
 
   if ($_SESSION['logged_in_user']->level > 0){
-    $employeesIn = employees_total_in_count();
-    $employeesOut = employees_total_count() - $employeesIn;
+    $employeesOut = $employees_total - $employees_total_in;
     echo "<script>
-    var ctx1 = document.getElementById('clockedinChart').getContext('2d');
-    var clockedinChart = new Chart(ctx1, {
+    var ctx1a = document.getElementById('clockedinChart').getContext('2d');
+    var clockedinChart = new Chart(ctx1a, {
       type: 'pie',
       data: {
         labels: ['Sisällä', 'Ulkona'],
         datasets: [{
             label: 'tuntia',
-            data: [".$employeesIn.", ".$employeesOut."],
+            data: [".$employees_total_in.", ".$employeesOut."],
+            lineTension: 0.2,
+            backgroundColor: ['rgb(75, 192, 192)','rgb(255, 99, 132)'],
+            borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          deferred: {
+            xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+            yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+            delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+          }
+        }
+      }
+    });
+  </script>";
+  }
+
+  if ($_SESSION['logged_in_user']->level > 0 && $_SESSION['logged_in_user']->level < 3){
+    $myEmployeesOut = $my_employees_total - $my_employees_total_in;
+    echo "<script>
+    var ctx1b = document.getElementById('myClockedinChart').getContext('2d');
+    var myClockedinChart = new Chart(ctx1b, {
+      type: 'pie',
+      data: {
+        labels: ['Sisällä', 'Ulkona'],
+        datasets: [{
+            label: 'tuntia',
+            data: [".$my_employees_total_in.", ".$myEmployeesOut."],
             lineTension: 0.2,
             backgroundColor: ['rgb(75, 192, 192)','rgb(255, 99, 132)'],
             borderWidth: 2,
