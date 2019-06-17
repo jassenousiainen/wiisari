@@ -18,8 +18,16 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 if (isset($_POST['groupID'])) {
 
     $groupID = $_POST['groupID'];
+    $groupData = mysqli_fetch_row(tc_query("SELECT * FROM groups WHERE groupID = ?",$groupID));
 
     tc_delete("groups", "groupID = ?", $groupID);
+    if($_POST['userDel'] === "yes"){
+            tc_delete("employees", "groupID = ?", $groupID);
+    }else{
+        tc_update_strings("employees", array(
+            'groupID' => 0,
+          ), "groupID = ?", $groupID);
+    }
     echo '
     <section class="container">
         <div class="middleContent">
@@ -27,8 +35,11 @@ if (isset($_POST['groupID'])) {
             <div class="box">
                 <h2>Ryhmä poistettu</h2>
                 <div class="section">
-                    <p>Ryhmä poistettu onnistuneesti.</p>
-                </div>
+                    <p>Ryhmä <b>'.$groupData[1]. '</b> poistettu onnistuneesti.</p>';
+                    if($_POST['userDel'] === "yes"){
+                        echo '<p>Kaikki ryhmän käyttäjät poistettu onnistuneesti.</p>';
+                    }
+               echo' </div>
             </div>
         </div>
     </section>';

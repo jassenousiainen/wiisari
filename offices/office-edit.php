@@ -20,10 +20,11 @@ if (!isset($_POST['officeName']) || $_POST['officeName'] == "" ) {
     $officeName = $_POST['officeName'];
     $officeID = $_POST['officeID'];
     $oldName = $_POST['oldName'];
-
-    $officeNamecheck = mysqli_fetch_row(tc_query( "SELECT officeName FROM offices WHERE officeName = '$officeName'"));
-    if (!empty($officeNamecheck)) {
-      $error = true; $nameID = "error";
+    if($officeName != $oldName){
+      $officeNamecheck = mysqli_fetch_row(tc_query( "SELECT officeName FROM offices WHERE officeName = '$officeName'"));
+      if (!empty($officeNamecheck)) {
+        $error = true; $nameID = "error";
+      }
     }
 }
 if ($error) {
@@ -68,9 +69,13 @@ if ($error) {
                 <a class="btn back" href="offices.php"> Takaisin</a>
                 <div class="box">
                     <h2>Toimiston tiedot on muokkattu</h2>
-                    <div class="section">
-                        <p>'.$_POST['oldName'].' uusi nimi: '.$officeName.'</p>
-                    </div>
+                    <div class="section">';
+                    if($officeName != $oldName){
+                      echo' <p>'.$_POST['oldName'].' uusi nimi: '.$officeName.'</p>';
+                    }else{
+                      echo "<p>Mitään ei ole muutenttu</p>";
+                    }
+                    echo '</div>
                 </div>
             </div>
         </section>';
