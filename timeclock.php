@@ -8,6 +8,7 @@ echo "<title>WIISARI</title>\n";
 include 'topmain.php';
 
     echo '
+    <div class="gradientbg"></div>
     <div class="lomake">
     <form name="timeclock" action="inout.php" autocomplete="off" method="post">
       <br/>
