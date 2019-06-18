@@ -366,7 +366,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     for ($x = 0; $x < $employees_cnt; $x++) {
 
         echo "<tr>
-                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x] <i style='color: grey; font-weight: normal; font-style: normal;'> ($employees_groupname[$x])</i></td>
+                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x] <i style='color: var(--gray); font-weight: normal; font-style: normal;'> ($employees_groupname[$x])</i></td>
             </tr>";
             
         echo "<tr>

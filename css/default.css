@@ -24,11 +24,6 @@
 	font-style: normal;
  }
 
- /* UL padding override - see https://github.com/Dogfalo/materialize/issues/2786#issuecomment-234809753  */
-ul { padding-left: 20px; }
-.btn { font-size: .8em; }
-/* not sure why this is needed... */
-.material-icons { vertical-align: bottom; }
 
 /* ----- COLORS ----- */
  :root {
@@ -57,7 +52,7 @@ ul { padding-left: 20px; }
  /* ----- SCROLLBAR ----- */
  html::-webkit-scrollbar-track
  {
- 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
  	border-radius: 10px;
  }
  html::-webkit-scrollbar
@@ -450,12 +445,12 @@ header {
   color: white;
 }
 header a {
-  display: inline-block;
-  line-height: 28px;
+  	display: inline-block;
+  	line-height: 28px;
 	color: white;
 	text-decoration: none;
 	padding: 0 10px;
-  border-radius: 14px;
+  	border-radius: 14px;
 	transition: background-color 0.2s ease;
 }
 header a:hover {
@@ -511,142 +506,6 @@ header a:hover {
 	color: white;
 	border-color: var(--red);
 }
-
-
-
-/* ----- LOGINPAGE ----- */
-body.loginPage {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-	background-color: #172b4d !important;
-}
-.skew-container {
-	position: absolute;
-	z-index: -1;
-	width: 100%;
-	height: 50%;
-}
-.skew-bg {
-	transform: skewY(-2deg);
-	width: 100%;
-	height: 100%;
-	background: linear-gradient(87deg, #5e72e4 0, #825ee4 100%) !important;
-}
-.skew-container.top {
-	display: none;
-	padding-bottom: 2%;
-	top: -5%;
-}
-.skew-container.bottom {
-	display: none;
-	padding-top: 2%;
-	bottom: -5%;
-}
-#chooseLogin {
-	position: absolute;
-  left: 0;
-  right: 0;
-	width: 100%;
-	text-align: center
-}
-#admin {
-	background-color: var(--orange);
-}
-#admin:hover {
-	background-color: var(--darkorange);
-}
-#chooseLogin img {
-	height: 100px;
-}
-#employeeSlideLogin {
-	width: 100%;
-	display: none;
-}
-#employeeSlideBack {
-	position: absolute;
-  left: 30;
-  bottom: 50%;
-  font-size: 35px;
-	display: none;
-}
-#adminSlideLogin {
-	width: 100%;
-	display: none;
-}
-#adminSlideBack {
-	position: absolute;
-  right: 30;
-  bottom: 50%;
-  font-size: 35px;
-	display: none;
-}
-.loginBox {
-	width: 350px;
-	margin: auto;
-	text-align: center;
-	background-color: #f7fafc !important;
-	padding: 1.5rem;
-	border-radius: 6px;
-}
-.loginBox img {
-	height: 100px;
-}
-.loginPage h2 {
-	font-weight: 400;
-	margin: 10px 0;
-	color: white;
-}
-.loginPage h2.wiisari {
-	font-family: 'Josefin Sans';
-	font-size: 3rem;
-	color: white;
-}
-.loginBox h2.wiisari {
-	font-family: 'Josefin Sans';
-	font-size: 3rem;
-	color: var(--purple);
-}
-.loginBox h2 {
-	color: var(--gray-dark);
-}
-.loginBox p {
-	margin: 0 0 20px 0;
-	color: #8898aa;
-	font-family: 'Open Sans Light';
-}
-.loginBox input {
-	height: 3.125rem;
-  padding: .75rem;
-	margin: 0;
-	width: 100%;
-	border-radius: 5px;
-	border: 1px solid #ced4da;
-	font-size: 16px;
-	margin-bottom: 10px;
-}
-.loginBox label {
-	font-size: 18px;
-}
-.loginBox button {
-	text-decoration: none;
-	background-color: var(--blue);
-	border: none;
-	color: white;
-	border-radius: 5px;
-	font-size: 17px;
-	height: 45px;
-	width: 100%;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	transition: background-color 0.2s ease;
-}
-.loginBox button:hover {
-	cursor: pointer;
-	background-color: var(--darkblue);
-}
-/* --------------------- */
 
 
 /* ----- MYPAGE ----- */

@@ -290,8 +290,8 @@ body.loginPage {
 .input__label--hoshi::after {
 	/*margin-top: 2px;*/
 	border-bottom: 4px solid red;
-	-webkit-transform: translateX(-101%);
-	transform: translateX(-101%);
+	-webkit-transform: translate3d(-101%, 0, 0);
+	transform: translate3d(-101%, 0, 0);
 	-webkit-transition: -webkit-transform 0.3s;
 	transition: transform 0.3s;
 }
@@ -310,8 +310,8 @@ body.loginPage {
 
 .input__field--hoshi:focus + .input__label--hoshi::after,
 .input--filled .input__label--hoshi::after {
-	-webkit-transform: translateX(0);
-	transform: translateX(0);
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 .input__field--hoshi:focus + .input__label--hoshi .input__label-content--hoshi,
