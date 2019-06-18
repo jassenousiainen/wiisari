@@ -156,6 +156,7 @@ header a:hover {
 }
 .barcodeInput {
 	margin-top: 10px;
+	mix-blend-mode: screen;
 }
 #left_barcode {
 	width: 360px;
