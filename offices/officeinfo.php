@@ -91,7 +91,7 @@ if (isset($_POST['officeID'])) {
                                   </form>
                                 </td>
                                 <td style="text-align:center;">
-                                  <form id="delete" action="../groups/groupdel.php" method="post">
+                                  <form id="delete" action="../groups/groupinfo.php" method="post">
                                     <button name="groupID" type="submit" class="btn del trash" value="'.$group[0].'" form="delete"></button>
                                   </form>
                                 </td>                             
