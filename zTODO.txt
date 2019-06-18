@@ -1,17 +1,8 @@
 TYÖN ALLA
-  Syötteiden tarkistus sekä siivous XSS ja SQL-injection -hyökkäysten estämiseksi
-
-  Toimistojen ja Ryhmien hallinta
-
+  - Työtuntiraporttien haku CSV -tiedostoon
+  - Toimistojen ja Ryhmien hallinta
 
 TEHTÄVÄÄ
-  Daily reports (timerpt.php) toimintaan vai pois kokonaan?
-
-  Työtuntiraportit
-    -CSV -tiedostoon haku toimivaksi
-    -Ryhmien valintaan mahdollisuus valita kaikki omat ryhmät
-    -Suomennokset
-
-  Muutosloki
-
-  Config.inc.php
+  - Muutosloki
+  - Config.inc.php
+  - Työntekijöille aikaisintaan ja viimeistään töihin tulo- ja lähtöajat (esim. 09.00 - 14.00)
