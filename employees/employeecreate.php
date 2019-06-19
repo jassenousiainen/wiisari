@@ -143,7 +143,7 @@ else if  ( isset($_POST['create']) ) {
     }
 
     if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
-    else {$displayName = htmlentities($_POST['displayName']);}
+    else {$displayName = $_POST['displayName'];}
 
     if (!isset($_POST['password']) && $level > 0) {$error = true; $password = "error";}
     else if (empty($_POST['password']) && $level > 0) {$error = true; $password = "error";}

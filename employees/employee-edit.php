@@ -11,7 +11,7 @@ if (isset($_POST['level']) && $_SESSION['logged_in_user']->level >= 3) {$level =
 else {$level = 0;}
 
 if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
-else {$displayName = htmlentities($_POST['displayName']);}
+else {$displayName = $_POST['displayName'];}
 
 if ( isset($_POST['password']) && $_POST['password'] != "" && $level > 0) {
     $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
