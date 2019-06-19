@@ -127,7 +127,7 @@
 .btn {
 	display: inline-block;
 	padding: 8px 13px;
-	border-radius: 5px;
+	border-radius: 20px;
 	color: white;
 	text-decoration: none;
 	font-family: 'Segoe UI', 'Open Sans';
@@ -198,6 +198,19 @@
 }
 .btn.trash:hover:before{
 	transform: rotate(10deg);
+}
+.btn.config {
+	padding: 8px 9px;
+}
+.btn.config:before {
+	display: inline-block;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+	content: "\f013";
+	transition: transform 0.3s ease-in-out;
+}
+.btn.config:hover:before{
+	transform: rotate(90deg);
 }
 .tile {
 	display: inline-block;
@@ -320,6 +333,11 @@ section.container {
 	max-width: 1300px;
 	margin: 30px auto 50px auto;
     padding: 50px 40px 40px 40px;
+}
+section.container.full-width {
+	margin: 0;
+	padding: 80px 0 80px 0;
+	max-width: unset;
 }
 .container .middleContent {
 	order: 2;
@@ -569,13 +587,31 @@ header a:hover {
 	cursor: pointer;
 }
 
+@keyframes slide {
+    0% {
+		transition-timing-function: ease-out;
+		transform: translateX(-65vw) skewX(10deg);
+	}
+	15% {
+		transform: translateX(0);
+	}
+	85% {
+		transform: translateX(0);
+	}
+    100% {
+		transition-timing-function: ease-in;
+        transform: translateX(65vw) skewX(10deg);
+    }
+}
+
 /* ----- INOUT PAGE ----- */
 .kirjausLaatikko {
     width: 300px;
     border-radius: 30px;
 	background-color: white;
 	box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
-    padding: 20px 30px 30px 30px;
+	padding: 20px 30px 30px 30px;
+	animation: 2.3s slide;
 }
 h2.kirjausNimi {
   margin: 0;

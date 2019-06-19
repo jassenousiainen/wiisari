@@ -108,7 +108,7 @@ if ($request == 'GET') {
                   <td>'.$employee_group.'</td>
                   <td>'.$employee_level.'</td>
                   <td>'.$employee[5].'</td>
-                  <td style="text-align:center;"><button name="userID" type="submit" class="btn" value="'.$employee[0].'"><i class="fas fa-user-cog"></i></button></td>
+                  <td style="text-align:center;"><button name="userID" type="submit" class="btn config" value="'.$employee[0].'"></button></td>
                 </tr>';
   }
 echo '          </tbody>

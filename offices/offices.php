@@ -40,8 +40,8 @@ if ($request == 'GET') {
               <thead>
                 <tr>
                   <th data-placeholder="Hae nimellä">Nimi</th>
-                  <th class="filter-false">Ryhmän määrä</th>
-                  <th class="filter-false">Käyttäjän määrä</th>
+                  <th class="filter-false">Ryhmien määrä</th>
+                  <th class="filter-false">Käyttäjien määrä</th>
                   <th class="sorter-false filter-false">Avaa</th>
                 </tr>
               </thead>
@@ -81,7 +81,7 @@ if ($request == 'GET') {
                   <td>'.$group_cnt.'</td>
                   <td>'.$user_cnt.'</td>
 
-                  <td style="text-align:center;"><button name="officeID" type="submit" class="btn" value="'.$office[0].'"><i class="fas fa-user-cog"></i></button></td>
+                  <td style="text-align:center;"><button name="officeID" type="submit" class="btn config" value="'.$office[0].'"></button></td>
                 </tr>';
   }
 
