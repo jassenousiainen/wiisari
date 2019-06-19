@@ -2,6 +2,46 @@
 require 'common.php';
 pdo_connect();  //Connect to database using PDO
 
+
+/* How the inout -system works with earliest and latest work hours:
+
+1. If user clocks in before earliest starting time, their punch clocks as if it started at the earliest starting time
+Example:
+  -Earliest start time is 09:00
+  -User clocks in at 08:50
+  ->The punch is saved as 09:00
+
+2. If user clocks in after latest ending time, their punch is rejected for being after workday
+Example:
+  -Latest end time is 14:00
+  -User comes to work and clocks in 14:30
+  ->Punch is rejected
+
+3. If user tries to clock out after clocking in as demonstrated in 1., their punch is rejected.
+Example:
+  -Earliest start time is 09:00
+  -User clocks in at 08:50
+  -The punch is saved as 09:00
+  -User clocks out at 08:55
+  ->Punch out is rejected, the user is notified that they can punch out after 09:00
+
+4. If user clocks out after latest ending time, their punch clocks as if it happened at the latest ending time
+Example:
+  -Latest ending time is 14:00
+  -User clocks out at 14:30
+  ->The punch is saved as 14:00
+
+5. If user clocks out the next day to the preceding in-punch, their punch clocks as if it happened at the latest ending time at the same day as the in-punch
+Example:
+  -Earliest start time is 09:00 and latest end is 14:00
+  -User clocks in at 1.1.2020 09:00
+  -User leaves at 14:00 but forgets to punch out
+  -The next morning (2.1.2020 09:00) the punch is registered as being out-punch
+  -The out-punch is saved as 1.1.2020 14:00
+
+*/
+
+
 echo "<head>
         <title>Sisään/Ulos</title>
         <meta http-equiv='Content-Type' content=t'ext/html; charset=UTF-8'/>";
