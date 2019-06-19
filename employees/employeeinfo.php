@@ -213,10 +213,11 @@ if (isset($_POST['userID'])) {
 
         echo '<script type="text/javascript" src="/scripts/tablesorter/load.js"></script>';
     }
-    echo '
-                        <br>
-                        <br><button name="editinfo" type="submit" class="btn send">Muuta tietoja</button>
-                     </form>
+    echo '              <br><br>';
+    if ($_SESSION['logged_in_user']->level >= 2) {
+        echo '          <button name="editinfo" type="submit" class="btn send">Muuta tietoja</button>';
+    }
+    echo '          </form>
                 </div>';
 
     if ($_SESSION['logged_in_user']->level >= 2) {
