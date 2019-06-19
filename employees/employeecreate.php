@@ -51,6 +51,22 @@ if ( $request == "GET") {
                         <td>Ryhmä:</td>
                         <td><select name="group_name" required="true"></select></td>
                         <td style="color: grey; font-size: 13px;">Ryhmä, johon henkilö kuuluu</td>
+                    </tr>
+                    <tr>
+                      <td><br></td>
+                    </tr>
+                    <tr>
+                      <td>Tuntien lasku aikaisintaan</td>
+                      <td><input name="earliest" type="time"></td>
+                      <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä sisään aikaisemmin, alkaa tuntien lasku vasta tästä kellonajasta. Voi olla tyhjä.</td>
+                    </tr>
+                    <tr>
+                      <td>Tuntien lasku myöhäisimpään</td>
+                      <td><input name="latest" type="time"></td>
+                      <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä ulos myöhemmin, päättyy tuntien lasku tähän kellonaikaan. Henkilö ei voi kellottaa itseänsä sisään tämän ajan jälkeen. Voi olla tyhjä.</td>
+                    </tr>
+                    <tr>
+                      <td><br></td>
                     </tr>';
     if ($_SESSION['logged_in_user']->level >= 3) {
       echo '
@@ -161,6 +177,14 @@ else if  ( isset($_POST['create']) ) {
       $grouplist = array();
     }
 
+    if (empty($_POST['earliest']) || empty($_POST['latest'])) {
+      $earliestStart = null;
+      $latestEnd = null;
+    } else {
+      $earliestStart = $_POST['earliest'];
+      $latestEnd =$_POST['latest'];
+    }
+
 
     // Displays the form again with input fields that contained errors
     // Notice that the fields that did not contain any errors are hidden but sent with post
@@ -229,6 +253,8 @@ else if  ( isset($_POST['create']) ) {
         }
         echo '<input name="level" value="'.$level.'" type="hidden">';
         echo '<input name="grouplist2" value="'.implode(',', $grouplist).'" type="hidden">';
+        echo '<input name="earliest" value="'.$earliestStart.'" type="hidden">';
+        echo '<input name="latest" value="'.$latestEnd.'" type="hidden">';
         echo '      <tr>
                         <td><button name="create" type="submit" class="btn send">Jatka</button></td>
                     </tr>
@@ -242,8 +268,8 @@ else if  ( isset($_POST['create']) ) {
     else {  // This part is run only if all inputs have been checked to be of correct form
       pdo_connect();
       
-      $emp_stmt = $pdo->prepare("INSERT INTO employees VALUES (?,?,?,?,?,?)");
-      $emp_stmt->execute(array($userID, $displayName, $groupID, $level, $password, "out"));
+      $emp_stmt = $pdo->prepare("INSERT INTO employees VALUES (?,?,?,?,?,?,?,?)");
+      $emp_stmt->execute(array($userID, $displayName, $groupID, $level, $password, "out", $earliestStart, $latestEnd));
 
       if (($level == 1 || $level == 2) && !empty($grouplist)) {
         foreach($grouplist as $grp) {
@@ -277,6 +303,14 @@ else if  ( isset($_POST['create']) ) {
                 <tr>
                   <td>Ryhmä:</td>
                   <td>'.$newUserData['groupName'].'</td>
+                </tr>
+                <tr>
+                  <td>Aikaisin aloitusaika:</td>
+                  <td>'.$newUserData['earliestStart'].'</td>
+                </tr>
+                <tr>
+                  <td>Myöhäisin lopetusaika:</td>
+                  <td>'.$newUserData['latestEnd'].'</td>
                 </tr>
                 <tr>
                   <td>Taso:</td>

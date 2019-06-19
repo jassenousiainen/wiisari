@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 14, 2019 at 11:58 AM
+-- Generation Time: Jun 19, 2019 at 12:13 PM
 -- Server version: 5.7.23
 -- PHP Version: 7.0.32
 
@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `level` tinyint(1) NOT NULL DEFAULT '0',
   `adminPassword` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `inoutStatus` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `earliestStart` time DEFAULT NULL,
+  `latestEnd` time DEFAULT NULL,
   PRIMARY KEY (`userID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -43,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`userID`, `displayName`, `groupID`, `level`, `adminPassword`, `inoutStatus`) VALUES
-('admin', 'Administrator', 1, 3, '$2y$10$xnpz7RIvj4hosPazISFSCO8TW9oXDmUwlATVHVCWwNqoNBgKF2x82', 'out'),
+INSERT INTO `employees` (`userID`, `displayName`, `groupID`, `level`, `adminPassword`, `inoutStatus`, `earliestStart`, `latestEnd`) VALUES
+('admin', 'Administrator', 1, 3, '$2y$10$xnpz7RIvj4hosPazISFSCO8TW9oXDmUwlATVHVCWwNqoNBgKF2x82', 'out', NULL, NULL),
 
 -- --------------------------------------------------------
 
@@ -58,14 +60,14 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `groupName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `officeID` int(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`groupID`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `groups`
 --
 
 INSERT INTO `groups` (`groupID`, `groupName`, `officeID`) VALUES
-(1, 'Ryhmä', 1),
+(1, 'Ryhmä1', 1),
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `info` (
   PRIMARY KEY (`punchID`),
   KEY `info_fullname` (`userID`),
   KEY `info_timestamp` (`timestamp`)
-) ENGINE=MyISAM AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=273 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `offices` (
   `officeID` int(10) NOT NULL AUTO_INCREMENT,
   `officeName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`officeID`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `offices`

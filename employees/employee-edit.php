@@ -28,6 +28,14 @@ if (isset($_POST['grouplist'])) {
     $grouplist = array();
 }
 
+if (empty($_POST['earliest']) || empty($_POST['latest'])) {
+    $earliestStart = null;
+    $latestEnd = null;
+  } else {
+    $earliestStart = $_POST['earliest'];
+    $latestEnd =$_POST['latest'];
+  }
+
 
 if ($error) {
     echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
@@ -37,8 +45,10 @@ if ($error) {
 else {
     echo '<div class="box" style="background-color: var(--lightgreen); min-height: 50px; text-align: center; color: white; padding: 0;">';
     tc_update_strings("employees", array(
-        'displayName' => $displayName,
-        'groupID'      => $groupID,
+        'displayName'   => $displayName,
+        'groupID'       => $groupID,
+        'earliestStart' => $earliestStart,
+        'latestEnd'     => $latestEnd
     ), "userID = ?", $userID);
 
     if ($_SESSION['logged_in_user']->level >= 3) {

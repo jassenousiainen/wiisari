@@ -33,7 +33,7 @@ if (isset($_POST['userID'])) {
         require "$_SERVER[DOCUMENT_ROOT]/employees/employee-edit.php";
     }
 
-    $empdata = mysqli_fetch_row(tc_query("SELECT * FROM employees WHERE userID = '$userID'"));
+    $empdata = mysqli_fetch_array(tc_query("SELECT * FROM employees WHERE userID = '$userID'"));
     $grpdata = mysqli_fetch_row(tc_query("SELECT groupName, officeName , groupID
                                         FROM employees NATURAL JOIN groups NATURAL JOIN offices
                                         WHERE userID = '$empdata[0]';
@@ -90,7 +90,21 @@ if (isset($_POST['userID'])) {
                                         <option value="'.$grpdata[2].'" selected>'.$grpdata[0].'</opiton>
                                     </select>
                                 </td>
-                            </tr>';
+                            </tr>
+                            <tr>
+                      <td><br></td>
+                    </tr>
+                    <tr>
+                        <td>Tuntien lasku aikaisintaan</td>
+                        <td><input name="earliest" type="time" value="'.$empdata['earliestStart'].'"></td>
+                    </tr>
+                    <tr>
+                        <td>Tuntien lasku myöhäisimpään</td>
+                        <td><input name="latest" type="time" value="'.$empdata['latestEnd'].'"></td>
+                    </tr>
+                    <tr>
+                        <td><br></td>
+                    </tr>';
 
     if ($_SESSION['logged_in_user']->level >= 3) {  // Only admin can adjust users permission level and password
         $lvl0 = ""; $lvl1 = ""; $lvl2 = ""; $lvl3 = "";
