@@ -126,7 +126,7 @@ if ( $request == "GET") {
       echo '<div class="chooseGroups" style="display:none;">
               <p><b>Valitse valvottavat ryhmät:</b></p>';
 
-      include "$_SERVER[DOCUMENT_ROOT]/group_picker.php";
+      include "group_picker.php";
 
       echo '  </div>
                           <br><button name="create" type="submit" class="btn send">Luo käyttäjä</button>
