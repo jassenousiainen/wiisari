@@ -46,7 +46,7 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
 
     $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$del'"));
     $logTime = new DateTime("@$success[3]");
-    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    $logTime->setTimeZone(new DateTimeZone($timezone));
 
     tc_delete('info', 'punchID = ?', $del);
 
@@ -70,7 +70,7 @@ else if (isset($_POST['altertime'])) {
   $punch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$punchID'"));
   $userID = $punch[1];
   $logTime = new DateTime("@$punch[3]");
-  $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+  $logTime->setTimeZone(new DateTimeZone($timezone));
 
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
@@ -129,11 +129,11 @@ else if (isset($_POST['punchid'])) {
   $oldpunch = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE punchID = '$punchID'"));
   $userID = $oldpunch[1];
   $oldlogTime = new DateTime("@$oldpunch[3]");
-  $oldlogTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+  $oldlogTime->setTimeZone(new DateTimeZone($timezone));
 
   $inout = $_POST['inout'];
   $inDateStr = $_POST['date']." ".$_POST['time'];
-  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr)->getTimestamp();
+  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr, new DateTimeZone($timezone))->getTimestamp();
   $notes = $_POST['notes'];
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">

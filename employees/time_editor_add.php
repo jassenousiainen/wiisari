@@ -2,7 +2,7 @@
 echo '<table>';
 if ($_POST['in_date'] != "") {
   $inDateStr = $_POST['in_date']." ".$_POST['in_time'];
-  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr)->getTimestamp();
+  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr, new DateTimeZone($timezone))->getTimestamp();
   $notes = "";
 
   if ($timestamp > time()) {
@@ -14,7 +14,7 @@ if ($_POST['in_date'] != "") {
 
     $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
     $logTime = new DateTime("@$success[3]");
-    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    $logTime->setTimeZone(new DateTimeZone($timezone));
     echo "<tr style='background-color: var(--light);'>
             <td><span class='inout' style='background-color:var(--lightgreen); text-align: center;'>$success[2]</span></td>
             <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>
@@ -24,7 +24,7 @@ if ($_POST['in_date'] != "") {
 }
 if ($_POST['out_date'] != "") {
   $outDateStr = $_POST['out_date']." ".$_POST['out_time'];
-  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $outDateStr)->getTimestamp();
+  $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $outDateStr, new DateTimeZone($timezone))->getTimestamp();
   $notes = "";
 
   if ($timestamp > time()) {
@@ -36,7 +36,7 @@ if ($_POST['out_date'] != "") {
 
     $success = mysqli_fetch_row(tc_query("SELECT * FROM info WHERE timestamp = '$timestamp'"));
     $logTime = new DateTime("@$success[3]");
-    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    $logTime->setTimeZone(new DateTimeZone($timezone));
     echo "<tr style='background-color: var(--light);'>
             <td><span class='inout' style='background-color:var(--red); text-align: center;'>$success[2]</span></td>
             <td style='text-align:center;'>".$logTime->format("d.m.Y")."</td>

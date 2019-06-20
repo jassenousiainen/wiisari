@@ -46,10 +46,16 @@ if (isset($_POST['userID'])) {
     if ($empdata[5] == 'in') {
         $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$empdata[0]' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
         $currentWorkTime = time() - (int)$lastIn;
+        $lastInStr = new DateTime("@$lastIn");
+        $lastInStr->setTimeZone(new DateTimeZone($timezone));
         echo '      <div class="tile" style="background-color: var(--green); color: white;"><i class="fas fa-user-check"></i><span>Töissä</span></div>
-                    <p>Tuli töihin: klo '.date('H:i j.n.Y', $lastIn).'';
+                    <p>Tuli töihin: '.$lastInStr->format("d.m.Y H:i");
     } else {
-        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-user-times"></i><span>Poissa töistä</span></div>';
+        $lastOut = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$empdata[0]' AND `inout` = 'out' ORDER BY timestamp DESC"))[0];
+        $lastOutStr = new DateTime("@$lastOut");
+        $lastOutStr->setTimeZone(new DateTimeZone($timezone));
+        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-user-times"></i><span>Poissa töistä</span></div>
+                    <p>Lähti töistä: '.$lastOutStr->format("d.m.Y H:i");
     }
     echo '      </div>';
 

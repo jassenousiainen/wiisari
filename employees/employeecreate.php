@@ -34,7 +34,7 @@ if ( $request == "GET") {
                     <tr>
                         <td>Käyttäjätunnus:</td>
                         <td><input name="userID" id="userID" type="text" required="true">
-                        <button type="button" class="btn" onclick="gen_barcode(userID);">New</button></td>
+                        <button type="button" class="btn" onclick="gen_barcode(userID);"><i class="fas fa-dice"></i></button></td>
                         <td style="color: grey; font-size: 13px;">Uniikki tunniste, jolla henkilö kirjautuu sisään tai kellottaa itsensä</td>
                     </tr>
                     <tr>

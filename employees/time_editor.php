@@ -105,7 +105,7 @@ if  ( isset($_POST['timeeditor']) ) {
   while ( $inout = mysqli_fetch_row($inoutdata_query) ) {
 
     $logTime = new DateTime("@$inout[3]");
-    $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+    $logTime->setTimeZone(new DateTimeZone($timezone));
 
     echo "  <tr>
               <td style='text-align:center; color: grey;'>".$inout[3]."</td>";

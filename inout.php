@@ -37,7 +37,10 @@ Example:
   -User clocks in at 1.1.2020 09:00
   -User leaves at 14:00 but forgets to punch out
   -The next morning (2.1.2020 09:00) the punch is registered as being out-punch
-  -The out-punch is saved as 1.1.2020 14:00
+  ->The out-punch is saved as 1.1.2020 14:00
+  
+  Note that there exists a problematic scenario where user might intentionally leave early and not punch out.
+  What happens is that the system (as demonstrated in 5.) counts it as a full day when they come back in the morning.
 
 */
 
@@ -85,7 +88,7 @@ $tz_clock->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 $inoutData = mysqli_fetch_array(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
 
 if (!empty($inoutData)) {
-  if ($inoutData['inout'] == 'in' && $inoutData['timestamp'] > $tz_stamp) { $inout = 'error'; }
+  if ($inoutData['inout'] == 'in' && $inoutData['timestamp'] > $tz_stamp) { $inout = 'earlyOut'; }
   else if ($inoutData['inout'] == 'in') { $inout = 'out'; }
   else if ($inoutData['inout'] == 'out') { $inout = 'in'; }
   else {
@@ -122,7 +125,7 @@ if ($earliestStart != null && $latestEnd != null) {
 
 
 // Insert data to the DB
-if ($inout != 'afterhours' && $inout != 'error') {
+if ($inout != 'afterhours' && $inout != 'earlyOut') {
   $clockin_stmt = $pdo->prepare("INSERT INTO `info` (`userID`, `inout`, `timestamp`, `notes`) VALUES (?,?,?,?)");
 
   if ($inout == 'early') { 
@@ -174,7 +177,7 @@ else if ($inout == 'late') {
   $logblock = "<p class='logError'>Myöhään</p>
               <p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
 }
-else if ($inout == 'error') {
+else if ($inout == 'earlyOut') {
   $logblock = "<p class='logError'>Virhe! Voit kellottautua ulos klo " . $last_clock->format('H:i') . " jälkeen</p>";
 }
 

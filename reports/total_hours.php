@@ -24,12 +24,12 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 }
 
 include '../header.php';
-
 echo "<title>Työtunnit</title>\n";
-
 include 'topmain.php';
 
-
+$datefmt = "j.n.Y ";
+$timefmt = "H:i";
+$db_prefix = "";
 $supervisorID = $_SESSION['logged_in_user']->userID;
 
 if ($_SESSION['logged_in_user']->level >= 3) {
@@ -275,14 +275,14 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     // Convert the datestrings to timestamps
     if (!empty($from_date)) {
-        $from_date = "$from_month/$from_day/$from_year";
-        $from_timestamp = strtotime($from_date);
-        $from_date = $_POST['from_date'];
+        $from_date = $from_day.".".$from_month.".".$from_year;
+        $from_timestamp=\DateTime::createFromFormat('d.m.Y', $from_date, new DateTimeZone($timezone))->getTimestamp();
+        $from_date = $_POST['from_date'];   
     }
 
     if (!empty($to_date)) {
-        $to_date = "$to_month/$to_day/$to_year";
-        $to_timestamp = strtotime($to_date . " 23:59") + 60;
+        $to_date = $to_day.".".$to_month.".".$to_year." 23:59";
+        $to_timestamp=\DateTime::createFromFormat('d.m.Y H:i', $to_date, new DateTimeZone($timezone))->getTimestamp() + 60;
         $to_date = $_POST['to_date'];
     }
 
@@ -348,6 +348,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     $page_count = 0;
     $punch_cnt = 0;
     $tmp_z = 0;
+    $color1 = "#EFEFEF";
+    $color2 = "#FBFBFB";
 
 
     // retrieve a list of users //
