@@ -320,7 +320,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     echo "<p>Päättyen: $to_date (24:00)</p>";
 
     if (!empty($tmp_csv)) {
-        echo "<a class=\"link\" href=\"get_csv.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&group=$group_name&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
+        echo "<a class=\"link\" href=\"get_csv2.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&group=$group_name&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
+        //echo "<a class=\"link\" href=\"get_csv.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&group=$group_name&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
     }
 
     echo '</div>
