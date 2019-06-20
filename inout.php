@@ -3,7 +3,7 @@ require 'common.php';
 pdo_connect();  //Connect to database using PDO
 
 
-/* How the inout -system works with earliest and latest work hours:
+/* How the inout -system works with earliest and latest work hours (main scenarios):
 
 1. If user clocks in before earliest starting time, their punch clocks as if it started at the earliest starting time
 Example:
@@ -103,7 +103,7 @@ if (!empty($inoutData)) {
 if ($earliestStart != null && $latestEnd != null) {
   if ($inout == 'in' && $tz_clock->format('H:i:s') < $earliestStart) {
     $inout = 'early';
-    $notes = "Tuli liian aikaisin, todellinen tuloaika: " . $tz_clock->format('d.m.Y H:i');
+    $notes = $notes . " Tuli aikaisin, todellinen tuloaika: " . $tz_clock->format('d.m.Y H:i');
     $tzDateStr = $tz_clock->format('Y-m-d')." ".$earliestStart;
     $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr)->getTimestamp();
   } 
@@ -113,7 +113,7 @@ if ($earliestStart != null && $latestEnd != null) {
   else if ($inout == 'out') {
     if ($tz_clock->format('Y-m-d') != $last_clock->format('Y-m-d') || $tz_clock->format('H:i:s') > $latestEnd) {
       $inout = 'late';
-      $notes = "Lähti liian myöhään, todellinen lähtöaika: " . $tz_clock->format('d.m.Y H:i');
+      $notes = $notes . " Lähti myöhään, todellinen lähtöaika: " . $tz_clock->format('d.m.Y H:i');
       $tzDateStr = $last_clock->format('Y-m-d')." ".$latestEnd;
       $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr)->getTimestamp();
     }
