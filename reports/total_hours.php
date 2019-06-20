@@ -80,7 +80,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                     <td><input id="to" autocomplete="off" type="text" size="10" maxlength="10" name="to_date"></td>
                                 </tr>
                                 <tr>
-                                    <td>Hae raportit CSV -tiedostoon (EI TOIMI): </td>
+                                    <td>Hae raportit CSV -tiedostoon: </td>
                                     <td>
                                         <label class="container">
                                             <input type="checkbox" name="csv" value="1" class="check">

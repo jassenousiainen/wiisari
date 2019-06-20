@@ -115,7 +115,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
                   <br><br>
                   <label class='container'>
                     Näytä yksittäiset kirjaukset
-                    <input type='checkbox' name='tmp_show_details' value='1' ".(yes_no_bool($show_details) ? ' checked' : '')." class='check'>
+                    <input type='checkbox' name='tmp_show_details' value='1' class='check'>
                     <span class='checkmark'></span>
                   </label>
                   <br><br>

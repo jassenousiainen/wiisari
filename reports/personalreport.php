@@ -27,7 +27,7 @@ if (!isset($_SESSION['logged_in_user'])) {
 }
 
     include 'topmain.php';
-    include 'header_post_reports.php';
+    include '../header.php';
 
     $fullname = $_SESSION['logged_in_user']->userID;
 
@@ -41,6 +41,15 @@ if (!isset($_SESSION['logged_in_user'])) {
     $tmp_display_ip = one_or_empty(@$_POST['tmp_display_ip']);
     $tmp_display_office = one_or_empty(@$_POST['tmp_display_office']);
     $tmp_csv = '1';
+    $datefmt = "j.n.Y ";
+    $timefmt = "H:i";
+    $db_prefix = "";
+    $calendar_style = "euro";
+    $report_start_time = "00:00";
+    $report_end_time = "23:59";
+    $user_or_display = "display";
+    $color1 = "#EFEFEF";
+    $color2 = "#FBFBFB";
 
     // begin post validation //
 
