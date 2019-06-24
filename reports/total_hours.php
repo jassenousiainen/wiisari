@@ -344,6 +344,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     $punchlist_punchitems = array();
     $secs = 0;
     $total_hours = 0;
+    $total_secs = 0;
     $row_count = 0;
     $page_count = 0;
     $punch_cnt = 0;
@@ -422,6 +423,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -532,6 +534,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if ((empty($y)) || ($y == $info_cnt - 1)) {
                                     $yy = 0;
@@ -616,6 +619,7 @@ QUERY
                             }
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -703,6 +707,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -797,6 +802,7 @@ QUERY
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
                                 $total_hours = $total_hours + $hours;
+                                $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
@@ -887,6 +893,7 @@ QUERY
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -975,6 +982,7 @@ QUERY
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
                             $total_hours = $total_hours + $hours;
+                            $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
@@ -1056,6 +1064,7 @@ QUERY
             unset($date_formatted);
             unset($x_info_date);
             $my_total_hours = number_format($total_hours, 2);
+            $my_total_secs = $total_secs;
 
             echo "<tr align=\"left\"><td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                               border-width:1px 0px 0px 0px;'><b>Kokonaistunnit</b></td>\n";
@@ -1069,8 +1078,13 @@ QUERY
                     echo "                <td nowrap style='color:#000000;border-style:solid;border-color:#888888;
                           border-width:1px 0px 0px 0px;:15px;'><b>$my_total_hours</b></td></tr>\n";
                 }
+                echo "  <tr align=\"left\"><td nowrap style='font-size:11px;color:#000000;'><b>Formatoitu työaika</b></td>\n";
+                echo " <td nowrap style='font-size:11px;color:#000000;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
+
+
                 echo "              <tr><td height=40 colspan=2 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
             
+
                 $row_count++;
 
             $row_count = "0";
@@ -1097,6 +1111,8 @@ QUERY
             $row_count = 0;
             $total_hours = 0;
             $my_total_hours = 0;
+            $total_secs = 0;
+            $my_total_secs = 0;
             $info_cnt = 0;
             $punch_cnt = 0;
             $secs = 0;
