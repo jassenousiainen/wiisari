@@ -19,7 +19,7 @@ if ($request == 'GET') {
 
   // Restricts which employees can be seen based on supervises table in the database
   if ($_SESSION['logged_in_user']->level >= 3) {
-    $group_query = tc_query("SELECT * FROM groups NATURAL JOIN offices ORDER BY groupName ASC");
+    $group_query = tc_query("SELECT * FROM groups LEFT JOIN offices ON (groups.officeID = offices.officeID) ORDER BY groupName ASC");
   } else {
     
   }
@@ -72,15 +72,16 @@ if ($request == 'GET') {
               <tbody>';
 
   while ( $group = mysqli_fetch_array($group_query) ) {
-    $user_cnt  = mysqli_num_rows(tc_query("SELECT 1 FROM employees WHERE groupID = ?",$group[1]));
+    $gid = $group['groupID'];
+    $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = $gid"))[0];
     
 
     echo '      <tr>
-                  <td>'.$group[2].'</td>
-                  <td>'.$group[3].'</td>
+                  <td>'.$group['groupName'].'</td>
+                  <td>'.$group['officeName'].'</td>
                   <td>'.$user_cnt.'</td>
 
-                  <td style="text-align:center;"><button name="groupID" type="submit" class="btn config" value="'.$group[1].'"></button></td>
+                  <td style="text-align:center;"><button name="groupID" type="submit" class="btn config" value="'.$group['groupID'].'"></button></td>
                 </tr>';
   }
 
