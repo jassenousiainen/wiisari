@@ -1,7 +1,7 @@
 <?php
 require '../common.php';
 session_start();
-include 'header_post_reports.php';
+include '../header.php';
 include 'topmain.php';
 
 echo "<title>Henkilökohtaiset työtunnit</title>\n";
