@@ -32,7 +32,7 @@ if ($request == "GET") {
     <section class="container">
         <div class="middleContent">
             <div class="box">
-                <h2>Valitse henkilöt viivakoodien tulostukseen</h2>
+                <h2>Valitse ryhmät viivakoodien tulostukseen</h2>
                 <div class="section">
                     <p>Huomaa, että yksittäisen henkilön viivakoodin saat henkilöstö -sivulta</p>
                     <form action="'.$self.'" method="post">
@@ -57,9 +57,6 @@ if ($request == "GET") {
 else if ($request == "POST") {
     include('src/BarcodeGenerator.php');
     include('src/BarcodeGeneratorPNG.php');
-    include('src/BarcodeGeneratorSVG.php');
-    include('src/BarcodeGeneratorJPG.php');
-    include('src/BarcodeGeneratorHTML.php');
     $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
 
 
@@ -93,7 +90,7 @@ else if ($request == "POST") {
     }
     else if (isset($_POST['userID'])) {
         $post_userID = $_POST['userID'];
-        $employee_query = tc_query("SELECT * FROM employees WHERE userID = $post_userID");
+        $employee_query = tc_query("SELECT * FROM employees WHERE userID = '$post_userID'");
     }
     else {
         echo "VIRHE! Ryhmää tai henkilöä ei valittu";
