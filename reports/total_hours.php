@@ -200,10 +200,14 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     
     // Displays error incase user selected group that doesn't exist
     if (($_POST['groupID'] != "all") && (!empty($_POST['groupID']))) {
-        $groupID = array($groupID);
         $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
         if (!isset($group_name)) {
             array_push($errors, "Valittua ryhmää ei löytynyt");
+        }
+        if ( $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
+            array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
+        } else {
+            $groupID = array($groupID);
         }
     } else if ( $_SESSION['logged_in_user']->level < 3 && $_POST['groupID'] == "all" && !empty($_POST['groupID'])) {
         $group_name = "Kaikki ryhmäsi";
@@ -223,10 +227,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
         array_push($errors, "Et valinnut ryhmää");
     }
 
-    // Checks if selected group belongs to this supervisors groups
-    if ( $_POST['groupID'] != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
-        array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
-    } 
+    
 
     // Checks rounding for errors
     if (!empty($tmp_round_time) && 
