@@ -104,7 +104,8 @@ else if ($request == "POST") {
     echo '
     <head>
         <link rel="stylesheet" href="/css/barcode-generator.css">
-    </head>';
+    </head>
+    <a href="/barcode-generator/barcodeprinter.php" class="back">Takaisin</a>';
 
     while ($emp = mysqli_fetch_array($employee_query)) {
         $displayName = $emp['displayName'];

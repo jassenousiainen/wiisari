@@ -13,7 +13,7 @@ body {
 }
 
 div.barcodeGenBox {
-    float: left;
+    display: inline-block;
     width: 9cm;
     height: 5cm;
     border: solid 1px black;
@@ -49,4 +49,43 @@ div.barcodeGenBox {
     right: 10px;
     padding: 0;
     margin: 0;
+}
+
+@media print {
+    .back {
+        display: none;
+    }
+}
+
+@media screen {
+    html {
+        background: #f8f9fa;
+    }
+    body {
+        background: white;
+        margin: 60px auto 30px auto;
+        padding: 1cm 0 1cm 1cm;
+        box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+        border-radius: 20px;
+        box-sizing: border-box;
+    }
+    .back {
+        position: absolute;
+        top: 10px;
+        display: inline-block;
+        padding: 8px 13px;
+        border-radius: 20px;
+        color: white;
+        text-decoration: none;
+        font-family: 'Segoe UI', 'Open Sans';
+        font-weight: 400;
+        font-size: 1rem;
+        border: none;
+        background-color: #007bff;
+        transition: background-color 0.2s ease;
+    }
+    .back:hover {
+        cursor: pointer;
+        background-color: #1374dc;
+    }
 }
