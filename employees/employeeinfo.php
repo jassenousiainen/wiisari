@@ -69,6 +69,15 @@ if (isset($_POST['userID'])) {
                     </form>
                 </div>';
     }
+
+    echo '
+                <div class="section">
+                    <p>Generoi henkilölle tulostettava viivakoodi:</p>
+                    <form action="/barcode-generator/barcodeprinter.php" method="post">
+                        <button class="btn" type="submit" name="userID" value="'.$empdata[0].'"><i class="fas fa-barcode"></i> Hae</button>
+                    </form>
+                </div>
+    ';
     
     echo '      <div class="section">
                     <p>Henkilötiedot:</p>
