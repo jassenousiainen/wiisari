@@ -72,8 +72,8 @@ if ($request == 'GET') {
               <tbody>';
 
   while ( $office = mysqli_fetch_array($office_query) ) {
-    $group_cnt = mysqli_num_rows(tc_query("SELECT * FROM groups WHERE officeId = ?", $office[0]));
-    $user_cnt  = mysqli_num_rows(tc_query("SELECT employees.userID FROM employees,groups,offices WHERE employees.groupID = groups.groupID AND groups.officeID = offices.officeID AND offices.officeID = ?", $office[0]));
+    $group_cnt = mysqli_fetch_row(tc_query("SELECT COUNT(groupID) FROM groups WHERE officeId = $office[0]"))[0];
+    $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(employees.userID) FROM employees,groups,offices WHERE employees.groupID = groups.groupID AND groups.officeID = offices.officeID AND offices.officeID = ?", $office[0]))[0];
     
 
     echo '      <tr>
