@@ -79,7 +79,15 @@ else if ($request == "POST") {
                 }
             }
         } else {
-            $groupID = array($_POST['groupID']);
+            $groupID = $_POST['groupID'];
+
+            // Checks if selected group belongs to this supervisors groups
+            if ( $_POST['groupID'] != "all" && $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
+                echo "Sinulla ei ole oikeutta valittuun ryhmään";
+                exit;
+            } else {
+                $groupID = array($groupID);
+            }
         }
         $employee_query = tc_query("SELECT * FROM employees WHERE groupID IN (".implode(',',$groupID).") ORDER BY displayName");
     }
@@ -90,6 +98,8 @@ else if ($request == "POST") {
     else {
         echo "VIRHE! Ryhmää tai henkilöä ei valittu";
     }
+
+    
 
     echo '
     <head>
