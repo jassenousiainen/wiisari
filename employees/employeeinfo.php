@@ -52,10 +52,12 @@ if (isset($_POST['userID'])) {
                     <p>Tuli töihin: '.$lastInStr->format("d.m.Y H:i");
     } else {
         $lastOut = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$empdata[0]' AND `inout` = 'out' ORDER BY timestamp DESC"))[0];
-        $lastOutStr = new DateTime("@$lastOut");
-        $lastOutStr->setTimeZone(new DateTimeZone($timezone));
-        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-user-times"></i><span>Poissa töistä</span></div>
-                    <p>Lähti töistä: '.$lastOutStr->format("d.m.Y H:i");
+        echo '      <div class="tile" style="background-color: var(--red); color: white;"><i class="fas fa-user-times"></i><span>Poissa töistä</span></div>';
+        if (!empty($lastOut)) {
+            $lastOutStr = new DateTime("@$lastOut");
+            $lastOutStr->setTimeZone(new DateTimeZone($timezone));
+            echo '<p>Lähti töistä: '.$lastOutStr->format("d.m.Y H:i");
+        }
     }
     echo '      </div>';
 
