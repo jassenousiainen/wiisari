@@ -38,10 +38,11 @@ html {
 
 body {
 	font-family: 'Open Sans', sans-serif;
-  	margin: 0;
+	  margin: 0;
+	  overflow: hidden;
 }
 .gradientbg {
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
