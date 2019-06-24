@@ -49,7 +49,7 @@ echo '<script type="text/javascript" src="/scripts/tablesorter/jquery.tablesorte
 
 
 echo '<link rel="shortcut icon" href="/images/wiisari_title.png" type="image/x-icon"/>';
-echo '<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">';
+echo '<link rel="stylesheet" href="/fonts/fontawesome/css/all.min.css">';
 
 
 ?>
