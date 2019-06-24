@@ -1,0 +1,52 @@
+@font-face {
+	font-family: 'JosefinSans';
+	src: url('/fonts/JosefinSans-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+ }
+html {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 21cm;
+}
+
+div.barcodeGenBox {
+    float: left;
+    width: 9cm;
+    height: 5cm;
+    border: solid 1px black;
+    margin: 0.2cm;
+    padding: 0.8cm 0 0 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: sans-serif;
+    position: relative;
+}
+
+.barcodeGenBox p {
+    font-size: 12px;
+}
+
+.barcodeGenBox .name {
+    font-weight: bold;
+}
+
+.barcodeGenBox .wiisarilogo {
+    position: absolute;
+    font-family: 'JosefinSans';
+    font-size: 22px;
+    top: 14px;
+    left: 14px; 
+    padding: 0;
+    margin: 0;
+}
+
+.barcodeGenBox .tstlogo {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 0;
+    margin: 0;
+}

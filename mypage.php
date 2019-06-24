@@ -70,8 +70,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
             echo '<a class="btn tile" href="/groups/groups.php"><i class="fas fa-users"></i><span>Ryhmät</span></a>';          
           }
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
-          /*echo '<a class="btn tile" href="/reports/timerpt.php"><i class="fas fa-calendar-week"></i><span>Päivittäiset tapahtumat</span></a>';*/
-
+          echo '<a class="btn tile" href="/barcode-generator/barcodeprinter.php"><i class="fas fa-barcode"></i><span>Viivakoodien tulostin</span></a>';
 
     echo '
       </p>
