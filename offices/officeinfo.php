@@ -80,7 +80,7 @@ if (isset($_POST['officeID'])) {
                             <tbody></form>';
       $group_query = tc_query("SELECT * FROM groups WHERE officeID = ?",$officeData[0]);
       while ( $group = mysqli_fetch_array($group_query) ) {
-        $user_cnt  = mysqli_num_rows(tc_query("SELECT 1 FROM employees WHERE groupID = ?", $group[0]));
+        $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = $group[0]"))[0];
         
       echo '                  <tr id="'.$group[0].'">
                                 <td>'.$group[1].'</td>
