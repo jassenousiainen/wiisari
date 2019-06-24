@@ -370,7 +370,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     for ($x = 0; $x < $employees_cnt; $x++) {
 
         echo "<tr>
-                <td style='color: var(--blue); font-weight: bold;'>$employees_displayname[$x] <i style='color: var(--gray); font-weight: normal; font-style: normal;'> ($employees_groupname[$x])</i></td>
+                <td style='color: var(--blue); font-size: 1rem; font-weight: bold;'>$employees_displayname[$x] <i style='color: var(--gray); font-weight: normal; font-style: normal;'> ($employees_groupname[$x])</i></td>
             </tr>";
             
         echo "<tr>
@@ -1082,7 +1082,7 @@ QUERY
                 echo " <td nowrap style='font-size:11px;color:#000000;'><b>".convertToHours($my_total_secs)."</b></td></tr>\n";
 
 
-                echo "              <tr><td height=40 colspan=2 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
+                echo "              <tr><td height=50 colspan=2 style='border-style:solid;border-color:#888888;border-width:1px 0px 0px 0px;'>&nbsp;</td></tr>\n";
             
 
                 $row_count++;
