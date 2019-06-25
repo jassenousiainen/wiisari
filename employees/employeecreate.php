@@ -35,7 +35,7 @@ if ( $request == "GET") {
                         <td>Käyttäjätunnus:</td>
                         <td><input name="userID" id="userID" type="text" required="true">
                         <button type="button" class="btn" onclick="gen_barcode(userID);"><i class="fas fa-dice"></i></button></td>
-                        <td style="color: grey; font-size: 13px;">Uniikki tunniste, jolla henkilö kirjautuu sisään tai kellottaa itsensä</td>
+                        <td style="color: grey; font-size: 13px;">Uniikki tunniste, jolla henkilö kirjautuu sisään tai kellottaa itsensä. Huom, ääkköset eivät toimi viivakoodissa.</td>
                     </tr>
                     <tr>
                         <td>Nimi:</td>
@@ -98,7 +98,7 @@ if ( $request == "GET") {
                           <span class="checkmark"></span>
                         </label>
                       </td>
-                      <td style="color: grey; font-size: 13px;">Editorioikeuksilla valvoja voi muokata valittujen ryhmien työntekijöiden tietoja sekä työaikoja</td>
+                      <td style="color: grey; font-size: 13px;">Editorioikeuksilla valvoja voi muokata valittujen ryhmien työntekijöiden tietoja sekä työaikoja. Voi luoda tason 0 käyttäjiä.</td>
                     </tr>
                     <tr>
                       <td>(taso 3) Admin:</td>
