@@ -19,10 +19,10 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }
 
   if($group_name === "Kaikki ryhmäsi"){
-    $query = "SELECT userID FROM " . $db_prefix . " info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp GROUP BY userID";
+    $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp GROUP BY userID";
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }else{
-    $query = "SELECT info.userID FROM " . $db_prefix . " info NATURAL JOIN employees NATURAL JOIN groups WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp  AND groups.groupName = '$group_name' GROUP BY userID";
+    $query = "SELECT info.userID FROM info NATURAL JOIN employees NATURAL JOIN groups WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp  AND groups.groupName = '$group_name' GROUP BY userID";
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }
 
@@ -32,7 +32,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
     foreach ($data as $v){
       $userID = $v['userID'];
-      $query = "SELECT * FROM " . $db_prefix . " info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp AND userID = '$userID' ORDER BY punchID ASC";
+      $query = "SELECT * FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp AND userID = '$userID' ORDER BY punchID ASC";
       $secs = mysqli_query($GLOBALS["___mysqli_ston"], $query);
       $dates[$userID] = array();
       if(isset($details)){
@@ -87,7 +87,17 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
             }
           }
         }
-        
+        foreach($dates[$userID] as $key){
+          $x = array_sum($key);
+          $x = round($x/60/60,2);
+          $k = array_search($key, $dates[$userID]);
+          $data[$userID]['Days'][$k] = $x;
+          $str = $userID .",". $k .",". $x .",";
+          array_push($data3, $str);
+        }
+        $y = array_sum($data[$userID]['Days']);
+        array_push($data3,"$userID,,,$y");
+
       }
 
     }
