@@ -108,7 +108,7 @@ if ($earliestStart != null && $latestEnd != null) {
     $inout = 'early';
     $notes = $notes . " Tuli aikaisin, todellinen tuloaika: " . $tz_clock->format('d.m.Y H:i');
     $tzDateStr = $tz_clock->format('Y-m-d')." ".$earliestStart;
-    $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr)->getTimestamp();
+    $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr, new DateTimeZone($timezone))->getTimestamp();
   } 
   else if ($inout == 'in' && $tz_clock->format('H:i:s') > $latestEnd) {
     $inout = 'afterhours';
@@ -118,7 +118,7 @@ if ($earliestStart != null && $latestEnd != null) {
       $inout = 'late';
       $notes = $notes . " Lähti myöhään, todellinen lähtöaika: " . $tz_clock->format('d.m.Y H:i');
       $tzDateStr = $last_clock->format('Y-m-d')." ".$latestEnd;
-      $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr)->getTimestamp();
+      $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr, new DateTimeZone($timezone))->getTimestamp();
     }
   }
 }
