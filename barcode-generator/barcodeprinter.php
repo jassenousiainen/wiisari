@@ -89,8 +89,9 @@ else if ($request == "POST") {
         $employee_query = tc_query("SELECT * FROM employees WHERE groupID IN (".implode(',',$groupID).") ORDER BY displayName");
     }
     else if (isset($_POST['userID'])) {
-        $post_userID = $_POST['userID'];
-        $employee_query = tc_query("SELECT * FROM employees WHERE userID = '$post_userID'");
+        $userID = $_POST['userID'];
+        require "../grouppermissions.php";
+        $employee_query = tc_query("SELECT * FROM employees WHERE userID = '$userID'");
     }
     else {
         echo "VIRHE! Ryhmää tai henkilöä ei valittu";
