@@ -79,16 +79,16 @@ else {
 }
 
 
-$tz_stamp = time();
-$tz_clock = new DateTime("@$tz_stamp");
-$tz_clock->setTimeZone(new DateTimeZone('Europe/Helsinki'));
+$tz_stamp = time();                                   // Timestamp (utc) now
+$tz_clock = new DateTime("@$tz_stamp");               // Create date object
+$tz_clock->setTimeZone(new DateTimeZone($timezone));  // Set timezone for date object (variable timezone is defined in config.inc.php)
 
 
 // Choose whether employee logs in or out based on previous inout log
 $inoutData = mysqli_fetch_array(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
 
 if (!empty($inoutData)) {
-  if ($inoutData['inout'] == 'in' && $inoutData['timestamp'] > $tz_stamp) { $inout = 'earlyOut'; }
+  if ($inoutData['inout'] == 'in' && $inoutData['timestamp'] > $tz_stamp) { $inout = 'earlyOut'; }  // if user tries to punch out before the punch-in in the future has happened
   else if ($inoutData['inout'] == 'in') { $inout = 'out'; }
   else if ($inoutData['inout'] == 'out') { $inout = 'in'; }
   else {
@@ -97,14 +97,14 @@ if (!empty($inoutData)) {
   }
   $last_stamp = $inoutData['timestamp'];
   $last_clock = new DateTime("@$last_stamp");
-  $last_clock->setTimeZone(new DateTimeZone('Europe/Helsinki'));
-} else {
+  $last_clock->setTimeZone(new DateTimeZone($timezone));
+} else {  // If this is users first punch, then it should be punch-in
   $inout = 'in';
 }
 
 
 if ($earliestStart != null && $latestEnd != null) {
-  if ($inout == 'in' && $tz_clock->format('H:i:s') < $earliestStart) {
+  if ($inout == 'in' && $tz_clock->format('H:i:s') < $earliestStart) {  // User punches in before their workday has set to begin
     $inout = 'early';
     $notes = $notes . " Tuli aikaisin, todellinen tuloaika: " . $tz_clock->format('d.m.Y H:i');
     $tzDateStr = $tz_clock->format('Y-m-d')." ".$earliestStart;
@@ -114,7 +114,7 @@ if ($earliestStart != null && $latestEnd != null) {
     $inout = 'afterhours';
   }
   else if ($inout == 'out') {
-    if ($tz_clock->format('Y-m-d') != $last_clock->format('Y-m-d') || $tz_clock->format('H:i:s') > $latestEnd) {
+    if ($tz_clock->format('Y-m-d') != $last_clock->format('Y-m-d') || $tz_clock->format('H:i:s') > $latestEnd) {  // User punches out after their workday has ended
       $inout = 'late';
       $notes = $notes . " Lähti myöhään, todellinen lähtöaika: " . $tz_clock->format('d.m.Y H:i');
       $tzDateStr = $last_clock->format('Y-m-d')." ".$latestEnd;
@@ -124,7 +124,7 @@ if ($earliestStart != null && $latestEnd != null) {
 }
 
 
-// Insert data to the DB
+// Insert the data to the DB
 if ($inout != 'afterhours' && $inout != 'earlyOut') {
   $clockin_stmt = $pdo->prepare("INSERT INTO `info` (`userID`, `inout`, `timestamp`, `notes`) VALUES (?,?,?,?)");
 
