@@ -119,7 +119,7 @@ else if ($request == "POST") {
                 <p class="wiisarilogo">WIISARI</p>
                 <p class="name">'.$displayName.'</p>';
         echo '  <img src="data:image/png;base64,' . base64_encode($generator->getBarcode($userID, $generator::TYPE_CODE_128, 2, 60)) . '">';
-        echo '  <p>'.$userID.'</p>
+        echo '  <p class="code">'.$userID.'</p>
                 <p class="tstlogo">Turun Seudun TST ry</p>';
         echo '</div>';
     }

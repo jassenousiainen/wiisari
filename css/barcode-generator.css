@@ -4,6 +4,18 @@
 	font-weight: normal;
 	font-style: normal;
  }
+ @font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-Regular.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Open Sans';
+	src: url('/fonts/OpenSans-Bold.ttf');
+	font-weight: bold;
+	font-style: normal;
+}
 html {
     margin: 0;
     padding: 0;
@@ -21,7 +33,7 @@ div.barcodeGenBox {
     padding: 0.8cm 0 0 0;
     box-sizing: border-box;
     text-align: center;
-    font-family: sans-serif;
+    font-family: 'Open Sans', sans-serif;
     position: relative;
 }
 
@@ -31,6 +43,13 @@ div.barcodeGenBox {
 
 .barcodeGenBox .name {
     font-weight: bold;
+}
+
+.barcodeGenBox .code {
+    font-size: 10px;
+    font-family: 'Consolas', sans-serif;
+    letter-spacing: 1.5px;
+    margin-top: 4px;
 }
 
 .barcodeGenBox .wiisarilogo {
