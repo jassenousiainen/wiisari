@@ -41,7 +41,11 @@ class User {
     if ($this->getInoutStatus() == "in") {
       // Lookup previous login, so we can count time between login and current logout
       $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$this->userID' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
-      $currentWorkTime = time() - (int)$lastIn;
+      if ($lastIn > time()) {
+        $currentWorkTime = 0;
+      } else {
+        $currentWorkTime = time() - (int)$lastIn;
+      }  
     } else {
       $currentWorkTime = 0;
     }

@@ -24,7 +24,12 @@ echo '<div class="leftContent">
               <form class="mypage_inout"action="inout.php" method="post">';
                 echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
                 if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
-                  echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$_SESSION['logged_in_user']->getCurrentWorkTime().'</span></b></div>';
+                  $currentWorkTime = $_SESSION['logged_in_user']->getCurrentWorkTime();
+                  if ($currentWorkTime == 0) {
+                    echo '<div class="workTime"><b>Tulit aikaisin töihin; työaikaa ei lasketa vielä.</b></div>';
+                  } else {
+                    echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$currentWorkTime.'</span></b></div>';
+                  }
                   echo '<p>Kellota itsesi ulos:</p>
                   <input type="password" style="display:none;" name="userID" value="'.$_SESSION['logged_in_user']->userID.'" autocomplete="off">
                   <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
