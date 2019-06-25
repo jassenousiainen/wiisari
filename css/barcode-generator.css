@@ -16,7 +16,7 @@ div.barcodeGenBox {
     display: inline-block;
     width: 9cm;
     height: 5cm;
-    border: solid 1px black;
+    border: dashed 1px black;
     margin: 0.2cm;
     padding: 0.8cm 0 0 0;
     box-sizing: border-box;
@@ -83,6 +83,7 @@ div.barcodeGenBox {
         border: none;
         background-color: #007bff;
         transition: background-color 0.2s ease;
+        margin-left: -37px;
     }
     .back:hover {
         cursor: pointer;
