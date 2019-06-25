@@ -102,8 +102,14 @@ else if ($request == "POST") {
     echo '
     <head>
         <link rel="stylesheet" href="/css/barcode-generator.css">
-    </head>
-    <a href="/barcode-generator/barcodeprinter.php" class="back">Takaisin</a>';
+    </head>';
+    if (isset($_POST['groupID'])) {
+        echo '<a href="/barcode-generator/barcodeprinter.php" class="back">Takaisin</a>';
+    } else {
+        echo '<form action="/employees/employeeinfo.php" method="post">
+                <button type="submit" class="back" name="userID" value="'.$userID.'">Takaisin</button>
+            </form>';
+    }
 
     while ($emp = mysqli_fetch_array($employee_query)) {
         $displayName = $emp['displayName'];
