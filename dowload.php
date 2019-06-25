@@ -16,7 +16,7 @@ if ((isset($_GET['text']))){
 
 function createsvg($text){
   $generator = new \Picqer\Barcode\BarcodeGeneratorSVG();
-  $base64string = base64_encode($generator->getBarcode($text, $generator::TYPE_CODE_128));
+  $base64string = base64_encode($generator->getBarcode($text, $generator::TYPE_CODE_128, 2, 60));
 
   $filename = $text.'_barcode.svg';
   header('Content-Type: image/svg+xml');
