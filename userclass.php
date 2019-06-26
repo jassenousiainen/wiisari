@@ -3,7 +3,7 @@
 require 'common.php';
 tc_connect();
 
-// Note that since this class is used in session variable (which is stored on server) and not cookie the user cant alter or see these values in any way
+// Note that since this class is used in session variable (which is stored on server) and not in a cookie the user cant alter or see these values in any way
 
 class User {
 
@@ -12,7 +12,7 @@ class User {
   public $last;
 
   // Note that the db query is ran only on construction of this instance
-  // -> When user edits their own info an instance of this class should be created again
+  // -> When user edits their own info, an instance of this class should be created again
 
   public function __construct($userID, $level) { 
       $this->userID = $userID;
