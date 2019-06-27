@@ -19,3 +19,16 @@ Suuremmilla tasoilla on omien oikeuksien lisäksi alempien tasojen oikeudet.
 	* Pääsy kaikkialle ja kaikkiin työntekijöihin
 	* Voi luoda minkä vain tason käyttäjiä
 	* Voi muokata kaikkien tasojen henkilöitä täysin valtuuksin (oikeuksien muokkaus)
+
+## Code used from these projects
+Chart.js
+https://github.com/chartjs/Chart.js
+
+Tablesorter
+https://github.com/mottie/tablesorter
+
+Text Input Effects
+https://github.com/codrops/TextInputEffects
+
+PHP Barcode Generator
+https://github.com/picqer/php-barcode-generator
