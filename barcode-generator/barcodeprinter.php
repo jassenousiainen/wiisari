@@ -1,64 +1,14 @@
 <?php
-require '../common.php';
-session_start();
-
-echo "<title>WIISARI - Tulosta viivakoodeja</title>\n";
-
-$self = $_SERVER['PHP_SELF'];
-$request = $_SERVER['REQUEST_METHOD'];
 
 if ($_SESSION['logged_in_user']->level < 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
-$supervisorID = $_SESSION['logged_in_user']->userID;
-
-
-if ($request == "GET") {
-    include "$_SERVER[DOCUMENT_ROOT]/header.php";
-    include "$_SERVER[DOCUMENT_ROOT]/topmain.php";
-
-    if ($_SESSION['logged_in_user']->level >= 3) {
-        $groupquery = tc_query( "SELECT groupName, officeName, groupID FROM groups NATURAL JOIN offices ORDER BY groupName;" );
-    } else {
-        $groupquery = tc_query( "SELECT groupName, officeName, groupID
-                            FROM supervises NATURAL JOIN groups NATURAL JOIN offices 
-                            WHERE userID = '$supervisorID'
-                            ORDER BY groupName;" );
-    }
-
-    echo '
-    <section class="container">
-        <div class="middleContent">
-            <div class="box">
-                <h2>Valitse ryhmät viivakoodien tulostukseen</h2>
-                <div class="section">
-                    <p>Huomaa, että yksittäisen henkilön viivakoodin saat henkilöstö -sivulta</p>
-                    <form action="'.$self.'" method="post">
-                        <p>Valitse ryhmä:</p>
-                        <select name="groupID">
-                            <option value="all" selected>Kaikki ryhmäsi</option>';
-    while ($grp = mysqli_fetch_array($groupquery)) {
-        echo '              <option value="'.$grp['groupID'].'">'.$grp['groupName'].'</option>';
-    }
-    echo '              </select>
-                        <br><br>
-                        <button type="submit" class="btn send">Hae</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-    ';
-
-
-}
-else if ($request == "POST") {
     include('src/BarcodeGenerator.php');
     include('src/BarcodeGeneratorSVG.php');
     $generator = new \Picqer\Barcode\BarcodeGeneratorSVG();
-
+    $supervisorID = $_SESSION['logged_in_user']->userID;
 
     if (isset($_POST['groupID'])) {      
         if ($_POST['groupID'] == "all") {
@@ -88,10 +38,11 @@ else if ($request == "POST") {
         }
         $employee_query = tc_query("SELECT * FROM employees WHERE groupID IN (".implode(',',$groupID).") ORDER BY displayName");
     }
-    else if (isset($_POST['userID'])) {
-        $userID = $_POST['userID'];
+    else if (isset($_POST['userBarcode'])) {
+        $userBarcode = $_POST['userBarcode'];
+        $checkPermsID = $userBarcode;
         require "../grouppermissions.php";
-        $employee_query = tc_query("SELECT * FROM employees WHERE userID = '$userID'");
+        $employee_query = tc_query("SELECT * FROM employees WHERE userID = '$userBarcode'");
     }
     else {
         echo "VIRHE! Ryhmää tai henkilöä ei valittu";
@@ -100,30 +51,22 @@ else if ($request == "POST") {
     
 
     echo '
-    <head>
-        <link rel="stylesheet" href="/css/barcode-generator.css">
-    </head>';
-    if (isset($_POST['groupID'])) {
-        echo '<a href="/barcode-generator/barcodeprinter.php" class="back">Takaisin</a>';
-    } else {
-        echo '<form action="/employees/employeeinfo.php" method="post">
-                <button type="submit" class="back" name="userID" value="'.$userID.'">Takaisin</button>
-            </form>';
-    }
+    <div class="print-box">';
 
     while ($emp = mysqli_fetch_array($employee_query)) {
         $displayName = $emp['displayName'];
-        $userID = $emp['userID'];
+        $userBarcode = $emp['userID'];
 
         echo '<div class="barcodeGenBox">
                 <p class="wiisarilogo">WIISARI</p>
                 <p class="name">'.$displayName.'</p>';
-        echo    $generator->getBarcode($userID, $generator::TYPE_CODE_128, 2, 60);
-        echo '  <p class="code">'.$userID.'</p>
+        echo    $generator->getBarcode($userBarcode, $generator::TYPE_CODE_128, 2, 60);
+        echo '  <p class="code">'.$userBarcode.'</p>
                 <p class="tstlogo">Turun Seudun TST ry</p>';
         echo '</div>';
     }
-}
+    echo '</div>
+          <script>window.print()</script>';
 
 
 ?>
