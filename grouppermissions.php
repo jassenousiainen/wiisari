@@ -1,13 +1,13 @@
 <?php
 // Use this code snippet to check if currently logged in supervisor has permissions for selected user (by group)
-// Remember to declare variable userID before including this
+// Remember to declare variable checkPermsID before including this
 
 $supervisorID = $_SESSION['logged_in_user']->userID;
 
 $accesstogroup = false;
 $checkgroup = mysqli_fetch_row(tc_query("SELECT userID
                                         FROM employees
-                                        WHERE userID = '$userID' AND groupID IN (
+                                        WHERE userID = '$checkPermsID' AND groupID IN (
                                             SELECT groupID
                                             FROM supervises
                                             WHERE userID = '$supervisorID'

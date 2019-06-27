@@ -72,6 +72,7 @@ else if (isset($_POST['altertime'])) {
   $logTime = new DateTime("@$punch[3]");
   $logTime->setTimeZone(new DateTimeZone($timezone));
 
+  $checkPermsID = $userID;
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
   echo '  <form action="time_editor.php" method="post" style="margin:0;">

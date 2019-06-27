@@ -19,6 +19,7 @@ if  ( isset($_POST['timeeditor']) ) {
   $userID = $_POST['timeeditor'];
   $user_data = mysqli_fetch_row(tc_query( "SELECT * FROM employees WHERE userID = '$userID'"));
 
+  $checkPermsID = $userID;
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
 
   /* ----- Add/delete -punches ----- */

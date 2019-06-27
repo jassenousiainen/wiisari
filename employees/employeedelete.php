@@ -19,6 +19,7 @@ if (isset($_POST['deleteuser'])) {
 
     $userID = $_POST['deleteuser'];
 
+    $checkPermsID = $userID;
     require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php"; // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
     tc_delete("employees", "userID = ?", $userID);

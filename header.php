@@ -23,8 +23,10 @@ if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
   echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/gradient.css" id="theme"/>';
   echo '<script type="text/javascript" src="/scripts/wiisari.js"></script>';
 } else {
-  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />';
+  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />'; 
 }
+
+echo '<link rel="stylesheet" type="text/css" href="/css/barcode-generator.css"/>';
 
 if (isset($_SESSION['logged_in_user']) && $_SERVER['REQUEST_URI'] == '/mypage.php') {
   echo '<script type="text/javascript" src="/scripts/mypage.js"></script>';
