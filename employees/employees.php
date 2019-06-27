@@ -45,23 +45,23 @@ if ($request == 'GET') {
             if ($_SESSION['logged_in_user']->level < 3) {
               echo '<p>Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
             }
+            echo '<p>Avaa henkilön tiedot klikkaamalla nimeä</p>';
     echo '  <form action="employeeinfo.php" method="post">
               <table class="sorted">
               <thead>
                 <tr>
-                  <th data-placeholder="Hae nimellä">Nimi</th>
+                  <th data-placeholder="Hae nimellä">Nimi/avaa</th>
                   <th data-placeholder="Hae käyttäjätunnuksella">Käyttäjätunnus</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Toimisto</th>
                   <th class="filter-select filter-exact" data-placeholder="Kaikki">Ryhmä</th>
                   <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Käyttäjätaso</th>
                   <th class="filter-select filter-exact sorter-false" data-placeholder="Kaikki">Töissä</th>
-                  <th class="sorter-false filter-false">Avaa</th>
                 </tr>
               </thead>
               <tfoot>
               <tr style="height: 20px;"></tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="7" class="ts-pager form-horizontal">
+                  <th colspan="6" class="ts-pager form-horizontal">
                     <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
                     <span class="pagedisplay"></span>
@@ -70,7 +70,7 @@ if ($request == 'GET') {
                   </th>
                 </tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="7" class="ts-pager form-horizontal">
+                  <th colspan="6" class="ts-pager form-horizontal">
                     max rivit: <select class="pagesize browser-default" title="Select page size">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -102,13 +102,12 @@ if ($request == 'GET') {
     if ($employee[3] == 3) {$employee_level = "Admin (taso 3)";}
 
     echo '      <tr>
-                  <td>'.$employee[1].'</td>
+                  <td><button name="userID" type="submit" value="'.$employee[0].'" class="link">'.$employee[1].'</button></td>
                   <td>'.$employee[0].'</td>
                   <td>'.$employee_office.'</td>
                   <td>'.$employee_group.'</td>
                   <td>'.$employee_level.'</td>
                   <td>'.$employee[5].'</td>
-                  <td style="text-align:center;"><button name="userID" type="submit" class="btn config" value="'.$employee[0].'"></button></td>
                 </tr>';
   }
 echo '          </tbody>
