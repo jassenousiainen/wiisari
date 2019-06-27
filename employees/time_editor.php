@@ -127,7 +127,7 @@ if  ( isset($_POST['timeeditor']) ) {
               <td style='text-align:center;'>
                 <label class='container'>
                   <input type='checkbox' name='deletelist[]' value='$inout[0]' class='check'>
-                  <span class='checkmark'></span>
+                  <span class='checkmark remove'></span>
                 </label>
               </td>
               <td style='text-align:center;'><button type='submit' name='altertime' value='$inout[0]' class='btn'><i class='fas fa-pencil-alt'></i></button></td>

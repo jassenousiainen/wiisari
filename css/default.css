@@ -245,13 +245,21 @@
 }
 
 /* BASIC LINK */
-a.link {
+.link {
 	color: var(--blue);
 	text-decoration: none;
+	background: none;
+	border: none;
+	font-size: 1rem;
 }
-a.link:hover {
+.link:hover {
 	color: var(--darkblue);
 	cursor: pointer;
+}
+td .link {
+	padding: 10px 5px;
+	width: 100%;
+    text-align: left;
 }
 
 /* BASIC FORM */
@@ -313,13 +321,20 @@ label.container:hover input.check ~ span.checkmark {
 }
 /* When the checkbox is checked, add a blue background */
 label.container input.check:checked ~ span.checkmark {
-  background-color: var(--blue);
+	background-color: var(--blue);
 	border-color: var(--blue);
 }
+label.container input.check:checked ~ span.checkmark.remove {
+	background-color: var(--red-bright);
+	border-color: var(--red-bright);
+  }
 /* Show the checkmark when checked */
 label.container input.check:checked ~ .checkmark:before {
   content: "\f00c";
 }
+label.container input.check:checked ~ .checkmark.remove:before {
+	content: "\f068";
+  }
 /* ----------------------- */
 
 
