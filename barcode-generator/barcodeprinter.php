@@ -56,8 +56,8 @@ if ($request == "GET") {
 }
 else if ($request == "POST") {
     include('src/BarcodeGenerator.php');
-    include('src/BarcodeGeneratorPNG.php');
-    $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+    include('src/BarcodeGeneratorSVG.php');
+    $generator = new \Picqer\Barcode\BarcodeGeneratorSVG();
 
 
     if (isset($_POST['groupID'])) {      
@@ -118,7 +118,7 @@ else if ($request == "POST") {
         echo '<div class="barcodeGenBox">
                 <p class="wiisarilogo">WIISARI</p>
                 <p class="name">'.$displayName.'</p>';
-        echo '  <img src="data:image/png;base64,' . base64_encode($generator->getBarcode($userID, $generator::TYPE_CODE_128, 2, 60)) . '">';
+        echo    $generator->getBarcode($userID, $generator::TYPE_CODE_128, 2, 60);
         echo '  <p class="code">'.$userID.'</p>
                 <p class="tstlogo">Turun Seudun TST ry</p>';
         echo '</div>';
