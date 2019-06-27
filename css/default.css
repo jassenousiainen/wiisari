@@ -651,8 +651,8 @@ h2.kirjausNimi {
     text-align: center;
     font-size: 20px;
     padding: 3px 0;
-    font-weight: normal;
-	margin: 0;
+    font-weight: bold;
+	margin: 0 0 10px 0;
 }
 .logOutTime {
 	background: linear-gradient(145deg, #0078ff 0%,#00b8ff 100%);

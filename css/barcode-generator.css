@@ -55,11 +55,12 @@ div.barcodeGenBox {
 .barcodeGenBox .wiisarilogo {
     position: absolute;
     font-family: 'JosefinSans';
-    font-size: 22px;
-    top: 14px;
-    left: 14px; 
+    font-size: 24px;
+    top: 12px;
+    left: 12px; 
     padding: 0;
     margin: 0;
+    letter-spacing: 1px;
 }
 
 .barcodeGenBox .tstlogo {
