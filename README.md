@@ -1,4 +1,7 @@
-# Wiisari
+# WIISARI
+Wiisari is a web-based timeclock system.
+
+Wiisari is originally based on [PHP Timeclock](http://timeclock.sourceforge.net/) and more specifically [UnitedTechGroup fork](https://github.com/UnitedTechGroup/timeclock) of it.
 
 ## Käyttäjätasot
 Suuremmilla tasoilla on omien oikeuksien lisäksi alempien tasojen oikeudet.
@@ -21,6 +24,9 @@ Suuremmilla tasoilla on omien oikeuksien lisäksi alempien tasojen oikeudet.
 	* Voi muokata kaikkien tasojen henkilöitä täysin valtuuksin (oikeuksien muokkaus)
 
 ## Code used from these projects
+PHP Timeclock
+https://github.com/UnitedTechGroup/timeclock
+
 Chart.js
 https://github.com/chartjs/Chart.js
 
