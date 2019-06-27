@@ -24,10 +24,19 @@ if (!isset($_POST['groupName']) || $_POST['groupName'] == "" ) {
     $oldName = $_POST['oldName'];
     $oldOffice = $_POST['oldOffice'];
 
-    $officeData = mysqli_fetch_row(tc_query("SELECT * FROM offices WHERE officeName = '$officeName' LIMIT 1"));
-    $officeID = $officeData[0];
+    $query = tc_query("SELECT * FROM offices WHERE officeName = ? LIMIT 1",$officeName);
+    if($query != FALSE){
+      $officeData = mysqli_fetch_row($query);
+      if(isset($officeData[0]) && $officeData[0] != NULL){
+        $officeID = $officeData[0];
+      }
+    }
+
     if($groupName != $oldName || $officeName != $oldOffice){
-      $groupNamecheck = mysqli_fetch_row(tc_query( "SELECT groupName FROM groups WHERE officeID = '$officeID' AND groupName = '$groupName'"));
+      $query = tc_query( "SELECT groupName FROM groups WHERE officeID = '$officeID' AND groupName = '$groupName'");
+      if($query != FALSE){
+        $groupNamecheck = mysqli_fetch_row($query);
+      } 
       if (!empty($groupNamecheck)) {
         $error = true; $nameID = "error";
       }

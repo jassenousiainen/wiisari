@@ -12,6 +12,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }
 
   $data = array();
+  $dates = array();
   if(isset($details)){
     $data3 = array("Name,In/Out,Time,Date,Notes,Employee Totals");
   }else{
