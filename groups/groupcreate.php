@@ -59,14 +59,22 @@ if ( $request == "GET") {
      $error = true; $OnameID = "error";
   }else {
       $officeName = $_POST['office_name'];
-      $officeID_query = mysqli_fetch_row(tc_query( "SELECT officeID FROM offices WHERE officeName = '$officeName' LIMIT 1"));
-      $officeID = $officeID_query[0];
+      $query = tc_query( "SELECT officeID FROM offices WHERE officeName = '$officeName' LIMIT 1");
+      if($query != FALSE){
+        $officeID_query = mysqli_fetch_row($query);
+      }
+      if(isset($officeID_query[0]) && $officeID_query[0] != NULL){
+        $officeID = $officeID_query[0];
+      }
     }
   if (!isset($_POST['groupName']) || $_POST['groupName'] == "" ) {
      $error = true; $nameID = "error";
   }else {
       $groupName = $_POST['groupName'];
-      $groupNamecheck = mysqli_fetch_row(tc_query( "SELECT groupName FROM groups WHERE officeID = '$officeID' AND groupName = '$groupName'"));
+      $query = tc_query( "SELECT groupName FROM groups WHERE officeID = '$officeID' AND groupName = '$groupName'");
+      if($query != FALSE){
+        $groupNamecheck = mysqli_fetch_row($query);
+      }
       if (!empty($groupNamecheck)) {$error = true; $nameID = "error";}
   }
   

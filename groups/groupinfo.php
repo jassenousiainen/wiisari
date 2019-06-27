@@ -17,14 +17,20 @@ if (isset($_POST['groupID'])) {
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
 
     $groupID = $_POST['groupID'];
-
-    $groupData = mysqli_fetch_row(tc_query("SELECT * FROM groups WHERE groupID = '$groupID'"));
-    $officeData = mysqli_fetch_row(tc_query("SELECT * FROM groups NATURAL JOIN offices WHERE groupID = '$groupID'"));
+    $query = tc_query("SELECT * FROM groups WHERE groupID = '$groupID'");
+    if($query != FALSE){
+        $groupData = mysqli_fetch_row($query);
+    }
+    $query = tc_query("SELECT * FROM groups NATURAL JOIN offices WHERE groupID = '$groupID'");
+    if($query != FALSE){
+        $officeData = mysqli_fetch_row($query);
+    }
 
     echo '
     <section class="container">
         <div class="middleContent">
             <a class="btn back" href="groups.php"> Takaisin</a>';
+        if(isset($groupData) && isset($officeData)){
     echo '
             <div class="box">
                 <h2>Ryhmän '.$groupData[1].' tiedot</h2>
@@ -56,7 +62,8 @@ if (isset($_POST['groupID'])) {
                           <br><button name="groupID" type="submit" class="btn send" value="'.$groupID.'">Muuta tietoja</button>
                         </form>
                         </div>';
-      }
+                }
+        }
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
                     <p><b>Poista Ryhmä:</b></p>

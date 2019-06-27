@@ -70,19 +70,25 @@ if ($request == 'GET') {
                 </tr>
               </tfoot>
               <tbody>';
+  if($group_query != FALSE){
+    while ( $group = mysqli_fetch_array($group_query) ) {
+      $gid = $group['groupID'];
+      $query = tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = ?",$gid);
+      if($query != FALSE){
+          $user_cnt = mysqli_fetch_row($query);
+      }
+        if(isset($user_cnt)){      
+          $user_cnt = $user_cnt[0];
+        }
+        
+      echo '      <tr>
+                    <td>'.$group['groupName'].'</td>
+                    <td>'.$group['officeName'].'</td>
+                    <td>'.$user_cnt.'</td>
 
-  while ( $group = mysqli_fetch_array($group_query) ) {
-    $gid = $group['groupID'];
-    $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = $gid"))[0];
-    
-
-    echo '      <tr>
-                  <td>'.$group['groupName'].'</td>
-                  <td>'.$group['officeName'].'</td>
-                  <td>'.$user_cnt.'</td>
-
-                  <td style="text-align:center;"><button name="groupID" type="submit" class="btn config" value="'.$group['groupID'].'"></button></td>
-                </tr>';
+                    <td style="text-align:center;"><button name="groupID" type="submit" class="btn config" value="'.$group['groupID'].'"></button></td>
+                  </tr>';
+    }
   }
 
 echo '          </tbody>
