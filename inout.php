@@ -165,7 +165,6 @@ else if ($inout == "in") {
 }
 else if ($inout == 'early') {
   $logblock = "<p class='logError'>Aikaisin</p>
-            <br>
             <p class='kirjausSisaan'>Sisään</p>";
 }
 else if ($inout == 'afterhours') {
