@@ -23,8 +23,6 @@ if ($request == 'GET') {
 }
 
 
-$userID;
-
 echo '<section class="container">
         <div class="middleContent">';
 

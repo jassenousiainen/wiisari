@@ -3,16 +3,20 @@
 // Remember to declare variable userID before including this
 
 $supervisorID = $_SESSION['logged_in_user']->userID;
+$userID = $_POST['userID'];
 
 $accesstogroup = false;
-$checkgroup = mysqli_fetch_row(tc_query("SELECT userID
-                                        FROM employees
-                                        WHERE userID = '$userID' AND groupID IN (
-                                            SELECT groupID
-                                            FROM supervises
-                                            WHERE userID = '$supervisorID'
-                                            )
-                                        AND level = 0;"));
+$query = tc_query("SELECT userID
+                    FROM employees
+                    WHERE userID = '$userID' AND groupID IN (
+                        SELECT groupID
+                        FROM supervises
+                        WHERE userID = '$supervisorID'
+                        )
+                    AND level = 0;");
+if ($query != FALSE){
+    $checkgroup = mysqli_fetch_row($query);
+}
 if (!empty($checkgroup)) {$accesstogroup = true;}
 if ($_SESSION['logged_in_user']->level >= 3) {$accesstogroup = true;} // admin has permissions to every group
 

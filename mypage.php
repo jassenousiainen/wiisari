@@ -142,7 +142,6 @@ if ($_SESSION['logged_in_user']->level > 0) {
       }
 
       $labels = "labels: ['viikko 1', 'viikko 2', 'viikko 3', 'viikko 4', 'viikko 5', 'viikko 6']";
-      $data;
       if ($currentWeek == 1) {
         $data = "data: [".$weekTime[$currentWeek].", , , , , ]";
       } else if ($currentWeek == 2) {

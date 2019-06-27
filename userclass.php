@@ -29,7 +29,7 @@ class User {
   }
 
   public function groupName() {
-    return mysqli_fetch_row(tc_query("SELECT groupName FROM groups WHERE groupID = '$this->groupID'"));
+    return mysqli_fetch_row(tc_query("SELECT groupName FROM groups WHERE groupID = ?",$this->groupID));
   }
 
    public function getInoutStatus() {
@@ -63,9 +63,14 @@ class User {
         $week = ltrim(date('W', $tempOut[3]), 0); // 1-52 (huomaa ltrimin käyttö aloittavien nollien poistamiseksi)
 
         // Haetaan seuraava kirjaus (eli sisäänkirjaus)
-        $tempIn = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"));
+        $query = tc_query( "SELECT * FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC");
+          if($query != FALSE){
+            $tempIn = mysqli_fetch_row($query);
+          }
 
-        $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
+        if(isset($tempOut) && isset($tempIn)){
+          $time = (int)$tempOut[3] - (int)$tempIn[3]; // Lasketaan uloskirjauksen ja sisäänkirjauksen erotus
+        }
         if (is_numeric($time)) {
           $weektime[$week] += $time;
         }
@@ -80,20 +85,26 @@ class User {
   public function getMonthWorkTime() {
     $monthtime = array_fill(1, 13, 0);
     $outStamps = tc_query("SELECT * FROM info WHERE userID = '$this->userID' AND `inout` = 'out' ORDER BY timestamp DESC");
+    if($outStamps != FALSE){
+      while ( $tempOut = mysqli_fetch_array($outStamps) ) {   // Käydään läpi työntekijän kaikki kirjaukset
+        if ( date('Y', $tempOut[3]) == date('Y', time()) ) { // Lasketaan vain tämän vuoden kirjaukset
+          $tempstamp = $tempOut[3];
+          $month = date('n', $tempOut[3]); // 1-12
 
-    while ( $tempOut = mysqli_fetch_array($outStamps) ) {   // Käydään läpi työntekijän kaikki kirjaukset
-      if ( date('Y', $tempOut[3]) == date('Y', time()) ) { // Lasketaan vain tämän vuoden kirjaukset
-        $tempstamp = $tempOut[3];
-        $month = date('n', $tempOut[3]); // 1-12
-
-        $tempIn = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC"));
-
-        $time = (int)$tempOut[3] - (int)$tempIn[3];
-        if (is_numeric($time)) {
-          $monthtime[$month] += $time;
+          $query = tc_query( "SELECT * FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempstamp' ORDER BY timestamp DESC");
+          if($query != FALSE){
+            $tempIn = mysqli_fetch_row($query);
+          }
+          
+          if(isset($tempOut) && isset($tempIn)){
+            $time = (int)$tempOut[3] - (int)$tempIn[3];
+          }
+          if (is_numeric($time)) {
+            $monthtime[$month] += $time;
+          }
+        } else {
+          break;
         }
-      } else {
-        break;
       }
     }
     return $monthtime;
