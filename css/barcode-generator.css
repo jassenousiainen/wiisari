@@ -16,97 +16,69 @@
 	font-weight: bold;
 	font-style: normal;
 }
-html {
-    margin: 0;
-    padding: 0;
-}
-body {
-    width: 21cm;
-}
-
-div.barcodeGenBox {
-    display: inline-block;
-    width: 9cm;
-    height: 5cm;
-    border: dashed 1px black;
-    margin: 0.2cm;
-    padding: 0.8cm 0 0 0;
-    box-sizing: border-box;
-    text-align: center;
-    font-family: 'Open Sans', sans-serif;
-    position: relative;
-}
-
-.barcodeGenBox p {
-    font-size: 12px;
-}
-
-.barcodeGenBox .name {
-    font-weight: bold;
-}
-
-.barcodeGenBox .code {
-    font-size: 10px;
-    font-family: 'Consolas', sans-serif;
-    letter-spacing: 1.5px;
-    margin-top: 4px;
-}
-
-.barcodeGenBox .wiisarilogo {
-    position: absolute;
-    font-family: 'JosefinSans';
-    font-size: 24px;
-    top: 12px;
-    left: 12px; 
-    padding: 0;
-    margin: 0;
-    letter-spacing: 1px;
-}
-
-.barcodeGenBox .tstlogo {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 0;
-    margin: 0;
-}
 
 @media print {
-    .back {
+    section, header {
         display: none;
+    }
+    html {
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        width: 21cm;
+    }
+
+    div.barcodeGenBox {
+        display: inline-block;
+        width: 9cm;
+        height: 5cm;
+        border: dashed 1px black;
+        margin: 0.2cm;
+        padding: 0.8cm 0 0 0;
+        box-sizing: border-box;
+        text-align: center;
+        font-family: 'Open Sans', sans-serif;
+        position: relative;
+    }
+
+    .barcodeGenBox p {
+        font-size: 12px;
+    }
+
+    .barcodeGenBox .name {
+        font-weight: bold;
+    }
+
+    .barcodeGenBox .code {
+        font-size: 10px;
+        font-family: 'Consolas', sans-serif;
+        letter-spacing: 1.5px;
+        margin-top: 4px;
+    }
+
+    .barcodeGenBox .wiisarilogo {
+        position: absolute;
+        font-family: 'JosefinSans';
+        font-size: 24px;
+        top: 12px;
+        left: 12px; 
+        padding: 0;
+        margin: 0;
+        letter-spacing: 1px;
+    }
+
+    .barcodeGenBox .tstlogo {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 0;
+        margin: 0;
     }
 }
 
 @media screen {
-    html {
-        background: #f8f9fa;
-    }
-    body {
-        background: white;
-        margin: 60px auto 30px auto;
-        padding: 1cm 0 1cm 1cm;
-        box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
-        border-radius: 20px;
-        box-sizing: border-box;
-    }
-    .back {
-        position: absolute;
-        top: 10px;
-        display: inline-block;
-        padding: 8px 13px;
-        border-radius: 20px;
-        color: white;
-        text-decoration: none;
-        font-family: 'Segoe UI', 'Open Sans';
-        font-weight: 400;
-        font-size: 1rem;
-        border: none;
-        background-color: #007bff;
-        transition: background-color 0.2s ease;
-        margin-left: -37px;
-    }
-    .back:hover {
-        cursor: pointer;
-        background-color: #1374dc;
+    .print-box {
+        display: none;
     }
 }

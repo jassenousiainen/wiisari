@@ -19,9 +19,15 @@ if (isset($_POST['userID'])) {
 
     $userID = $_POST['userID'];
     
+    $checkPermsID = $userID;
     require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
     include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
+
+    // Generates barcode for printing
+    if (isset($_POST['userBarcode'])) {
+        include "../barcode-generator/barcodeprinter.php";
+    }
 
     echo '
     <section class="container">
@@ -73,10 +79,11 @@ if (isset($_POST['userID'])) {
     echo '
                 <div class="section">
                     <p>Generoi henkilölle tulostettava viivakoodi:</p>
-                    <form action="/barcode-generator/barcodeprinter.php" method="post">
-                        <button class="btn" type="submit" name="userID" value="'.$empdata[0].'"><i class="fas fa-barcode"></i> Hae</button>
+                    <form action="'.$self.'" method="post">
+                        <button class="btn" type="submit" name="userBarcode" value="'.$empdata[0].'"><i class="fas fa-barcode"></i> Hae</button>
+                        <input type="hidden" name="userID" value="'.$empdata[0].'">
                         <a class="btn" href="../dowload.php?text='.$empdata[0].'"><i class="fas fa-download"></i> Lataa SVG</a>
-                        </form>
+                    </form>
                 </div>
     ';
     

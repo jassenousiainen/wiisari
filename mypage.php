@@ -75,7 +75,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
             echo '<a class="btn tile" href="/groups/groups.php"><i class="fas fa-users"></i><span>Ryhmät</span></a>';          
           }
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
-          echo '<a class="btn tile" href="/barcode-generator/barcodeprinter.php"><i class="fas fa-barcode"></i><span>Viivakoodien tulostin</span></a>';
+          echo '<a class="btn tile" href="/barcode-generator/barcodefetch.php"><i class="fas fa-barcode"></i><span>Viivakoodien tulostin</span></a>';
 
     echo '
       </p>
@@ -133,7 +133,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
       echo '<div class="section">';
       echo '  <canvas id="weektimechart" width="910" height="450"></canvas>';
 
-      $currentWeek = ltrim(date('W', time()), 0);
+      $currentWeek = (int)ltrim(date('W', time()), 0);
       $WeekWorkTime = $_SESSION['logged_in_user']->getWeekWorkTime();
 
       $len = count($WeekWorkTime);
