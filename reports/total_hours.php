@@ -65,8 +65,10 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                     <td>
                                         <select name="groupID">
                                             <option value="all" selected>Kaikki ryhmäsi</option>';
-    while ($grp = mysqli_fetch_array($groupquery)) {
-        echo '                              <option value="'.$grp['groupID'].'">'.$grp['groupName'].'</option>';
+    if($groupquery != FALSE){
+        while ($grp = mysqli_fetch_array($groupquery)) {
+            echo '                          <option value="'.$grp['groupID'].'">'.$grp['groupName'].'</option>';
+        }
     }
     echo '                              </select>
                                     </td>
@@ -204,7 +206,13 @@ if ($request == 'GET' || isset($_POST['errors'])) {
         if (!isset($group_name)) {
             array_push($errors, "Valittua ryhmää ei löytynyt");
         }
-        if ( $_SESSION['logged_in_user']->level < 3 && empty(mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'"))) ) {
+            $query = tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$supervisorID'");
+            if($query != FALSE){
+                $super = mysqli_fetch_row($query);
+            }else{
+                $super = FALSE;
+            }
+        if ( $_SESSION['logged_in_user']->level < 3 && empty($super) ) {
             array_push($errors, "Sinulla ei ole oikeutta valittuun ryhmään");
         } else {
             $groupID = array($groupID);
@@ -213,15 +221,19 @@ if ($request == 'GET' || isset($_POST['errors'])) {
         $group_name = "Kaikki ryhmäsi";
         $groupID = array();
         $fetchquery = tc_query("SELECT groupID FROM supervises WHERE userID = '$supervisorID'");
-        while ($row = mysqli_fetch_array($fetchquery)) {
-            array_push($groupID, $row[0]);
+        if($fetchquery != FALSE){
+            while ($row = mysqli_fetch_array($fetchquery)) {
+                array_push($groupID, $row[0]);
+            }
         }
     } else if ($_SESSION['logged_in_user']->level >= 3 && $_POST['groupID'] == "all" && !empty($_POST['groupID'])) { 
         $group_name = "Kaikki ryhmäsi";
         $groupID = array();
         $fetchquery = tc_query("SELECT groupID FROM groups");
-        while ($row = mysqli_fetch_array($fetchquery)) {
-            array_push($groupID, $row[0]);
+        if($fetchquery != FALSE){
+            while ($row = mysqli_fetch_array($fetchquery)) {
+                array_push($groupID, $row[0]);
+            }
         }
     } else if (empty($groupID)) {
         array_push($errors, "Et valinnut ryhmää");
@@ -275,13 +287,13 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
 
     // Convert the datestrings to timestamps
-    if (!empty($from_date)) {
+    if (!empty($from_date) && isset($_POST)) {
         $from_date = $from_day.".".$from_month.".".$from_year;
         $from_timestamp=\DateTime::createFromFormat('d.m.Y', $from_date, new DateTimeZone($timezone))->getTimestamp();
         $from_date = $_POST['from_date'];   
     }
 
-    if (!empty($to_date)) {
+    if (!empty($to_date) && isset($_POST)) {
         $to_date = $to_day.".".$to_month.".".$to_year." 23:59";
         $to_timestamp=\DateTime::createFromFormat('d.m.Y H:i', $to_date, new DateTimeZone($timezone))->getTimestamp() + 60;
         $to_date = $_POST['to_date'];
@@ -359,12 +371,14 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                         FROM employees NATURAL JOIN groups
                         WHERE groupID IN (".implode(',',$groupID).") 
                         ORDER BY displayName");
-
-    while ($row = mysqli_fetch_array($result)) {
-        $employees_empfullname[] = "" . $row['userID'] . "";
-        $employees_displayname[] = "" . $row['displayName'] . "";
-        $employees_groupname[] = "" . $row['groupName'] . "";
-        $employees_cnt++;
+    if($result != FALSE){
+        $employees_groupname = array();
+        while ($row = mysqli_fetch_array($result)) {
+            $employees_empfullname[] = "" . $row['userID'] . "";
+            $employees_displayname[] = "" . $row['displayName'] . "";
+            $employees_groupname[] = "" . $row['groupName'] . "";
+            $employees_cnt++;
+        }
     }
 
     for ($x = 0; $x < $employees_cnt; $x++) {
@@ -389,18 +403,20 @@ if ($request == 'GET' || isset($_POST['errors'])) {
  ORDER BY i.timestamp ASC
 QUERY
             , array($employees_empfullname[$x], $from_timestamp, $to_timestamp));
-
-            while ($row = mysqli_fetch_array($result)) {
-                $info_fullname[] = "" . $row['userID'] . "";
-                $info_inout[] = "" . $row['inout'] . "";
-                $info_timestamp[] = "" . $row['timestamp'] . "" + $tzo;
-                $info_notes[] = "" . $row['notes'] . "";
-                $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";
-                $punchlist_punchitems[] = "" . $row['punchitems'] . "";
-                $punchlist_color[] = "" . $row['color'] . "";
-                $info_cnt++;
+            if($result != FALSE){
+                $punchlist_color = array();
+                while ($row = mysqli_fetch_array($result)) {
+                    $info_fullname[] = "" . $row['userID'] . "";
+                    $info_inout[] = "" . $row['inout'] . "";
+                    $info_timestamp[] = $row['timestamp'] + $tzo;
+                    $info_notes[] = "" . $row['notes'] . "";
+                    $punchlist_in_or_out[] = "" . $row['in_or_out'] . "";
+                    $punchlist_punchitems[] = "" . $row['punchitems'] . "";
+                    $punchlist_color[] = "" . $row['color'] . "";
+                    $info_cnt++;
+                }
             }
-
+            
             for ($y = 0; $y < $info_cnt; $y++) {
 
                 //      $info_date[] = date($datefmt, $info_timestamp[$y]);
@@ -413,16 +429,16 @@ QUERY
                     if ($tmp_info_date == $info_date[$y]) {
                         if (empty($punchlist_in_or_out[$y])) {
                             $punch_cnt++;
-                            if ($status == "out") {
+                            if (isset($status) && isset($out_time) && $status == "out") {
                                 $secs = $secs + ($info_timestamp[$y] - $out_time);
-                            } elseif ($status == "in") {
+                            } elseif (isset($status) && isset($in_time) && $status == "in") {
                                 $secs = $secs + ($info_timestamp[$y] - $in_time);
                             }
                             $status = "out";
                             $out_time = $info_timestamp[$y];
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
-                                $total_hours = $total_hours + $hours;
+                                $total_hours += $hours;
                                 $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
@@ -451,7 +467,7 @@ QUERY
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                        if (@$tmp_display_ip == "1") {
+                                        if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                             echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                             color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                         }
@@ -465,7 +481,7 @@ QUERY
                                         $row_count = "0";
                                         $page_count++;
                                         $temp_page_count = $page_count + 1;
-                                        if (!empty($tmp_paginate)) {
+                                        if (!empty($tmp_paginate) && isset($rpt_name)) {
                                             echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                             echo "<table width=100% align=center class=misc_items border=0
                                           cellpadding=3 cellspacing=0>\n";
@@ -475,7 +491,7 @@ QUERY
                                             echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                             style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                             echo "</table></td></tr>\n";
-                                            if (strtolower($user_or_display) == "display") {
+                                            if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                                 echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                                 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                                 border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -497,14 +513,14 @@ QUERY
                             $punch_cnt++;
                             if ($y == $info_cnt - 1) {
                                 if (($info_timestamp[$y] <= $rpt_stamp) && ($rpt_stamp < ($to_timestamp + $tzo)) && ($x_info_date[$y] == $rpt_date)) {
-                                    if ($status == "in") {
+                                    if (isset($status) && isset($in_time) && $status == "in") {
                                         $secs = $secs + ($rpt_stamp - $info_timestamp[$y]) + ($info_timestamp[$y] - $in_time);
                                     } elseif ($status == "out") {
                                         $secs = $secs + ($rpt_stamp - $info_timestamp[$y]);
                                     }
                                     $currently_punched_in = '1';
                                 } elseif (($info_timestamp[$y] <= $rpt_stamp) && ($x_info_date[$y] == $rpt_date)) {
-                                    if ($status == "in") {
+                                    if (isset($status) && isset($in_time) && $status == "in") {
                                         $secs = $secs + (($to_timestamp + $tzo) - $info_timestamp[$y]) + ($info_timestamp[$y] - $in_time);
                                     } elseif ($status == "out") {
                                         $secs = $secs + (($to_timestamp + $tzo) - $info_timestamp[$y]);
@@ -524,7 +540,7 @@ QUERY
                                 //                          $secs = $secs + (($info_end_time[$y] + 1) - $info_timestamp[$y]);
                                 //                      }
                             } else {
-                                if ($status == "in") {
+                                if (isset($status) && isset($in_time) && $status == "in" ) {
                                     $secs = $secs + ($info_timestamp[$y] - $in_time);
                                 }
                                 $in_time = $info_timestamp[$y];
@@ -533,7 +549,7 @@ QUERY
                             $status = "in";
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
-                                $total_hours = $total_hours + $hours;
+                                $total_hours += $hours;
                                 $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if ((empty($y)) || ($y == $info_cnt - 1)) {
@@ -562,7 +578,7 @@ QUERY
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                        if (@$tmp_display_ip == "1") {
+                                        if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                             echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                             color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                         }
@@ -576,7 +592,7 @@ QUERY
                                         $row_count = "0";
                                         $page_count++;
                                         $temp_page_count = $page_count + 1;
-                                        if (!empty($tmp_paginate)) {
+                                        if (!empty($tmp_paginate) && isset($rpt_name)) {
                                             echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                             echo "<table width=100% align=center class=misc_items border=0
                                           cellpadding=3 cellspacing=0>\n";
@@ -586,7 +602,7 @@ QUERY
                                             echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                             style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                             echo "</table></td></tr>\n";
-                                            if (strtolower($user_or_display) == "display") {
+                                            if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                                 echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                                 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                                 border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -611,14 +627,14 @@ QUERY
 
                         //// if the previous has only a single In punch and no Out punches, configure the $secs ////
 
-                        if (isset($tmp_info_date)) {
+                        if (isset($tmp_info_date) && isset($status) && isset($in_time) && isset($previous_days_end_time)) {
                             if ($status == "out") {
                                 $secs = $secs;
                             } elseif ($status == "in") {
                                 $secs = $secs + ($previous_days_end_time - $in_time);
                             }
                             $hours = secsToHours($secs, $tmp_round_time);
-                            $total_hours = $total_hours + $hours;
+                            $total_hours += $hours;
                             $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
@@ -647,7 +663,7 @@ QUERY
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                    if (@$tmp_display_ip == "1") {
+                                    if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                         echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                     color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                     }
@@ -661,7 +677,7 @@ QUERY
                                     $row_count = "0";
                                     $page_count++;
                                     $temp_page_count = $page_count + 1;
-                                    if (!empty($tmp_paginate)) {
+                                    if (!empty($tmp_paginate) && isset($rpt_name)) {
                                         echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                         echo "<table width=100% align=center class=misc_items border=0
                                   cellpadding=3 cellspacing=0>\n";
@@ -672,7 +688,7 @@ QUERY
                                     style='font-size:9px;color:#000000;'>Date
                                     Range: $from_date &ndash; $to_date</td></tr>\n";
                                         echo "</table></td></tr>\n";
-                                        if (strtolower($user_or_display) == "display") {
+                                        if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                             echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                         style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                         border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -689,12 +705,14 @@ QUERY
 
                             }
                             $secs = 0;
-                            unset($in_time);
-                            unset($out_time);
-                            unset($previous_days_end_time);
-                            unset($status);
                             unset($tmp_info_date);
                             unset($date_formatted);
+                            if(isset($previous_days_end_time) || isset($status) || isset($in_time) || isset($out_time)){
+                                unset($previous_days_end_time);
+                                unset($status);
+                                unset($in_time);
+                                unset($out_time);
+                            }
                         }
                         $tmp_info_date = $info_date[$y];
                         $previous_days_end_time = $info_end_time[$y] + 1;
@@ -706,7 +724,7 @@ QUERY
                             $previous_days_end_time = $info_end_time[$y] + 1;
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
-                                $total_hours = $total_hours + $hours;
+                                $total_hours += $hours;
                                 $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
@@ -735,7 +753,7 @@ QUERY
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                        if (@$tmp_display_ip == "1") {
+                                        if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                             echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                             color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                         }
@@ -749,7 +767,7 @@ QUERY
                                         $row_count = "0";
                                         $page_count++;
                                         $temp_page_count = $page_count + 1;
-                                        if (!empty($tmp_paginate)) {
+                                        if (!empty($tmp_paginate) && isset($rpt_name)) {
                                             echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                             echo "<table width=100% align=center class=misc_items border=0
                                           cellpadding=3 cellspacing=0>\n";
@@ -759,7 +777,7 @@ QUERY
                                             echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                             style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                             echo "</table></td></tr>\n";
-                                            if (strtolower($user_or_display) == "display") {
+                                            if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                                 echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                                 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                                 border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -801,7 +819,7 @@ QUERY
                             }
                             if ($y == $info_cnt - 1) {
                                 $hours = secsToHours($secs, $tmp_round_time);
-                                $total_hours = $total_hours + $hours;
+                                $total_hours += $hours;
                                 $total_secs += $secs;
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
@@ -830,7 +848,7 @@ QUERY
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                        if (@$tmp_display_ip == "1") {
+                                        if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                             echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                             color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                         }
@@ -844,7 +862,7 @@ QUERY
                                         $row_count = "0";
                                         $page_count++;
                                         $temp_page_count = $page_count + 1;
-                                        if (!empty($tmp_paginate)) {
+                                        if (!empty($tmp_paginate) && isset($rpt_name)) {
                                             echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                             echo "<table width=100% align=center class=misc_items border=0
                                           cellpadding=3 cellspacing=0>\n";
@@ -854,7 +872,7 @@ QUERY
                                             echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                             style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                             echo "</table></td></tr>\n";
-                                            if (strtolower($user_or_display) == "display") {
+                                            if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                                 echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                                 style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                                 border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -892,7 +910,7 @@ QUERY
                         $previous_days_end_time = $info_end_time[$y] + 1;
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
-                            $total_hours = $total_hours + $hours;
+                            $total_hours += $hours;
                             $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
@@ -921,7 +939,7 @@ QUERY
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                    if (@$tmp_display_ip == "1") {
+                                    if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                         echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                         color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                     }
@@ -935,7 +953,7 @@ QUERY
                                     $row_count = "0";
                                     $page_count++;
                                     $temp_page_count = $page_count + 1;
-                                    if (!empty($tmp_paginate)) {
+                                    if (!empty($tmp_paginate) && isset($rpt_name)) {
                                         echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                         echo "<table width=100% align=center class=misc_items border=0
                                       cellpadding=3 cellspacing=0>\n";
@@ -945,7 +963,7 @@ QUERY
                                         echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                         style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                         echo "</table></td></tr>\n";
-                                        if (strtolower($user_or_display) == "display") {
+                                        if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                             echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                             style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                             border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -981,7 +999,7 @@ QUERY
                         }
                         if ($y == $info_cnt - 1) {
                             $hours = secsToHours($secs, $tmp_round_time);
-                            $total_hours = $total_hours + $hours;
+                            $total_hours += $hours;
                             $total_secs += $secs;
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
@@ -1010,7 +1028,7 @@ QUERY
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
-                                    if (@$tmp_display_ip == "1") {
+                                    if (@$tmp_display_ip == "1" && isset($info_ipaddress)) {
                                         echo "      <td nowrap align=left width=25% style='padding-right:25px;
                                         color:$punchlist_color[$z];'>$info_ipaddress[$z]</td>\n";
                                     }
@@ -1024,7 +1042,7 @@ QUERY
                                     $row_count = "0";
                                     $page_count++;
                                     $temp_page_count = $page_count + 1;
-                                    if (!empty($tmp_paginate)) {
+                                    if (!empty($tmp_paginate) && isset($rpt_name)) {
                                         echo "<tr style='page-break-before:always;'><td width=100% colspan=2>\n";
                                         echo "<table width=100% align=center class=misc_items border=0
                                       cellpadding=3 cellspacing=0>\n";
@@ -1034,7 +1052,7 @@ QUERY
                                         echo "  <tr><td width=80%></td><td class=notdisplay_rpt nowrap
                                         style='font-size:9px;color:#000000;'>Date Range: $from_date &ndash; $to_date</td></tr>\n";
                                         echo "</table></td></tr>\n";
-                                        if (strtolower($user_or_display) == "display") {
+                                        if (isset($user_or_display) && strtolower($user_or_display) == "display") {
                                             echo "  <tr><td class=notdisplay_rpt width=100% colspan=2
                                             style=\"font-size:11px;color:#000000;border-style:solid;border-color:#888888;
                                             border-width:0px 0px 1px 0px;\"><b>$employees_displayname[$x]</b>&nbsp;(cont'd)</td></tr>\n";
@@ -1091,7 +1109,7 @@ QUERY
             $page_count++;
             $temp_page_count = $page_count + 1;
 
-            if (!empty($tmp_paginate)) {
+            if (!empty($tmp_paginate) && isset($rpt_name)) {
                 if ($x != ($employees_cnt - 1)) {
                     echo "            </table>\n";
                     echo "            <table style='page-break-before:always;' width=80% align=center class=misc_items border=0 cellpadding=3 cellspacing=0>\n";
@@ -1120,18 +1138,21 @@ QUERY
             unset($info_inout);
             unset($info_timestamp);
             unset($info_notes);
-            unset($info_ipaddress);
             unset($punchlist_in_or_out);
             unset($punchlist_punchitems);
             unset($punchlist_color);
             unset($info_date);
             unset($info_start_time);
             unset($info_end_time);
-            unset($tmp_info_date);
             unset($hours);
-            unset($date_formatted);
             unset($currently_punched_in);
             unset($x_info_date);
+            if(isset($date_formatted) || isset($tmp_info_date) || isset($info_ipaddress)){
+                unset($date_formatted);
+                unset($tmp_info_date);
+                unset($info_ipaddress);
+
+            }
     } // end for $x
 
 

@@ -10,18 +10,19 @@
         @$office_name = $_GET['officename'];
         $query = tc_query("SELECT * FROM offices");
         $cnt=1;
-
-        while ($row = mysqli_fetch_array($query)) {
-          if (isset($abc)) {
-          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
-          echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
-          } elseif ("".$row['officeName']."" == stripslashes($office_name)) {
-          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\",\"".$row['officeName']."\", true, true);\n";
-          } else {
-          echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
-          echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
-          }
-          $cnt++;
+        if($query != FALSE){
+            while ($row = mysqli_fetch_array($query)) {
+            if (isset($abc)) {
+            echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
+            echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
+            } elseif ("".$row['officeName']."" == stripslashes($office_name)) {
+            echo "select.options[$cnt] = new Option(\"".$row['officeName']."\",\"".$row['officeName']."\", true, true);\n";
+            } else {
+            echo "select.options[$cnt] = new Option(\"".$row['officeName']."\");\n";
+            echo "select.options[$cnt].value = \"".$row['officeName']."\";\n";
+            }
+            $cnt++;
+            }
         }
         ?>
     }
@@ -38,29 +39,32 @@
 
         <?php
         $query = tc_query("SELECT * FROM offices");
-
-        while ($row = mysqli_fetch_array($query)) {
-            $office_row = addslashes("".$row['officeName']."");
-            ?>
-
-            if (offices_select.options[offices_select.selectedIndex].text == "<?php echo $office_row; ?>") {
-                <?php
-
-                $query2 = tc_query("SELECT * FROM groups NATURAL JOIN offices WHERE officeName = '$office_row'");
-
-                echo "groups_select.options[0] = new Option(\"...\");\n";
-                echo "groups_select.options[0].value = '';\n";
-                $cnt = 1;
-
-                while ($row2 = mysqli_fetch_array($query2)) {
-                    echo "groups_select.options[$cnt] = new Option(\"".$row2['groupName']."\");\n";
-                    echo "groups_select.options[$cnt].value = \"".$row2['groupID']."\";\n";
-                    $cnt++;
-                }
+        if($query != FALSE){        
+            while ($row = mysqli_fetch_array($query)) {
+                $office_row = addslashes("".$row['officeName']."");
                 ?>
-            }
 
-        <?php
+                if (offices_select.options[offices_select.selectedIndex].text == "<?php echo $office_row; ?>") {
+                    <?php
+
+                    $query2 = tc_query("SELECT * FROM groups NATURAL JOIN offices WHERE officeName = '$office_row'");
+
+                    echo "groups_select.options[0] = new Option(\"...\");\n";
+                    echo "groups_select.options[0].value = '';\n";
+                    $cnt = 1;
+
+                    if($query2 != FALSE){
+                        while ($row2 = mysqli_fetch_array($query2)) {
+                            echo "groups_select.options[$cnt] = new Option(\"".$row2['groupName']."\");\n";
+                            echo "groups_select.options[$cnt].value = \"".$row2['groupID']."\";\n";
+                            $cnt++;
+                        }
+                    }
+                    ?>
+                }
+
+            <?php
+            }
         }
         ?>
         
