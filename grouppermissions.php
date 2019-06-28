@@ -3,12 +3,11 @@
 // Remember to declare variable checkPermsID before including this
 
 $supervisorID = $_SESSION['logged_in_user']->userID;
-$userID = $_POST['userID'];
 
 $accesstogroup = false;
 $query = tc_query("SELECT userID
                     FROM employees
-                    WHERE userID = '$userID' AND groupID IN (
+                    WHERE userID = '$checkPermsID' AND groupID IN (
                         SELECT groupID
                         FROM supervises
                         WHERE userID = '$supervisorID'
