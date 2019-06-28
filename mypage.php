@@ -22,7 +22,7 @@ echo '<div class="leftContent">
             <h2>Kellotus</h2>
             <div class="section">
               <form class="mypage_inout"action="inout.php" method="post">';
-                echo '<input type="text" style="display:none;" name="mypage" value="mypage">';
+                echo '<input type="hidden" name="mypage" value="mypage">';
                 if ($_SESSION['logged_in_user']->getInoutStatus() == "in") {
                   $currentWorkTime = $_SESSION['logged_in_user']->getCurrentWorkTime();
                   if ($currentWorkTime == 0) {
@@ -31,11 +31,9 @@ echo '<div class="leftContent">
                     echo '<div class="workTime">Olet ollut töissä nyt: <br> <b><span id="secs">'.$currentWorkTime.'</span></b></div>';
                   }
                   echo '<p>Kellota itsesi ulos:</p>
-                  <input type="password" style="display:none;" name="userID" value="'.$_SESSION['logged_in_user']->userID.'" autocomplete="off">
                   <button id="out" class="fas fa-sign-out-alt" type="submit"></button>';
                 } else {
                   echo '<p>Kellota itsesi sisään:</p>
-                  <input type="password" style="display:none;" name="userID" value="'.$_SESSION['logged_in_user']->userID.'" autocomplete="off">
                   <button id="in" class="fas fa-sign-in-alt" type="submit"></button>';
                 }
                 echo '<textarea type="text" id="notes" name="notes" autocomplete="off" placeholder="Kirjoita halutessasi viesti, jonka haluat liittää mukaan tähän kirjaukseen."></textarea>
