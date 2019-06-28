@@ -33,19 +33,20 @@ echo '
         </tr>
     </tfoot>
     <tbody>';
+if($groupquery != FALSE){
+    while ( $group = mysqli_fetch_array($groupquery) ) {
 
-while ( $group = mysqli_fetch_array($groupquery) ) {
-
-echo '      <tr>
-            <td>'.$group['groupName'].'</td>
-            <td>'.$group['officeName'].'</td>
-            <td style="text-align:center;">
-                <label class="container">
-                    <input type="checkbox" name="grouplist[]" value='.$group['groupID'].' class="check">                        
-                    <span class="checkmark"></span>
-                </label>
-            </td>
-        </tr>';
+    echo '      <tr>
+                <td>'.$group['groupName'].'</td>
+                <td>'.$group['officeName'].'</td>
+                <td style="text-align:center;">
+                    <label class="container">
+                        <input type="checkbox" name="grouplist[]" value='.$group['groupID'].' class="check">                        
+                        <span class="checkmark"></span>
+                    </label>
+                </td>
+            </tr>';
+    }
 }
 echo '          
     </tbody>

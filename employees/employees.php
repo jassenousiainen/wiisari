@@ -83,32 +83,33 @@ if ($request == 'GET') {
                 </tr>
               </tfoot>
               <tbody>';
+  if($employee_query != FALSE){
+    while ( $employee = mysqli_fetch_array($employee_query) ) {
 
-  while ( $employee = mysqli_fetch_array($employee_query) ) {
+      $employee_group = tc_select_value("groupName", "groups", "groupID = ?", $employee[2]);
+      $employee_officeid = tc_select_value("officeID", "groups", "groupID = ?", $employee[2]);
+      if(isset($employee_officeid)){
+        $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
+      }else{
+        $employee_office = "";
+      }
+      
 
-    $employee_group = tc_select_value("groupName", "groups", "groupID = ?", $employee[2]);
-    $employee_officeid = tc_select_value("officeID", "groups", "groupID = ?", $employee[2]);
-    if(isset($employee_officeid)){
-      $employee_office = tc_select_value("officeName", "offices", "officeID = ?", $employee_officeid);
-    }else{
-      $employee_office = "";
+      $employee_level = "";
+      if ($employee[3] == 0) {$employee_level = "Työntekijä (taso 0)";}
+      if ($employee[3] == 1) {$employee_level = "Normaali valvoja (taso 1)";}
+      if ($employee[3] == 2) {$employee_level = "Valvoja + editointi (taso 2)";}
+      if ($employee[3] == 3) {$employee_level = "Admin (taso 3)";}
+
+      echo '      <tr>
+                    <td><button name="userID" type="submit" value="'.$employee[0].'" class="link">'.$employee[1].'</button></td>
+                    <td>'.$employee[0].'</td>
+                    <td>'.$employee_office.'</td>
+                    <td>'.$employee_group.'</td>
+                    <td>'.$employee_level.'</td>
+                    <td>'.$employee[5].'</td>
+                  </tr>';
     }
-    
-
-    $employee_level = "";
-    if ($employee[3] == 0) {$employee_level = "Työntekijä (taso 0)";}
-    if ($employee[3] == 1) {$employee_level = "Normaali valvoja (taso 1)";}
-    if ($employee[3] == 2) {$employee_level = "Valvoja + editointi (taso 2)";}
-    if ($employee[3] == 3) {$employee_level = "Admin (taso 3)";}
-
-    echo '      <tr>
-                  <td><button name="userID" type="submit" value="'.$employee[0].'" class="link">'.$employee[1].'</button></td>
-                  <td>'.$employee[0].'</td>
-                  <td>'.$employee_office.'</td>
-                  <td>'.$employee_group.'</td>
-                  <td>'.$employee_level.'</td>
-                  <td>'.$employee[5].'</td>
-                </tr>';
   }
 echo '          </tbody>
                 </table>

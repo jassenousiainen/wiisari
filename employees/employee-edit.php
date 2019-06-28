@@ -7,6 +7,10 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 
 $error = false;
 
+if (isset($_POST['userID'])){
+    $userID = $_POST['userID'];
+}
+
 if (isset($_POST['level']) && $_SESSION['logged_in_user']->level >= 3) {$level = intval($_POST['level']);}
 else {$level = 0;}
 

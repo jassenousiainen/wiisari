@@ -62,7 +62,7 @@ function tc_connect() {
         @ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
         mysqli_set_charset($db,'utf8mb4');
         if (!$db) {
-            croak("Error: Could not connect to the database. Please try again later.");
+            croak(404,"Error: Could not connect to the database. Please try again later.");
         }
         mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
     }
@@ -131,8 +131,10 @@ function tc_select_value($what, $from, $where = '1=1', $params = array(), $types
     global $db_prefix;
     $result = tc_query("SELECT $what FROM ${db_prefix}$from WHERE $where", $params, $types);
     $value = null;
-    while ($row = mysqli_fetch_array($result)) {
-        $value = $row[0];
+    if($result != FALSE){
+        while ($row = mysqli_fetch_array($result)) {
+            $value = $row[0];
+        }
     }
     return $value;
 }
@@ -348,20 +350,21 @@ function secsToHours($secs, $round_time) {
 
 function disabled_acct($get_user) {
     $result = tc_select("empfullname, disabled", "employees", "empfullname = ?", $get_user);
+    if($result != FALSE){
+        while ($row = mysqli_fetch_array($result)) {
 
-    while ($row = mysqli_fetch_array($result)) {
-
-        if ("" . $row["disabled"] . "" == 1) {
-            echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
-            echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>The account for $get_user is
-                disabled</td></tr>\n";
-            echo "  <tr class=right_main_text>\n";
-            echo "    <td align=center valign=top scope=row>\n";
-            echo "      <table width=300 border=0 cellpadding=5 cellspacing=0>\n";
-            echo "        <tr class=right_main_text><td align=center>Either re-enable the account or go back to the <a class=admin_headings
-                      href='timeadmin.php'>\"Add/Edit/Delete Time\"</a> page and choose an account that is not disabled.</td></tr>\n";
-            echo "      </table><br /></td></tr></table>\n";
-            exit;
+            if ("" . $row["disabled"] . "" == 1) {
+                echo "<table width=100% border=0 cellpadding=7 cellspacing=1>\n";
+                echo "  <tr class=right_main_text><td height=10 align=center valign=top scope=row class=title_underline>The account for $get_user is
+                    disabled</td></tr>\n";
+                echo "  <tr class=right_main_text>\n";
+                echo "    <td align=center valign=top scope=row>\n";
+                echo "      <table width=300 border=0 cellpadding=5 cellspacing=0>\n";
+                echo "        <tr class=right_main_text><td align=center>Either re-enable the account or go back to the <a class=admin_headings
+                        href='timeadmin.php'>\"Add/Edit/Delete Time\"</a> page and choose an account that is not disabled.</td></tr>\n";
+                echo "      </table><br /></td></tr></table>\n";
+                exit;
+            }
         }
     }
 }
@@ -483,7 +486,7 @@ function get_ipaddress() {
         }
     }
 }
-
+/*
 function ip_range($network, $ip) {
 
     /**
@@ -507,7 +510,7 @@ function ip_range($network, $ip) {
      *
      * @access  public
      */
-
+/*
     $result = true;
 
     if (preg_match('|([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/([0-9]+)|', $network, $regs)) {
@@ -551,7 +554,7 @@ function ip_range($network, $ip) {
 
     return $result;
 }
-
+*/
 function setTimeZone() {
     global $tzo;
     global $use_client_tz;
