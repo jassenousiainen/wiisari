@@ -43,7 +43,7 @@ if ($request == 'GET') {
               echo '<a class="btn plus" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi</a>';
             } 
             if ($_SESSION['logged_in_user']->level < 3) {
-              echo '<p>Näet alla ainoastaan omien ryhmiesi tason 0 henkilöt.</p><br>';
+              echo '<p>Näet alla omien ryhmiesi tason 0 henkilöt.</p>';
             }
             echo '<p>Avaa henkilön tiedot klikkaamalla nimeä</p>';
     echo '  <form action="employeeinfo.php" method="post">
