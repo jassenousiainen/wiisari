@@ -1,6 +1,6 @@
 <?php
 // Use this code snippet to check if currently logged in supervisor has permissions for selected user (by group)
-// Remember to declare variable checkPermsID before including this
+// Remember to declare variable checkPermsID before including this!!!
 
 $supervisorID = $_SESSION['logged_in_user']->userID;
 
