@@ -33,6 +33,9 @@ echo '
         </tr>
     </tfoot>
     <tbody>';
+    if(!isset($groupquery)){
+        $groupquery = FALSE;
+    }
 if($groupquery != FALSE){
     while ( $group = mysqli_fetch_array($groupquery) ) {
 
