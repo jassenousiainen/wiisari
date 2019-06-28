@@ -1,5 +1,6 @@
 <?php
 require 'common.php';
+
 pdo_connect();  //Connect to database using PDO
 
 
@@ -63,9 +64,16 @@ if (isset($_POST['notes'])) {
   $notes = '';
 }
 
+if (isset($_POST['mypage'])) { 
+  session_start();
+  $postUserID = $_SESSION['logged_in_user']->userID;
+} else {
+  $postUserID = $_POST['userID'];
+}
+
 // SQL-injection-proof query
 $getuser_stmt = $pdo->prepare("SELECT userID, displayName, earliestStart, latestEnd FROM employees WHERE userID = ?");
-$getuser_stmt->execute(array($_POST['userID']));
+$getuser_stmt->execute(array($postUserID));
 $row = $getuser_stmt->fetch(PDO::FETCH_ASSOC);
 if ($row) {
    $userID = $row['userID'];

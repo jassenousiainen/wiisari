@@ -49,7 +49,7 @@ if ($_SESSION['logged_in_user']->level < 1) {
     }
 
     
-
+    // This boxes visibility is limited in barcode-generator.css to be only shown when printing
     echo '
     <div class="print-box">';
 
@@ -66,7 +66,7 @@ if ($_SESSION['logged_in_user']->level < 1) {
         echo '</div>';
     }
     echo '</div>
-          <script>window.print()</script>';
+          <script>window.print()</script>'; // Open browsers printing dialog automatically
 
 
 ?>

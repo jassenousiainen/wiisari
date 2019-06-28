@@ -135,6 +135,7 @@
 	font-size: 1rem;
 	border: none;
 	background-color: var(--blue);
+	outline: none;
 	transition: background-color 0.2s ease;
 }
 .btn:hover {

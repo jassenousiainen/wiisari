@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 19, 2019 at 12:13 PM
+-- Generation Time: Jun 28, 2019 at 09:30 AM
 -- Server version: 5.7.23
 -- PHP Version: 7.0.32
 
@@ -32,10 +32,10 @@ DROP TABLE IF EXISTS `employees`;
 CREATE TABLE IF NOT EXISTS `employees` (
   `userID` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
   `displayName` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `groupID` tinyint(11) UNSIGNED NOT NULL DEFAULT '0',
-  `level` tinyint(1) NOT NULL DEFAULT '0',
+  `groupID` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
+  `level` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   `adminPassword` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `inoutStatus` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `inoutStatus` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'out',
   `earliestStart` time DEFAULT NULL,
   `latestEnd` time DEFAULT NULL,
   PRIMARY KEY (`userID`)
@@ -56,11 +56,11 @@ INSERT INTO `employees` (`userID`, `displayName`, `groupID`, `level`, `adminPass
 
 DROP TABLE IF EXISTS `groups`;
 CREATE TABLE IF NOT EXISTS `groups` (
-  `groupID` int(10) NOT NULL AUTO_INCREMENT,
+  `groupID` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `groupName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `officeID` int(10) NOT NULL DEFAULT '0',
+  `officeID` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`groupID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `groups`
@@ -72,33 +72,15 @@ INSERT INTO `groups` (`groupID`, `groupName`, `officeID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `info`
---
-
-DROP TABLE IF EXISTS `info`;
-CREATE TABLE IF NOT EXISTS `info` (
-  `punchID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `userID` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `inout` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `timestamp` bigint(14) DEFAULT NULL,
-  `notes` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`punchID`),
-  KEY `info_fullname` (`userID`),
-  KEY `info_timestamp` (`timestamp`)
-) ENGINE=MyISAM AUTO_INCREMENT=273 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `offices`
 --
 
 DROP TABLE IF EXISTS `offices`;
 CREATE TABLE IF NOT EXISTS `offices` (
-  `officeID` int(10) NOT NULL AUTO_INCREMENT,
+  `officeID` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `officeName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`officeID`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `offices`
@@ -106,6 +88,24 @@ CREATE TABLE IF NOT EXISTS `offices` (
 
 INSERT INTO `offices` (`officeID`, `officeName`) VALUES
 (1, 'Toimisto1'),
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `info`
+--
+
+DROP TABLE IF EXISTS `info`;
+CREATE TABLE IF NOT EXISTS `info` (
+  `punchID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `inout` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `timestamp` bigint(14) NOT NULL,
+  `notes` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`punchID`),
+  KEY `info_fullname` (`userID`),
+  KEY `info_timestamp` (`timestamp`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -138,8 +138,8 @@ INSERT INTO `punchlist` (`punchitems`, `punchnext`, `color`, `in_or_out`) VALUES
 
 DROP TABLE IF EXISTS `supervises`;
 CREATE TABLE IF NOT EXISTS `supervises` (
-  `userID` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `groupID` int(10) NOT NULL,
+  `userID` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `groupID` tinyint(3) UNSIGNED NOT NULL,
   PRIMARY KEY (`userID`,`groupID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 COMMIT;
