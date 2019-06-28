@@ -58,7 +58,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
           }
           $time = date("h:i" , $row['timestamp']);
-          $str = $userID .",". $row['inout'] .",". $time .",". $date ."," . $row['notes'];
+          $Dname = getDname($userID); 
+          $str = $Dname .",". $row['inout'] .",". $time .",". $date ."," . $row['notes'];
           array_push($data3, $str);
         }
         foreach($dates[$userID] as $key){
@@ -68,7 +69,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           $data[$userID]['Days'][$k] = $x;
         }
         $y = array_sum($data[$userID]['Days']);
-        array_push($data3,"$userID,,,,,$y");
+        $Dname = getDname($userID);
+        array_push($data3,"$Dname,,,,,$y");
         array_push($data3,"");
 
       }else{
@@ -93,11 +95,13 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           $x = round($x/60/60,2);
           $k = array_search($key, $dates[$userID]);
           $data[$userID]['Days'][$k] = $x;
-          $str = $userID .",". $k .",". $x .",";
+          $Dname = getDname($userID);
+          $str = $Dname .",". $k .",". $x .",";
           array_push($data3, $str);
         }
         $y = array_sum($data[$userID]['Days']);
-        array_push($data3,"$userID,,,$y");
+        $Dname = getDname($userID);
+        array_push($data3,"$Dname,,,$y");
 
       }
 
@@ -119,6 +123,13 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
     
 }
 
+function getDname($userID){
+  $query = tc_query( "SELECT displayName FROM employees WHERE userID = '$userID'");
+  if($query != FALSE){
+    $result = mysqli_fetch_row($query);
+  }
+  return $result[0];
+}
 
 
 
