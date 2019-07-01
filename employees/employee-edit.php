@@ -19,8 +19,6 @@ else {$displayName = $_POST['displayName'];}
 
 if ( isset($_POST['password']) && $_POST['password'] != "" && $level > 0) {
     $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
-    echo $_POST['password'];
-    echo $password;
 }
 
 if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $groupID = "error";}
