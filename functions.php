@@ -60,10 +60,13 @@ function tc_connect() {
 
     if (!isset($GLOBALS["___mysqli_ston"])) {
         @ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
-        mysqli_set_charset($db,'utf8mb4');
         if (!$db) {
-            croak(404,"Error: Could not connect to the database. Please try again later.");
+            die("<div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px; position:absolute;'>
+            <h2 style='color:red; margin:0;'>Tietokantayhteys epäonnistui!</h2>
+            <p>Tietokantaan ei saatu yhteyttä.</p>
+            </div>");
         }
+        mysqli_set_charset($db,'utf8mb4');
         mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
     }
 }
