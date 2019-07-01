@@ -112,12 +112,22 @@ function tc_query($query, $params = array(), $types = null) {
     if (!isset($GLOBALS["___mysqli_ston"])) { tc_connect(); }
     if (!($stmt = $GLOBALS["___mysqli_ston"]->prepare($query))) {
         error_log("Failed to prepare $query: " . mysqli_error($GLOBALS["___mysqli_ston"]));
-        return false;
+        echo "
+        <div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px;'>
+            <h2 style='color:red; margin:0;'>Tietokantakysely epäonnistui!</h2>
+            <p>Kyselyssä oli virhe tai tietokantaan ei saatu yhteyttä.</p>
+        </div>";
+        exit;
     }
     _tc_bind_param($stmt, $params, $types);
     if (!$stmt->execute()) {
         error_log("Failed to execute: " . $stmt->error);
-        return false;
+        echo "
+        <div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px;'>
+            <h2 style='color:red; margin:0;'>Tietokantakysely epäonnistui!</h2>
+            <p>Kyselyssä oli virhe tai tietokantaan ei saatu yhteyttä.</p>
+        </div>";
+        exit;
     }
     return $stmt->get_result();
 }
