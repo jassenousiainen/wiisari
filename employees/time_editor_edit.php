@@ -29,6 +29,8 @@ echo '<section class="container">
 /* ----- Punch deletion ----- */
 if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
   $userID = $_POST['deletetime'];
+  $checkPermsID = $userID;
+
 
   require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
   
