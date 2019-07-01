@@ -28,7 +28,7 @@ if (isset($_POST['officeID'])) {
             <div class="box">
                 <h2>Toimisto poistettu</h2>
                 <div class="section">
-                    <p>Toimisto '.$officeData[1].' poistettu onnistuneesti.</p>';
+                    <p>Toimisto '; if(isset($officeData)){echo $officeData[1];} echo ' poistettu onnistuneesti.</p>';
                     if($_POST['groupDel'] === "yes"){
                         while ( $group = mysqli_fetch_array($groupData) ) {
                             echo '<p>Ryhmä '.$group[1].' poistettu onnistuneesti.</p>';

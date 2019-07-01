@@ -5,14 +5,16 @@
 $supervisorID = $_SESSION['logged_in_user']->userID;
 
 $accesstogroup = false;
-$query = tc_query("SELECT userID
-                    FROM employees
-                    WHERE userID = '$checkPermsID' AND groupID IN (
-                        SELECT groupID
-                        FROM supervises
-                        WHERE userID = '$supervisorID'
-                        )
-                    AND level = 0;");
+if(isset($checkPermsID)){
+    $query = tc_query("SELECT userID
+                        FROM employees
+                        WHERE userID = '$checkPermsID' AND groupID IN (
+                            SELECT groupID
+                            FROM supervises
+                            WHERE userID = '$supervisorID'
+                            )
+                        AND level = 0;");
+}
 if ($query != FALSE){
     $checkgroup = mysqli_fetch_row($query);
 }

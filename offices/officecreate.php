@@ -88,7 +88,9 @@ if ( $request == "GET") {
                     <td style="color: grey; font-size: 13px;">Toimiston nimi</td>
                   </tr>';
     } else {
-      echo '      <input name="officeName" value="'.$nameID.'" type="hidden">';
+      if(isset($nameID)){
+        echo '      <input name="officeName" value="'.$nameID.'" type="hidden">';
+      }
     }
     
       if (!empty($officeGroups)) {
@@ -114,6 +116,7 @@ if ( $request == "GET") {
     'officeName'        => $officeName,
     ));
     $newOfficeID = mysqli_fetch_array(tc_query("SELECT * FROM offices WHERE officeName = '$officeName'"));
+    if(isset($newOfficeID)){
     echo '
       <section class="container">
         <div class="middleContent">
@@ -126,11 +129,12 @@ if ( $request == "GET") {
                   <td>Toimiston nimi:</td>
                   <td>'.$newOfficeID['officeName'].'</td>
                 </tr>';
+    }
     $doneGroups = array();
     if (!empty($officeGroups)) {
       $i = 1;
       foreach($officeGroups as $group) {
-        if(!empty($group) && !in_array($group, $doneGroups)){
+        if(!empty($group) && !empty($newOfficeID) && !in_array($group, $doneGroups)){
           $groupdata = array("groupName" => $group, "officeID" => $newOfficeID['officeID']);
           tc_insert_strings("groups", $groupdata);
           array_push($doneGroups,$group);

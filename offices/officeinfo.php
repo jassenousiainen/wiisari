@@ -22,6 +22,7 @@ if (isset($_POST['officeID'])) {
     <section class="container">
         <div class="middleContent">
             <a class="btn back" href="offices.php"> Takaisin</a>';
+    if(isset($officeData)){
     echo '
             <div class="box">
                 <h2>Toimiston '.$officeData[1].' tiedot</h2>
@@ -78,9 +79,16 @@ if (isset($_POST['officeID'])) {
                               </tr>
                             </tfoot>
                             <tbody></form>';
+      }
       $group_query = tc_query("SELECT * FROM groups WHERE officeID = ?",$officeData[0]);
       while ( $group = mysqli_fetch_array($group_query) ) {
-        $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = $group[0]"))[0];
+        $query = tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = ?",$group[0]);
+        if(!empty($query)){
+          $user_cnt  = mysqli_fetch_row($query);
+          if($user_cnt != NULL){
+            $user_cnt = $user_cnt[0];
+          }
+        }
         
       echo '                  <tr id="'.$group[0].'">
                                 <td>'.$group[1].'</td>

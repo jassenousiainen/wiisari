@@ -70,19 +70,32 @@ if ($request == 'GET') {
                 </tr>
               </tfoot>
               <tbody>';
+  if($office_query != FALSE){
+    while ( $office = mysqli_fetch_array($office_query) ) {
+      $query = tc_query("SELECT COUNT(groupID) FROM groups WHERE officeId = ?",$office[0]);
+      if($query != FALSE){
+        $group_cnt = mysqli_fetch_row($query);
+        if($group_cnt != NULL){
+          $group_cnt = $group_cnt[0];
+        }
+      }
+      $query = tc_query("SELECT COUNT(employees.userID) FROM employees,groups,offices WHERE employees.groupID = groups.groupID AND groups.officeID = offices.officeID AND offices.officeID = ?", $office[0]);
+      if($query != FALSE){
+        $user_cnt = mysqli_fetch_row($query);
+        if($user_cnt != NULL){
+          $user_cnt = $user_cnt[0];
+        }
+      }
+      
 
-  while ( $office = mysqli_fetch_array($office_query) ) {
-    $group_cnt = mysqli_fetch_row(tc_query("SELECT COUNT(groupID) FROM groups WHERE officeId = $office[0]"))[0];
-    $user_cnt  = mysqli_fetch_row(tc_query("SELECT COUNT(employees.userID) FROM employees,groups,offices WHERE employees.groupID = groups.groupID AND groups.officeID = offices.officeID AND offices.officeID = ?", $office[0]))[0];
-    
+      echo '      <tr>
+                    <td>'.$office[1].'</td>
+                    <td>'.$group_cnt.'</td>
+                    <td>'.$user_cnt.'</td>
 
-    echo '      <tr>
-                  <td>'.$office[1].'</td>
-                  <td>'.$group_cnt.'</td>
-                  <td>'.$user_cnt.'</td>
-
-                  <td style="text-align:center;"><button name="officeID" type="submit" class="btn config" value="'.$office[0].'"></button></td>
-                </tr>';
+                    <td style="text-align:center;"><button name="officeID" type="submit" class="btn config" value="'.$office[0].'"></button></td>
+                  </tr>';
+    }
   }
 
 echo '          </tbody>

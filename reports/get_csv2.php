@@ -128,7 +128,9 @@ function getDname($userID){
   if($query != FALSE){
     $result = mysqli_fetch_row($query);
   }
-  return $result[0];
+  if(!empty($result)){
+    return $result[0];
+  }
 }
 
 

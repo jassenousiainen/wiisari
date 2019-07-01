@@ -21,7 +21,10 @@ if (!isset($_POST['officeName']) || $_POST['officeName'] == "" ) {
     $officeID = $_POST['officeID'];
     $oldName = $_POST['oldName'];
     if($officeName != $oldName){
-      $officeNamecheck = mysqli_fetch_row(tc_query( "SELECT officeName FROM offices WHERE officeName = '$officeName'"));
+      $query = tc_query( "SELECT officeName FROM offices WHERE officeName = ?",$officeName);
+      if($query != FALSE){
+        $officeNamecheck = mysqli_fetch_row($query);
+      }
       if (!empty($officeNamecheck)) {
         $error = true; $nameID = "error";
       }
