@@ -32,10 +32,10 @@
     div.barcodeGenBox {
         display: inline-block;
         width: 9cm;
-        height: 5cm;
+        height: 5.5cm;
         border: dashed 1px black;
         margin: 0.2cm;
-        padding: 0.8cm 0 0 0;
+        padding: 1.9cm 0 0 0;
         box-sizing: border-box;
         text-align: center;
         font-family: 'Open Sans', sans-serif;
@@ -47,7 +47,16 @@
     }
 
     .barcodeGenBox .name {
-        font-weight: bold;
+        position: absolute;
+        bottom: 3.5cm;
+        width: 100%;
+        font-weight: normal;
+        font-size: 22px;
+        padding: 0;
+        margin: 0 0 12px 0;
+        word-wrap: break-word;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .barcodeGenBox .code {
@@ -61,8 +70,8 @@
         position: absolute;
         font-family: 'JosefinSans';
         font-size: 24px;
-        top: 12px;
-        left: 12px; 
+        bottom: 12px;
+        left: 18px; 
         padding: 0;
         margin: 0;
         letter-spacing: 1px;
@@ -70,8 +79,9 @@
 
     .barcodeGenBox .tstlogo {
         position: absolute;
-        bottom: 10px;
-        right: 10px;
+        font-size: 14px;
+        bottom: 12px;
+        right: 12px;
         padding: 0;
         margin: 0;
     }
