@@ -60,10 +60,13 @@ function tc_connect() {
 
     if (!isset($GLOBALS["___mysqli_ston"])) {
         @ $db = ($GLOBALS["___mysqli_ston"] = mysqli_connect($db_hostname,  $db_username,  $db_password));
-        mysqli_set_charset($db,'utf8mb4');
         if (!$db) {
-            croak(404,"Error: Could not connect to the database. Please try again later.");
+            die("<div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px; position:absolute;'>
+            <h2 style='color:red; margin:0;'>Tietokantayhteys epäonnistui!</h2>
+            <p>Tietokantaan ei saatu yhteyttä.</p>
+            </div>");
         }
+        mysqli_set_charset($db,'utf8mb4');
         mysqli_select_db($GLOBALS["___mysqli_ston"], $db_name);
     }
 }
@@ -84,7 +87,10 @@ function pdo_connect() {
         $pdo = new PDO("mysql:host=$db_hostname;dbname=$db_name;charset=utf8mb4", "$db_username", "$db_password", $pdo_options);
     } catch (Exception $e) {
         error_log($e->getMessage());
-        die("Tietokantayhteys epäonnistui!");
+        die("<div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px; position:absolute;'>
+            <h2 style='color:red; margin:0;'>Tietokantakysely epäonnistui!</h2>
+            <p>Kyselyssä oli virhe tai tietokantaan ei saatu yhteyttä.</p>
+            </div>");
     }
 }
 
@@ -112,22 +118,18 @@ function tc_query($query, $params = array(), $types = null) {
     if (!isset($GLOBALS["___mysqli_ston"])) { tc_connect(); }
     if (!($stmt = $GLOBALS["___mysqli_ston"]->prepare($query))) {
         error_log("Failed to prepare $query: " . mysqli_error($GLOBALS["___mysqli_ston"]));
-        echo "
-        <div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px;'>
+        die("<div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px; position:absolute;'>
             <h2 style='color:red; margin:0;'>Tietokantakysely epäonnistui!</h2>
             <p>Kyselyssä oli virhe tai tietokantaan ei saatu yhteyttä.</p>
-        </div>";
-        exit;
+            </div>");
     }
     _tc_bind_param($stmt, $params, $types);
     if (!$stmt->execute()) {
         error_log("Failed to execute: " . $stmt->error);
-        echo "
-        <div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px;'>
+        die("<div style='padding:10px; background-color:white; border:solid 1px red; border-radius:10px; position:absolute;'>
             <h2 style='color:red; margin:0;'>Tietokantakysely epäonnistui!</h2>
             <p>Kyselyssä oli virhe tai tietokantaan ei saatu yhteyttä.</p>
-        </div>";
-        exit;
+            </div>");
     }
     return $stmt->get_result();
 }
