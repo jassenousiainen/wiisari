@@ -60,7 +60,7 @@ if ($_SESSION['logged_in_user']->level < 1) {
         echo '<div class="barcodeGenBox">
                 <p class="wiisarilogo">WIISARI</p>
                 <p class="name">'.$displayName.'</p>';
-        echo    $generator->getBarcode($userBarcode, $generator::TYPE_CODE_128, 2, 60);
+        echo    $generator->getBarcode($userBarcode, $generator::TYPE_CODE_128, 1.8, 55);
         echo '  <p class="code">'.$userBarcode.'</p>
                 <p class="tstlogo">Turun Seudun TST ry</p>';
         echo '</div>';
