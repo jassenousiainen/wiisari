@@ -35,7 +35,7 @@
         height: 5.5cm;
         border: dashed 1px black;
         margin: 0.2cm;
-        padding: 0.9cm 0 0 0;
+        padding: 1.9cm 0 0 0;
         box-sizing: border-box;
         text-align: center;
         font-family: 'Open Sans', sans-serif;
@@ -47,10 +47,16 @@
     }
 
     .barcodeGenBox .name {
+        position: absolute;
+        bottom: 3.5cm;
+        width: 100%;
         font-weight: normal;
         font-size: 22px;
         padding: 0;
         margin: 0 0 12px 0;
+        word-wrap: break-word;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .barcodeGenBox .code {
