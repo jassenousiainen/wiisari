@@ -261,7 +261,8 @@
 td .link {
 	padding: 10px 5px;
 	width: 100%;
-    text-align: left;
+	text-align: left;
+	word-break: break-word;
 }
 
 /* BASIC FORM */

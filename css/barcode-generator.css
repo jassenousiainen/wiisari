@@ -31,11 +31,11 @@
 
     div.barcodeGenBox {
         display: inline-block;
-        width: 9cm;
+        width: 9.5cm;
         height: 5.5cm;
         border: dashed 1px black;
         margin: 0.2cm;
-        padding: 1.9cm 0 0 0;
+        padding: 2.0cm 0 0 0;
         box-sizing: border-box;
         text-align: center;
         font-family: 'Open Sans', sans-serif;
