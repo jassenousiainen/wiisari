@@ -1,8 +1,4 @@
-www\barcode-generator\barcodeprinter.php:42 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\barcode-generator\barcodeprinter.php:68 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\barcode-generator\barcodeprinter.php:74 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\barcode-generator\barcodeprinter.php:82 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\barcode-generator\barcodeprinter.php:114 PhanTypeMismatchArgumentInternal Argument 1 ($result) is ?false but \mysqli_fetch_array() takes \mysqli_result
+www\barcode-generator\barcodeprinter.php:56 PhanTypeMismatchArgumentInternal Argument 1 ($result) is null but \mysqli_fetch_array() takes \mysqli_result
 www\barcode-generator\src\BarcodeGenerator.php:894 PhanUndeclaredVariableDim Variable $chr was undeclared, but array fields are being added to it.
 www\barcode-generator\src\BarcodeGenerator.php:955 PhanUndeclaredVariableDim Variable $chr was undeclared, but array fields are being added to it.
 www\barcode-generator\src\BarcodeGenerator.php:1032 PhanUndeclaredVariableDim Variable $chr was undeclared, but array fields are being added to it.
@@ -49,14 +45,7 @@ www\barcode-generator\src\BarcodeGeneratorPNG.php:58 PhanTypeMismatchArgumentInt
 www\barcode-generator\src\BarcodeGeneratorPNG.php:58 PhanTypeMismatchArgumentInternal Argument 5 ($y2) is float but \imagefilledrectangle() takes int
 www\barcode-generator\src\BarcodeGeneratorPNG.php:66 PhanUndeclaredClassMethod Call to method drawImage from undeclared class \Imagick
 www\barcode-generator\src\BarcodeGeneratorPNG.php:67 PhanTypeSuspiciousEcho Suspicious argument \Imagick|false|resource for an echo/print statement
-www\employees\employee-edit.php:52 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\employee-edit.php:57 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\employee-edit.php:62 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\employee-edit.php:66 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\employee-edit.php:68 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\employeecreate.php:157 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
 www\employees\employeecreate.php:271 PhanUndeclaredVariable Variable $pdo is undeclared
-www\employees\employeecreate.php:281 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
 www\employees\employeecreate.php:293 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\employeecreate.php:297 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\employeecreate.php:301 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
@@ -64,152 +53,76 @@ www\employees\employeecreate.php:305 PhanTypeArraySuspiciousNullable Suspicious 
 www\employees\employeecreate.php:309 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\employeecreate.php:313 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\employeecreate.php:317 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:36 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\employees\employeeinfo.php:37 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\employeeinfo.php:39 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:44 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:46 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:47 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:47 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\employeeinfo.php:54 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:54 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\employeeinfo.php:68 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:77 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:78 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:90 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:94 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:100 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:108 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:117 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:121 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:129 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:130 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:131 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:132 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:176 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:177 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:178 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:179 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:227 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\employees\employeeinfo.php:229 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\employeeinfo.php:229 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\employees.php:87 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\employees\group_picker.php:37 PhanUndeclaredVariable Variable $groupquery is undeclared
-www\employees\time_editor.php:20 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\time_editor.php:28 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor.php:45 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor.php:60 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor.php:64 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor.php:105 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
+www\employees\employeeinfo.php:45 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:50 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:52 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:53 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:60 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:74 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:83 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:84 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:85 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:97 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:101 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:107 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:115 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:124 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:128 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:136 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:137 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:138 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:139 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:183 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:184 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:185 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:186 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\employeeinfo.php:236 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor.php:29 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor.php:46 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor.php:61 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor.php:65 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:12 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\time_editor_add.php:15 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
 www\employees\time_editor_add.php:16 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:19 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:34 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\time_editor_add.php:37 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
 www\employees\time_editor_add.php:38 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:41 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_add.php:50 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
 www\employees\time_editor_add.php:50 PhanUndeclaredVariable Variable $userID is undeclared
 www\employees\time_editor_add.php:51 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:52 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_add.php:52 PhanUndeclaredVariable Variable $userID is undeclared
 www\employees\time_editor_add.php:54 PhanUndeclaredVariable Variable $userID is undeclared
-www\employees\time_editor_edit.php:26 PhanNoopVariable Unused variable
-www\employees\time_editor_edit.php:47 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\time_editor_edit.php:48 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:54 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:70 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\employees\time_editor_edit.php:71 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:72 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:85 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:87 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:90 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:93 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:114 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:116 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:129 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
+www\employees\time_editor_edit.php:46 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:52 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:69 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:70 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:84 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:86 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:89 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:92 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:113 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:115 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:129 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_edit.php:130 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:131 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:156 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:172 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:198 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
+www\employees\time_editor_edit.php:155 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:171 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\employees\time_editor_edit.php:198 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\employees\time_editor_edit.php:199 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\employees\time_editor_edit.php:200 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\functions.php:5 PhanTypeMismatchArgumentInternal Argument 1 ($response_code) is string but \http_response_code() takes int
-www\functions.php:65 PhanParamTooFew Call with 1 arg(s) to \croak() which requires 2 arg(s) defined at www\functions.php:4
-www\functions.php:134 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\functions.php:352 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\functions.php:521 PhanTypeInvalidLeftOperandOfNumericOp Invalid operator: left operand of - is string (expected number)
-www\grouppermissions.php:8 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\grouppermissions.php:10 PhanUndeclaredVariable Variable $userID is undeclared
-www\groups\group-edit.php:27 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\group-edit.php:28 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\group-edit.php:30 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupcreate.php:62 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupcreate.php:63 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupcreate.php:69 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupdel.php:21 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupdel.php:38 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupinfo.php:21 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupinfo.php:22 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\groups\groupinfo.php:30 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupinfo.php:34 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupinfo.php:35 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupinfo.php:41 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groupinfo.php:48 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groups.php:74 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false|null but \mysqli_fetch_array() takes \mysqli_result
-www\groups\groups.php:76 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\groups\groups.php:76 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\inout.php:67 PhanUndeclaredVariable Variable $pdo is undeclared
-www\inout.php:68 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\inout.php:88 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\inout.php:129 PhanUndeclaredVariable Variable $pdo is undeclared
-www\inout.php:159 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\inout.php:159 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\inout.php:175 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\inout.php:175 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
+www\inout.php:71 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\inout.php:75 PhanUndeclaredVariable Variable $pdo is undeclared
+www\inout.php:137 PhanUndeclaredVariable Variable $pdo is undeclared
+www\inout.php:167 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\inout.php:182 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
 www\loginpage.php:12 PhanUndeclaredVariable Variable $pdo is undeclared
 www\loginpage.php:23 PhanUndeclaredVariable Variable $pdo is undeclared
-www\mypage.php:53 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\mypage.php:53 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\mypage.php:54 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\mypage.php:54 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\mypage.php:57 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\mypage.php:57 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\mypage.php:61 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\mypage.php:61 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\mypage.php:136 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
-www\mypage.php:141 PhanUndeclaredVariableDim Variable $weekTime was undeclared, but array fields are being added to it.
-www\mypage.php:145 PhanNoopVariable Unused variable
-www\mypage.php:157 PhanTypeInvalidLeftOperandOfNumericOp Invalid operator: left operand of - is string (expected number)
-www\mypage.php:158 PhanTypeInvalidLeftOperandOfNumericOp Invalid operator: left operand of - is string (expected number)
-www\mypage.php:158 PhanTypeMismatchDimFetch When fetching an array index from a value of type array|array{1:float}, found an array index of type string, but expected the index to be of type int
-www\mypage.php:167 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
-www\mypage.php:171 PhanUndeclaredVariableDim Variable $monthTime was undeclared, but array fields are being added to it.
-www\offices\office-edit.php:24 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\officecreate.php:68 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\officecreate.php:91 PhanTypeSuspiciousStringExpression Suspicious type null of a variable or expression used to build a string. (Expected type to be able to cast to a string)
-www\offices\officecreate.php:116 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\offices\officecreate.php:127 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officecreate.php:134 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officedelete.php:21 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\officedelete.php:31 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officedelete.php:33 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\offices\officeinfo.php:20 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\officeinfo.php:27 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officeinfo.php:31 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officeinfo.php:36 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officeinfo.php:81 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officeinfo.php:82 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\offices\officeinfo.php:83 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\officeinfo.php:83 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\offices.php:74 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false|null but \mysqli_fetch_array() takes \mysqli_result
-www\offices\offices.php:75 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\offices.php:75 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\offices\offices.php:76 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\offices\offices.php:76 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\reports\personalreport.php:69 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
+www\mypage.php:51 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\mypage.php:52 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\mypage.php:55 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\mypage.php:59 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\mypage.php:134 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
+www\mypage.php:139 PhanUndeclaredVariableDim Variable $weekTime was undeclared, but array fields are being added to it.
+www\mypage.php:164 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
+www\mypage.php:168 PhanUndeclaredVariableDim Variable $monthTime was undeclared, but array fields are being added to it.
 www\reports\personalreport.php:97 PhanUndeclaredVariable Variable $use_reports_password is undeclared
 www\reports\personalreport.php:118 PhanUndeclaredVariable Variable $use_reports_password is undeclared
 www\reports\personalreport.php:136 PhanUndeclaredVariable Variable $use_reports_password is undeclared
@@ -219,8 +132,6 @@ www\reports\personalreport.php:212 PhanUndeclaredVariable Variable $use_reports_
 www\reports\personalreport.php:230 PhanUndeclaredVariable Variable $use_reports_password is undeclared
 www\reports\personalreport.php:257 PhanUndeclaredVariable Variable $use_reports_password is undeclared
 www\reports\personalreport.php:282 PhanUndeclaredVariable Variable $use_reports_password is undeclared
-www\reports\personalreport.php:386 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\personalreport.php:424 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
 www\reports\personalreport.php:427 PhanTypeInvalidLeftOperandOfAdd Invalid operator: left operand of + is string (expected array or number)
 www\reports\personalreport.php:431 PhanUndeclaredVariableDim Variable $punchlist_color was undeclared, but array fields are being added to it.
 www\reports\personalreport.php:447 PhanUndeclaredVariable Variable $status is undeclared
@@ -268,92 +179,11 @@ www\reports\quickreport.php:48 PhanTypeMismatchArgumentInternal Argument 2 ($cha
 www\reports\quickreport.php:49 PhanTypeInvalidLeftOperandOfNumericOp Invalid operator: left operand of - is string (expected number)
 www\reports\quickreport.php:49 PhanTypeMismatchArgumentInternal Argument 1 ($str) is float|int but \ltrim() takes string
 www\reports\quickreport.php:49 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
-www\reports\total_hours.php:68 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\total_hours.php:207 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\reports\total_hours.php:216 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\total_hours.php:223 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\total_hours.php:281 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\reports\total_hours.php:287 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\reports\total_hours.php:364 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\total_hours.php:367 PhanUndeclaredVariableDim Variable $employees_groupname was undeclared, but array fields are being added to it.
-www\reports\total_hours.php:394 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\reports\total_hours.php:397 PhanTypeInvalidLeftOperandOfAdd Invalid operator: left operand of + is string (expected array or number)
-www\reports\total_hours.php:401 PhanUndeclaredVariableDim Variable $punchlist_color was undeclared, but array fields are being added to it.
-www\reports\total_hours.php:417 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:418 PhanUndeclaredVariable Variable $out_time is undeclared
-www\reports\total_hours.php:419 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:420 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:426 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:457 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:475 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:479 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:501 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:502 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:503 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:508 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:509 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:510 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:528 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:529 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:537 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:568 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:586 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:590 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:616 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:618 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:619 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:619 PhanUndeclaredVariable Variable $previous_days_end_time is undeclared
-www\reports\total_hours.php:622 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:653 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:671 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:676 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:693 PhanUndeclaredVariable Variable $in_time is undeclared
-www\reports\total_hours.php:694 PhanUndeclaredVariable Variable $out_time is undeclared
-www\reports\total_hours.php:695 PhanUndeclaredVariable Variable $previous_days_end_time is undeclared
-www\reports\total_hours.php:696 PhanUndeclaredVariable Variable $status is undeclared
-www\reports\total_hours.php:710 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:741 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:759 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:763 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:805 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:836 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:854 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:858 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:896 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:927 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:945 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:949 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:985 PhanTypeInvalidRightOperandOfAdd Invalid operator: right operand of + is string (expected array or number)
-www\reports\total_hours.php:1016 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:1034 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:1038 PhanUndeclaredVariable Variable $user_or_display is undeclared
-www\reports\total_hours.php:1101 PhanUndeclaredVariable Variable $rpt_name is undeclared
-www\reports\total_hours.php:1124 PhanUndeclaredVariable Variable $info_ipaddress is undeclared
-www\reports\total_hours.php:1131 PhanUndeclaredVariable Variable $tmp_info_date is undeclared
-www\reports\total_hours.php:1133 PhanUndeclaredVariable Variable $date_formatted is undeclared
-www\scripts\dropdown_get.php:14 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\scripts\dropdown_get.php:42 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\scripts\dropdown_get.php:55 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
 www\userclass.php:19 PhanUndeclaredProperty Reference to undeclared property \User->level (Did you mean $level)
-www\userclass.php:20 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:21 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:21 PhanUndeclaredProperty Reference to undeclared property \User->displayName
-www\userclass.php:22 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:22 PhanUndeclaredProperty Reference to undeclared property \User->groupID
-www\userclass.php:23 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:23 PhanUndeclaredProperty Reference to undeclared property \User->adminPassword
-www\userclass.php:24 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:24 PhanUndeclaredProperty Reference to undeclared property \User->inout_status
-www\userclass.php:28 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:28 PhanUndeclaredProperty Reference to undeclared property \User->groupID
-www\userclass.php:32 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:32 PhanUndeclaredProperty Reference to undeclared property \User->groupID
-www\userclass.php:43 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:43 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:60 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\userclass.php:63 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
-www\userclass.php:66 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:68 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
-www\userclass.php:84 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_array() takes \mysqli_result
-www\userclass.php:89 PhanTypeMismatchArgumentInternal Argument 1 ($result) is false but \mysqli_fetch_row() takes \mysqli_result
-www\userclass.php:91 PhanTypeArraySuspiciousNullable Suspicious array access to nullable ?array
+www\userclass.php:25 PhanUndeclaredProperty Reference to undeclared property \User->displayName
+www\userclass.php:26 PhanUndeclaredProperty Reference to undeclared property \User->groupID
+www\userclass.php:27 PhanUndeclaredProperty Reference to undeclared property \User->adminPassword
+www\userclass.php:28 PhanUndeclaredProperty Reference to undeclared property \User->inout_status
+www\userclass.php:33 PhanUndeclaredProperty Reference to undeclared property \User->groupID
+www\userclass.php:40 PhanUndeclaredProperty Reference to undeclared property \User->groupID
+www\userclass.php:81 PhanTypeMismatchArgumentInternal Argument 2 ($character_mask) is 0 but \ltrim() takes string
