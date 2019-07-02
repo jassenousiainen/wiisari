@@ -150,7 +150,7 @@ else if  ( isset($_POST['create']) ) {
     $level = 0;
   }
 
-    // Chekcs if given username already exists in database
+    // Checks if given username already exists in database
     if (!isset($_POST['userID']) || $_POST['userID'] == "" ) {$error = true; $userID = "error";}
     else {
         $userID = $_POST['userID'];

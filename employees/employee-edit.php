@@ -11,6 +11,13 @@ if (isset($_POST['userID'])){
     $userID = $_POST['userID'];
 }
 
+if ($_SESSION['logged_in_user']->level >= 2 && isset($_POST['newUserID'])){
+    $newUserID = $_POST['newUserID'];
+     // Checks if given (different) username already exists in database
+    $userIDcheck = mysqli_fetch_row(tc_query( "SELECT userID FROM employees WHERE userID = '$newUserID' AND userID <> '$userID'"));
+    if (!empty($userIDcheck)) {$error = true; $newUserID = "error";}
+}
+
 if (isset($_POST['level']) && $_SESSION['logged_in_user']->level >= 3) {$level = intval($_POST['level']);}
 else {$level = 0;}
 
@@ -43,9 +50,11 @@ if ($error) {
     echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
     if ($displayName == "error") { echo '<p>Nimi oli tyhjä!</p>'; }
     if ($groupID == "error") { echo '<p>Et valinnut toimistoa ja/tai ryhmää!</p>'; }
+    if ($newUserID == "error") { echo '<p>Käyttäjätunnus on varattu!</p>'; }
 }
 else {
     echo '<div class="box" style="background-color: var(--lightgreen); min-height: 50px; text-align: center; color: white; padding: 0;">';
+    
     tc_update_strings("employees", array(
         'displayName'   => $displayName,
         'groupID'       => $groupID,
@@ -70,8 +79,23 @@ else {
               $groupdata = array("userID" => $userID, "groupID" => $grpid);
               tc_insert_strings("supervises", $groupdata);
             }
-          }    
+        }   
     }
+
+    // updates the new userID to every table that has userIDs
+    if ($_SESSION['logged_in_user']->level >= 2 && isset($newUserID) && ($newUserID != $userID) ) {
+        tc_update_strings("employees", array(
+            'userID' => $newUserID
+        ), "userID = ?", $userID);
+        tc_update_strings("info", array(
+            'userID' => $newUserID
+        ), "userID = ?", $userID);
+        tc_update_strings("supervises", array(
+            'userID' => $newUserID
+        ), "userID = ?", $userID);
+    $userID = $newUserID;
+    }
+
     echo '<p>Muutokset tehtiin onnistuneesti!</p>';  
 }
 echo '</div>';
