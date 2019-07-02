@@ -76,6 +76,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
         }
         if(isset($data[$userID]['Days'])){
           $y = array_sum($data[$userID]['Days']);
+        }else{
+          $y = 0;
         }
         $Dname = getDname($userID);
         array_push($data3,"$Dname,,,,,$y");
