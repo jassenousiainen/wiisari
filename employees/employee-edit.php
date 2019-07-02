@@ -11,6 +11,9 @@ if (isset($_POST['userID'])){
     $userID = $_POST['userID'];
 }
 
+$checkPermsID = $userID;
+require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
+
 if ($_SESSION['logged_in_user']->level >= 2 && isset($_POST['newUserID'])){
     $newUserID = $_POST['newUserID'];
      // Checks if given (different) username already exists in database

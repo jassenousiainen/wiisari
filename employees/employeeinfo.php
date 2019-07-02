@@ -130,7 +130,7 @@ if (isset($_POST['userID'])) {
                         <td><input name="earliest" type="time" value="'.$empdata['earliestStart'].'"></td>
                     </tr>
                     <tr>
-                        <td>Myöhäisin kähtöaika</td>
+                        <td>Myöhäisin lähtöaika</td>
                         <td><input name="latest" type="time" value="'.$empdata['latestEnd'].'"></td>
                     </tr>
                     <tr>
