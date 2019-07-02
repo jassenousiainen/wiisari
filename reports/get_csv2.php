@@ -4,9 +4,10 @@ tc_connect();
 
 if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
-  $group_name = $_GET['group'];
+  $groupID = $_GET['group'];
   $from_timestamp = $_GET['from'];
   $to_timestamp = $_GET['to'];
+  $group_name = $_GET['groupname'];
   if(isset($_GET['details']) && $_GET['details'] === '1'){
     $details = $_GET['details'];
   }
@@ -20,15 +21,15 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }
   session_start();
   $userID = $_SESSION['logged_in_user']->userID;
-  if($group_name === "Kaikki ryhmäsi"){
+  if($groupID === "all"){
     if($_SESSION['logged_in_user']->level < 3){
-      $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp AND userID IN(SELECT employees.userID FROM employees,supervises NATURAL JOIN groups WHERE groups.groupID = employees.groupID AND employees.groupID = supervises.groupID AND supervises.userID = '$userID') GROUP BY userID";
+      $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID GROUP BY userID";
     }else{
-      $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp GROUP BY userID";
+      $query = "SELECT userID FROM employees";
     }
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }else{
-    $query = "SELECT info.userID FROM info NATURAL JOIN employees NATURAL JOIN groups WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp  AND groups.groupName = '$group_name' GROUP BY userID";
+    $query = "SELECT userID FROM employees WHERE groupID = $groupID";
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }
 
@@ -73,25 +74,31 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           $k = array_search($key, $dates[$userID]);
           $data[$userID]['Days'][$k] = $x;
         }
-        $y = array_sum($data[$userID]['Days']);
+        if(isset($data[$userID]['Days'])){
+          $y = array_sum($data[$userID]['Days']);
+        }
         $Dname = getDname($userID);
         array_push($data3,"$Dname,,,,,$y");
         array_push($data3,"");
 
       }else{
-        while ($row = mysqli_fetch_array($secs)) {
-          $date = date("d/m/Y" , $row['timestamp']);
-          if(!isset($dates[$userID][$date])){
-            $dates[$userID][$date] = array();
-          }
-          if($row['inout'] === "in"){
-            $intime = $row['timestamp'];
-          }else{
-            if(isset($intime) && $row['inout'] === "out"){
-              $outtime = $row['timestamp'];
-              $seclogin = $outtime - $intime;
-              array_push($dates[$userID][$date],$seclogin);
-              unset($intime);
+        if($secs->num_rows === 0){
+          $dates[$userID] = array();
+        }else{
+          while ($row = mysqli_fetch_array($secs)) {  
+            $date = date("d/m/Y" , $row['timestamp']);
+            if(!isset($dates[$userID][$date])){
+              $dates[$userID][$date] = array();
+            }
+            if($row['inout'] === "in"){
+              $intime = $row['timestamp'];
+            }else{
+              if(isset($intime) && $row['inout'] === "out"){
+                $outtime = $row['timestamp'];
+                $seclogin = $outtime - $intime;
+                array_push($dates[$userID][$date],$seclogin);
+                unset($intime);
+              }
             }
           }
         }
@@ -104,13 +111,20 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           $str = $Dname .",". $k .",". $x .",";
           array_push($data3, $str);
         }
-        $y = array_sum($data[$userID]['Days']);
+        if(isset($data[$userID]['Days'])){
+          $y = array_sum($data[$userID]['Days']);
+        }
         $Dname = getDname($userID);
         array_push($data3,"$Dname,,,$y");
-
+        array_push($data3,"");
       }
 
     }
+
+
+
+
+
     $f = date("d/m/Y" , $from_timestamp);
     $t = date("d/m/Y" , $to_timestamp);
     $filename = $group_name . " " . $f . "-" . $t;
