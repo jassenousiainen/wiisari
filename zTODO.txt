@@ -1,6 +1,0 @@
-TYÖN ALLA
-  - Työtuntiraporttien haku CSV -tiedostoon   [Phuoc]
-  - Viivakooditulostin    [Jasse]
-
-TEHTÄVÄÄ
-  - Muutosloki
