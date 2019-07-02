@@ -65,7 +65,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           }
           $time = date("h:i" , $row['timestamp']);
           $Dname = getDname($userID); 
-          $str = $Dname .",". $row['inout'] .",". $time .",". $date ."," . $row['notes'];
+          $notes = $row['notes'];
+          $str = $Dname .",". $row['inout'] .",". $time .",". $date .",'" .$notes."'";
           array_push($data3, $str);
         }
         foreach($dates[$userID] as $key){
@@ -127,8 +128,6 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
 
 
-
-
     $f = date("d/m/Y" , $from_timestamp);
     $t = date("d/m/Y" , $to_timestamp);
     $filename = $group_name . " " . $f . "-" . $t;
@@ -138,11 +137,11 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
     $fp = fopen('php://output', 'wb');
     foreach ( $data3 as $line ) {
-        $val = explode(",", $line);
+        //$val = explode(",", $line);
+        $val = str_getcsv($line, ",", "'");
         fputcsv($fp, $val);
     }
     fclose($fp);
-    
     
 }
 
