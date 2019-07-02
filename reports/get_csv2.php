@@ -18,9 +18,14 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }else{
     $data3 = array("Name,Date,Daily Totals,Employee Totals");
   }
-
+  session_start();
+  $userID = $_SESSION['logged_in_user']->userID;
   if($group_name === "Kaikki ryhmäsi"){
-    $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp GROUP BY userID";
+    if($_SESSION['logged_in_user']->level < 3){
+      $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp AND userID IN(SELECT employees.userID FROM employees,supervises NATURAL JOIN groups WHERE groups.groupID = employees.groupID AND employees.groupID = supervises.groupID AND supervises.userID = '$userID') GROUP BY userID";
+    }else{
+      $query = "SELECT userID FROM info WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp GROUP BY userID";
+    }
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }else{
     $query = "SELECT info.userID FROM info NATURAL JOIN employees NATURAL JOIN groups WHERE timestamp > $from_timestamp AND timestamp < $to_timestamp  AND groups.groupName = '$group_name' GROUP BY userID";
