@@ -1,0 +1,3 @@
+TEHTÄVÄÄ
+  - Muutosloki
+  - functions.php siivous

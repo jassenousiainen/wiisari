@@ -18,7 +18,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 if (isset($_POST['userID'])) {
 
     $userID = $_POST['userID'];
-    
+
     $checkPermsID = $userID;
     require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";     // This blocks access to rest of the page if supervisor doesn't have access to this groups employee
 
@@ -44,7 +44,6 @@ if (isset($_POST['userID'])) {
                                         FROM employees NATURAL JOIN groups NATURAL JOIN offices
                                         WHERE userID = '$empdata[0]';
                                         "));
-
     echo '
             <div class="box">
                 <h2>Henkilön '.$empdata[1].' tiedot</h2>
@@ -94,7 +93,14 @@ if (isset($_POST['userID'])) {
                         <table style="max-width: 600px;">
                             <tr>
                                 <td>Käyttäjätunnus:</td>
-                                <td>'.$empdata[0].'<input name="userID" value="'.$empdata[0].'" type="hidden"></td>
+                                <td>';
+    if ($_SESSION['logged_in_user']->level >= 2) {
+        echo '                      <input type="text" name="newUserID" value="'.$empdata[0].'"></input>';
+    } else {
+        echo $empdata[0];
+    }
+    echo '                      </td>
+                                <input name="userID" value="'.$empdata[0].'" type="hidden">
                             </tr>
                             <tr>
                                 <td>Nimi:</td>
@@ -124,7 +130,7 @@ if (isset($_POST['userID'])) {
                         <td><input name="earliest" type="time" value="'.$empdata['earliestStart'].'"></td>
                     </tr>
                     <tr>
-                        <td>Myöhäisin kähtöaika</td>
+                        <td>Myöhäisin lähtöaika</td>
                         <td><input name="latest" type="time" value="'.$empdata['latestEnd'].'"></td>
                     </tr>
                     <tr>

@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
 --
 
 INSERT INTO `employees` (`userID`, `displayName`, `groupID`, `level`, `adminPassword`, `inoutStatus`, `earliestStart`, `latestEnd`) VALUES
-('admin', 'Administrator', 1, 3, '$2y$10$xnpz7RIvj4hosPazISFSCO8TW9oXDmUwlATVHVCWwNqoNBgKF2x82', 'out', NULL, NULL),
+('admin', 'Administrator', 1, 3, '$2y$10$xnpz7RIvj4hosPazISFSCO8TW9oXDmUwlATVHVCWwNqoNBgKF2x82', 'out', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`groupID`, `groupName`, `officeID`) VALUES
-(1, 'Ryhmä1', 1),
+(1, 'Ryhmä1', 1);
 
 -- --------------------------------------------------------
 
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `offices` (
 --
 
 INSERT INTO `offices` (`officeID`, `officeName`) VALUES
-(1, 'Toimisto1'),
+(1, 'Toimisto1');
 
 -- --------------------------------------------------------
 
