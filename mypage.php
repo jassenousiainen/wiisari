@@ -74,17 +74,8 @@ if ($_SESSION['logged_in_user']->level > 0) {
           }
           echo '<a class="btn tile" href="/reports/total_hours.php"><i class="fas fa-hourglass-half"></i><span>Työtunnit</span></a>';
           echo '<a class="btn tile" href="/barcode-generator/barcodefetch.php"><i class="fas fa-barcode"></i><span>Viivakoodien tulostin</span></a>';
+    echo '</p>';
 
-    echo '
-      </p>
-      <p class="section" style="overflow:auto;">
-        <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
-        <b>Kaikki työntekijät</b>
-        <br><br>
-        Työntekijöitä yhteensä: '.$employees_total.'
-        <br>
-        Työntekijöitä nyt kirjautuneena: '.$employees_total_in.'
-      </p>';
     if ($_SESSION['logged_in_user']->level < 3) {
       echo '
       <p class="section" style="overflow:auto;">
@@ -96,6 +87,16 @@ if ($_SESSION['logged_in_user']->level > 0) {
         Työntekijöitä nyt kirjautuneena: '.$my_employees_total_in.'
       </p>';
     }
+    echo '
+      <p class="section" style="overflow:auto;">
+        <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
+        <b>Kaikki työntekijät</b>
+        <br><br>
+        Työntekijöitä yhteensä: '.$employees_total.'
+        <br>
+        Työntekijöitä nyt kirjautuneena: '.$employees_total_in.'
+      </p>';
+    
     echo '</div>';
 }
 
