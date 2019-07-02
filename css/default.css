@@ -449,6 +449,15 @@ table.reports {
 .top-skew-bg.blue {
 	background: linear-gradient(0deg, #2b60ff, #00c6ff);/*#004180;*/
 }
+.top-skew-bg.green {
+	background: linear-gradient(0deg, var(--green), var(--lightgreen));/*#004180;*/
+}
+.top-skew-bg.red {
+	background: linear-gradient(0deg, var(--red), var(--red-bright));/*#004180;*/
+}
+.top-skew-bg.orange {
+	background: linear-gradient(0deg, var(--darkorange), var(--orange));/*#004180;*/
+}
 .elipsed-border {
 	overflow: hidden;
 	top: 2px;

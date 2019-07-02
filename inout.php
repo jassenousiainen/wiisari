@@ -148,50 +148,62 @@ if ($inout != 'afterhours' && $inout != 'earlyOut') {
     $clockin_stmt->execute(array($userID, $inout, $tz_stamp, $notes));
     tc_update_strings("employees", array("inoutStatus" => $inout), "userID = ?", $userID);
   }
-
-  
 }
 
 
-// The actual html that is shown to employee.
-echo '<section class="top-skew-bg blue">
-<div class="elipsed-border">
-</div>
-</section>';
-
-echo "
-<section class='container full-width'>";
+/* Colors
+green: punch-in was successful
+red: punch-out was successful
+orange: user was not punched
+*/
 
 if ($inout == "out") {
   // Lookup previous login, so we can count time between login and current logout
   $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$userID' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
   $currentWorkTime = $tz_stamp - (int)$lastIn;
   $logblock = "<p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
+  $bgcolor = "red";
 }
 else if ($inout == "in") {
   $logblock = "<p class='kirjausSisaan'>Sisään</p>";
+  $bgcolor = "green";
 }
 else if ($inout == 'early') {
   $logblock = "<p class='logError'>Aikaisin</p>
             <p class='kirjausSisaan'>Sisään</p>";
+  $bgcolor = "green";
 }
 else if ($inout == 'afterhours') {
   $logblock = "<p class='logError'>Et voi tulla työpäivän jälkeen!</p>";
+  $bgcolor = "orange";
 }
 else if ($inout == 'late') {
   $lastIn = mysqli_fetch_row(tc_query("SELECT timestamp FROM info WHERE userID = '$userID' AND `inout` = 'in' ORDER BY timestamp DESC"))[0];
   $currentWorkTime = $tz_stamp - (int)$lastIn;
   $logblock = "<p class='logError'>Myöhään</p>
               <p class='logOutTime'>".convertToHours($currentWorkTime). "</p> <p class='kirjausUlos'>Ulos</p>";
+  $bgcolor = "red";
 }
 else if ($inout == 'earlyOut') {
   $logblock = "<p class='logError'>Virhe! Voit kellottautua ulos klo " . $last_clock->format('H:i') . " jälkeen</p>";
+  $bgcolor = "orange";
 }
 
 
 $logTime = new DateTime("@$tz_stamp");
 $logTime->setTimeZone(new DateTimeZone('Europe/Helsinki'));
 
+
+
+// The actual html that is shown to employee.
+
+echo '
+<section class="top-skew-bg '.$bgcolor.'">
+  <div class="elipsed-border">
+  </div>
+</section>';
+
+echo "<section class='container full-width'>";
 echo "<div class='kirjausLaatikko'>";
 echo "<h2 class='kirjausNimi'>$displayName</h2>";
 echo '<br>';

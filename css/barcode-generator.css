@@ -80,8 +80,8 @@
     .barcodeGenBox .tstlogo {
         position: absolute;
         font-size: 14px;
-        bottom: 12px;
-        right: 12px;
+        bottom: 14px;
+        right: 18px;
         padding: 0;
         margin: 0;
     }

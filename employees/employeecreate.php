@@ -56,12 +56,12 @@ if ( $request == "GET") {
                       <td><br></td>
                     </tr>
                     <tr>
-                      <td>Tuntien lasku aikaisintaan</td>
+                      <td>Aikaisin tuloaika</td>
                       <td><input name="earliest" type="time"></td>
                       <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä sisään aikaisemmin, alkaa tuntien lasku vasta tästä kellonajasta. Voi olla tyhjä.</td>
                     </tr>
                     <tr>
-                      <td>Tuntien lasku myöhäisimpään</td>
+                      <td>Myöhäisin lähtöaika</td>
                       <td><input name="latest" type="time"></td>
                       <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä ulos myöhemmin, päättyy tuntien lasku tähän kellonaikaan. Henkilö ei voi kellottaa itseänsä sisään tämän ajan jälkeen. Voi olla tyhjä.</td>
                     </tr>
