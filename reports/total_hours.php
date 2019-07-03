@@ -324,8 +324,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     
     $rpt_stamp = time();
-    $rpt_time = date($timefmt, $rpt_stamp);
-    $rpt_date = date($datefmt, $rpt_stamp);
+    $rpt_time = (new DateTime("@".$rpt_stamp))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
+    $rpt_date = (new DateTime("@".$rpt_stamp))->setTimeZone(new DateTimeZone($timezone))->format($datefmt);
 
     echo "<p>Raportti haettu: $rpt_date klo $rpt_time</p>";
     echo "<p>Raporttiin valittu: $group_name</p>";
@@ -420,10 +420,9 @@ QUERY
             
             for ($y = 0; $y < $info_cnt; $y++) {
 
-                //      $info_date[] = date($datefmt, $info_timestamp[$y]);
-                $x_info_date[] = date($datefmt, $info_timestamp[$y]);
-                $info_date[] = date('n/j/y', $info_timestamp[$y]);
-                $info_start_time[] = strtotime($info_date[$y]);
+                $x_info_date[] = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format($datefmt);
+                $info_date[] = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('n/j/y');
+                $info_start_time[] = \DateTime::createFromFormat('n/j/y', $info_date[$y], new DateTimeZone($timezone))->getTimestamp();
                 $info_end_time[] = $info_start_time[$y] + 86399;
 
                 if (isset($tmp_info_date)) {
@@ -444,10 +443,10 @@ QUERY
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 } else {
                                     $yy = $y - 1;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 }
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -464,7 +463,7 @@ QUERY
                                     echo "  <tr><td width=100% colspan=2>\n";
                                     echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                     for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                        $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                        $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -555,10 +554,10 @@ QUERY
                                 $row_color = $color2; // Initial row color
                                 if ((empty($y)) || ($y == $info_cnt - 1)) {
                                     $yy = 0;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 } else {
                                     $yy = $y - 1;
-                                    $date_formatted = date('l, ', $info_timestamp[$y - 1]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y - 1]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 }
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -575,7 +574,7 @@ QUERY
                                     echo "  <tr><td width=100% colspan=2>\n";
                                     echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                     for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                        $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                        $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -640,10 +639,10 @@ QUERY
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
-                                $date_formatted = date('l, ', $info_timestamp[$y]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             } else {
                                 $yy = $y - 1;
-                                $date_formatted = date('l, ', $info_timestamp[$y - 1]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y - 1]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             }
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$yy]</td>\n";
@@ -660,7 +659,7 @@ QUERY
                                 echo "  <tr><td width=100% colspan=2>\n";
                                 echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                 for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                    $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                    $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -730,10 +729,10 @@ QUERY
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 } else {
                                     $yy = $y - 1;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 }
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -750,7 +749,7 @@ QUERY
                                     echo "  <tr><td width=100% colspan=2>\n";
                                     echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                     for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                        $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                        $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -825,10 +824,10 @@ QUERY
                                 $row_color = $color2; // Initial row color
                                 if (empty($y)) {
                                     $yy = 0;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 } else {
                                     $yy = $y - 1;
-                                    $date_formatted = date('l, ', $info_timestamp[$y]);
+                                    $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                                 }
                                 echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                                 border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -845,7 +844,7 @@ QUERY
                                     echo "  <tr><td width=100% colspan=2>\n";
                                     echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                     for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                        $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                        $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                         echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                         echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                         echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -916,10 +915,10 @@ QUERY
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
-                                $date_formatted = date('l, ', $info_timestamp[$y]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             } else {
                                 $yy = $y - 1;
-                                $date_formatted = date('l, ', $info_timestamp[$y]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             }
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -936,7 +935,7 @@ QUERY
                                 echo "  <tr><td width=100% colspan=2>\n";
                                 echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                 for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                    $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                    $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
@@ -1005,10 +1004,10 @@ QUERY
                             $row_color = $color2; // Initial row color
                             if (empty($y)) {
                                 $yy = 0;
-                                $date_formatted = date('l, ', $info_timestamp[$y]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             } else {
                                 $yy = $y - 1;
-                                $date_formatted = date('l, ', $info_timestamp[$y]);
+                                $date_formatted = (new DateTime("@".$info_timestamp[$y]))->setTimeZone(new DateTimeZone($timezone))->format('l, ');
                             }
                             echo "  <tr bgcolor=\"$row_color\" align=\"left\"><td style=\"color:#000000;border-style:solid;border-color:#888888;
                             border-width:1px 0px 0px 0px;\" nowrap>$date_formatted$x_info_date[$y]</td>\n";
@@ -1025,7 +1024,7 @@ QUERY
                                 echo "  <tr><td width=100% colspan=2>\n";
                                 echo "<table width=100% align=center class=misc_items border=0 cellpadding=0 cellspacing=0>\n";
                                 for ($z = $tmp_z; $z <= $punch_cnt; $z++) {
-                                    $time_formatted = date($timefmt, $info_timestamp[$z]);
+                                    $time_formatted = (new DateTime("@".$info_timestamp[$z]))->setTimeZone(new DateTimeZone($timezone))->format($timefmt);
                                     echo "  <tr bgcolor=\"$row_color\" align=\"left\">\n";
                                     echo "      <td align=left width=13% nowrap style=\"color:$punchlist_color[$z];\">$info_inout[$z]</td>\n";
                                     echo "      <td nowrap align=right width=10% style='padding-right:25px;'>$time_formatted</td>\n";
