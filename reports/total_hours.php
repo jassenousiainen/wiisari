@@ -288,8 +288,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     // Convert the datestrings to timestamps
     if (!empty($from_date) && isset($_POST)) {
-        $from_date = $from_day.".".$from_month.".".$from_year;
-        $from_timestamp=\DateTime::createFromFormat('d.m.Y', $from_date, new DateTimeZone($timezone))->getTimestamp();
+        $from_date = $from_day.".".$from_month.".".$from_year." 00:00";
+        $from_timestamp=\DateTime::createFromFormat('d.m.Y H:i', $from_date, new DateTimeZone($timezone))->getTimestamp();
         $from_date = $_POST['from_date'];   
     }
 
@@ -404,6 +404,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
  ORDER BY i.timestamp ASC
 QUERY
             , array($employees_empfullname[$x], $from_timestamp, $to_timestamp));
+            
             if($result != FALSE){
                 $punchlist_color = array();
                 while ($row = mysqli_fetch_array($result)) {
