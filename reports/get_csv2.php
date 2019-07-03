@@ -127,7 +127,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
     }
 
 
-
+    
     $f = date("d/m/Y" , $from_timestamp);
     $t = date("d/m/Y" , $to_timestamp);
     $filename = $group_name . " " . $f . "-" . $t;
@@ -136,8 +136,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
     header('Content-Disposition: attachment; filename="'.$filename.'.csv"');
 
     $fp = fopen('php://output', 'wb');
+    fputs( $fp, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF) );
     foreach ( $data3 as $line ) {
-        //$val = explode(",", $line);
         $val = str_getcsv($line, ",", "'");
         fputcsv($fp, $val);
     }
