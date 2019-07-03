@@ -121,6 +121,42 @@
 .ui-widget .ui-state-active:hover {
 	background: var(--darkblue) !important;
 }
+.ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
+	display: block;
+	text-indent: unset;
+	margin: 0;
+	position: unset;
+	overflow: visible;
+}
+.ui-widget-header .ui-icon {
+	background: none;
+	width: unset;
+	height: unset;
+}
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+	position: unset;
+	width: unset;
+	height: unset;
+	color: white;
+	font-size: 14px;
+	height: 29px;
+	line-height: 29px;
+	cursor: pointer;
+}
+.ui-datepicker .ui-datepicker-prev {
+	float: left;
+	padding-left: 4px;
+}
+.ui-datepicker .ui-datepicker-next {
+	float: right;
+	padding-right: 4px;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-button:hover, .ui-button:focus {
+	border: none;
+	background: none;
+	font-weight: bold;
+	color: white;
+}
 /*------------------------*/
 
 
