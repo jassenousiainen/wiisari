@@ -45,7 +45,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
       if(isset($details)){
 
         while ($row = mysqli_fetch_array($secs)) {
-          $date = date("d/m/Y" , $row['timestamp']);
+          $date = (new DateTime("@".$row['timestamp']))->setTimeZone(new DateTimeZone($timezone))->format('d.m.Y');
 
           if(!isset($dates[$userID][$date])){
             $dates[$userID][$date] = array();
@@ -63,7 +63,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
             }
 
           }
-          $time = date("h:i" , $row['timestamp']);
+          $time = (new DateTime("@".$row['timestamp']))->setTimeZone(new DateTimeZone($timezone))->format('H:i');
           $Dname = getDname($userID); 
           $notes = $row['notes'];
           $str = $Dname .",". $row['inout'] .",". $time .",". $date .",'" .$notes."'";
@@ -89,7 +89,7 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
           $dates[$userID] = array();
         }else{
           while ($row = mysqli_fetch_array($secs)) {  
-            $date = date("d/m/Y" , $row['timestamp']);
+            $date = (new DateTime("@".$row['timestamp']))->setTimeZone(new DateTimeZone($timezone))->format('d.m.Y');
             if(!isset($dates[$userID][$date])){
               $dates[$userID][$date] = array();
             }
@@ -128,8 +128,8 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
 
 
-    $f = date("d/m/Y" , $from_timestamp);
-    $t = date("d/m/Y" , $to_timestamp);
+    $f = (new DateTime("@$from_timestamp"))->setTimeZone(new DateTimeZone($timezone))->format('d.m.Y');
+    $t = (new DateTime("@$to_timestamp"))->setTimeZone(new DateTimeZone($timezone))->format('d.m.Y');
     $filename = $group_name . " " . $f . "-" . $t;
     
     header('Content-Type: text/csv');
