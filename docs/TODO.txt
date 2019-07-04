@@ -1,4 +1,3 @@
 TEHTÄVÄÄ
-  - get_csv tietoturvaa parannettava, sillä nyt valvoja voi hakea minkä vain ryhmän tunnit muuttamalla url -osoitetta
   - Muutosloki
   - functions.php siivous
