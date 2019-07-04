@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_URI'] != '/timeclock.php') {
 if ($_SERVER['REQUEST_URI'] == '/timeclock.php') {
   echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/gradient.css" id="theme"/>'."\n";
 } else {
-  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />.'."\n"; 
+  echo '<link rel="stylesheet" type="text/css" media="screen" href="/css/default.css" id="theme" />'."\n"; 
 }
 if ($_SERVER['REQUEST_URI'] == '/employees/employeeinfo.php' || $_SERVER['REQUEST_URI'] == '/barcode-generator/barcodefetch.php') {
   echo '<link rel="stylesheet" type="text/css" href="/css/barcode-generator.css"/>'."\n";
@@ -72,5 +72,8 @@ echo '<link rel="stylesheet" href="/fonts/fontawesome/css/all.min.css">'."\n";
 
 echo '<link rel="shortcut icon" href="/images/wiisari_title.png" type="image/x-icon"/>'."\n";
 
+echo '
+</head>
+<body>';
+
 ?>
-<body>
