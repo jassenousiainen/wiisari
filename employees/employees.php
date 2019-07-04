@@ -36,6 +36,7 @@ if ($request == 'GET') {
     echo '
       <section class="container">
         <div class="middleContent extrawide">
+          <a class="btn back" href="/mypage.php">Oma sivu</a>
           <div class="box">
             <h2>Henkilöstö</h2>
             <div class="section">';
