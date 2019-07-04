@@ -1,6 +1,12 @@
 <?php
 require '../common.php';
 tc_connect();
+session_start();
+
+if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 1) {
+  echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
+  exit;
+}
 
 if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
 
@@ -11,6 +17,21 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   if(isset($_GET['details']) && $_GET['details'] === '1'){
     $details = $_GET['details'];
   }
+  $userID = $_SESSION['logged_in_user']->userID;
+
+  
+  // Checks that the current user has permissions for the selected groups
+  if ($groupID != "all") {
+    $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
+    if (!isset($group_name) || empty($groupID)) {
+      die("Valittua ryhmää ei löytynyt");
+    }
+    $super = mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$userID'"));
+    if ( $_SESSION['logged_in_user']->level < 3 && empty($super) ) {
+      die("Sinulla ei ole oikeutta valittuun ryhmään");
+    }
+  }
+
 
   $data = array();
   $dates = array();
@@ -19,8 +40,6 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }else{
     $data3 = array("Name,Date,Daily Totals,Employee Totals");
   }
-  session_start();
-  $userID = $_SESSION['logged_in_user']->userID;
   if($groupID === "all"){
     if($_SESSION['logged_in_user']->level < 3){
       $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID GROUP BY userID";
