@@ -42,13 +42,13 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }
   if($groupID === "all"){
     if($_SESSION['logged_in_user']->level < 3){
-      $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID GROUP BY userID";
+      $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID ORDER BY displayName";
     }else{
       $query = "SELECT userID FROM employees";
     }
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }else{
-    $query = "SELECT userID FROM employees WHERE groupID = $groupID";
+    $query = "SELECT userID FROM employees WHERE groupID = $groupID ORDER BY displayName";
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }
 
