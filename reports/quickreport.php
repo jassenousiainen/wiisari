@@ -12,8 +12,6 @@ if (!isset($_SESSION['logged_in_user'])) {
     exit;
 }
 
-  echo "<title>Omat Tunnit</title>\n";
-
 
   $fullname = $_SESSION['logged_in_user']->userID;
   $displayname = $_SESSION['logged_in_user']->displayName;
@@ -25,6 +23,7 @@ if (!isset($_SESSION['logged_in_user'])) {
 
 echo ' <section class="container">
         <div class="middleContent">
+          <a class="btn back" href="/mypage.php">Oma sivu</a>
           <div class="box">
             <h2> '.$displayname.' - työtunnit ('. date('Y', $timeNow).')</h2>
             <div class="section">
