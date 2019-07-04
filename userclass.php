@@ -79,7 +79,7 @@ class User {
 
     $weektime = array_fill(1, 53, 0);
     $outStamps = tc_query("SELECT timestamp FROM info WHERE userID = '$this->userID' AND `inout` = 'out' AND timestamp > '$firstStampOfYear'  ORDER BY timestamp DESC");
-    while ( $tempOutStamp = mysqli_fetch_array($outStamps)[0] ) {   // Käydään läpi työntekijän kaikki kirjaukset
+    while ( $tempOutStamp = mysqli_fetch_array($outStamps)[0] ) {   // Käydään läpi työntekijän tämän vuoden kirjaukset
           $week = ltrim(date('W', $tempOutStamp), 0); // 1-52 (huomaa ltrimin käyttö aloittavien nollien poistamiseksi)
 
           // Haetaan edeltävä kirjaus (eli sisäänkirjaus)
@@ -104,15 +104,15 @@ class User {
 
     $monthtime = array_fill(1, 13, 0);
     $outStamps = tc_query("SELECT timestamp FROM info WHERE userID = '$this->userID' AND `inout` = 'out' AND timestamp > '$firstStampOfYear'  ORDER BY timestamp DESC");
-    while ( $tempOutStamp = mysqli_fetch_array($outStamps)[0] ) {   // Käydään läpi työntekijän kaikki kirjaukset
-          $month = date('n', $tempOutStamp); // 1-12
-          $tempInStamp = mysqli_fetch_row(tc_query( "SELECT timestamp FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempOutStamp' ORDER BY timestamp DESC"))[0];
-          if(isset($tempOutStamp) && isset($tempInStamp)){
-            $time = $tempOutStamp - $tempInStamp;
-            if (is_numeric($time)) {
-              $monthtime[$month] += $time;
-            }
-          }    
+    while ( $tempOutStamp = mysqli_fetch_array($outStamps)[0] ) {
+      $month = date('n', $tempOutStamp);
+      $tempInStamp = mysqli_fetch_row(tc_query( "SELECT timestamp FROM info WHERE userID = '$this->userID' AND `inout` = 'in' AND timestamp < '$tempOutStamp' ORDER BY timestamp DESC"))[0];
+      if(isset($tempOutStamp) && isset($tempInStamp)){
+        $time = $tempOutStamp - $tempInStamp;
+        if (is_numeric($time)) {
+          $monthtime[$month] += $time;
+        }
+      }    
     }
     return $monthtime;
   }
