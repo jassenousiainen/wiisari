@@ -52,13 +52,14 @@ function workTime() {
 }
 
 function startCounter() {
+  workTime();
    clockID = setInterval(workTime, 1000);
 }
 
 
 window.onload=function() {
   if ($("#out").length > 0) {
-    secs = parseInt($('#secs').text())
+    secs = parseInt($('#secs').text()) - 1;
     startCounter();
   }
 
