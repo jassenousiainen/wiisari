@@ -45,8 +45,7 @@ if ($request == 'GET' || isset($_POST['errors'])) {
 
     echo '
     <section class="container">
-        <div class="middleContent">
-        <a class="btn back" href="/mypage.php">Oma sivu</a>';
+        <div class="middleContent">';
 
     if (isset($_POST['errors'])) {
         foreach (explode(',', $_POST['errors']) as &$error) {

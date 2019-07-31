@@ -74,38 +74,37 @@ header {
   color: white;
 }
 header a {
-  display: inline-block;
-  line-height: 28px;
+  	display: inline-block;
+  	line-height: 28px;
 	color: white;
 	text-decoration: none;
 	padding: 0 10px;
-  border-radius: 14px;
+  	border-radius: 14px;
 	transition: background-color 0.2s ease;
-}
-header a:hover {
-	color: #324b68;
-	background-color: white;
 }
 
 .top-skew-bg {
 	display: none;
 }
 
-.logolink {
+a.logolink {
 	display: inline-block;
-  text-decoration: none;
+  	text-decoration: none;
 	margin: 37px 0 0 27px;
 	color: white;
+	background: none;
 }
-.logotext {
-  margin: 0;
-  font-size: 44px;
+h2.logotext {
+  	margin: 0;
+  	font-size: 44px;
 	font-family: 'JosefinSans';
 	font-weight: normal;
 	letter-spacing: 4px;
-	/* mdbootstrap.com/tools/logo-generator-text */
-	/*text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
-*/}
+	transition: text-shadow 0.2s ease;
+}
+a.logolink:hover h2.logotext {
+	text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
+}
 
 .loggedBar {
 	margin: 30px 37px 0 0;
@@ -123,7 +122,19 @@ header a:hover {
 	color: var(--blue);
 	background: white;
 }
-
+.loggedbar a.profile {
+	width: 40px;
+    height: 40px;
+    padding: 0;
+    text-align: center;
+    background: none;
+    border: solid 2px white;
+    border-radius: 42px;
+    font-family: 'JosefinSans';
+    font-size: 22px;
+    color: white;
+    box-sizing: border-box;
+}
 
 .clockBox {
   position: absolute;

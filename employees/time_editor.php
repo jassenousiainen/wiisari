@@ -135,7 +135,7 @@ if  ( isset($_POST['timeeditor']) ) {
             </tr>";
     $prev = $inout[2];
     $max++;
-    if ($max == 500) { break; }
+    if ($max == 1000) { break; }
   }
 echo '            </tbody>
                 </table>

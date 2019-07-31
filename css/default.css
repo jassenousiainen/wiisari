@@ -36,6 +36,7 @@
 	 --gray: #6c757d;
 	 --gray-dark: #343a40;
 	 --gray-light: #dee2e6;
+	 --gray-medium: #8d9ca9;
 	 --light: #f4f5f7;
 	 --light-hover: #e2e6ea;
 	 --green: #28a745;
@@ -104,12 +105,15 @@
 .ui-widget .ui-state-default {
 	border: none !important;
 	border-radius: 18px;
-  background: white !important;
+ 	background: white !important;
 	text-align: center !important;
 	color: var(--gray-dark) !important;
-	line-height: 30px;
-  width: 30px;
-  vertical-align: middle;
+	line-height: 35px;
+	width: 35px;
+	height: 35px;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 .ui-widget .ui-state-default:hover {
 	background-color: var(--gray-light) !important;
@@ -190,12 +194,11 @@
     top: -50px;
 	margin-bottom: 20px;
 	border-radius: 20px;
-	background-color: rgba(255, 255, 255, 0.25);
+	background-color: var(--purple);;
     font-size: 18px;
 }
 .btn.back:hover {
-	color: var(--blue);
-	background: white;
+	background: var(--purple-dark);
 }
 .btn.back:before {
 	display: inline-block;
@@ -385,7 +388,7 @@ section.container {
 	text-align: left;
 	overflow: hidden;
 	max-width: 1300px;
-	margin: 30px auto 50px auto;
+	margin: 90px auto 50px auto;
     padding: 50px 40px 40px 40px;
 }
 section.container.full-width {
@@ -510,39 +513,29 @@ table.reports {
 
 
 body {
-	background: #f8f9fa;
+	background: #f0f4f8;
 	font-family: 'Open Sans', sans-serif;
-  	margin: 0;
+	margin: 0;  
 }
-header {
-	z-index: 10;
-	position: relative;
-	display: flex;
-  	justify-content: space-between;
-	width: 100%;
-	height: 55px;
-  	font-size: 14px;
-  	color: white;
+body.side {
+	padding-left: 70px;
 }
-header a {
-  	display: inline-block;
-  	line-height: 28px;
-	color: white;
-	text-decoration: none;
-	padding: 0 10px;
-  	border-radius: 14px;
-	transition: background-color 0.2s ease;
-}
-header a:hover {
-	color: #324b68;
+
+nav.topmenu {
+	position: absolute;
+	top: 0; 
+	z-index: 998;
 	background-color: white;
+    width: calc(100% - 71px);
+	height: 70px;
+	border-bottom: solid 1px var(--gray-light);
 }
 
 .logolink {
 	display: inline-block;
   	text-decoration: none;
-	margin: 18px 0 0 27px;
-	color: white;
+	margin: 18px 0 0 70px;
+	color: var(--purple);
 	transition: text-shadow 0.2s ease-in-out;
 }
 .logotext {
@@ -550,43 +543,153 @@ header a:hover {
   	font-size: 38px;
 	font-family: 'JosefinSans';
 	font-weight: normal;
-	letter-spacing: 4px;
-}
-.logolink:hover {
-	background-color: inherit;
-	color: white;
-	/* mdbootstrap.com/tools/logo-generator-text */
-	text-shadow: rgb(44, 64, 90) 0px 0px 0px, rgb(45, 66, 92) 1px 1px 0px, rgb(47, 68, 95) 2px 2px 0px, rgb(48, 70, 98) 3px 3px 0px, rgb(50, 72, 101) 4px 4px 0px, rgb(51, 74, 103) 5px 5px 0px, rgb(52, 76, 106) 6px 6px 0px, rgb(54, 78, 109) 7px 7px 0px, rgb(55, 80, 112) 8px 8px 0px, rgb(56, 82, 114) 9px 9px 0px, rgb(58, 84, 117) 10px 10px 0px, rgb(59, 86, 120) 11px 11px 0px, rgb(60, 88, 123) 12px 12px 0px, rgb(62, 90, 125) 13px 13px 0px;
+	letter-spacing: 1px;
 }
 
 .loggedBar {
-	margin: 13px 28px 0 0;
-	height: 36px;
-}
-.loggedBar a {
-	line-height: 36px;
-	border-radius: 18px;
-	/*border: solid 1.5px;*/
-  margin-right: 5px
-}
-.loggedBar a#my {
-	background-color: var(--lightgreen);
-	border-color: var(--lightgreen);
-}
-.loggedBar a#my:hover {
-	background: var(--green);
-	color: white;
-	border-color: var(--green);
+	display: flex;
+	float: right;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 240px;
+    height: 100%;
+    margin-right: 50px;
+    background-color: white; 
 }
 .loggedBar a#logout {
-	background-color: var(--red-light);
-	border-color: var(--red-light);
+	background-color: white;
+    color: var(--gray-medium);
+    font-size: 22px;
 }
 .loggedBar a#logout:hover {
-	background: var(--red);
-	color: white;
-	border-color: var(--red);
+	color: var(--gray-dark);
 }
+#profile {
+	margin: 0;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+    color: #00c9e9;
+    font-size: 40px;
+}
+#profileBox {
+	position: absolute;
+    top: 70px;
+    width: 220px;
+    transform: translateY(-310px);
+    transition: transform 0.3s ease;
+    z-index: -1;
+    text-align: center;
+}
+.loggedBar:hover > #profileBox {
+	transform: translateY(0);	
+}
+#profileBox:hover {
+	transform: translateY(0);
+}
+#profileBox .svg-triangle {
+	fill: white;
+	stroke: var(--gray-light);
+    stroke-width: 1px;
+}
+#profileBox .profileContainer {
+	background-color: white;
+    box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.21);
+	padding-top: 10px;
+    padding-bottom: 20px;
+}
+#profileBox .profileName {
+	color: var(--darkblue);
+    font-weight: normal;
+	margin: 0;
+	font-size: 20px;
+}
+#profileBox .profileLevel {
+	font-size: 10px;
+    color: var(--gray);
+    margin: 0;
+}
+#profileBox a {
+	margin-top: 20px;
+}
+
+nav.sidemenu {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 999;
+	height: 100%;
+    width: 70px;
+	background: white;
+	border-right: solid 1px var(--gray-light);
+	transition: width 0.3s ease-in-out;
+}
+nav.sidemenu.open {
+	width: 250px;
+}
+
+.sidemenu a.expand {
+	width: 100%;
+    text-align: center;
+    height: 70px;
+    line-height: 70px;
+	color: var(--gray);
+	font-size: 18px;
+}
+.sidemenu a.expand:hover {
+	cursor: pointer;
+	color: var(--blue);
+}
+
+.sidemenu ul {
+	list-style: none;
+	margin: 50px 0 0 0;
+	padding: 0;
+	overflow: hidden;
+}
+.sidemenu li {
+	width: 250px;
+	height: 70px;
+	line-height: 70px;
+	box-sizing: border-box;
+	transition: background-color 0.2s ease;
+}
+.sidemenu li:hover {
+	cursor: pointer;
+	background-color: var(--light-hover);
+}
+.sidemenu li a {
+	display: block;
+	line-height: 70px;
+	font-size: 18px;
+	text-decoration: none;	
+}
+.sidemenu li a i {
+	width: 70px;
+	text-align: center;
+	color: var(--gray-medium);
+}
+.sidemenu li p.caption {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	color: var(--gray-medium);
+	font-size: 17px;
+}
+
+.sidemenu li.current {
+	background-color: #cce3ff;
+	border-left: solid 3px var(--blue);
+}
+.sidemenu li.current i {
+	color: var(--blue);
+	margin-left: -3px;
+}
+.sidemenu li.current p.caption {
+	color: var(--blue);
+}
+
 
 
 /* ----- MYPAGE ----- */

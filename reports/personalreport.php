@@ -34,8 +34,7 @@ if (!isset($_SESSION['logged_in_user'])) {
    
     echo '
     <section class="container">
-        <div class="middleContent extraWide">
-        <a href="/mypage.php" class="btn back">Oma sivu</a>';
+        <div class="middleContent extraWide">';
 
 
     // ===== POST VALIDATION ===== //

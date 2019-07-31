@@ -29,7 +29,6 @@ $supervisorID = $_SESSION['logged_in_user']->userID;
     echo '
     <section class="container">
         <div class="middleContent">
-            <a class="btn back" href="/mypage.php">Oma sivu</a>
             <div class="box">
                 <h2>Valitse ryhmät viivakoodien tulostukseen</h2>
                 <div class="section">
