@@ -28,6 +28,11 @@ $(function() {
       // extra css class name (string or array) added to the filter element (input or select)
       // select needs a "browser-default" class or it gets hidden
       filter_cssFilter: ["", "", "browser-default"]
+    },
+
+    // shows the loading -icon while tablesorter is loading
+    initialized : function(){
+      $('.tableWrapper').removeClass('loading');
     }
   })
   .tablesorterPager({

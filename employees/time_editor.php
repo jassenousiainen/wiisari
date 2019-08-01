@@ -63,6 +63,7 @@ if  ( isset($_POST['timeeditor']) ) {
               <form action="time_editor_edit.php" method="post">
                 Oransilla merkityt kirjaukset ilmaisevat virheestä.
                 <button type="submit" name="deletetime" value="'.$user_data[0].'" class="btn del trash" style="float:right; margin-bottom: 10px;">Poista valitut</button>
+                <div class="tableWrapper loading">
                 <table class="sort-desc">
                   <thead>
                     <tr>
@@ -138,6 +139,7 @@ if  ( isset($_POST['timeeditor']) ) {
     if ($max == 1000) { break; }
   }
 echo '            </tbody>
+                </table>
                 </table>
               </form>
             </div>
