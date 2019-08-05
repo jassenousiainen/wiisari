@@ -245,10 +245,10 @@ if (isset($_POST['userID'])) {
                                     <td>'.$group[0].'</td>
                                     <td>'.$group[1].'</td>
                                     <td style="text-align:center;">
-                                        <label class="container">';
+                                        <label class="switch">';
                     if (!empty($issupervised)) {echo '<input type="checkbox" name="grouplist[]" value='.$group[2].' class="check" checked>';}
                     else {echo '<input type="checkbox" name="grouplist[]" value='.$group[2].' class="check">';}                        
-                    echo '                      <span class="checkmark"></span>
+                    echo '                      <span class="slider round"></span>
                                         </label>
                                     </td>
                                 </tr>';

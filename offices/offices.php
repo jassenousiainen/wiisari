@@ -26,7 +26,7 @@ if ($request == 'GET') {
 
   echo '
   <section class="container">
-    <div class="middleContent extrawide">
+    <div class="middleContent">
       <div class="box">
         <h2>Toimistot</h2>
         <div class="section">';
@@ -39,10 +39,9 @@ if ($request == 'GET') {
               <table class="sorted">
               <thead>
                 <tr>
-                  <th data-placeholder="Hae nimellä">Nimi</th>
+                  <th data-placeholder="Hae nimellä">Nimi/avaa</th>
                   <th class="filter-false">Ryhmien määrä</th>
                   <th class="filter-false">Käyttäjien määrä</th>
-                  <th class="sorter-false filter-false">Avaa</th>
                 </tr>
               </thead>
               <tfoot>
@@ -89,15 +88,12 @@ if ($request == 'GET') {
       
 
       echo '      <tr>
-                    <td>'.$office[1].'</td>
+                    <td><button name="officeID" type="submit" value="'.$office['officeID'].'" class="link">'.$office['officeName'].'</button></td>
                     <td>'.$group_cnt.'</td>
                     <td>'.$user_cnt.'</td>
-
-                    <td style="text-align:center;"><button name="officeID" type="submit" class="btn config" value="'.$office[0].'"></button></td>
                   </tr>';
     }
   }
-
 echo '          </tbody>
                 </table>
               </form>

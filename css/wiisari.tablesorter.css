@@ -35,14 +35,14 @@
 /* since wiisari (table-striped) uses nth-child(), we just use this to add a zebra stripe color */
 .tablesorter-wiisari > tbody > tr.odd > td,
 .tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.odd:hover ~ tr.tablesorter-hasChildRow.odd ~ .tablesorter-childRow.odd > td {
-	background-color: var(--light);
+	background-color: var(--gray1);
 }
 .tablesorter-wiisari > tbody > tr.hover > td,
 .tablesorter-wiisari > tbody > tr.odd:hover > td,
 .tablesorter-wiisari > tbody > tr.even:hover > td,
 .tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.odd:hover ~ .tablesorter-childRow.odd > td,
 .tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.even:hover ~ .tablesorter-childRow.even > td {
-	background-color: var(--light-hover);
+	background-color: var(--gray2);
 }
 .tablesorter-wiisari > tbody > tr.even > td,
 .tablesorter-wiisari > tbody > tr.tablesorter-hasChildRow.even:hover ~ tr.tablesorter-hasChildRow.even ~ .tablesorter-childRow.even > td {

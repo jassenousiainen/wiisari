@@ -7,7 +7,7 @@ function croak($code, $msg) {
     throw new Exception($msg);
 }
 
-// Format timestamp to readable form
+// Format seconds to readable form
 function convertToHours($tmstmp) {
   $hours = floor($tmstmp / 3600);
   $minutes = floor(($tmstmp / 60) % 60);

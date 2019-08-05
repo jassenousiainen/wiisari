@@ -150,7 +150,7 @@ else if  ( isset($_POST['create']) ) {
     $level = 0;
   }
 
-    // Checks if given username already exists in database
+    // Checks if given username was empty or already exists in database
     if (!isset($_POST['userID']) || $_POST['userID'] == "" ) {$error = true; $userID = "error";}
     else {
         $userID = $_POST['userID'];
@@ -177,9 +177,14 @@ else if  ( isset($_POST['create']) ) {
       $grouplist = array();
     }
 
-    if (empty($_POST['earliest']) || empty($_POST['latest'])) {
+    if ( empty($_POST['earliest']) && empty($_POST['latest']) ) {
       $earliestStart = null;
       $latestEnd = null;
+    } 
+    else if ( empty($_POST['earliest']) != empty($_POST['latest']) ) {
+      $earliestStart = "error";
+      $latestEnd = null;
+      $error = true;
     } else {
       $earliestStart = $_POST['earliest'];
       $latestEnd =$_POST['latest'];
@@ -191,6 +196,7 @@ else if  ( isset($_POST['create']) ) {
     if ($error) {
         echo '<section class="container">
             <div class="middleContent">
+            <a class="btn back" href="employeecreate.php">Peruuta</a>
             <div class="box">
                 <h2>Luo uusi valvoja (luonnissa tapahtui virhe!)</h2>
                 <div class="section">
@@ -234,6 +240,7 @@ else if  ( isset($_POST['create']) ) {
             echo '<input name="password" value="'.$_POST['password'].'" type="hidden">';
         }
         if ($groupID == "error") {
+          include "$_SERVER[DOCUMENT_ROOT]/scripts/dropdown_get.php";
             echo '  <tr>
                         <td class="errortext" colspan="3">Et valinnut toimistoa tai ryhmää, valitsethan uudelleen:</td>
                     </tr>
@@ -251,10 +258,29 @@ else if  ( isset($_POST['create']) ) {
         } else {
             echo '<input name="group_name" value="'.$groupID.'" type="hidden">';
         }
+        if ($earliestStart == "error") {
+          echo '    <tr>
+                      <td class="errortext" colspan="3">Mikäli haluat rajoittaa työaikoja, täytäthän molemmat rajat:</td>
+                    </tr>
+                    <tr>
+                      <td>Aikaisin tuloaika</td>
+                      <td><input name="earliest" type="time"></td>
+                      <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä sisään aikaisemmin, alkaa tuntien lasku vasta tästä kellonajasta. Voi olla tyhjä.</td>
+                    </tr>
+                    <tr>
+                      <td>Myöhäisin lähtöaika</td>
+                      <td><input name="latest" type="time"></td>
+                      <td style="color: grey; font-size: 13px;">Mikäli henkilö kellottaa itsensä ulos myöhemmin, päättyy tuntien lasku tähän kellonaikaan. Henkilö ei voi kellottaa itseänsä sisään tämän ajan jälkeen. Voi olla tyhjä.</td>
+                    </tr>
+                    <tr>
+                      <td><br></td>
+                    </tr>';
+        } else {
+          echo '<input name="earliest" value="'.$earliestStart.'" type="hidden">';
+          echo '<input name="latest" value="'.$latestEnd.'" type="hidden">';
+        }
         echo '<input name="level" value="'.$level.'" type="hidden">';
         echo '<input name="grouplist2" value="'.implode(',', $grouplist).'" type="hidden">';
-        echo '<input name="earliest" value="'.$earliestStart.'" type="hidden">';
-        echo '<input name="latest" value="'.$latestEnd.'" type="hidden">';
         echo '      <tr>
                         <td><button name="create" type="submit" class="btn send">Jatka</button></td>
                     </tr>

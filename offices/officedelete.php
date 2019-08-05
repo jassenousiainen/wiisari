@@ -28,14 +28,14 @@ if (isset($_POST['officeID'])) {
             <div class="box">
                 <h2>Toimisto poistettu</h2>
                 <div class="section">
-                    <p>Toimisto '; if(isset($officeData)){echo $officeData[1];} echo ' poistettu onnistuneesti.</p>';
-                    if($_POST['groupDel'] === "yes"){
+                    <p>Toimisto '; if (isset($officeData)){echo $officeData[1];} echo ' poistettu onnistuneesti.</p>';
+                    if (isset($_POST['groupDel'])){
                         while ( $group = mysqli_fetch_array($groupData) ) {
                             echo '<p>Ryhmä '.$group[1].' poistettu onnistuneesti.</p>';
                             array_push($groupIDs, $group[0]);
                         }
                     }
-                    if($_POST['userDel'] === "yes"){
+                    if (isset($_POST['userDel'])){
                         echo '<p>Kaikki toimiston käyttäjät poistettu onnistuneesti.</p>';
                     }
                     echo'
@@ -44,14 +44,14 @@ if (isset($_POST['officeID'])) {
         </div>
     </section>';
     tc_delete("offices", "officeID = ?", $officeID);
-    if($_POST['groupDel'] === "yes") {
+    if (isset($_POST['groupDel'])) {
         tc_delete("groups", "officeID = ?", $officeID);
-    }else{
+    } else {
         tc_update_strings("groups", array(
             'officeID' => 0,
           ), "officeID = ?", $officeID);
     }
-    if($_POST['userDel'] === "yes" && !empty($groupIDs)){
+    if(isset($_POST['userDel']) && !empty($groupIDs)){
         foreach ($groupIDs as $groupID) {
             tc_delete("employees", "groupID = ?", $groupID);
         }

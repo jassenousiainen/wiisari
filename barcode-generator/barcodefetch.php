@@ -32,9 +32,10 @@ $supervisorID = $_SESSION['logged_in_user']->userID;
             <div class="box">
                 <h2>Valitse ryhmät viivakoodien tulostukseen</h2>
                 <div class="section">
-                    <p>Huomaa, että yksittäisen henkilön viivakoodin saat henkilöstö -sivulta</p>
+                    <p>Huomaa, että yksittäisen henkilön viivakoodin saat henkilöstö -sivulta.</p>
+                    <p>Tulosteeseen sisältyy kaikkien oikeustasojen henkilöt.</p>
+                    <p>Valitse ryhmä:</p>
                     <form action="'.$self.'" method="post">
-                        <p>Valitse ryhmä:</p>
                         <select name="groupID">
                             <option value="all" selected>Kaikki ryhmäsi</option>';
     while ($grp = mysqli_fetch_array($groupquery)) {

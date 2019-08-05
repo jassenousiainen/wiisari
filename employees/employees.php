@@ -27,7 +27,7 @@ if ($request == 'GET') {
                                 WHERE groupID IN (
                                   SELECT groupID
                                   FROM groups NATURAL JOIN supervises
-                                  WHERE userID = '$adminuserid' AND level = 0
+                                  WHERE userID = '$adminuserid'
                                   )
                                 ORDER BY displayName ASC;");
   }
@@ -43,7 +43,7 @@ if ($request == 'GET') {
               echo '<a class="btn plus" href="employeecreate.php" style="margin-bottom: 20px;">Luo uusi</a>';
             } 
             if ($_SESSION['logged_in_user']->level < 3) {
-              echo '<p>Näet alla omien ryhmiesi tason 0 henkilöt.</p>';
+              echo '<p>Voit avata vain tason 0 käyttäjien tiedot.</p>';
             }
             echo '<p>Avaa henkilön tiedot klikkaamalla nimeä</p>';
     echo '  <form action="employeeinfo.php" method="post">
@@ -101,8 +101,13 @@ if ($request == 'GET') {
       if ($employee[3] == 2) {$employee_level = "Valvoja + editointi (taso 2)";}
       if ($employee[3] == 3) {$employee_level = "Admin (taso 3)";}
 
-      echo '      <tr>
-                    <td><button name="userID" type="submit" value="'.$employee[0].'" class="link">'.$employee[1].'</button></td>
+      echo '      <tr>';
+      if ($_SESSION['logged_in_user']->level >= 3 || $employee['level'] == 0) {
+        echo '      <td><button name="userID" type="submit" value="'.$employee[0].'" class="link">'.$employee[1].'</button></td>';
+      } else {
+        echo '<td style="padding-left: 10px;">'.$employee['displayName'].'</td>';
+      }
+      echo '              
                     <td>'.$employee[0].'</td>
                     <td>'.$employee_office.'</td>
                     <td>'.$employee_group.'</td>

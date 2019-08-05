@@ -5,7 +5,7 @@
 $supervisorID = $_SESSION['logged_in_user']->userID;
 
 $accesstogroup = false;
-if(isset($checkPermsID)){
+if (isset($checkPermsID)) {
     $query = tc_query("SELECT userID
                         FROM employees
                         WHERE userID = '$checkPermsID' AND groupID IN (
@@ -23,7 +23,7 @@ if ($_SESSION['logged_in_user']->level >= 3) {$accesstogroup = true;} // admin h
 
 // Block access to rest of the page in case superivsor doesn't have access to this group
 if (!$accesstogroup) {
-    echo '<h2>Virhe! Sinulla ei ole pääsyä tämän henkilön tietoihin</h2>';
+    echo '<h2 style="margin: 100px 0 0 50px;">Virhe! Sinulla ei ole pääsyä tämän henkilön tietoihin</h2>';
     exit;
 }
 

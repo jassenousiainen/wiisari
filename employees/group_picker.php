@@ -43,9 +43,9 @@ if($groupquery != FALSE){
                 <td>'.$group['groupName'].'</td>
                 <td>'.$group['officeName'].'</td>
                 <td style="text-align:center;">
-                    <label class="container">
+                    <label class="switch">
                         <input type="checkbox" name="grouplist[]" value='.$group['groupID'].' class="check">                        
-                        <span class="checkmark"></span>
+                        <span class="slider"></span>
                     </label>
                 </td>
             </tr>';

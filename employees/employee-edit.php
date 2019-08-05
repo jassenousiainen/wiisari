@@ -5,7 +5,7 @@ if (!isset($_SESSION['logged_in_user']) || $_SESSION['logged_in_user']->level < 
 }
 
 
-$error = false;
+$errors = array();
 
 if (isset($_POST['userID'])){
     $userID = $_POST['userID'];
@@ -18,20 +18,20 @@ if ($_SESSION['logged_in_user']->level >= 2 && isset($_POST['newUserID'])){
     $newUserID = $_POST['newUserID'];
      // Checks if given (different) username already exists in database
     $userIDcheck = mysqli_fetch_row(tc_query( "SELECT userID FROM employees WHERE userID = '$newUserID' AND userID <> '$userID'"));
-    if (!empty($userIDcheck)) {$error = true; $newUserID = "error";}
+    if (empty($newUserID) || !empty($userIDcheck)) {array_push($errors, "Käyttäjätunnus on varattu tai se oli tyhjä!"); }
 }
 
 if (isset($_POST['level']) && $_SESSION['logged_in_user']->level >= 3) {$level = intval($_POST['level']);}
 else {$level = 0;}
 
-if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {$error = true; $displayName = "error";}
+if (!isset($_POST['displayName']) || $_POST['displayName'] == "") {array_push($errors, "Nimi oli tyhjä!");}
 else {$displayName = $_POST['displayName'];}
 
 if ( isset($_POST['password']) && $_POST['password'] != "" && $level > 0) {
     $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
 }
 
-if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {$error = true; $groupID = "error";}
+if (!isset($_POST['group_name']) || $_POST['group_name'] == "") {array_push($errors, "Et valinnut toimistoa ja/tai ryhmää!");}
 else {$groupID = $_POST['group_name'];}
 
 if (isset($_POST['grouplist'])) {
@@ -40,20 +40,26 @@ if (isset($_POST['grouplist'])) {
     $grouplist = array();
 }
 
-if (empty($_POST['earliest']) || empty($_POST['latest'])) {
+if (empty($_POST['earliest']) && empty($_POST['latest'])) {
     $earliestStart = null;
     $latestEnd = null;
-  } else {
+}
+else if ( empty($_POST['earliest']) != empty($_POST['latest']) ) {
+    $earliestStart = null;
+    $latestEnd = null;
+    array_push($errors, "Mikäli haluat rajoittaa työaikoja, täytäthän molemmat rajat!");
+} else {
     $earliestStart = $_POST['earliest'];
     $latestEnd =$_POST['latest'];
-  }
+}
 
-
-if ($error) {
-    echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
-    if ($displayName == "error") { echo '<p>Nimi oli tyhjä!</p>'; }
-    if ($groupID == "error") { echo '<p>Et valinnut toimistoa ja/tai ryhmää!</p>'; }
-    if ($newUserID == "error") { echo '<p>Käyttäjätunnus on varattu!</p>'; }
+// Displays errors and cancels modifications
+if (sizeof($errors) > 0) {
+    foreach ($errors as &$error) {
+        echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
+        echo "<p>$error</p>";
+        echo '</div>';
+    }
 }
 else {
     echo '<div class="box" style="background-color: var(--lightgreen); min-height: 50px; text-align: center; color: white; padding: 0;">';
@@ -99,9 +105,10 @@ else {
     $userID = $newUserID;
     }
 
-    echo '<p>Muutokset tehtiin onnistuneesti!</p>';  
+    echo '<p>Muutokset tehtiin onnistuneesti!</p>'; 
+    echo '</div>';
 }
-echo '</div>';
+
 
 
 ?>

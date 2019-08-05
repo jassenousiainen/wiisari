@@ -66,17 +66,22 @@ if (isset($_POST['groupID'])) {
         }
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
-                    <p><b>Poista Ryhmä:</b></p>
-                    <form action="'."groupdel.php".'" method="post">
-                      <tr>
-                        <td>Poistetaanko myös kaikki käyttäjät?</td>
-                        <td>
-                          <input type="radio" name="userDel" value="yes" required> Kyllä
-                          <input type="radio" name="userDel" value="no"> Ei<br>
-                        </td>
-                      </tr>
-                      <button name="groupID" type="submit" class="btn del trash" value="'.$groupID.'">Poista</button>
-                    </form>
+                <p><b>Poista Ryhmä:</b></p>
+                <form action="'."groupdel.php".'" method="post">
+                  <table>
+                    <tr>
+                      <td>Poistetaanko myös kaikki käyttäjät?</td>
+                      <td>
+                        <label class="switch">
+                          <input type="checkbox" name="userDel">
+                          Ei <span class="slider del"></span> Kyllä
+                        <label>
+                      </td>
+                    </tr>
+                  </table>
+                  <br>
+                  <button name="groupID" type="submit" class="btn del trash" value="'.$groupID.'">Poista</button>   
+                </form>
               </div>
               ';
     }

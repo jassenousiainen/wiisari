@@ -82,19 +82,19 @@ if ($_SESSION['logged_in_user']->level > 0) {
         <canvas id="myClockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
         <b>Omat ryhmät</b>
         <br><br>
-        Työntekijöitä yhteensä: '.$my_employees_total.'
+        Käyttäjiä yhteensä: '.$my_employees_total.'
         <br>
-        Työntekijöitä nyt kirjautuneena: '.$my_employees_total_in.'
+        Käyttäjiä nyt töissä: '.$my_employees_total_in.'
       </p>';
     }
     echo '
       <p class="section" style="overflow:auto;">
         <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
-        <b>Kaikki työntekijät</b>
+        <b>Koko organisaatio</b>
         <br><br>
-        Työntekijöitä yhteensä: '.$employees_total.'
+        Käyttäjiä yhteensä: '.$employees_total.'
         <br>
-        Työntekijöitä nyt kirjautuneena: '.$employees_total_in.'
+        Käyttäjiä nyt töissä: '.$employees_total_in.'
       </p>';
     
     echo '</div>';
@@ -116,10 +116,10 @@ if ($_SESSION['logged_in_user']->level > 0) {
                   <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'> -
                   <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
                   <br><br>
-                  <label class='container'>
+                  <label class='switch'>
                     Näytä yksittäiset kirjaukset
                     <input type='checkbox' name='tmp_show_details' value='1' class='check'>
-                    <span class='checkmark'></span>
+                    <span class='slider'></span>
                   </label>
                   <br><br>
                   <button class='btn' type='submit' name='customreport'>Täysi raportti</button>

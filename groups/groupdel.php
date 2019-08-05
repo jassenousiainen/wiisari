@@ -24,9 +24,9 @@ if (isset($_POST['groupID'])) {
     }
 
     tc_delete("groups", "groupID = ?", $groupID);
-    if($_POST['userDel'] === "yes"){
+    if (isset($_POST['userDel'])){
             tc_delete("employees", "groupID = ?", $groupID);
-    }else{
+    } else {
         tc_update_strings("employees", array(
             'groupID' => 0,
           ), "groupID = ?", $groupID);
@@ -37,13 +37,13 @@ if (isset($_POST['groupID'])) {
             <a class="btn back" href="groups.php"> Takaisin</a>
             <div class="box">
                 <h2>Ryhmä poistettu</h2>
-                <div class="section">;
+                <div class="section">
                     <p>Ryhmä <b>';  
                     if(isset($groupData)){
                         echo $groupData[1];
                     }
                     echo '</b> poistettu onnistuneesti.</p>';
-                    if($_POST['userDel'] === "yes"){
+                    if (isset($_POST['userDel'])){
                         echo '<p>Kaikki ryhmän käyttäjät poistettu onnistuneesti.</p>';
                     }
                echo' </div>

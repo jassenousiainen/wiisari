@@ -30,15 +30,14 @@
 	 --blue: #007bff;
 	 --darkblue: #1374dc;
 	 --blue-neon: #0dffff;
+	 --teal: #00c9e9;
 	 --lightgreen: #00d774;
 	 --orange: #fd7e14;
 	 --darkorange: #e07217;
-	 --gray: #6c757d;
-	 --gray-dark: #343a40;
-	 --gray-light: #dee2e6;
-	 --gray-medium: #8d9ca9;
-	 --light: #f4f5f7;
-	 --light-hover: #e2e6ea;
+	 --gray1: #f4f5f7;
+	 --gray2: #e2e6ea;
+	 --gray3: #6c757d;
+	 --gray4: #343a40;
 	 --green: #28a745;
 	 --green-dark: #1c8935;
 	 --red: #dc3545;
@@ -74,7 +73,7 @@
 
 /* ----- DATEPICKER ----- */
 .ui-datepicker-group-first {
-	border-right: 1px solid var(--gray-light);
+	border-right: 1px solid var(--gray1);
   box-sizing: border-box;
 }
 .ui-widget {
@@ -86,13 +85,13 @@
   color: white !important;
 }
 .ui-widget.ui-widget-content {
-	border: 1px solid var(--gray-light) !important;
+	border: 1px solid var(--gray1) !important;
   box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075) !important;
   border-radius: .25rem !important;
 }
 .ui-widget select {
 	font-family: 'Open Sans' !important;
-	background-color: var(--light) !important;
+	background-color: var(--gray1) !important;
 	font-size: 1em !important;
 	border: none !important;
 	border-radius: .25rem !important;
@@ -107,7 +106,7 @@
 	border-radius: 18px;
  	background: white !important;
 	text-align: center !important;
-	color: var(--gray-dark) !important;
+	color: var(--gray4) !important;
 	line-height: 35px;
 	width: 35px;
 	height: 35px;
@@ -116,7 +115,7 @@
 	box-sizing: border-box;
 }
 .ui-widget .ui-state-default:hover {
-	background-color: var(--gray-light) !important;
+	background-color: var(--gray1) !important;
 }
 .ui-widget .ui-state-active {
 	background: var(--blue) !important;
@@ -325,6 +324,8 @@ form input:focus, form select:focus {
 	border-color: var(--blue);
 	box-shadow: 0px 0px 0px 3px rgba(0, 123, 255, 0.5);
 }
+
+/* ----- Checkmarck ----- */
 form label.container {
   display: block;
   position: relative;
@@ -376,8 +377,57 @@ label.container input.check:checked ~ .checkmark:before {
 }
 label.container input.check:checked ~ .checkmark.remove:before {
 	content: "\f068";
-  }
+}
+
+/* ----- Toggle switch ----- */
+/* The switch - the box around the slider */
+.switch {
+	position: relative;
+}
+/* Hide default HTML checkbox */
+.switch input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+/* The slider */
+.slider {
+	border-radius: 10px;
+	position: relative;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: sub;
+    height: 16px;
+    width: 38px;
+    background-color: var(--gray2);
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.slider:before {
+	position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 0px;
+    bottom: -2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+	box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.21);
+	border-radius: 12px;
+}
+input:checked + .slider {
+	background-color: var(--blue);
+}
+input:checked + .slider.del {
+	background-color: var(--red-bright);
+}
+input:checked + .slider:before {
+	transform: translateX(18px);
+}
 /* ----------------------- */
+
 
 
 /* ----- Basic Boxes ----- */
@@ -452,10 +502,10 @@ section.container.full-width {
 	background: var(--orange);
 }*/
 .container .section {
-	color: var(--gray);
+	color: var(--gray3);
 	margin: 0 25px 30px 25px;
 	padding-bottom: 1.5em;
-	border-bottom: 1px solid var(--gray-light);
+	border-bottom: 1px solid var(--gray1);
 }
 .section table {
 	table-layout: fixed;
@@ -521,6 +571,7 @@ body.side {
 	padding-left: 70px;
 }
 
+/* ----- TOP- and SIDEMENUS ----- */
 nav.topmenu {
 	position: absolute;
 	top: 0; 
@@ -528,7 +579,7 @@ nav.topmenu {
 	background-color: white;
     width: calc(100% - 71px);
 	height: 70px;
-	border-bottom: solid 1px var(--gray-light);
+	border-bottom: solid 1px var(--gray1);
 }
 
 .logolink {
@@ -557,20 +608,12 @@ nav.topmenu {
     margin-right: 50px;
     background-color: white; 
 }
-.loggedBar a#logout {
-	background-color: white;
-    color: var(--gray-medium);
-    font-size: 22px;
-}
-.loggedBar a#logout:hover {
-	color: var(--gray-dark);
-}
 #profile {
 	margin: 0;
     padding: 0;
     display: inline-block;
     text-align: center;
-    color: #00c9e9;
+    color: var(--teal);
     font-size: 40px;
 }
 #profileBox {
@@ -590,7 +633,7 @@ nav.topmenu {
 }
 #profileBox .svg-triangle {
 	fill: white;
-	stroke: var(--gray-light);
+	stroke: var(--gray1);
     stroke-width: 1px;
 }
 #profileBox .profileContainer {
@@ -607,7 +650,7 @@ nav.topmenu {
 }
 #profileBox .profileLevel {
 	font-size: 10px;
-    color: var(--gray);
+    color: var(--gray3);
     margin: 0;
 }
 #profileBox a {
@@ -622,7 +665,7 @@ nav.sidemenu {
 	height: 100%;
     width: 70px;
 	background: white;
-	border-right: solid 1px var(--gray-light);
+	border-right: solid 1px var(--gray1);
 	transition: width 0.3s ease-in-out;
 }
 nav.sidemenu.open {
@@ -634,7 +677,7 @@ nav.sidemenu.open {
     text-align: center;
     height: 70px;
     line-height: 70px;
-	color: var(--gray);
+	color: var(--gray3);
 	font-size: 18px;
 }
 .sidemenu a.expand:hover {
@@ -657,7 +700,7 @@ nav.sidemenu.open {
 }
 .sidemenu li:hover {
 	cursor: pointer;
-	background-color: var(--light-hover);
+	background-color: var(--gray2);
 }
 .sidemenu li a {
 	display: block;
@@ -668,16 +711,15 @@ nav.sidemenu.open {
 .sidemenu li a i {
 	width: 70px;
 	text-align: center;
-	color: var(--gray-medium);
+	color: var(--gray3);
 }
 .sidemenu li p.caption {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
-	color: var(--gray-medium);
+	color: var(--gray3);
 	font-size: 17px;
 }
-
 .sidemenu li.current {
 	background-color: #cce3ff;
 	border-left: solid 3px var(--blue);
@@ -689,6 +731,7 @@ nav.sidemenu.open {
 .sidemenu li.current p.caption {
 	color: var(--blue);
 }
+/* --------------------- */
 
 
 
@@ -703,7 +746,7 @@ nav.sidemenu.open {
 	font-weight: 400;
 	line-height: 1.5;
 	color: #495057;
-	background-color: var(--light);
+	background-color: var(--gray1);
 	background-clip: padding-box;
 	border: none;
 	border-radius: 5px;
@@ -722,10 +765,10 @@ nav.sidemenu.open {
 }
 .myPage form select, .myPage form input {
 	border: none;
-	background-color: var(--light);
+	background-color: var(--gray1);
 }
 .myPage form select:hover, .myPage form input:hover{
-	background-color: var(--light-hover);
+	background-color: var(--gray2);
 	cursor: pointer;
 }
 .mypage_inout button {

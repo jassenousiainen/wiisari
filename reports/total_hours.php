@@ -82,20 +82,11 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                     <td><input id="to" autocomplete="off" type="text" size="10" maxlength="10" name="to_date"></td>
                                 </tr>
                                 <tr>
-                                    <td>Hae raportit CSV -tiedostoon: </td>
-                                    <td>
-                                        <label class="container">
-                                            <input type="checkbox" name="csv" value="1" class="check" checked>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>Näytä yksittäiset kirjaukset</td>
                                     <td>
-                                        <label class="container">
+                                        <label class="switch">
                                             <input type="checkbox" name="tmp_show_details" value="1" class="check">
-                                            <span class="checkmark"></span>
+                                            <span class="slider"></span>
                                         </label>
                                     </td>
                                 </tr>
@@ -332,10 +323,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     echo "<p>Alkaen: $from_date (00:00)</p>";
     echo "<p>Päättyen: $to_date (24:00)</p>";
 
-    if (!empty($tmp_csv)) {
-        $PgroupID = $_POST['groupID'];
-        echo "<a class=\"link\" href=\"get_csv2.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&groupname=$group_name&group=$PgroupID&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
-    }
+    $PgroupID = $_POST['groupID'];
+    echo "<a class=\"btn\" href=\"get_csv2.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&groupname=$group_name&group=$PgroupID&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\"><i class=\"fas fa-download\"></i> Lataa CSV -tiedosto</a></td></tr>\n";
 
     echo '</div>
         <div class="section">

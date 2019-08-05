@@ -44,14 +44,13 @@ if (isset($_POST['officeID'])) {
                         </form>
                         </div>';
                   echo '<div class="section">
-                          <form>
+                          <p><b>Tähän toimistoon kuuluvat ryhmät</b></p>
+                          <form action="../groups/groupinfo.php" method="post">
                           <table class="sorted">
                             <thead>
                               <tr>
-                                <th data-placeholder="Hae nimellä">Nimi</th>
-                                <th class="filter-false">Käyttäjän määrä</th>
-                                <th class="sorter-false filter-false">Muokka</th>
-                                <th class="sorter-false filter-false">Poista</th>
+                                <th data-placeholder="Hae nimellä">Nimi/avaa</th>
+                                <th class="filter-false">Käyttäjien määrä</th>
                               </tr>
                             </thead>
                             <tfoot>
@@ -78,7 +77,7 @@ if (isset($_POST['officeID'])) {
                                 </th>
                               </tr>
                             </tfoot>
-                            <tbody></form>';
+                            <tbody>';
       }
       $group_query = tc_query("SELECT * FROM groups WHERE officeID = ?",$officeData[0]);
       while ( $group = mysqli_fetch_array($group_query) ) {
@@ -91,22 +90,12 @@ if (isset($_POST['officeID'])) {
         }
         
       echo '                  <tr id="'.$group[0].'">
-                                <td>'.$group[1].'</td>
-                                <td>'.$user_cnt.'</td>
-                                <td style="text-align:center;">
-                                  <form id="edit" action="../groups/groupinfo.php" method="post">
-                                    <button name="groupID" type="submit" class="btn" value="'.$group[0].'" form="edit"><i class="fas fa-user-cog"></i></button>
-                                  </form>
-                                </td>
-                                <td style="text-align:center;">
-                                  <form id="delete" action="../groups/groupinfo.php" method="post">
-                                    <button name="groupID" type="submit" class="btn del trash" value="'.$group[0].'" form="delete"></button>
-                                  </form>
-                                </td>                             
+                                <td><button name="groupID" type="submit" value="'.$group['groupID'].'" class="link">'.$group['groupName'].'</button></td>
+                                <td>'.$user_cnt.'</td>                           
                               </tr>';
       }
       echo '                </tbody>
-                          </table></div>';
+                          </table></form></div>';
       }
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
@@ -117,23 +106,29 @@ if (isset($_POST['officeID'])) {
                       <tr>
                         <td>Poistetaanko myös kaikki ryhmät?</td>
                         <td>
-                          <input type="radio" name="groupDel" value="yes" required> Kyllä
-                          <input type="radio" name="groupDel" value="no"> Ei<br>
+                          <label class="switch">
+                            <input type="checkbox" name="groupDel">
+                            Ei <span class="slider del"></span> Kyllä
+                          <label>
+                          <br>
                         </td>
                       </tr>
                       <tr>
                       <td>Poistetaanko myös kaikki käyttäjät?</td>
                       <td>
-                        <input type="radio" name="userDel" value="yes" required> Kyllä
-                        <input type="radio" name="userDel" value="no"> Ei<br>
+                        <label class="switch">
+                          <input type="checkbox" name="userDel">
+                          Ei <span class="slider del"></span> Kyllä
+                        <label>
+                        <br><br>
                       </td>
                     </tr>
                     </tbody>
                   </table>';
 
-                      echo '<button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
+                  echo '<button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
 
-                    </form>
+                </form>
               </div>
               ';
     }
