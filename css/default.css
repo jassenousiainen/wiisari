@@ -608,13 +608,18 @@ nav.topmenu {
     margin-right: 50px;
     background-color: white; 
 }
-#profile {
+#profileIcon {
 	margin: 0;
     padding: 0;
     display: inline-block;
     text-align: center;
     color: var(--teal);
-    font-size: 40px;
+	font-size: 40px;
+	transition: color 0.2s ease;
+}
+#profileIcon:hover {
+	color: #02b5d2;
+	cursor: pointer;
 }
 #profileBox {
 	position: absolute;
@@ -625,11 +630,8 @@ nav.topmenu {
     z-index: -1;
     text-align: center;
 }
-.loggedBar:hover > #profileBox {
+#profileBox.open {
 	transform: translateY(0);	
-}
-#profileBox:hover {
-	transform: translateY(0);
 }
 #profileBox .svg-triangle {
 	fill: white;

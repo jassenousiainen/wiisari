@@ -47,7 +47,7 @@ if ($request == 'GET') {
               <tfoot>
               <tr style="height: 20px;"></tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="4" class="ts-pager form-horizontal">
+                  <th colspan="3" class="ts-pager form-horizontal">
                     <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
                     <span class="pagedisplay"></span>
@@ -56,7 +56,7 @@ if ($request == 'GET') {
                   </th>
                 </tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="4" class="ts-pager form-horizontal">
+                  <th colspan="3" class="ts-pager form-horizontal">
                     max rivit: <select class="pagesize browser-default" title="Select page size">
                       <option value="10">10</option>
                       <option value="20">20</option>

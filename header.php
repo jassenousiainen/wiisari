@@ -50,7 +50,9 @@ else if ($current == '/employees/employeecreate.php') {
 else if ($current == '/employees/employeeinfo.php') {
   echo '<script type="text/javascript" src="/scripts/employeeinfo.js"></script>'."\n";
 }
-echo '<script type="text/javascript" src="/scripts/sidemenu.js"></script>'."\n";
+if ($current != '/timeclock.php') {
+  echo '<script type="text/javascript" src="/scripts/menu.js"></script>'."\n";
+}
 /* ----------------------------- */
 
 

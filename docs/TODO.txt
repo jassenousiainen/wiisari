@@ -1,3 +1,5 @@
 TEHTÄVÄÄ
+  - Omat tiedot -sivu
+  - Järjestelmän asetukset -sivu
   - Muutosloki
   - functions.php siivous

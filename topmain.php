@@ -32,7 +32,7 @@ echo '
   </a>
   <div class="loggedBar">';
     echo '
-    <a id="profile" title="'.$_SESSION['logged_in_user']->displayName.'"><i class="fas fa-user-circle"></i></a>
+    <a id="profileIcon" title="'.$_SESSION['logged_in_user']->displayName.'"><i class="fas fa-user-circle"></i></a>
     <div id="profileBox">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-triangle" width="100" height="30">
         <path d="M 50,5 95,97.5 5,97.5 z"/>
