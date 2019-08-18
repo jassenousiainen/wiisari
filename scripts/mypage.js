@@ -53,7 +53,7 @@ function workTime() {
 
 function startCounter() {
   workTime();
-   clockID = setInterval(workTime, 1000);
+  clockID = setInterval(workTime, 1000);
 }
 
 

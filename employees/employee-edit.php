@@ -82,13 +82,13 @@ else {
             ), "userID = ?", $userID);
         }
 
-        if (($level == 1 || $level == 2)) {
-            tc_delete("supervises", "userID = ?", $userID);
+        tc_delete("supervises", "userID = ?", $userID);     // Clear this users rows from supervises -table
+        if ($level == 1 || $level == 2) {
             foreach($grouplist as $grpid) {
               $groupdata = array("userID" => $userID, "groupID" => $grpid);
-              tc_insert_strings("supervises", $groupdata);
+              tc_insert_strings("supervises", $groupdata);  // Insert new rows to supervises -table
             }
-        }   
+        }
     }
 
     // updates the new userID to every table that has userIDs

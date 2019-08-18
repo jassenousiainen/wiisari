@@ -4,7 +4,7 @@ var in_hours = tDate.getHours()
 var in_minutes=tDate.getMinutes();
 var in_seconds= tDate.getSeconds();
 
-function UpdateClock() {
+function updateClock() {
     tDate = new Date(new Date().getTime());
     in_hours = tDate.getHours()
     in_minutes=tDate.getMinutes();
@@ -23,17 +23,14 @@ function UpdateClock() {
                    + in_seconds;
 
 }
-function StartClock() {
-   clockID = setInterval(UpdateClock, 1000);
+function startClock() {
+    updateClock();
+    clockID = setInterval(updateClock, 1000);
 }
-function KillClock() {
-  clearTimeout(clockID);
-}
-
 
 window.onload=function() {
 
-  StartClock();
+  startClock();
 
   $("#showNotes").click(function() {
       $(this).hide();

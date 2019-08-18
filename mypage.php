@@ -82,9 +82,9 @@ if ($_SESSION['logged_in_user']->level > 0) {
         <canvas id="myClockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
         <b>Omat ryhmät</b>
         <br><br>
-        Käyttäjiä yhteensä: '.$my_employees_total.'
+        Henkilöitä yhteensä: '.$my_employees_total.'
         <br>
-        Käyttäjiä nyt töissä: '.$my_employees_total_in.'
+        Henkilöitä nyt töissä: '.$my_employees_total_in.'
       </p>';
     }
     echo '
@@ -92,9 +92,9 @@ if ($_SESSION['logged_in_user']->level > 0) {
         <canvas id="clockedinChart" width="400" height="200" style="max-width:400px; float:right"></canvas>
         <b>Koko organisaatio</b>
         <br><br>
-        Käyttäjiä yhteensä: '.$employees_total.'
+        Henkilöitä yhteensä: '.$employees_total.'
         <br>
-        Käyttäjiä nyt töissä: '.$employees_total_in.'
+        Henkilöitä nyt töissä: '.$employees_total_in.'
       </p>';
     
     echo '</div>';
