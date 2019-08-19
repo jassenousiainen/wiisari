@@ -36,7 +36,7 @@ echo '
       <div class="profileContainer">
         <a href="/mypage.php"><i class="fas fa-home"></i> Oma sivu</a>
         <a href="#"><i class="fas fa-user"></i> Omat tiedot</a>
-        <a href="/logout.php"><i class="fas fa-sign-in-alt"></i> Kirjaudu ulos</a>
+        <a href="/logout.php"><i class="fas fa-sign-out-alt"></i> Kirjaudu ulos</a>
       </div>
     </div>
     <div>
@@ -119,7 +119,7 @@ echo '
 }
 echo "</header>";
 
-echo '<section class="top-skew-bg blue">
+echo '<section class="top-skew-bg purple">
 <div class="elipsed-border">
 </div>
 </section>';
