@@ -64,19 +64,22 @@ if (isset($_POST['groupID'])) {
                         </div>';
                 }
         }
-        $query = tc_query("SELECT employees.displayName FROM supervises, employees WHERE employees.userID = supervises.userID AND supervises.groupID = '$groupID'");
+        $query = tc_query("SELECT employees.displayName, employees.userID FROM supervises, employees WHERE employees.userID = supervises.userID AND supervises.groupID = '$groupID'");
         
 
         echo '<div class="section">
                 <p><b>Ryhmän valjojat:</b></p>
                 <table class="valvojat">
-                  <tbody>';
+                  <tbody>
+                  <form action="../employees/employeeinfo.php" method="post">';
                   while ( $user = mysqli_fetch_array($query) ) {
                    echo '<tr>
-                    <td>'.$user['displayName'].' </td>
-                  </tr>';
+                          <td>
+                            <button name="userID" type="submit" value="'.$user['userID'].'" class="link">'.$user['displayName'].'</button>
+                          </td>
+                        </tr>';
                   }
-                  echo '
+                  echo '</form>
                   </tbody>
                 </table>
               </div>';        
