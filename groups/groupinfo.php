@@ -64,6 +64,22 @@ if (isset($_POST['groupID'])) {
                         </div>';
                 }
         }
+        $query = tc_query("SELECT employees.displayName FROM supervises, employees WHERE employees.userID = supervises.userID AND supervises.groupID = '$groupID'");
+        
+
+        echo '<div class="section">
+                <p><b>Ryhmän valjojat:</b></p>
+                <table class="valvojat">
+                  <tbody>';
+                  while ( $user = mysqli_fetch_array($query) ) {
+                   echo '<tr>
+                    <td>'.$user['displayName'].' </td>
+                  </tr>';
+                  }
+                  echo '
+                  </tbody>
+                </table>
+              </div>';        
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
                 <p><b>Poista Ryhmä:</b></p>';?>
