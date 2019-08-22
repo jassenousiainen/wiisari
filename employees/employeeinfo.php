@@ -268,11 +268,11 @@ if (isset($_POST['userID'])) {
     if ($_SESSION['logged_in_user']->level >= 2) {
         echo '  <div class="section">
                     <p><b>Poista käyttäjä:</b></p>
-                    <p>Henkilötietojen poiston lisäksi kaikki muu tieto, kuten kellotukset poistetaan.</p>
-                    <form action="'."/employees/employeedelete.php".'" method="post">
+                    <p>Henkilötietojen poiston lisäksi kaikki muu tieto, kuten kellotukset poistetaan.</p>';?>
+                    <form action="/employees/employeedelete.php" method="post" onsubmit="return confirm('Oletko varma että haluat poista käyttän?');">
                         <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del trash">Poista</button>
                     </form>
-                </div>';
+                <?php echo '</div>';
     }
 
     echo '  </div>

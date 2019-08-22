@@ -100,7 +100,9 @@ if (isset($_POST['officeID'])) {
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
                     <p><b>Poista Toimisto:</b></p>
-                    <form action="'."officedelete.php".'" method="post">
+                    ';?>
+                    <form action="officedelete.php" method="post" onsubmit="return confirm('Oletko varma että haluat poista toimiston?');">
+                    <?php echo'
                     <table>
                     <tbody>
                       <tr>
@@ -125,7 +127,6 @@ if (isset($_POST['officeID'])) {
                     </tr>
                     </tbody>
                   </table>';
-
                   echo '<button name="officeID" type="submit" class="btn del trash" value="'.$officeID.'">Poista</button>
 
                 </form>

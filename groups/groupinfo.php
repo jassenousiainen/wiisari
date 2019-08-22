@@ -66,8 +66,9 @@ if (isset($_POST['groupID'])) {
         }
       if ($_SESSION['logged_in_user']->level >= 3) {
         echo '<div class="section">
-                <p><b>Poista Ryhmä:</b></p>
-                <form action="'."groupdel.php".'" method="post">
+                <p><b>Poista Ryhmä:</b></p>';?>
+                <form action="groupdel.php" method="post" onsubmit="return confirm('Oletko varma että haluat poista Ryhmän?');">
+                <?php echo'
                   <table>
                     <tr>
                       <td>Poistetaanko myös kaikki käyttäjät?</td>
