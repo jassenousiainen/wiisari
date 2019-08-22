@@ -26,7 +26,7 @@ if ( $request == "GET") {
         <div class="middleContent">
           <a class="btn back" href="employees.php">Takaisin</a>
           <div class="box">
-            <h2>Luo uusi työntekijä/valvoja</h2>
+            <h2>Luo uusi käyttäjä</h2>
             <div class="section">
               <form name="form" action="'.$self.'" method="post">
                 <table>
@@ -198,7 +198,7 @@ else if  ( isset($_POST['create']) ) {
             <div class="middleContent">
             <a class="btn back" href="employeecreate.php">Peruuta</a>
             <div class="box">
-                <h2>Luo uusi valvoja (luonnissa tapahtui virhe!)</h2>
+                <h2>Luo uusi käyttäjä (luonnissa tapahtui virhe!)</h2>
                 <div class="section">
                 <form name="form" action="'.$self.'" method="post">
                 <table>
@@ -311,7 +311,7 @@ else if  ( isset($_POST['create']) ) {
         <div class="middleContent">
           <a class="btn back" href="employees.php"> Takaisin</a>
           <div class="box">
-            <h2>Uusi työntekijä/valvoja luotu</h2>
+            <h2>Uusi käyttäjä luotu</h2>
             <div class="section">
               <table>
                 <tr>
