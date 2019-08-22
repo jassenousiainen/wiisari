@@ -270,9 +270,9 @@ if (isset($_POST['userID'])) {
                     <p><b>Poista käyttäjä:</b></p>
                     <p>Henkilötietojen poiston lisäksi kaikki muu tieto, kuten kellotukset poistetaan.</p>';?>
                     <form action="/employees/employeedelete.php" method="post" onsubmit="return confirm('Oletko varma että haluat poista käyttän?');">
-                        <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del trash">Poista</button>
+        <?php echo '   <button name="deleteuser" value="'.$userID.'" type="submit" class="btn del trash">Poista</button>
                     </form>
-                <?php echo '</div>';
+                 </div>';
     }
 
     echo '  </div>
