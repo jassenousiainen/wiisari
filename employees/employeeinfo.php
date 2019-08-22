@@ -70,8 +70,8 @@ if (isset($_POST['userID'])) {
         echo '  <div class="section">
                     <p>Työtuntiraportti:</p>';
         echo "      <form name='form' action='/reports/personalreport.php' method='post' onsubmit=\"return isFromOrToDate();\">
-                        <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'> -
-                        <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
+                        <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku' required> -
+                        <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu' required>
                         <br><br>
                         <label class='switch'>
                             Näytä yksittäiset kirjaukset

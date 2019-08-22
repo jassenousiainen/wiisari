@@ -31,10 +31,6 @@ if (!isset($_SESSION['logged_in_user'])) {
     include 'topmain.php';
     include '../header.php';
 
-   
-    echo '
-    <section class="container">
-        <div class="middleContent extraWide">';
 
 
     // ===== POST VALIDATION ===== //
@@ -46,9 +42,11 @@ if (!isset($_SESSION['logged_in_user'])) {
         $checkPermsID = $userID;
         require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
         $displayName = mysqli_fetch_row(tc_query("SELECT displayName FROM employees WHERE userID = '$userID'"))[0];
+        $back = '<form action="/employees/employeeinfo.php" method="post"><button name="userID" type="submit" value="'.$userID.'" class="btn back">Takaisin</button></form>';
     } else {
         $userID = $_SESSION['logged_in_user']->userID;
         $displayName = $_SESSION['logged_in_user']->displayName;
+        $back = '<a class="btn back" href="/mypage.php">Takaisin</a>';
     }
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
@@ -123,8 +121,10 @@ if (!isset($_SESSION['logged_in_user'])) {
 
     // ===== POST VALIDATION FINISHED ===== //
 
-
-
+    echo '
+    <section class="container">
+        <div class="middleContent extraWide">';
+    echo $back;
     echo '<div class="box">
             <div class="section">';
 
