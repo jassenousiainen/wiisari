@@ -30,7 +30,7 @@ if (isset($_POST['groupID'])) {
     <section class="container">
         <div class="middleContent">
             <a class="btn back" href="groups.php"> Takaisin</a>';
-        if(isset($groupData) && isset($officeData)){
+        if(isset($groupData)){
     echo '
             <div class="box">
                 <h2>Ryhmän '.$groupData[1].' tiedot</h2>
