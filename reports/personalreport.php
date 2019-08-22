@@ -41,8 +41,15 @@ if (!isset($_SESSION['logged_in_user'])) {
     
     $errors = array();
 
-    $userID = $_SESSION['logged_in_user']->userID;
-    $displayName = $_SESSION['logged_in_user']->displayName;
+    if (isset($_POST['single_user_report'])) {
+        $userID = $_POST['single_user_report'];
+        $checkPermsID = $userID;
+        require "$_SERVER[DOCUMENT_ROOT]/grouppermissions.php";
+        $displayName = mysqli_fetch_row(tc_query("SELECT displayName FROM employees WHERE userID = '$userID'"))[0];
+    } else {
+        $userID = $_SESSION['logged_in_user']->userID;
+        $displayName = $_SESSION['logged_in_user']->displayName;
+    }
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
     $tmp_round_time = "0";
