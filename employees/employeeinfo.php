@@ -68,7 +68,22 @@ if (isset($_POST['userID'])) {
 
     if ($_SESSION['logged_in_user']->level >= 2) {
         echo '  <div class="section">
-                    <p>Muokkaa tämän henkilön työaikoja:</p>
+                    <p>Työtuntiraportti:</p>';
+        echo "      <form name='form' action='/reports/personalreport.php' method='post' onsubmit=\"return isFromOrToDate();\">
+                        <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku' required> -
+                        <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu' required>
+                        <br><br>
+                        <label class='switch'>
+                            Näytä yksittäiset kirjaukset
+                            <input type='checkbox' name='tmp_show_details' value='1' class='check'>
+                            <span class='slider'></span>
+                        </label>
+                        <br><br>
+                        <button class='btn' type='submit' name='single_user_report' value='".$empdata[0]."'><i class='fas fa-hourglass-half'></i> Hae työtuntiraportti</button>
+                    </form>
+                </div>";
+        echo '  <div class="section">
+                    <p>Muokkaa henkilön työaikoja/kellotuksia:</p>      
                     <form action="time_editor" method="post">
                         <button class="btn" type="submit" name="timeeditor" value="'.$empdata[0].'"><i class="fas fa-user-clock"></i> Kellotuseditoriin</button>
                     </form>
