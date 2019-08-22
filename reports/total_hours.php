@@ -89,7 +89,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                             <span class="slider"></span>
                                         </label>
                                     </td>
-                                </tr>
+                                </tr>';
+                                /*  Time rounding is DISABLED because it is not implemented in CSV
                                 <tr>
                                     <td><br></td>
                                 </tr>
@@ -149,7 +150,8 @@ if ($request == 'GET' || isset($_POST['errors'])) {
                                             <span class="checkmark"></span>
                                         </label>
                                     </td>
-                                </tr>
+                                </tr>*/
+    echo '
                             </tbody>
                         </table>
                         <br>
@@ -177,13 +179,13 @@ if ($request == 'GET' || isset($_POST['errors'])) {
     $groupID = $_POST['groupID'];
     $from_date = $_POST['from_date'];
     $to_date = $_POST['to_date'];
-
+    /*
     if (isset($_POST['tmp_round_time'])) {
         $tmp_round_time = $_POST['tmp_round_time'];
     } else {
         $tmp_round_time = "error";
-    }
-    
+    }*/
+    $tmp_round_time = 0;
     $tmp_paginate = one_or_empty(@$_POST['tmp_paginate']);
     $tmp_show_details = one_or_empty(@$_POST['tmp_show_details']);
     $tmp_display_ip = one_or_empty(@$_POST['tmp_display_ip']);
