@@ -42,12 +42,13 @@ if ($request == 'GET') {
                   <th data-placeholder="Hae nimellä">Nimi/avaa</th>
                   <th data-placeholder="Hae nimellä">Toimisto</th>
                   <th class="filter-false">Käyttäjien määrä</th>
+                  <th class="filter-false">Valvojien määrä</th>
                 </tr>
               </thead>
               <tfoot>
               <tr style="height: 20px;"></tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="3" class="ts-pager form-horizontal">
+                  <th colspan="4" class="ts-pager form-horizontal">
                     <button type="button" class="btn first"><i class="fas fa-angle-double-left"></i></button>
                     <button type="button" class="btn prev"><i class="fas fa-angle-left"></i></button>
                     <span class="pagedisplay"></span>
@@ -56,7 +57,7 @@ if ($request == 'GET') {
                   </th>
                 </tr>
                 <tr class="tablesorter-ignoreRow">
-                  <th colspan="3" class="ts-pager form-horizontal">
+                  <th colspan="4" class="ts-pager form-horizontal">
                     max rivit: <select class="pagesize browser-default" title="Select page size">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -72,18 +73,14 @@ if ($request == 'GET') {
   if($group_query != FALSE){
     while ( $group = mysqli_fetch_array($group_query) ) {
       $gid = $group['groupID'];
-      $query = tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = ?",$gid);
-      if($query != FALSE){
-          $user_cnt = mysqli_fetch_row($query);
-      }
-        if(isset($user_cnt)){      
-          $user_cnt = $user_cnt[0];
-        }
+      $user_count = mysqli_fetch_row(tc_query("SELECT COUNT(userID) FROM employees WHERE groupID = '$gid'"))[0];
+      $supervisor_count = mysqli_fetch_row(tc_query("SELECT  COUNT(userID) FROM supervises WHERE groupID = '$gid'"))[0];
         
       echo '      <tr>
                     <td><button name="groupID" type="submit" value="'.$group['groupID'].'" class="link">'.$group['groupName'].'</button></td>
                     <td>'.$group['officeName'].'</td>
-                    <td>'.$user_cnt.'</td>
+                    <td>'.$user_count.'</td>
+                    <td>'.$supervisor_count.'</td>
                   </tr>';
     }
   }
