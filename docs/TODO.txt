@@ -1,8 +1,6 @@
 TEHTÄVÄÄ
-  - Tietyn henkilön työtunnit
-  - Ryhmän tietosivulla mahdollisuus nähdä kaikki sen ryhmän valvojat
+  - Yhden käyttäjän työtuntien haku CSV -tiedostoon
   - Omat tiedot -sivu
-  - Vahvistus käyttäjiä, ryhmiä tai toimistoja poistettaessa
   - Järjestelmän asetukset -sivu
   - Muutosloki
   - functions.php siivous
