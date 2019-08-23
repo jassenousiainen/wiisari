@@ -1,12 +1,12 @@
 <?php
 
-
+/* ei käytössä?
 function croak($code, $msg) {
     http_response_code($code);
     echo $msg;
     throw new Exception($msg);
 }
-
+*/
 // Format seconds to readable form
 function convertToHours($tmstmp) {
   $hours = floor($tmstmp / 3600);
@@ -25,9 +25,10 @@ function convertToHours($tmstmp) {
 #
 #    echo "2+3={$eval( 2+3 )} or call function {$eval( my_function(1,2) )}"
 #
+/* ei käytössä?
 function identity($arg){return $arg;}
 $eval="identity";
-
+*/
 function _tc_bind_param($stmt, $params, $types) {
     if (is_null($params)) {
         $params = array();
@@ -95,11 +96,12 @@ function pdo_connect() {
 }
 
 # Return application database version or else -1
+/* ei käytössä?
 function tc_dbversion() {
     @$version = tc_select_value("*", "dbversion");
     return (isset($version) ? $version : -1);
 }
-
+*/
 function tc_execute($query, $params = array(), $types = null) {
     if (!isset($GLOBALS["___mysqli_ston"])) { tc_connect(); }
     if (!($stmt = $GLOBALS["___mysqli_ston"]->prepare($query))) {
@@ -202,12 +204,13 @@ function tc_update_strings($db, $keyvals, $where = '1=1', $bind = array(), $type
 // When we add or edit punches, the latest punch may change which leads to
 // errors or failures in the dsplay. This brute-forces (has an index, so
 // should be fast) the employees table to point to the most recent punch.
+/* ei käytössä?
 function tc_refresh_latest_emp_punch($empname) {
     global $db_prefix;
     tc_execute("UPDATE ${db_prefix}employees SET `tstamp` = (SELECT MAX(timestamp) FROM info WHERE fullname = ?) WHERE empfullname = ?", [ $empname, $empname ], 'ss');
 }
-
-
+*/
+/* ei käytössä
 function btag($tag, $attr = array()) {
     $begin = array(htmlentities($tag));
     foreach ($attr as $key => $value) {
@@ -215,10 +218,13 @@ function btag($tag, $attr = array()) {
     }
     return "<" . implode(" ", $begin) . ">";
 }
-
+*/
+/* ei käytössä
 function tag($tag, $content = "", $attr = array()) {
     return btag($tag, $attr) . htmlentities($content) . "</" . htmlentities($tag) . ">";
 }
+*/
+/* ei käytössä
 
 function html_options($result, $selected='') {
     $rv = array();
@@ -230,11 +236,15 @@ function html_options($result, $selected='') {
     }
     return implode("", $rv);
 }
+*/
+/* ei käytössä
 
 function json_out($value) {
     header('Content-Type: application/json');
     echo json_encode($value);
 }
+*/
+/* ei käytössä
 
 function yes_no_bool($val, $default=false) {
     if (strtolower(@$val) == 'yes') {
@@ -245,19 +255,22 @@ function yes_no_bool($val, $default=false) {
     }
     return $default;
 }
+*/
+/* ei käytössä
 
 function value_or_null($val) {
     return ((strlen(trim(@$val)) == 0) ? null : $val);
 }
+*/
 
 function one_or_empty($val) {
     return ((@$val == "1") ? "1" : "");
 }
-
+/* ei käytössä
 function has_value($val) {
     return (strlen(trim(@$val)) != 0);
 }
-
+*/
 function nonce($alphabet, $length) {
     $n = "";
     for ($i = 0; $i < $length; $i++) {
@@ -265,12 +278,14 @@ function nonce($alphabet, $length) {
     }
     return $n;
 }
-
+/* ei käytössä
 function setup_csrf_protection() {
     if (empty($_COOKIE['csrf-token'])) {
         setcookie('csrf-token', nonce('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 15));
     }
 }
+*/
+/* ei käytössä
 
 function csrf_ok($token = null) {
     if (empty(@$_COOKIE['csrf-token'])) { return false; }
@@ -278,6 +293,7 @@ function csrf_ok($token = null) {
     if (!isset($token)) { $token = @$_GET['csrf-token']; }
     return $token === $_COOKIE['csrf-token'];
 }
+*/
 
 function secsToHours($secs, $round_time) {
 
@@ -359,7 +375,7 @@ function secsToHours($secs, $round_time) {
 
     return number_format($hours, 2);
 }
-
+/* ei käytössä?
 function disabled_acct($get_user) {
     $result = tc_select("empfullname, disabled", "employees", "empfullname = ?", $get_user);
     if($result != FALSE){
@@ -380,7 +396,8 @@ function disabled_acct($get_user) {
         }
     }
 }
-
+*/
+/* ei käytössä?
 function get_ipaddress() {
 
     if (empty($REMOTE_ADDR)) {
@@ -498,7 +515,8 @@ function get_ipaddress() {
         }
     }
 }
-/*
+*/
+/* ei käytössä?
 function ip_range($network, $ip) {
 
     /**
