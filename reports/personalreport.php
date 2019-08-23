@@ -137,13 +137,12 @@ if (!isset($_SESSION['logged_in_user'])) {
     echo "<p>Raporttiin valittu: $displayName</p>";
     echo "<p>Alkaen: $from_date (00:00)</p>";
     echo "<p>Päättyen: $to_date (24:00)</p>";
-
-    /*
-    if (!empty($tmp_csv)) {
-        $PgroupID = $_POST['groupID'];
-        echo "<a class=\"link\" href=\"get_csv2.php?rpt=hrs_wkd&display_ip=$tmp_display_ip&csv=$tmp_csv&office=All&groupname=$group_name&group=$PgroupID&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
-    }*/
-
+        if (isset($_POST['single_user_report'])){
+            $single_user_report = $_POST['single_user_report'];
+        }else{
+            $single_user_report = $userID;
+        }
+        echo "<a class=\"link\" href=\"get_csv2.php?rpt=hrs_wkd&single_user_report=$single_user_report&csv=$tmp_csv&office=All&groupname=&group=All&fullname=All&from=$from_timestamp&to=$to_timestamp&tzo=$tzo&paginate=$tmp_paginate&round=$tmp_round_time&details=$tmp_show_details&rpt_run_on=$rpt_stamp&rpt_date=$rpt_date&from_date=$from_date\">Lataa CSV -tiedosto</a></td></tr>\n";
     echo '</div>
         <div class="section">
             <table class="reports">';

@@ -18,17 +18,19 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
     $details = $_GET['details'];
   }
   $userID = $_SESSION['logged_in_user']->userID;
-
+  $single_user_report = $_GET['single_user_report'];
   
   // Checks that the current user has permissions for the selected groups
-  if ($groupID != "all") {
-    $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
-    if (!isset($group_name) || empty($groupID)) {
-      die("Valittua ryhmää ei löytynyt");
-    }
-    $super = mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$userID'"));
-    if ( $_SESSION['logged_in_user']->level < 3 && empty($super) ) {
-      die("Sinulla ei ole oikeutta valittuun ryhmään");
+  if (empty($single_user_report)){
+    if ($groupID != "all") {
+      $group_name = tc_select_value("groupName", "groups", "groupID = ?", $groupID);
+      if (!isset($group_name) || empty($groupID)) {
+        die("Valittua ryhmää ei löytynyt");
+      }
+      $super = mysqli_fetch_row(tc_query("SELECT * FROM supervises WHERE groupID ='$groupID' AND userID = '$userID'"));
+      if ( $_SESSION['logged_in_user']->level < 3 && empty($super) ) {
+        die("Sinulla ei ole oikeutta valittuun ryhmään");
+      }
     }
   }
 
@@ -40,17 +42,23 @@ if ((isset($_GET['group'])) && (isset($_GET['from'])) && (isset($_GET['to'])) ){
   }else{
     $data3 = array("Name,Date,Daily Totals,Employee Totals");
   }
-  if($groupID === "all"){
-    if($_SESSION['logged_in_user']->level < 3){
-      $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID ORDER BY displayName";
+  if (empty($single_user_report)){
+    if($groupID === "all"){
+      if($_SESSION['logged_in_user']->level < 3){
+        $query = "SELECT employees.userID FROM employees,supervises WHERE supervises.userID = '$userID' AND employees.groupID = supervises.groupID ORDER BY displayName";
+      }else{
+        $query = "SELECT userID FROM employees ORDER BY displayName";
+      }
+      $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
     }else{
-      $query = "SELECT userID FROM employees ORDER BY displayName";
+      $query = "SELECT userID FROM employees WHERE groupID = $groupID ORDER BY displayName";
+      $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
     }
-    $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
-  }else{
-    $query = "SELECT userID FROM employees WHERE groupID = $groupID ORDER BY displayName";
+  }else {
+    $query = "SELECT userID FROM employees WHERE userID = '$single_user_report'";
     $howManyUsers = mysqli_query($GLOBALS["___mysqli_ston"], $query);
   }
+
 
     while ($row = mysqli_fetch_array($howManyUsers)) {
       $data[$row[0]] = array("userID" => $row[0]);
