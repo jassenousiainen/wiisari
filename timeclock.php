@@ -15,7 +15,7 @@ include 'topmain.php';
       <div class="barcodeBox">
         <label class="barcodeHeader" for="left-barcode">Käyttäjätunnus:</label>
         <div class="barcodeInput">
-    	     <input type="password" id="left_barcode" name="userID" maxlength="250" autocomplete="off" autofocus>
+    	     <input type="password" id="left_barcode" name="userID" maxlength="250" autocomplete="off" autofocus required>
            <button type="submit" id="barcodeSubmit" class="fas fa-arrow-right"></button>
         </div>
       </div>

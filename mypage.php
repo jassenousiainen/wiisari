@@ -113,7 +113,7 @@ if ($_SESSION['logged_in_user']->level > 0) {
                 Hae täysi tuntiraportti valitsemallasi aikavälillä.
                 <br><br>
                 <form name='form' action='/reports/personalreport.php' method='post' onsubmit=\"return isFromOrToDate();\">
-                  <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku'> -
+                  <input type='text' id='from' autocomplete='off' size='10' maxlength='10' name='from_date' placeholder='välin alku' required> -
                   <input type='text' id='to' value='".date("d.n.Y")."'' autocomplete='off' size='10' maxlength='10' name='to_date' placeholder='välin loppu'>
                   <br><br>
                   <label class='switch'>
