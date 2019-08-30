@@ -114,7 +114,7 @@ if (!empty($inoutData)) {
 if ($earliestStart != null && $latestEnd != null) {
   if ($inout == 'in' && $tz_clock->format('H:i:s') < $earliestStart) {  // User punches in before their workday has set to begin
     $inout = 'early';
-    $notes = $notes . " Tuli aikaisin, todellinen tuloaika: " . $tz_clock->format('d.m.Y H:i');
+    $notes = $notes . " Tuli aikaisin, tuloaika: " . $tz_clock->format('d.m.Y H:i');
     $tzDateStr = $tz_clock->format('Y-m-d')." ".$earliestStart;
     $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr, new DateTimeZone($timezone))->getTimestamp();
   } 
@@ -124,7 +124,7 @@ if ($earliestStart != null && $latestEnd != null) {
   else if ($inout == 'out') {
     if ($tz_clock->format('Y-m-d') != $last_clock->format('Y-m-d') || $tz_clock->format('H:i:s') > $latestEnd) {  // User punches out after their workday has ended
       $inout = 'late';
-      $notes = $notes . " Lähti myöhään, todellinen lähtöaika: " . $tz_clock->format('d.m.Y H:i');
+      $notes = $notes . " Lähti myöhään, lähtöaika: " . $tz_clock->format('d.m.Y H:i');
       $tzDateStr = $last_clock->format('Y-m-d')." ".$latestEnd;
       $tz_stamp = \DateTime::createFromFormat('Y-m-d H:i:s', $tzDateStr, new DateTimeZone($timezone))->getTimestamp();
     }
