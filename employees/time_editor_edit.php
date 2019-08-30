@@ -189,19 +189,32 @@ else if (isset($_POST['punchid'])) {
   }
   echo '    </div>
           </div>';
-}
+  // Update tstamp and inout_status in table employees to match last punch
+  $inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
+  if ($inout[2] == 'in' || $inout[2] == 'out') {
+    tc_update_strings("employees", array("inoutStatus" => $inout[2]), "userID = ?", $userID);
+  } else {
+    tc_update_strings("employees", array("inoutStatus" => 'out'), "userID = ?", $userID);
+  }
+}else{
+  echo '  <form action="time_editor.php" method="post" style="margin:0;">
+            <button class="btn back" type="submit" name="timeeditor" value="'.$_POST['deletetime'].'">Takaisin</button>
+          </form>';
+          $errors = array();
 
+          array_push($errors, "Tapahtui Virhe!");
+          array_push($errors, "Valitse vähintään yksi poistettava kohde");
+
+          if (sizeof($errors) > 0) {
+            foreach ($errors as &$error) {
+                echo '<div class="box" style="background-color: var(--red); min-height: 50px; text-align: center; color: white; padding: 0;">';
+                echo "<p>$error</p>";
+                echo '</div>';
+            }
+        }
+}
 echo '  </div>
       </section>';
-
-
-// Update tstamp and inout_status in table employees to match last punch
-$inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
-if ($inout[2] == 'in' || $inout[2] == 'out') {
-  tc_update_strings("employees", array("inoutStatus" => $inout[2]), "userID = ?", $userID);
-} else {
-  tc_update_strings("employees", array("inoutStatus" => 'out'), "userID = ?", $userID);
-}
 
 
 ?>
