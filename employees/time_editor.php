@@ -47,8 +47,7 @@ if  ( isset($_POST['timeeditor']) ) {
               </form>
             </div>';
   if (isset($_POST['in_date']) || isset($_POST['out_date'])) {
-    echo '  <div class="section">
-              <p>Nämä lisättiin onnistuneesti:</p>';
+    echo '  <div class="section">';
     include 'time_editor_add.php';
     echo '  </div>';
   }
