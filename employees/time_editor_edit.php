@@ -118,7 +118,7 @@ else if (isset($_POST['altertime'])) {
                   </tr>
                 </table>
                 <br>
-                <button type="submit" class="btn">Lähetä</button>
+                <button type="submit" class="btn send">Lähetä</button>
               </form>
             </div>
           </div>';

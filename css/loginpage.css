@@ -157,12 +157,12 @@ body.loginPage {
 	color: white;
 }
 .loginPage h2.wiisari {
-	font-family: 'Josefin Sans';
+	font-family: 'JosefinSans';
 	font-size: 3rem;
 	color: white;
 }
 .loginBox h2.wiisari {
-	font-family: 'Josefin Sans';
+	font-family: 'JosefinSans';
 	font-size: 3rem;
 	color: var(--purple);
 }
