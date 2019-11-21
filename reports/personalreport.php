@@ -16,22 +16,19 @@ if (!isset($tzo)) {
      }
 }
 
-$datefmt = "j.n.Y ";
-$timefmt = "H:i";
-$db_prefix = "";
-
-
-echo "<title>Henkilökohtainen työtuntiraportti</title>\n";
-
 if (!isset($_SESSION['logged_in_user'])) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
 }
 
-    include 'topmain.php';
-    include '../header.php';
+    
+include '../header.php';
+echo "<title>Henkilökohtainen työtuntiraportti</title>\n";
+include 'topmain.php';
 
-
+$datefmt = "j.n.Y ";
+$timefmt = "H:i";
+$db_prefix = "";
 
     // ===== POST VALIDATION ===== //
     
