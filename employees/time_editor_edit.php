@@ -61,6 +61,14 @@ if(isset($_POST['deletetime']) && !empty($_POST['deletelist'])) {
   echo '      <p>Kirjaukset poistettiin onnistuneesti</p>
             </div>
           </div>';
+
+  // Update tstamp and inout_status in table employees to match last punch
+  $inout = mysqli_fetch_row(tc_query( "SELECT * FROM info WHERE userID = '$userID' ORDER BY timestamp DESC"));
+  if ($inout[2] == 'in' || $inout[2] == 'out') {
+    tc_update_strings("employees", array("inoutStatus" => $inout[2]), "userID = ?", $userID);
+  } else {
+    tc_update_strings("employees", array("inoutStatus" => 'out'), "userID = ?", $userID);
+  }
 }
 
 /* ----- Punch edit form ----- */
