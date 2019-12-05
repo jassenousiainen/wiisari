@@ -13,7 +13,7 @@ if ($_POST['in_date'] != "") {
   } else {
     $timestamp=\DateTime::createFromFormat('d.m.Y H:i', $inDateStr, new DateTimeZone($timezone))->getTimestamp();
     if ($timestamp > time()) {
-      array_push($errors, "Virhe! Et voi lisätä kellotuksia tulevaisuuteen");
+      array_push($in_errors, "Virhe! Et voi lisätä kellotuksia tulevaisuuteen");
     }
   }
 
