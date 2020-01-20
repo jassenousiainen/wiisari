@@ -1,4 +1,4 @@
-![WIISARI](/docs/readme-images/wiisari-logo.png?raw=true)
+![WIISARI](/docs/readme-images/wiisari-logo.svg?raw=true&sanitize=true)
 
 Wiisari is a web-based timeclock system. Wiisari works best using Chromium-based browser (made and tested on Google Chrome).
 
