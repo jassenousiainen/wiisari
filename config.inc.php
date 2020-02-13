@@ -16,13 +16,11 @@ username and password information!
 
 $db_hostname = "localhost";
 $db_username = "wiisariuser";
-$db_password = "clocktime";
-$db_name = "tst-wiisari";
-
+$db_password = "wiisaripassword";
+$db_name = "wiisari";
 
 // Salt for password encryption
 $salt = "s4iHfrxWJBsB7IiGdENR";
-
 
 /* 
 Timezone for displaying information (all times are saved in UTC)
@@ -30,4 +28,10 @@ See available timezones: www.php.net/manual/en/timezones.php
 */
 $timezone = "Europe/Helsinki";
 
+/*
+Name of your organisation
+This will be visible in barcode cards
+Remove or comment out to disable this functionality
+*/
+$organisation = "My Company";
 ?>

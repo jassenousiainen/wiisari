@@ -1,6 +1,0 @@
-TEHTÄVÄÄ
-  - Yhden käyttäjän työtuntien haku CSV -tiedostoon (valmis mutta tarvii vielä tarkistus hajosiko jotain)
-  - Omat tiedot -sivu
-  - Järjestelmän asetukset -sivu
-  - Muutosloki
-  - functions.php siivous (functiot jotka ei oo käytössä on tällä hetkellä kommentoitu pois, kommentilla "ei käytössä?")

@@ -1,5 +1,7 @@
 <?php
 
+require '../common.php';
+
 if ($_SESSION['logged_in_user']->level < 1) {
     echo "<script type='text/javascript' language='javascript'> window.location.href = '/loginpage.php';</script>";
     exit;
@@ -62,7 +64,9 @@ if ($_SESSION['logged_in_user']->level < 1) {
                 <p class="name">'.$displayName.'</p>';
         echo    $generator->getBarcode($userBarcode, $generator::TYPE_CODE_128, 1.8, 55);
         echo '  <p class="code">'.$userBarcode.'</p>
-                <p class="tstlogo">Turun Seudun TST ry</p>';
+                <p class="organisation-logo">';
+        echo        $organisation ?? ""; // Print organisation name if set
+        echo '  </p>';
         echo '</div>';
     }
     echo '</div>

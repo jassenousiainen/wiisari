@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 28, 2019 at 09:30 AM
+-- Generation Time: Feb 13, 2020 at 01:02 PM
 -- Server version: 5.7.23
--- PHP Version: 7.0.32
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `tst-wiisari`
+-- Database: `wiisari`
 --
 
 -- --------------------------------------------------------
@@ -67,7 +67,25 @@ CREATE TABLE IF NOT EXISTS `groups` (
 --
 
 INSERT INTO `groups` (`groupID`, `groupName`, `officeID`) VALUES
-(1, 'Ryhmä1', 1);
+(1, 'Default group', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `info`
+--
+
+DROP TABLE IF EXISTS `info`;
+CREATE TABLE IF NOT EXISTS `info` (
+  `punchID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userID` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `inout` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `timestamp` bigint(14) NOT NULL,
+  `notes` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`punchID`),
+  KEY `info_fullname` (`userID`),
+  KEY `info_timestamp` (`timestamp`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -87,25 +105,7 @@ CREATE TABLE IF NOT EXISTS `offices` (
 --
 
 INSERT INTO `offices` (`officeID`, `officeName`) VALUES
-(1, 'Toimisto1');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `info`
---
-
-DROP TABLE IF EXISTS `info`;
-CREATE TABLE IF NOT EXISTS `info` (
-  `punchID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `userID` varchar(75) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `inout` varchar(3) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `timestamp` bigint(14) NOT NULL,
-  `notes` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`punchID`),
-  KEY `info_fullname` (`userID`),
-  KEY `info_timestamp` (`timestamp`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(1, 'Default office');
 
 -- --------------------------------------------------------
 
