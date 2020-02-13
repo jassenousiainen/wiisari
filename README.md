@@ -17,17 +17,17 @@ Wiisari is originally based on [PHP Timeclock](http://timeclock.sourceforge.net/
 - [Includes code from these projects](#includes-code-from-these-projects)
 
 ## About
-Wiisari is a timeclock system to track employee worktime. It is completely web-based so that it can be used on any computer with a modern web-browser. Wiisari originates from PHP Timeclock so wiisari is also made with PHP, but resemblance to the original software is nowdays minimal. For example the whole UI is totally revamped and Wiisari features completely different user system. Also the database schema is not compatible with the original. Wiisari is also made with modern technologies, so newest versions of backend systems are compatible with it. Frontend also takes advantage of modern browser features.
+Wiisari is a timeclock system for tracking employee working hours. It is completely web-based so that it can be used on any computer with a modern web-browser. Wiisari originates from PHP Timeclock so wiisari is also made with PHP, but resemblance to the original software is nowdays minimal. For example the whole UI is totally revamped and Wiisari features completely different user system. Also the database schema is not compatible with the original. Wiisari is also made with modern technologies, so newest versions of backend systems are compatible with it. Frontend also takes advantage of modern browser features.
 
 ### Features
 Some of the key features of Wiisari currently are (administrative features are listed below)
 - Every user of the system, be it either supervisor or employee, has their own account
 - Every user belongs to one group and every group belongs to one office
 - Every user is differentiated with user level that limits functionalities for single user, see [this](#user-levels) section
-- Client works on any computer with web-browser (that have a connection to the server)
-- Everyone can see their own workhours from the web app (requires logging in)
+- The app works on any computer with web-browser (that has a connection to the server)
+- Everyone can see their own work hours from the web app (requires logging in)
 - Possibility to view work hours as quick-glance graphs or as a full reports with custom timeframe and with a possibilty to download CSV
-- Can punch in or out using the web app, so no need to go to some central timeclocking station
+- Can punch in or out using the web app, so no need to go to a central timeclocking station
 - Can attach a message to single punch
 - Has a separate mode for central clocking-station for those that don't have a personal internet connected computer
 - Clocking station supports barcode-readers
@@ -61,7 +61,7 @@ Since every user of the system has same type of user account, a user level -syst
 
 **Level 3 (Admin)**
 - Access to everything and every user
-- You need to use user with this level to create supervisors (level 1 and 2)
+- You need to use a user with this level to create supervisors (level 1 and 2) and assign them to groups
 
 ## Installation
 ### Requirements
